@@ -1,0 +1,37 @@
+//
+//  SEMPMobilePCH.pch
+//  SEMPMobile
+//
+//  Created by 上海数聚 on 16/7/13.
+//  Copyright © 2016年 上海数聚. All rights reserved.
+//
+
+#ifndef SEMPMobilePCH_pch
+#define SEMPMobilePCH_pch
+
+
+// 主屏幕宽
+#define Kwidth [UIScreen mainScreen].bounds.size.width
+// 主屏幕高
+#define Kheight [UIScreen mainScreen].bounds.size.height
+// 背景颜色
+#define RGBA(r,g,b,a) [UIColor colorWithRed:r/255.0f green:g/255.0f blue:b/255.0f alpha:a];
+// 状态栏高
+#define KSTATUSBarFrameHeight [[UIApplication sharedApplication] statusBarFrame].size.height
+// 导航栏高
+#define KNavigationBarFrameHeight self.navigationController.navigationBar.frame.size.height
+// tabBar高
+#define  KTabBarFrameHeight self.tabBarController.tabBar.frame.size.height
+
+// 页面中tableView的高
+#define KTableViewHeight Kheight-KSTATUSBarFrameHeight-KNavigationBarFrameHeight
+
+// 测试登录接口头
+#define LoginHttp @"http://demo.datacvg.com:9111/DMC/ValidateUserByIOSTest.action?"
+// 测试登录接口body
+#define LoginHttpBody @"parbean.biSysUserinfo.loginname=%@&parbean.biSysUserinfo.password=%@"
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#endif /* SEMPMobilePCH_pch */

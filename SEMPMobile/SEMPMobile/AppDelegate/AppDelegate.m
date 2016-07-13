@@ -2,11 +2,12 @@
 //  AppDelegate.m
 //  SEMPMobile
 //
-//  Created by 上海数聚 on 16/7/13.
+//  Created by 上海数聚 on 16/7/10.
 //  Copyright © 2016年 上海数聚. All rights reserved.
 //
 
 #import "AppDelegate.h"
+#import "LoginViewController.h"
 
 @interface AppDelegate ()
 
@@ -17,6 +18,12 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    self.window.backgroundColor = [UIColor whiteColor];
+    [self.window makeKeyAndVisible];
+    // 设置根视图
+    LoginViewController * LoginView = [[LoginViewController alloc] init];
+    self.window.rootViewController = LoginView;
     return YES;
 }
 

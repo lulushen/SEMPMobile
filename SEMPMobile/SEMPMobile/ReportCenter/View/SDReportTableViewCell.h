@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  SDReportTableViewCell.h
 //  SEMPMobile
 //
 //  Created by 上海数聚 on 16/7/13.
@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
-
+@interface SDReportTableViewCell : UITableViewCell
 
 @end
-

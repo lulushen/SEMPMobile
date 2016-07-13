@@ -1,5 +1,5 @@
 //
-//  AppDelegate.h
+//  SDAddReportViewController.h
 //  SEMPMobile
 //
 //  Created by 上海数聚 on 16/7/13.
@@ -8,10 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
-
-@property (strong, nonatomic) UIWindow *window;
-
+@interface SDAddReportViewController : UIViewController
 
 @end
-
