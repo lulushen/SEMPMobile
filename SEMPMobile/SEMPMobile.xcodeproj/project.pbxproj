@@ -1,0 +1,601 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		3D661E9E1D3607F900A9A099 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D661E9D1D3607F900A9A099 /* main.m */; };
+		3D661EA11D3607F900A9A099 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D661EA01D3607F900A9A099 /* AppDelegate.m */; };
+		3D661EA41D3607F900A9A099 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D661EA31D3607F900A9A099 /* ViewController.m */; };
+		3D661EA71D3607F900A9A099 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3D661EA51D3607F900A9A099 /* Main.storyboard */; };
+		3D661EA91D3607F900A9A099 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3D661EA81D3607F900A9A099 /* Assets.xcassets */; };
+		3D661EAC1D3607F900A9A099 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3D661EAA1D3607F900A9A099 /* LaunchScreen.storyboard */; };
+		3D661EB71D3607F900A9A099 /* SEMPMobileTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D661EB61D3607F900A9A099 /* SEMPMobileTests.m */; };
+		3D661EC21D3607F900A9A099 /* SEMPMobileUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D661EC11D3607F900A9A099 /* SEMPMobileUITests.m */; };
+		A724B69F67DF9315D0BBD703 /* libPods-SEMPMobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CB42DD177FBA59486DACD0C3 /* libPods-SEMPMobile.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		3D661EB31D3607F900A9A099 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3D661E911D3607F900A9A099 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3D661E981D3607F900A9A099;
+			remoteInfo = SEMPMobile;
+		};
+		3D661EBE1D3607F900A9A099 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3D661E911D3607F900A9A099 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3D661E981D3607F900A9A099;
+			remoteInfo = SEMPMobile;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		034501B7BEEF9B3697E02E03 /* Pods-SEMPMobile.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SEMPMobile.release.xcconfig"; path = "Pods/Target Support Files/Pods-SEMPMobile/Pods-SEMPMobile.release.xcconfig"; sourceTree = "<group>"; };
+		3D661E991D3607F900A9A099 /* SEMPMobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SEMPMobile.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3D661E9D1D3607F900A9A099 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		3D661E9F1D3607F900A9A099 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		3D661EA01D3607F900A9A099 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		3D661EA21D3607F900A9A099 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		3D661EA31D3607F900A9A099 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		3D661EA61D3607F900A9A099 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		3D661EA81D3607F900A9A099 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		3D661EAB1D3607F900A9A099 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		3D661EAD1D3607F900A9A099 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3D661EB21D3607F900A9A099 /* SEMPMobileTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SEMPMobileTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3D661EB61D3607F900A9A099 /* SEMPMobileTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SEMPMobileTests.m; sourceTree = "<group>"; };
+		3D661EB81D3607F900A9A099 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3D661EBD1D3607F900A9A099 /* SEMPMobileUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SEMPMobileUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3D661EC11D3607F900A9A099 /* SEMPMobileUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SEMPMobileUITests.m; sourceTree = "<group>"; };
+		3D661EC31D3607F900A9A099 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AAF8661063224B0AF5E9C25A /* Pods-SEMPMobile.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SEMPMobile.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SEMPMobile/Pods-SEMPMobile.debug.xcconfig"; sourceTree = "<group>"; };
+		CB42DD177FBA59486DACD0C3 /* libPods-SEMPMobile.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SEMPMobile.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		3D661E961D3607F900A9A099 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A724B69F67DF9315D0BBD703 /* libPods-SEMPMobile.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3D661EAF1D3607F900A9A099 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3D661EBA1D3607F900A9A099 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		35E455A9BBD1ED0F9ECED9C4 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CB42DD177FBA59486DACD0C3 /* libPods-SEMPMobile.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		3D661E901D3607F900A9A099 = {
+			isa = PBXGroup;
+			children = (
+				3D661E9B1D3607F900A9A099 /* SEMPMobile */,
+				3D661EB51D3607F900A9A099 /* SEMPMobileTests */,
+				3D661EC01D3607F900A9A099 /* SEMPMobileUITests */,
+				3D661E9A1D3607F900A9A099 /* Products */,
+				DD05CBB6C5296D9FA71169BF /* Pods */,
+				35E455A9BBD1ED0F9ECED9C4 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		3D661E9A1D3607F900A9A099 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3D661E991D3607F900A9A099 /* SEMPMobile.app */,
+				3D661EB21D3607F900A9A099 /* SEMPMobileTests.xctest */,
+				3D661EBD1D3607F900A9A099 /* SEMPMobileUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		3D661E9B1D3607F900A9A099 /* SEMPMobile */ = {
+			isa = PBXGroup;
+			children = (
+				3D661E9F1D3607F900A9A099 /* AppDelegate.h */,
+				3D661EA01D3607F900A9A099 /* AppDelegate.m */,
+				3D661EA21D3607F900A9A099 /* ViewController.h */,
+				3D661EA31D3607F900A9A099 /* ViewController.m */,
+				3D661EA51D3607F900A9A099 /* Main.storyboard */,
+				3D661EA81D3607F900A9A099 /* Assets.xcassets */,
+				3D661EAA1D3607F900A9A099 /* LaunchScreen.storyboard */,
+				3D661EAD1D3607F900A9A099 /* Info.plist */,
+				3D661E9C1D3607F900A9A099 /* Supporting Files */,
+			);
+			path = SEMPMobile;
+			sourceTree = "<group>";
+		};
+		3D661E9C1D3607F900A9A099 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				3D661E9D1D3607F900A9A099 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		3D661EB51D3607F900A9A099 /* SEMPMobileTests */ = {
+			isa = PBXGroup;
+			children = (
+				3D661EB61D3607F900A9A099 /* SEMPMobileTests.m */,
+				3D661EB81D3607F900A9A099 /* Info.plist */,
+			);
+			path = SEMPMobileTests;
+			sourceTree = "<group>";
+		};
+		3D661EC01D3607F900A9A099 /* SEMPMobileUITests */ = {
+			isa = PBXGroup;
+			children = (
+				3D661EC11D3607F900A9A099 /* SEMPMobileUITests.m */,
+				3D661EC31D3607F900A9A099 /* Info.plist */,
+			);
+			path = SEMPMobileUITests;
+			sourceTree = "<group>";
+		};
+		DD05CBB6C5296D9FA71169BF /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				AAF8661063224B0AF5E9C25A /* Pods-SEMPMobile.debug.xcconfig */,
+				034501B7BEEF9B3697E02E03 /* Pods-SEMPMobile.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		3D661E981D3607F900A9A099 /* SEMPMobile */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3D661EC61D3607F900A9A099 /* Build configuration list for PBXNativeTarget "SEMPMobile" */;
+			buildPhases = (
+				0358E9EBB4F26A2A6ACE3DCA /* [CP] Check Pods Manifest.lock */,
+				3D661E951D3607F900A9A099 /* Sources */,
+				3D661E961D3607F900A9A099 /* Frameworks */,
+				3D661E971D3607F900A9A099 /* Resources */,
+				FF264EB62D7B03D2F686369D /* [CP] Embed Pods Frameworks */,
+				F024EF8F3ABA90466AC6342F /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SEMPMobile;
+			productName = SEMPMobile;
+			productReference = 3D661E991D3607F900A9A099 /* SEMPMobile.app */;
+			productType = "com.apple.product-type.application";
+		};
+		3D661EB11D3607F900A9A099 /* SEMPMobileTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3D661EC91D3607F900A9A099 /* Build configuration list for PBXNativeTarget "SEMPMobileTests" */;
+			buildPhases = (
+				3D661EAE1D3607F900A9A099 /* Sources */,
+				3D661EAF1D3607F900A9A099 /* Frameworks */,
+				3D661EB01D3607F900A9A099 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3D661EB41D3607F900A9A099 /* PBXTargetDependency */,
+			);
+			name = SEMPMobileTests;
+			productName = SEMPMobileTests;
+			productReference = 3D661EB21D3607F900A9A099 /* SEMPMobileTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		3D661EBC1D3607F900A9A099 /* SEMPMobileUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3D661ECC1D3607F900A9A099 /* Build configuration list for PBXNativeTarget "SEMPMobileUITests" */;
+			buildPhases = (
+				3D661EB91D3607F900A9A099 /* Sources */,
+				3D661EBA1D3607F900A9A099 /* Frameworks */,
+				3D661EBB1D3607F900A9A099 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3D661EBF1D3607F900A9A099 /* PBXTargetDependency */,
+			);
+			name = SEMPMobileUITests;
+			productName = SEMPMobileUITests;
+			productReference = 3D661EBD1D3607F900A9A099 /* SEMPMobileUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		3D661E911D3607F900A9A099 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0730;
+				ORGANIZATIONNAME = "上海数聚";
+				TargetAttributes = {
+					3D661E981D3607F900A9A099 = {
+						CreatedOnToolsVersion = 7.3.1;
+					};
+					3D661EB11D3607F900A9A099 = {
+						CreatedOnToolsVersion = 7.3.1;
+						TestTargetID = 3D661E981D3607F900A9A099;
+					};
+					3D661EBC1D3607F900A9A099 = {
+						CreatedOnToolsVersion = 7.3.1;
+						TestTargetID = 3D661E981D3607F900A9A099;
+					};
+				};
+			};
+			buildConfigurationList = 3D661E941D3607F900A9A099 /* Build configuration list for PBXProject "SEMPMobile" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 3D661E901D3607F900A9A099;
+			productRefGroup = 3D661E9A1D3607F900A9A099 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				3D661E981D3607F900A9A099 /* SEMPMobile */,
+				3D661EB11D3607F900A9A099 /* SEMPMobileTests */,
+				3D661EBC1D3607F900A9A099 /* SEMPMobileUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		3D661E971D3607F900A9A099 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3D661EAC1D3607F900A9A099 /* LaunchScreen.storyboard in Resources */,
+				3D661EA91D3607F900A9A099 /* Assets.xcassets in Resources */,
+				3D661EA71D3607F900A9A099 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3D661EB01D3607F900A9A099 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3D661EBB1D3607F900A9A099 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0358E9EBB4F26A2A6ACE3DCA /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		F024EF8F3ABA90466AC6342F /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SEMPMobile/Pods-SEMPMobile-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FF264EB62D7B03D2F686369D /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SEMPMobile/Pods-SEMPMobile-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		3D661E951D3607F900A9A099 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3D661EA41D3607F900A9A099 /* ViewController.m in Sources */,
+				3D661EA11D3607F900A9A099 /* AppDelegate.m in Sources */,
+				3D661E9E1D3607F900A9A099 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3D661EAE1D3607F900A9A099 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3D661EB71D3607F900A9A099 /* SEMPMobileTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3D661EB91D3607F900A9A099 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3D661EC21D3607F900A9A099 /* SEMPMobileUITests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		3D661EB41D3607F900A9A099 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3D661E981D3607F900A9A099 /* SEMPMobile */;
+			targetProxy = 3D661EB31D3607F900A9A099 /* PBXContainerItemProxy */;
+		};
+		3D661EBF1D3607F900A9A099 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3D661E981D3607F900A9A099 /* SEMPMobile */;
+			targetProxy = 3D661EBE1D3607F900A9A099 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		3D661EA51D3607F900A9A099 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3D661EA61D3607F900A9A099 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		3D661EAA1D3607F900A9A099 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3D661EAB1D3607F900A9A099 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		3D661EC41D3607F900A9A099 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		3D661EC51D3607F900A9A099 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		3D661EC71D3607F900A9A099 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = AAF8661063224B0AF5E9C25A /* Pods-SEMPMobile.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = SEMPMobile/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = Datacvg.SEMPMobile;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		3D661EC81D3607F900A9A099 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 034501B7BEEF9B3697E02E03 /* Pods-SEMPMobile.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = SEMPMobile/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = Datacvg.SEMPMobile;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		3D661ECA1D3607F900A9A099 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = SEMPMobileTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = Datacvg.SEMPMobileTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SEMPMobile.app/SEMPMobile";
+			};
+			name = Debug;
+		};
+		3D661ECB1D3607F900A9A099 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = SEMPMobileTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = Datacvg.SEMPMobileTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SEMPMobile.app/SEMPMobile";
+			};
+			name = Release;
+		};
+		3D661ECD1D3607F900A9A099 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = SEMPMobileUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = Datacvg.SEMPMobileUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = SEMPMobile;
+			};
+			name = Debug;
+		};
+		3D661ECE1D3607F900A9A099 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = SEMPMobileUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = Datacvg.SEMPMobileUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = SEMPMobile;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		3D661E941D3607F900A9A099 /* Build configuration list for PBXProject "SEMPMobile" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3D661EC41D3607F900A9A099 /* Debug */,
+				3D661EC51D3607F900A9A099 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3D661EC61D3607F900A9A099 /* Build configuration list for PBXNativeTarget "SEMPMobile" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3D661EC71D3607F900A9A099 /* Debug */,
+				3D661EC81D3607F900A9A099 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3D661EC91D3607F900A9A099 /* Build configuration list for PBXNativeTarget "SEMPMobileTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3D661ECA1D3607F900A9A099 /* Debug */,
+				3D661ECB1D3607F900A9A099 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3D661ECC1D3607F900A9A099 /* Build configuration list for PBXNativeTarget "SEMPMobileUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3D661ECD1D3607F900A9A099 /* Debug */,
+				3D661ECE1D3607F900A9A099 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 3D661E911D3607F900A9A099 /* Project object */;
+}
