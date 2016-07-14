@@ -42,7 +42,7 @@
     DashNC.navigationBar.titleTextAttributes = dict;
     [DashboardView.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav.png"] forBarMetrics:UIBarMetricsDefault];
     DashboardView.tabBarItem = [[UITabBarItem alloc]initWithTitle:@"指标" image:[UIImage imageNamed:@"iconfont-biji.png"] tag:100];
-    DashboardView.tabBarItem.badgeValue = @"100";
+    DashboardView.tabBarItem.badgeValue = @"10";
     
     // 报表
     SDReportViewController * ReportView = [[SDReportViewController alloc] init];

@@ -30,14 +30,14 @@
     
     // 用户登录按钮
     self.userButton = [UIButton  buttonWithType:UIButtonTypeRoundedRect];
-    self.userButton.frame = CGRectMake(self.view.frame.size.width/2-50, self.view.frame.size.height/2-100, 100, 100);
+    self.userButton.frame = CGRectMake(Kwidth/2-50*KWidth6scale, Kheight/2-100*KHeight6scale, 100*KWidth6scale, 100*KHeight6scale);
     self.userButton.backgroundColor = [UIColor whiteColor];
     [self.userButton addTarget:self action:@selector(userButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.userButton];
     
     // 游客登录按钮
     self.demoButton = [UIButton  buttonWithType:UIButtonTypeRoundedRect];
-    self.demoButton.frame = CGRectMake(self.view.frame.size.width/2-50, CGRectGetMaxY(self.userButton.frame)+10, 100, 100);
+    self.demoButton.frame = CGRectMake(CGRectGetMinX(self.userButton.frame), CGRectGetMaxY(self.userButton.frame)+10*KHeight6scale, 100*KWidth6scale, 100*KHeight6scale);
     self.demoButton.backgroundColor = [UIColor whiteColor];
     [self.demoButton addTarget:self action:@selector(demoButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.demoButton];

@@ -27,17 +27,17 @@
 }
 - (void)makeUI{
     
-    self.userTextField  = [[UITextField alloc] initWithFrame:CGRectMake(100, 200, 200, 40)];
+    self.userTextField  = [[UITextField alloc] initWithFrame:CGRectMake(100*KWidth6scale, 200*KHeight6scale, 200*KWidth6scale, 40*KHeight6scale)];
     self.userTextField.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.userTextField];
     
-    self.passWordTextField = [[UITextField alloc] initWithFrame:CGRectMake(CGRectGetMinX(self.userTextField.frame), CGRectGetMaxY(self.userTextField.frame)+10, self.userTextField.frame.size.width, self.userTextField.frame.size.height)];
+    self.passWordTextField = [[UITextField alloc] initWithFrame:CGRectMake(CGRectGetMinX(self.userTextField.frame), CGRectGetMaxY(self.userTextField.frame)+10*KHeight6scale, CGRectGetWidth(self.userTextField.frame), CGRectGetHeight(self.userTextField.frame))];
     self.passWordTextField.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.passWordTextField];
     
     
     self.LoginButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.LoginButton.frame = CGRectMake(self.view.frame.size.width/2 - 75,self.view.frame.size.height - 200, 150, 40);
+    self.LoginButton.frame = CGRectMake(Kwidth/2 - 75*KWidth6scale,Kheight - 200*KHeight6scale, 150*KWidth6scale, 40*KHeight6scale);
     [self.LoginButton setTitle:@"Login" forState:UIControlStateNormal];
     self.LoginButton.backgroundColor = [UIColor grayColor];
     [self.LoginButton addTarget:self action:@selector(LoginButtonClick:) forControlEvents:UIControlEventTouchUpInside];

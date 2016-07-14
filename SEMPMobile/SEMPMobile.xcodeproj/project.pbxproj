@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		3D030F501D360B1300ABCF82 /* SDFeedBackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D030F091D360B1300ABCF82 /* SDFeedBackViewController.m */; };
 		3D030F511D360B1300ABCF82 /* SDInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D030F0C1D360B1300ABCF82 /* SDInfoViewController.m */; };
-		3D030F521D360B1300ABCF82 /* SDAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D030F0E1D360B1300ABCF82 /* SDAccountViewController.m */; };
-		3D030F531D360B1300ABCF82 /* SDUserTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D030F101D360B1300ABCF82 /* SDUserTableViewCell.m */; };
 		3D030F541D360B1300ABCF82 /* SDSetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D030F131D360B1300ABCF82 /* SDSetViewController.m */; };
 		3D030F551D360B1300ABCF82 /* SDActionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D030F191D360B1300ABCF82 /* SDActionViewController.m */; };
 		3D030F561D360B1300ABCF82 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D030F1E1D360B1300ABCF82 /* AppDelegate.m */; };
@@ -30,16 +28,19 @@
 		3D030F641D360B1300ABCF82 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D030F391D360B1300ABCF82 /* LoginViewController.m */; };
 		3D030F651D360B1300ABCF82 /* SDTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D030F3B1D360B1300ABCF82 /* SDTabBarViewController.m */; };
 		3D030F661D360B1300ABCF82 /* SDUserLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D030F3D1D360B1300ABCF82 /* SDUserLoginViewController.m */; };
-		3D030F671D360B1300ABCF82 /* SDReportViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D030F431D360B1300ABCF82 /* SDReportViewController.m */; };
 		3D030F681D360B1300ABCF82 /* SDReportTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D030F471D360B1300ABCF82 /* SDReportTableViewCell.m */; };
 		3D030F691D360B1300ABCF82 /* MBProgressHUD+NJ.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D030F4B1D360B1300ABCF82 /* MBProgressHUD+NJ.m */; };
 		3D030F6A1D360B1300ABCF82 /* MBProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3D030F4C1D360B1300ABCF82 /* MBProgressHUD.bundle */; };
 		3D030F6B1D360B1300ABCF82 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D030F4E1D360B1300ABCF82 /* MBProgressHUD.m */; };
 		3D030F731D36234900ABCF82 /* 12.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D030F721D36234900ABCF82 /* 12.png */; };
 		3D030F751D36366F00ABCF82 /* add.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D030F741D36366F00ABCF82 /* add.png */; };
-		3D030F791D36392700ABCF82 /* SDRTSectionHeaderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D030F781D36392700ABCF82 /* SDRTSectionHeaderViewController.m */; };
 		3D030F7C1D36394600ABCF82 /* SDAddReportViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D030F7B1D36394600ABCF82 /* SDAddReportViewController.m */; };
 		3D030F7F1D363D4700ABCF82 /* SDPublic.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D030F7E1D363D4700ABCF82 /* SDPublic.m */; };
+		3D4BCC621D37433B005177E9 /* SDReportViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D4BCC5E1D37433B005177E9 /* SDReportViewController.m */; };
+		3D4BCC631D37433B005177E9 /* SDRTSectionHeaderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D4BCC601D37433B005177E9 /* SDRTSectionHeaderViewController.m */; };
+		3D4BCC661D374365005177E9 /* SDReportDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D4BCC651D374365005177E9 /* SDReportDetailViewController.m */; };
+		3D4BCC6A1D375E22005177E9 /* SDAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D4BCC691D375E22005177E9 /* SDAccountViewController.m */; };
+		3D4BCC6D1D375E30005177E9 /* SDUserTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D4BCC6C1D375E30005177E9 /* SDUserTableViewCell.m */; };
 		3D661E9E1D3607F900A9A099 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D661E9D1D3607F900A9A099 /* main.m */; };
 		3D661EA71D3607F900A9A099 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3D661EA51D3607F900A9A099 /* Main.storyboard */; };
 		3D661EA91D3607F900A9A099 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3D661EA81D3607F900A9A099 /* Assets.xcassets */; };
@@ -72,10 +73,6 @@
 		3D030F091D360B1300ABCF82 /* SDFeedBackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDFeedBackViewController.m; sourceTree = "<group>"; };
 		3D030F0B1D360B1300ABCF82 /* SDInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDInfoViewController.h; sourceTree = "<group>"; };
 		3D030F0C1D360B1300ABCF82 /* SDInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDInfoViewController.m; sourceTree = "<group>"; };
-		3D030F0D1D360B1300ABCF82 /* SDAccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDAccountViewController.h; sourceTree = "<group>"; };
-		3D030F0E1D360B1300ABCF82 /* SDAccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDAccountViewController.m; sourceTree = "<group>"; };
-		3D030F0F1D360B1300ABCF82 /* SDUserTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDUserTableViewCell.h; sourceTree = "<group>"; };
-		3D030F101D360B1300ABCF82 /* SDUserTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDUserTableViewCell.m; sourceTree = "<group>"; };
 		3D030F121D360B1300ABCF82 /* SDSetViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDSetViewController.h; sourceTree = "<group>"; };
 		3D030F131D360B1300ABCF82 /* SDSetViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDSetViewController.m; sourceTree = "<group>"; };
 		3D030F181D360B1300ABCF82 /* SDActionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDActionViewController.h; sourceTree = "<group>"; };
@@ -104,8 +101,6 @@
 		3D030F3B1D360B1300ABCF82 /* SDTabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDTabBarViewController.m; sourceTree = "<group>"; };
 		3D030F3C1D360B1300ABCF82 /* SDUserLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDUserLoginViewController.h; sourceTree = "<group>"; };
 		3D030F3D1D360B1300ABCF82 /* SDUserLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDUserLoginViewController.m; sourceTree = "<group>"; };
-		3D030F421D360B1300ABCF82 /* SDReportViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDReportViewController.h; sourceTree = "<group>"; };
-		3D030F431D360B1300ABCF82 /* SDReportViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDReportViewController.m; sourceTree = "<group>"; };
 		3D030F461D360B1300ABCF82 /* SDReportTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDReportTableViewCell.h; sourceTree = "<group>"; };
 		3D030F471D360B1300ABCF82 /* SDReportTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDReportTableViewCell.m; sourceTree = "<group>"; };
 		3D030F4A1D360B1300ABCF82 /* MBProgressHUD+NJ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD+NJ.h"; sourceTree = "<group>"; };
@@ -115,13 +110,21 @@
 		3D030F4E1D360B1300ABCF82 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		3D030F721D36234900ABCF82 /* 12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 12.png; sourceTree = "<group>"; };
 		3D030F741D36366F00ABCF82 /* add.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add.png; sourceTree = "<group>"; };
-		3D030F771D36392700ABCF82 /* SDRTSectionHeaderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDRTSectionHeaderViewController.h; sourceTree = "<group>"; };
-		3D030F781D36392700ABCF82 /* SDRTSectionHeaderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDRTSectionHeaderViewController.m; sourceTree = "<group>"; };
 		3D030F7A1D36394600ABCF82 /* SDAddReportViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDAddReportViewController.h; sourceTree = "<group>"; };
 		3D030F7B1D36394600ABCF82 /* SDAddReportViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDAddReportViewController.m; sourceTree = "<group>"; };
 		3D030F7D1D363D4700ABCF82 /* SDPublic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDPublic.h; sourceTree = "<group>"; };
 		3D030F7E1D363D4700ABCF82 /* SDPublic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDPublic.m; sourceTree = "<group>"; };
 		3D030F801D363F5200ABCF82 /* SEMPMobilePCH.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SEMPMobilePCH.pch; sourceTree = "<group>"; };
+		3D4BCC5D1D37433B005177E9 /* SDReportViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDReportViewController.h; sourceTree = "<group>"; };
+		3D4BCC5E1D37433B005177E9 /* SDReportViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDReportViewController.m; sourceTree = "<group>"; };
+		3D4BCC5F1D37433B005177E9 /* SDRTSectionHeaderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDRTSectionHeaderViewController.h; sourceTree = "<group>"; };
+		3D4BCC601D37433B005177E9 /* SDRTSectionHeaderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDRTSectionHeaderViewController.m; sourceTree = "<group>"; };
+		3D4BCC641D374365005177E9 /* SDReportDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDReportDetailViewController.h; sourceTree = "<group>"; };
+		3D4BCC651D374365005177E9 /* SDReportDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDReportDetailViewController.m; sourceTree = "<group>"; };
+		3D4BCC681D375E22005177E9 /* SDAccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDAccountViewController.h; sourceTree = "<group>"; };
+		3D4BCC691D375E22005177E9 /* SDAccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDAccountViewController.m; sourceTree = "<group>"; };
+		3D4BCC6B1D375E30005177E9 /* SDUserTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDUserTableViewCell.h; sourceTree = "<group>"; };
+		3D4BCC6C1D375E30005177E9 /* SDUserTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDUserTableViewCell.m; sourceTree = "<group>"; };
 		3D661E991D3607F900A9A099 /* SEMPMobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SEMPMobile.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D661E9D1D3607F900A9A099 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		3D661EA61D3607F900A9A099 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -185,12 +188,9 @@
 		3D030F061D360B1300ABCF82 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				3D4BCC671D375E22005177E9 /* Account */,
 				3D030F071D360B1300ABCF82 /* Feedback */,
 				3D030F0A1D360B1300ABCF82 /* Info */,
-				3D030F0D1D360B1300ABCF82 /* SDAccountViewController.h */,
-				3D030F0E1D360B1300ABCF82 /* SDAccountViewController.m */,
-				3D030F0F1D360B1300ABCF82 /* SDUserTableViewCell.h */,
-				3D030F101D360B1300ABCF82 /* SDUserTableViewCell.m */,
 				3D030F111D360B1300ABCF82 /* Setting */,
 			);
 			path = Controller;
@@ -233,6 +233,8 @@
 		3D030F151D360B1300ABCF82 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				3D4BCC6B1D375E30005177E9 /* SDUserTableViewCell.h */,
+				3D4BCC6C1D375E30005177E9 /* SDUserTableViewCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -400,10 +402,8 @@
 		3D030F411D360B1300ABCF82 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				3D030F771D36392700ABCF82 /* SDRTSectionHeaderViewController.h */,
-				3D030F781D36392700ABCF82 /* SDRTSectionHeaderViewController.m */,
-				3D030F421D360B1300ABCF82 /* SDReportViewController.h */,
-				3D030F431D360B1300ABCF82 /* SDReportViewController.m */,
+				3D4BCC5C1D37433B005177E9 /* Report */,
+				3D4BCC611D37433B005177E9 /* ReportDetail */,
 				3D030F761D36392700ABCF82 /* AddReport */,
 			);
 			path = Controller;
@@ -464,6 +464,35 @@
 			path = AddReport;
 			sourceTree = "<group>";
 		};
+		3D4BCC5C1D37433B005177E9 /* Report */ = {
+			isa = PBXGroup;
+			children = (
+				3D4BCC5D1D37433B005177E9 /* SDReportViewController.h */,
+				3D4BCC5E1D37433B005177E9 /* SDReportViewController.m */,
+				3D4BCC5F1D37433B005177E9 /* SDRTSectionHeaderViewController.h */,
+				3D4BCC601D37433B005177E9 /* SDRTSectionHeaderViewController.m */,
+			);
+			path = Report;
+			sourceTree = "<group>";
+		};
+		3D4BCC611D37433B005177E9 /* ReportDetail */ = {
+			isa = PBXGroup;
+			children = (
+				3D4BCC641D374365005177E9 /* SDReportDetailViewController.h */,
+				3D4BCC651D374365005177E9 /* SDReportDetailViewController.m */,
+			);
+			path = ReportDetail;
+			sourceTree = "<group>";
+		};
+		3D4BCC671D375E22005177E9 /* Account */ = {
+			isa = PBXGroup;
+			children = (
+				3D4BCC681D375E22005177E9 /* SDAccountViewController.h */,
+				3D4BCC691D375E22005177E9 /* SDAccountViewController.m */,
+			);
+			path = Account;
+			sourceTree = "<group>";
+		};
 		3D661E901D3607F900A9A099 = {
 			isa = PBXGroup;
 			children = (
@@ -493,8 +522,8 @@
 				3D030F361D360B1300ABCF82 /* Login */,
 				3D030F1F1D360B1300ABCF82 /* Dashboard */,
 				3D030F401D360B1300ABCF82 /* ReportCenter */,
-				3D030F051D360B1300ABCF82 /* Account */,
 				3D030F161D360B1300ABCF82 /* Action */,
+				3D030F051D360B1300ABCF82 /* Account */,
 				3D030F2A1D360B1300ABCF82 /* Framework */,
 				3D030F2B1D360B1300ABCF82 /* image */,
 				3D030F481D360B1300ABCF82 /* ThirdPart */,
@@ -738,27 +767,28 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3D030F671D360B1300ABCF82 /* SDReportViewController.m in Sources */,
 				3D030F7C1D36394600ABCF82 /* SDAddReportViewController.m in Sources */,
+				3D4BCC6A1D375E22005177E9 /* SDAccountViewController.m in Sources */,
 				3D030F651D360B1300ABCF82 /* SDTabBarViewController.m in Sources */,
-				3D030F531D360B1300ABCF82 /* SDUserTableViewCell.m in Sources */,
 				3D030F501D360B1300ABCF82 /* SDFeedBackViewController.m in Sources */,
 				3D030F571D360B1300ABCF82 /* SDAddViewController.m in Sources */,
+				3D4BCC621D37433B005177E9 /* SDReportViewController.m in Sources */,
 				3D030F661D360B1300ABCF82 /* SDUserLoginViewController.m in Sources */,
-				3D030F791D36392700ABCF82 /* SDRTSectionHeaderViewController.m in Sources */,
 				3D030F541D360B1300ABCF82 /* SDSetViewController.m in Sources */,
 				3D030F551D360B1300ABCF82 /* SDActionViewController.m in Sources */,
 				3D030F681D360B1300ABCF82 /* SDReportTableViewCell.m in Sources */,
+				3D4BCC661D374365005177E9 /* SDReportDetailViewController.m in Sources */,
 				3D030F561D360B1300ABCF82 /* AppDelegate.m in Sources */,
 				3D030F511D360B1300ABCF82 /* SDInfoViewController.m in Sources */,
+				3D4BCC631D37433B005177E9 /* SDRTSectionHeaderViewController.m in Sources */,
 				3D030F591D360B1300ABCF82 /* SDAddTableViewCell.m in Sources */,
+				3D4BCC6D1D375E30005177E9 /* SDUserTableViewCell.m in Sources */,
 				3D030F7F1D363D4700ABCF82 /* SDPublic.m in Sources */,
 				3D030F641D360B1300ABCF82 /* LoginViewController.m in Sources */,
 				3D030F6B1D360B1300ABCF82 /* MBProgressHUD.m in Sources */,
 				3D661E9E1D3607F900A9A099 /* main.m in Sources */,
 				3D030F691D360B1300ABCF82 /* MBProgressHUD+NJ.m in Sources */,
 				3D030F581D360B1300ABCF82 /* SDDashboardViewController.m in Sources */,
-				3D030F521D360B1300ABCF82 /* SDAccountViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

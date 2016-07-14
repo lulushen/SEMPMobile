@@ -32,7 +32,7 @@
 
 - (void)makeTableView{
     
-    self.userTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, CGRectGetMinY(self.tabBarController.tabBar.frame) - KSTATUSBarFrameHeight) style:(UITableViewStyleGrouped)];
+    self.userTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, Kwidth, KTableViewHeight) style:(UITableViewStyleGrouped)];
     self.userTableView.delegate = self;
     self.userTableView.dataSource = self;
     [self.view addSubview:self.userTableView];
@@ -43,20 +43,23 @@
 }
 - (void)makeTableHeaderView
 {
+    NSLog(@"=======%f",Kwidth);
+    NSLog(@"======%f",Kheight);
     
-    self.userTableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(1, 0, self.userTableView.frame.size.width, self.view.frame.size.height/3)];
+    
+    self.userTableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(1, 0, Kwidth, Kheight/3.0)];
     self.userTableHeaderView.backgroundColor = [UIColor grayColor];
     self.headerImageButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    self.headerImageButton.frame = CGRectMake(self.userTableHeaderView.frame.size.width/2 - 45, 30, 90, 90);
+    self.headerImageButton.frame = CGRectMake(Kwidth/2 - Kwidth/8.0, 30*KHeight6scale, Kwidth/4.0, Kwidth/4.0);
     self.headerImageButton.backgroundColor = [UIColor whiteColor];
-    self.headerImageButton.layer.cornerRadius = 45;
+    self.headerImageButton.layer.cornerRadius = Kwidth/8.0;
     [self.userTableHeaderView addSubview:self.headerImageButton];
-    UILabel * userLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.userTableHeaderView.frame.size.width/2-100, CGRectGetMaxY(self.headerImageButton.frame) + 10, 100, 30)];
+    UILabel * userLabel = [[UILabel alloc] initWithFrame:CGRectMake(Kwidth/2-100*KWidth6scale, CGRectGetMaxY(self.headerImageButton.frame) + 10*KWidth6scale, 100*KWidth6scale, 30*KWidth6scale)];
     userLabel.text = @"用户名 :";
     userLabel.textColor = [UIColor whiteColor];
     [userLabel setTextAlignment:NSTextAlignmentRight];
     [self.userTableHeaderView addSubview:userLabel];
-    UILabel * jobLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.userTableHeaderView.frame.size.width/2-100, CGRectGetMaxY(userLabel.frame), userLabel.frame.size.width, userLabel.frame.size.height)];
+    UILabel * jobLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(userLabel.frame), CGRectGetMaxY(userLabel.frame), CGRectGetWidth(userLabel.frame), CGRectGetHeight(userLabel.frame))];
     jobLabel.text = @"职    位 :";
     jobLabel.textColor = [UIColor whiteColor];
     [jobLabel setTextAlignment:NSTextAlignmentRight];
@@ -119,16 +122,16 @@
 {
     
     if (section == 0) {
-        return 10;
+        return 10*KHeight6scale;
     }else
     {
-        return 5;
+        return 5*KHeight6scale;
     }
     
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    return 5;
+    return 5*KHeight6scale;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -152,6 +155,7 @@
     }
     
 }
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

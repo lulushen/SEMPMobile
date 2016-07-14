@@ -34,7 +34,7 @@
 - (void)makeLeftButtonItme
 {
     UIImage * backImage = [UIImage imageNamed:@"back.png"];
-    CGRect backframe = CGRectMake(0, 0, 54, 30);
+    CGRect backframe = CGRectMake(0, 0, 54*KWidth6scale, 30*KHeight6scale);
     UIButton * backButton = [[UIButton alloc] initWithFrame:backframe];
     [backButton setBackgroundImage:backImage forState:UIControlStateNormal];
     [backButton addTarget:self action:@selector(backButtonClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -48,7 +48,7 @@
 }
 - (void)makeAddTabelView
 {
-    self.AddTabelView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) style:UITableViewStyleGrouped];
+    self.AddTabelView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, Kwidth, Kheight) style:UITableViewStyleGrouped];
     self.AddTabelView.delegate = self;
     self.AddTabelView.dataSource = self;
     
@@ -68,11 +68,11 @@
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 30;
+    return 30*KHeight6scale;
 }
 - ( CGFloat )tableView:( UITableView *)tableView heightForRowAtIndexPath:( NSIndexPath *)indexPath
 {
-    return 200;
+    return 200*KHeight6scale;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {

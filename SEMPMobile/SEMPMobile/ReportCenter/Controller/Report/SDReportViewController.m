@@ -10,20 +10,26 @@
 #import "SDReportTableViewCell.h"
 #import "SDRTSectionHeaderViewController.h"
 #import "SDAddReportViewController.h"
+#import "SDReportDetailViewController.h"
 
 
-#define  SVCFrame   sectionViewC.view.frame
-#define  FootVFrameSize   self.footerView.frame.size
+#define  KSVCFrame   sectionViewC.view.frame
+#define  KFootVFrameSize   self.footerView.frame.size
 
 @interface SDReportViewController ()<UITableViewDelegate,UITableViewDataSource>
-//报表列表
+// 报表列表
 @property (nonatomic , strong) UITableView * reportTableView;
-//footView
+// footView
 @property (nonatomic , strong) UIView * footerView;
+// 分区的数组
+@property (nonatomic , strong) NSMutableArray * sectionCountArray;
+// 分区中cell 的数组
+@property (nonatomic ,strong) NSMutableArray * sectionRowCellArray;
 
 @end
 
 @implementation SDReportViewController
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -34,24 +40,21 @@
 {
     
     self.reportTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, Kwidth, KTableViewHeight )  style:(UITableViewStyleGrouped)];
-     NSLog(@"=====%f",self.reportTableView.frame.size.height);
     [self.view addSubview:self.reportTableView];
     self.reportTableView.delegate = self;
     self.reportTableView.dataSource = self;
     [self.reportTableView registerClass:[SDReportTableViewCell class] forCellReuseIdentifier:@"ReportCell"];
-    
     [self makeFooterView];
     
 }
 - (void)makeFooterView
 {
     self.footerView = [[UIView alloc] init];
-    self.footerView.frame = CGRectMake(0, 0, CGRectGetWidth(self.reportTableView.frame),CGRectGetHeight(self.reportTableView.frame)/5.0 );
+    self.footerView.frame = CGRectMake(0, 0, Kwidth,KTableViewHeight/5.0);
     self.footerView.backgroundColor = [UIColor grayColor];
     self.reportTableView.tableFooterView = self.footerView;
-    
     UIButton * AddButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    AddButton.frame = CGRectMake(FootVFrameSize.width/2.0 - FootVFrameSize.width/4.0 , FootVFrameSize.height/4.0 , FootVFrameSize.width/2.0, FootVFrameSize.height/2.0);
+    AddButton.frame = CGRectMake(KFootVFrameSize.width/2.0 - KFootVFrameSize.width/4.0 , KFootVFrameSize.height/4.0 , KFootVFrameSize.width/2.0, KFootVFrameSize.height/2.0);
     [AddButton setBackgroundImage:[UIImage imageNamed:@"add.png"] forState:UIControlStateNormal];
     [AddButton addTarget:self action:@selector(AddButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     [self.footerView addSubview:AddButton];
@@ -66,11 +69,13 @@
 // 代理方法
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 3;
+    self.sectionCountArray = [[NSMutableArray alloc] initWithObjects:@"1",@"",@"", nil];
+    return self.sectionCountArray.count;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 3;
+    self.sectionRowCellArray = [[NSMutableArray alloc] initWithObjects:@"1",@"",@"",@"", nil];
+    return self.sectionRowCellArray.count;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -79,15 +84,16 @@
     reportCell.detailTextLabel.text = @"123";
     
     
+    
     return reportCell;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 40;
+    return 40*KHeight6scale;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    return 0.01;
+    return 0.01*KHeight6scale;
 }
 
 
@@ -96,27 +102,37 @@
     SDRTSectionHeaderViewController * sectionViewC = [[SDRTSectionHeaderViewController alloc] init];
     CGFloat  SHeight = [self tableView:tableView heightForHeaderInSection:0];
     sectionViewC.view.frame = CGRectMake(0, 0, tableView.frame.size.width, SHeight);
-    sectionViewC.sectionTitleButton.frame = CGRectMake(0, 0, CGRectGetWidth(SVCFrame)/3.0, CGRectGetHeight(SVCFrame));
+    sectionViewC.sectionTitleButton.frame = CGRectMake(0, 0, CGRectGetWidth(KSVCFrame)/3.0, CGRectGetHeight(KSVCFrame));
+    // 分区头部按钮的点击方法
+//    [sectionViewC.sectionTitleButton addTarget:self action:@selector(sectionTitleButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+//    sectionViewC.sectionTitleButton.selected = NO;
+  
+    
     if (section == 0) {
         
-        sectionViewC.moreButton.frame = CGRectMake(CGRectGetMaxX(SVCFrame)-100, CGRectGetMidY(SVCFrame) - CGRectGetHeight(SVCFrame)/4.0, 80, CGRectGetHeight(SVCFrame)/2.0);
+        sectionViewC.moreButton.frame = CGRectMake(CGRectGetMaxX(KSVCFrame)-100*KWidth6scale, CGRectGetMidY(KSVCFrame) - CGRectGetHeight(KSVCFrame)/4.0, 80*KWidth6scale, CGRectGetHeight(KSVCFrame)/2.0);
         
     }else{
         sectionViewC.moreButton.hidden = YES;
     }
     return sectionViewC.view;
 }
-
-//- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-//{
-//    if (section == 0) {
-//        return @"零售管理";
-//    }else if (section == 1) {
-//        return @"库存管理";
+//- (void)sectionTitleButtonClick:(UIButton *)button{
+//    if (button.selected == NO) {
+//        button.selected = YES;
+//        self.sectionRowCellArray = [[NSMutableArray alloc] initWithObjects:@"", nil];
 //    }else{
-//        return @"商品管理";
+//        button.selected = NO;
+//        
 //    }
 //}
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    SDReportDetailViewController * reportDetailVC = [[SDReportDetailViewController alloc] init];
+    reportDetailVC.titleString = @"123";
+    [self.navigationController pushViewController:reportDetailVC animated:YES];
+    
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
