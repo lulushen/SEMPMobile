@@ -19,8 +19,27 @@
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationItem.title = @"设置";
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav.png"] forBarMetrics:UIBarMetricsDefault];
+    [self makeSettingView];
     
     // Do any additional setup after loading the view.
+}
+
+- (void)makeSettingView
+{
+    
+    
+    UILabel * passLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, Kwidth - 100*KWidth6scale, 50*KHeight6scale)];
+    passLabel.backgroundColor = [UIColor grayColor];
+    [passLabel setText:@"开启手势密码"];
+    [self.view addSubview:passLabel];
+    
+    
+    
+}
+- (void)switchButtonClick:(UIButton *)button
+{
+    
+    NSLog(@"---------开启手势密码");
 }
 
 - (void)didReceiveMemoryWarning {

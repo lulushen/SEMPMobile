@@ -41,12 +41,40 @@
 		3D4BCC661D374365005177E9 /* SDReportDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D4BCC651D374365005177E9 /* SDReportDetailViewController.m */; };
 		3D4BCC6A1D375E22005177E9 /* SDAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D4BCC691D375E22005177E9 /* SDAccountViewController.m */; };
 		3D4BCC6D1D375E30005177E9 /* SDUserTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D4BCC6C1D375E30005177E9 /* SDUserTableViewCell.m */; };
+		3D4BCC751D38B202005177E9 /* switchOne_off@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D4BCC711D38B202005177E9 /* switchOne_off@2x.png */; };
+		3D4BCC761D38B202005177E9 /* switchOne_on@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D4BCC721D38B202005177E9 /* switchOne_on@2x.png */; };
+		3D4BCC771D38B202005177E9 /* switchTwo_off@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D4BCC731D38B202005177E9 /* switchTwo_off@2x.png */; };
+		3D4BCC781D38B202005177E9 /* switchTwo_on@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D4BCC741D38B202005177E9 /* switchTwo_on@2x.png */; };
+		3D4BCC981D38E5D7005177E9 /* 1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3D4BCC841D38E5D7005177E9 /* 1.jpg */; };
+		3D4BCC991D38E5D7005177E9 /* 10.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3D4BCC851D38E5D7005177E9 /* 10.jpg */; };
+		3D4BCC9A1D38E5D7005177E9 /* 11.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3D4BCC861D38E5D7005177E9 /* 11.jpg */; };
+		3D4BCC9B1D38E5D7005177E9 /* 12.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3D4BCC871D38E5D7005177E9 /* 12.jpg */; };
+		3D4BCC9C1D38E5D7005177E9 /* 13.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3D4BCC881D38E5D7005177E9 /* 13.jpg */; };
+		3D4BCC9D1D38E5D7005177E9 /* 14.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3D4BCC891D38E5D7005177E9 /* 14.jpg */; };
+		3D4BCC9E1D38E5D7005177E9 /* 15.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3D4BCC8A1D38E5D7005177E9 /* 15.jpg */; };
+		3D4BCC9F1D38E5D7005177E9 /* 16.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3D4BCC8B1D38E5D7005177E9 /* 16.jpg */; };
+		3D4BCCA01D38E5D7005177E9 /* 17.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3D4BCC8C1D38E5D7005177E9 /* 17.jpg */; };
+		3D4BCCA11D38E5D7005177E9 /* 18.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3D4BCC8D1D38E5D7005177E9 /* 18.jpg */; };
+		3D4BCCA21D38E5D7005177E9 /* 19.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3D4BCC8E1D38E5D7005177E9 /* 19.jpg */; };
+		3D4BCCA31D38E5D7005177E9 /* 2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3D4BCC8F1D38E5D7005177E9 /* 2.jpg */; };
+		3D4BCCA41D38E5D7005177E9 /* 20.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3D4BCC901D38E5D7005177E9 /* 20.jpg */; };
+		3D4BCCA51D38E5D7005177E9 /* 3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3D4BCC911D38E5D7005177E9 /* 3.jpg */; };
+		3D4BCCA61D38E5D7005177E9 /* 4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3D4BCC921D38E5D7005177E9 /* 4.jpg */; };
+		3D4BCCA71D38E5D7005177E9 /* 5.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3D4BCC931D38E5D7005177E9 /* 5.jpg */; };
+		3D4BCCA81D38E5D7005177E9 /* 6.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3D4BCC941D38E5D7005177E9 /* 6.jpg */; };
+		3D4BCCA91D38E5D7005177E9 /* 7.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3D4BCC951D38E5D7005177E9 /* 7.jpg */; };
+		3D4BCCAA1D38E5D7005177E9 /* 8.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3D4BCC961D38E5D7005177E9 /* 8.jpg */; };
+		3D4BCCAB1D38E5D7005177E9 /* 9.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3D4BCC971D38E5D7005177E9 /* 9.jpg */; };
+		3D4BCCAE1D38E6D4005177E9 /* SDCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D4BCCAD1D38E6D4005177E9 /* SDCollectionViewCell.m */; };
+		3D4BCCB31D3B7DD2005177E9 /* CZCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D4BCCB01D3B7DD2005177E9 /* CZCell.m */; };
+		3D4BCCB41D3B7DD2005177E9 /* CZFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D4BCCB21D3B7DD2005177E9 /* CZFlowLayout.m */; };
 		3D661E9E1D3607F900A9A099 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D661E9D1D3607F900A9A099 /* main.m */; };
 		3D661EA71D3607F900A9A099 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3D661EA51D3607F900A9A099 /* Main.storyboard */; };
 		3D661EA91D3607F900A9A099 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3D661EA81D3607F900A9A099 /* Assets.xcassets */; };
 		3D661EAC1D3607F900A9A099 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3D661EAA1D3607F900A9A099 /* LaunchScreen.storyboard */; };
 		3D661EB71D3607F900A9A099 /* SEMPMobileTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D661EB61D3607F900A9A099 /* SEMPMobileTests.m */; };
 		3D661EC21D3607F900A9A099 /* SEMPMobileUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D661EC11D3607F900A9A099 /* SEMPMobileUITests.m */; };
+		3D7BA4A71D3BE5C300924427 /* SDHeaderCollectionReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D7BA4A61D3BE5C300924427 /* SDHeaderCollectionReusableView.m */; };
 		A724B69F67DF9315D0BBD703 /* libPods-SEMPMobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CB42DD177FBA59486DACD0C3 /* libPods-SEMPMobile.a */; };
 /* End PBXBuildFile section */
 
@@ -125,6 +153,36 @@
 		3D4BCC691D375E22005177E9 /* SDAccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDAccountViewController.m; sourceTree = "<group>"; };
 		3D4BCC6B1D375E30005177E9 /* SDUserTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDUserTableViewCell.h; sourceTree = "<group>"; };
 		3D4BCC6C1D375E30005177E9 /* SDUserTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDUserTableViewCell.m; sourceTree = "<group>"; };
+		3D4BCC711D38B202005177E9 /* switchOne_off@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "switchOne_off@2x.png"; sourceTree = "<group>"; };
+		3D4BCC721D38B202005177E9 /* switchOne_on@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "switchOne_on@2x.png"; sourceTree = "<group>"; };
+		3D4BCC731D38B202005177E9 /* switchTwo_off@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "switchTwo_off@2x.png"; sourceTree = "<group>"; };
+		3D4BCC741D38B202005177E9 /* switchTwo_on@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "switchTwo_on@2x.png"; sourceTree = "<group>"; };
+		3D4BCC841D38E5D7005177E9 /* 1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 1.jpg; sourceTree = "<group>"; };
+		3D4BCC851D38E5D7005177E9 /* 10.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 10.jpg; sourceTree = "<group>"; };
+		3D4BCC861D38E5D7005177E9 /* 11.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 11.jpg; sourceTree = "<group>"; };
+		3D4BCC871D38E5D7005177E9 /* 12.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 12.jpg; sourceTree = "<group>"; };
+		3D4BCC881D38E5D7005177E9 /* 13.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 13.jpg; sourceTree = "<group>"; };
+		3D4BCC891D38E5D7005177E9 /* 14.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 14.jpg; sourceTree = "<group>"; };
+		3D4BCC8A1D38E5D7005177E9 /* 15.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 15.jpg; sourceTree = "<group>"; };
+		3D4BCC8B1D38E5D7005177E9 /* 16.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 16.jpg; sourceTree = "<group>"; };
+		3D4BCC8C1D38E5D7005177E9 /* 17.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 17.jpg; sourceTree = "<group>"; };
+		3D4BCC8D1D38E5D7005177E9 /* 18.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 18.jpg; sourceTree = "<group>"; };
+		3D4BCC8E1D38E5D7005177E9 /* 19.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 19.jpg; sourceTree = "<group>"; };
+		3D4BCC8F1D38E5D7005177E9 /* 2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 2.jpg; sourceTree = "<group>"; };
+		3D4BCC901D38E5D7005177E9 /* 20.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 20.jpg; sourceTree = "<group>"; };
+		3D4BCC911D38E5D7005177E9 /* 3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 3.jpg; sourceTree = "<group>"; };
+		3D4BCC921D38E5D7005177E9 /* 4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 4.jpg; sourceTree = "<group>"; };
+		3D4BCC931D38E5D7005177E9 /* 5.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 5.jpg; sourceTree = "<group>"; };
+		3D4BCC941D38E5D7005177E9 /* 6.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 6.jpg; sourceTree = "<group>"; };
+		3D4BCC951D38E5D7005177E9 /* 7.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 7.jpg; sourceTree = "<group>"; };
+		3D4BCC961D38E5D7005177E9 /* 8.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 8.jpg; sourceTree = "<group>"; };
+		3D4BCC971D38E5D7005177E9 /* 9.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 9.jpg; sourceTree = "<group>"; };
+		3D4BCCAC1D38E6D4005177E9 /* SDCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDCollectionViewCell.h; sourceTree = "<group>"; };
+		3D4BCCAD1D38E6D4005177E9 /* SDCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDCollectionViewCell.m; sourceTree = "<group>"; };
+		3D4BCCAF1D3B7DD2005177E9 /* CZCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZCell.h; sourceTree = "<group>"; };
+		3D4BCCB01D3B7DD2005177E9 /* CZCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZCell.m; sourceTree = "<group>"; };
+		3D4BCCB11D3B7DD2005177E9 /* CZFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZFlowLayout.h; sourceTree = "<group>"; };
+		3D4BCCB21D3B7DD2005177E9 /* CZFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZFlowLayout.m; sourceTree = "<group>"; };
 		3D661E991D3607F900A9A099 /* SEMPMobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SEMPMobile.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D661E9D1D3607F900A9A099 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		3D661EA61D3607F900A9A099 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -137,6 +195,8 @@
 		3D661EBD1D3607F900A9A099 /* SEMPMobileUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SEMPMobileUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D661EC11D3607F900A9A099 /* SEMPMobileUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SEMPMobileUITests.m; sourceTree = "<group>"; };
 		3D661EC31D3607F900A9A099 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3D7BA4A51D3BE5C300924427 /* SDHeaderCollectionReusableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDHeaderCollectionReusableView.h; sourceTree = "<group>"; };
+		3D7BA4A61D3BE5C300924427 /* SDHeaderCollectionReusableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDHeaderCollectionReusableView.m; sourceTree = "<group>"; };
 		AAF8661063224B0AF5E9C25A /* Pods-SEMPMobile.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SEMPMobile.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SEMPMobile/Pods-SEMPMobile.debug.xcconfig"; sourceTree = "<group>"; };
 		CB42DD177FBA59486DACD0C3 /* libPods-SEMPMobile.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SEMPMobile.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -284,6 +344,7 @@
 		3D030F1F1D360B1300ABCF82 /* Dashboard */ = {
 			isa = PBXGroup;
 			children = (
+				3D4BCC831D38E5D7005177E9 /* photos */,
 				3D030F201D360B1300ABCF82 /* Controller */,
 				3D030F261D360B1300ABCF82 /* Model */,
 				3D030F271D360B1300ABCF82 /* View */,
@@ -294,9 +355,13 @@
 		3D030F201D360B1300ABCF82 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				3D030F211D360B1300ABCF82 /* Add */,
+				3D4BCCAF1D3B7DD2005177E9 /* CZCell.h */,
+				3D4BCCB01D3B7DD2005177E9 /* CZCell.m */,
+				3D4BCCB11D3B7DD2005177E9 /* CZFlowLayout.h */,
+				3D4BCCB21D3B7DD2005177E9 /* CZFlowLayout.m */,
 				3D030F241D360B1300ABCF82 /* SDDashboardViewController.h */,
 				3D030F251D360B1300ABCF82 /* SDDashboardViewController.m */,
+				3D030F211D360B1300ABCF82 /* Add */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -322,6 +387,10 @@
 			children = (
 				3D030F281D360B1300ABCF82 /* SDAddTableViewCell.h */,
 				3D030F291D360B1300ABCF82 /* SDAddTableViewCell.m */,
+				3D4BCCAC1D38E6D4005177E9 /* SDCollectionViewCell.h */,
+				3D4BCCAD1D38E6D4005177E9 /* SDCollectionViewCell.m */,
+				3D7BA4A51D3BE5C300924427 /* SDHeaderCollectionReusableView.h */,
+				3D7BA4A61D3BE5C300924427 /* SDHeaderCollectionReusableView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -336,6 +405,10 @@
 		3D030F2B1D360B1300ABCF82 /* image */ = {
 			isa = PBXGroup;
 			children = (
+				3D4BCC711D38B202005177E9 /* switchOne_off@2x.png */,
+				3D4BCC721D38B202005177E9 /* switchOne_on@2x.png */,
+				3D4BCC731D38B202005177E9 /* switchTwo_off@2x.png */,
+				3D4BCC741D38B202005177E9 /* switchTwo_on@2x.png */,
 				3D030F741D36366F00ABCF82 /* add.png */,
 				3D030F721D36234900ABCF82 /* 12.png */,
 				3D030F2C1D360B1300ABCF82 /* back.png */,
@@ -493,6 +566,33 @@
 			path = Account;
 			sourceTree = "<group>";
 		};
+		3D4BCC831D38E5D7005177E9 /* photos */ = {
+			isa = PBXGroup;
+			children = (
+				3D4BCC841D38E5D7005177E9 /* 1.jpg */,
+				3D4BCC851D38E5D7005177E9 /* 10.jpg */,
+				3D4BCC861D38E5D7005177E9 /* 11.jpg */,
+				3D4BCC871D38E5D7005177E9 /* 12.jpg */,
+				3D4BCC881D38E5D7005177E9 /* 13.jpg */,
+				3D4BCC891D38E5D7005177E9 /* 14.jpg */,
+				3D4BCC8A1D38E5D7005177E9 /* 15.jpg */,
+				3D4BCC8B1D38E5D7005177E9 /* 16.jpg */,
+				3D4BCC8C1D38E5D7005177E9 /* 17.jpg */,
+				3D4BCC8D1D38E5D7005177E9 /* 18.jpg */,
+				3D4BCC8E1D38E5D7005177E9 /* 19.jpg */,
+				3D4BCC8F1D38E5D7005177E9 /* 2.jpg */,
+				3D4BCC901D38E5D7005177E9 /* 20.jpg */,
+				3D4BCC911D38E5D7005177E9 /* 3.jpg */,
+				3D4BCC921D38E5D7005177E9 /* 4.jpg */,
+				3D4BCC931D38E5D7005177E9 /* 5.jpg */,
+				3D4BCC941D38E5D7005177E9 /* 6.jpg */,
+				3D4BCC951D38E5D7005177E9 /* 7.jpg */,
+				3D4BCC961D38E5D7005177E9 /* 8.jpg */,
+				3D4BCC971D38E5D7005177E9 /* 9.jpg */,
+			);
+			path = photos;
+			sourceTree = "<group>";
+		};
 		3D661E901D3607F900A9A099 = {
 			isa = PBXGroup;
 			children = (
@@ -643,6 +743,7 @@
 				TargetAttributes = {
 					3D661E981D3607F900A9A099 = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = VU75WP27H3;
 					};
 					3D661EB11D3607F900A9A099 = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -679,19 +780,43 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3D4BCC9D1D38E5D7005177E9 /* 14.jpg in Resources */,
+				3D4BCCA21D38E5D7005177E9 /* 19.jpg in Resources */,
+				3D4BCCA41D38E5D7005177E9 /* 20.jpg in Resources */,
+				3D4BCCA01D38E5D7005177E9 /* 17.jpg in Resources */,
 				3D030F731D36234900ABCF82 /* 12.png in Resources */,
 				3D030F5A1D360B1300ABCF82 /* back.png in Resources */,
 				3D661EAC1D3607F900A9A099 /* LaunchScreen.storyboard in Resources */,
+				3D4BCCA31D38E5D7005177E9 /* 2.jpg in Resources */,
+				3D4BCCA61D38E5D7005177E9 /* 4.jpg in Resources */,
+				3D4BCC9F1D38E5D7005177E9 /* 16.jpg in Resources */,
+				3D4BCC771D38B202005177E9 /* switchTwo_off@2x.png in Resources */,
+				3D4BCCA91D38E5D7005177E9 /* 7.jpg in Resources */,
 				3D030F751D36366F00ABCF82 /* add.png in Resources */,
+				3D4BCCAB1D38E5D7005177E9 /* 9.jpg in Resources */,
 				3D661EA91D3607F900A9A099 /* Assets.xcassets in Resources */,
+				3D4BCCA81D38E5D7005177E9 /* 6.jpg in Resources */,
+				3D4BCC981D38E5D7005177E9 /* 1.jpg in Resources */,
+				3D4BCC9E1D38E5D7005177E9 /* 15.jpg in Resources */,
 				3D030F5B1D360B1300ABCF82 /* demoButton.png in Resources */,
+				3D4BCCAA1D38E5D7005177E9 /* 8.jpg in Resources */,
+				3D4BCC9B1D38E5D7005177E9 /* 12.jpg in Resources */,
+				3D4BCC751D38B202005177E9 /* switchOne_off@2x.png in Resources */,
+				3D4BCC781D38B202005177E9 /* switchTwo_on@2x.png in Resources */,
 				3D030F601D360B1300ABCF82 /* three.png in Resources */,
 				3D030F5D1D360B1300ABCF82 /* iconfont-biji.png in Resources */,
+				3D4BCCA71D38E5D7005177E9 /* 5.jpg in Resources */,
 				3D661EA71D3607F900A9A099 /* Main.storyboard in Resources */,
 				3D030F631D360B1300ABCF82 /* userLogin.png in Resources */,
+				3D4BCC991D38E5D7005177E9 /* 10.jpg in Resources */,
+				3D4BCCA51D38E5D7005177E9 /* 3.jpg in Resources */,
+				3D4BCCA11D38E5D7005177E9 /* 18.jpg in Resources */,
+				3D4BCC9A1D38E5D7005177E9 /* 11.jpg in Resources */,
 				3D030F611D360B1300ABCF82 /* two.png in Resources */,
 				3D030F621D360B1300ABCF82 /* userButton.png in Resources */,
 				3D030F5F1D360B1300ABCF82 /* one.png in Resources */,
+				3D4BCC9C1D38E5D7005177E9 /* 13.jpg in Resources */,
+				3D4BCC761D38B202005177E9 /* switchOne_on@2x.png in Resources */,
 				3D030F5C1D360B1300ABCF82 /* four.png in Resources */,
 				3D030F5E1D360B1300ABCF82 /* nav.png in Resources */,
 				3D030F6A1D360B1300ABCF82 /* MBProgressHUD.bundle in Resources */,
@@ -772,17 +897,21 @@
 				3D030F651D360B1300ABCF82 /* SDTabBarViewController.m in Sources */,
 				3D030F501D360B1300ABCF82 /* SDFeedBackViewController.m in Sources */,
 				3D030F571D360B1300ABCF82 /* SDAddViewController.m in Sources */,
+				3D4BCCB41D3B7DD2005177E9 /* CZFlowLayout.m in Sources */,
+				3D7BA4A71D3BE5C300924427 /* SDHeaderCollectionReusableView.m in Sources */,
 				3D4BCC621D37433B005177E9 /* SDReportViewController.m in Sources */,
 				3D030F661D360B1300ABCF82 /* SDUserLoginViewController.m in Sources */,
 				3D030F541D360B1300ABCF82 /* SDSetViewController.m in Sources */,
 				3D030F551D360B1300ABCF82 /* SDActionViewController.m in Sources */,
 				3D030F681D360B1300ABCF82 /* SDReportTableViewCell.m in Sources */,
 				3D4BCC661D374365005177E9 /* SDReportDetailViewController.m in Sources */,
+				3D4BCCB31D3B7DD2005177E9 /* CZCell.m in Sources */,
 				3D030F561D360B1300ABCF82 /* AppDelegate.m in Sources */,
 				3D030F511D360B1300ABCF82 /* SDInfoViewController.m in Sources */,
 				3D4BCC631D37433B005177E9 /* SDRTSectionHeaderViewController.m in Sources */,
 				3D030F591D360B1300ABCF82 /* SDAddTableViewCell.m in Sources */,
 				3D4BCC6D1D375E30005177E9 /* SDUserTableViewCell.m in Sources */,
+				3D4BCCAE1D38E6D4005177E9 /* SDCollectionViewCell.m in Sources */,
 				3D030F7F1D363D4700ABCF82 /* SDPublic.m in Sources */,
 				3D030F641D360B1300ABCF82 /* LoginViewController.m in Sources */,
 				3D030F6B1D360B1300ABCF82 /* MBProgressHUD.m in Sources */,
@@ -932,12 +1061,15 @@
 			baseConfigurationReference = AAF8661063224B0AF5E9C25A /* Pods-SEMPMobile.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/SEMPMobile/Tools/SEMPMobilePCH.pch";
 				INFOPLIST_FILE = SEMPMobile/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = Datacvg.SEMPMobile;
+				PRODUCT_BUNDLE_IDENTIFIER = Datacvg.SEMPMobil;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -946,13 +1078,16 @@
 			baseConfigurationReference = 034501B7BEEF9B3697E02E03 /* Pods-SEMPMobile.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_NS_ASSERTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/SEMPMobile/Tools/SEMPMobilePCH.pch";
 				INFOPLIST_FILE = SEMPMobile/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = Datacvg.SEMPMobile;
+				PRODUCT_BUNDLE_IDENTIFIER = Datacvg.SEMPMobil;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

@@ -14,9 +14,9 @@
 #define Kwidth [UIScreen mainScreen].bounds.size.width
 // 主屏幕高
 #define Kheight [UIScreen mainScreen].bounds.size.height
-// 以iphone5为基本屏幕，当前尺寸与5屏幕宽的比例
+// 以iphone5为基本屏幕，当前尺寸与6屏幕宽的比例
 #define  KWidth6scale ([UIScreen mainScreen].bounds.size.width/375)
-// 以iphone5为基本屏幕，当前尺寸与5屏幕高的比例
+// 以iphone5为基本屏幕，当前尺寸与6屏幕高的比例
 #define  KHeight6scale ([UIScreen mainScreen].bounds.size.height/667)
 
 // 背景颜色
@@ -29,7 +29,7 @@
 #define  KTabBarFrameHeight self.tabBarController.tabBar.frame.size.height
 
 // 页面中tableView的高
-#define KTableViewHeight (Kheight-KSTATUSBarFrameHeight-KNavigationBarFrameHeight)
+#define KTableViewHeight (Kheight-KSTATUSBarFrameHeight-KNavigationBarFrameHeight )
 
 // 测试登录接口头
 #define LoginHttp @"http://demo.datacvg.com:9111/DMC/ValidateUserByIOSTest.action?"

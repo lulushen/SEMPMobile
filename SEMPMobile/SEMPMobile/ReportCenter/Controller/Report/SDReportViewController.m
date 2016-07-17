@@ -39,7 +39,7 @@
 - (void)makeReportTable
 {
     
-    self.reportTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, Kwidth, KTableViewHeight )  style:(UITableViewStyleGrouped)];
+    self.reportTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, Kwidth, KTableViewHeight)  style:(UITableViewStyleGrouped)];
     [self.view addSubview:self.reportTableView];
     self.reportTableView.delegate = self;
     self.reportTableView.dataSource = self;

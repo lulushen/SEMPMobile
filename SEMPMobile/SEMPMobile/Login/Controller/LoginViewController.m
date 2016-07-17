@@ -23,6 +23,11 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"userLogin.png"]];
     [self  makeButton];
+    NSLog(@"------width:%f",Kwidth);
+    NSLog(@"-------height:%f",Kheight);
+    NSLog(@"-------bili:%f",KWidth6scale);
+    NSLog(@"-------bili:%f",KHeight6scale);
+
     // Do any additional setup after loading the view.
 }
 // 创建登录按钮控件的方法
