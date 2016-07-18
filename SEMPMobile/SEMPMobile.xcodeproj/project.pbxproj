@@ -78,6 +78,17 @@
 		3D7BA4F51D3C9B2C00924427 /* SDXiangqingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D7BA4F41D3C9B2C00924427 /* SDXiangqingViewController.m */; };
 		3D7BA4FD1D3CA70B00924427 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D7BA4FC1D3CA70B00924427 /* QuartzCore.framework */; };
 		3D7BA5001D3CA74B00924427 /* SDHuaBiView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D7BA4FF1D3CA74B00924427 /* SDHuaBiView.m */; };
+		3D7BA5371D3D1CC900924427 /* D3RecordButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D7BA5281D3D1CC900924427 /* D3RecordButton.m */; };
+		3D7BA5381D3D1CC900924427 /* mic_0.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D7BA52A1D3D1CC900924427 /* mic_0.png */; };
+		3D7BA5391D3D1CC900924427 /* mic_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D7BA52B1D3D1CC900924427 /* mic_1.png */; };
+		3D7BA53A1D3D1CC900924427 /* mic_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D7BA52C1D3D1CC900924427 /* mic_2.png */; };
+		3D7BA53B1D3D1CC900924427 /* mic_3.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D7BA52D1D3D1CC900924427 /* mic_3.png */; };
+		3D7BA53C1D3D1CC900924427 /* mic_4.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D7BA52E1D3D1CC900924427 /* mic_4.png */; };
+		3D7BA53D1D3D1CC900924427 /* mic_5.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D7BA52F1D3D1CC900924427 /* mic_5.png */; };
+		3D7BA53E1D3D1CC900924427 /* mic_cancel.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D7BA5301D3D1CC900924427 /* mic_cancel.png */; };
+		3D7BA5401D3D1CC900924427 /* Mp3Recorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D7BA5341D3D1CC900924427 /* Mp3Recorder.m */; };
+		3D7BA5411D3D1CC900924427 /* RecordHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D7BA5361D3D1CC900924427 /* RecordHUD.m */; };
+		3D7BA5421D3D203000924427 /* libmp3lame.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D7BA5321D3D1CC900924427 /* libmp3lame.a */; };
 		A724B69F67DF9315D0BBD703 /* libPods-SEMPMobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CB42DD177FBA59486DACD0C3 /* libPods-SEMPMobile.a */; };
 /* End PBXBuildFile section */
 
@@ -205,6 +216,21 @@
 		3D7BA4FC1D3CA70B00924427 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		3D7BA4FE1D3CA74B00924427 /* SDHuaBiView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDHuaBiView.h; path = ../../../SDHuaBiView.h; sourceTree = "<group>"; };
 		3D7BA4FF1D3CA74B00924427 /* SDHuaBiView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDHuaBiView.m; path = ../../../SDHuaBiView.m; sourceTree = "<group>"; };
+		3D7BA5271D3D1CC900924427 /* D3RecordButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = D3RecordButton.h; sourceTree = "<group>"; };
+		3D7BA5281D3D1CC900924427 /* D3RecordButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = D3RecordButton.m; sourceTree = "<group>"; };
+		3D7BA52A1D3D1CC900924427 /* mic_0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mic_0.png; sourceTree = "<group>"; };
+		3D7BA52B1D3D1CC900924427 /* mic_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mic_1.png; sourceTree = "<group>"; };
+		3D7BA52C1D3D1CC900924427 /* mic_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mic_2.png; sourceTree = "<group>"; };
+		3D7BA52D1D3D1CC900924427 /* mic_3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mic_3.png; sourceTree = "<group>"; };
+		3D7BA52E1D3D1CC900924427 /* mic_4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mic_4.png; sourceTree = "<group>"; };
+		3D7BA52F1D3D1CC900924427 /* mic_5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mic_5.png; sourceTree = "<group>"; };
+		3D7BA5301D3D1CC900924427 /* mic_cancel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mic_cancel.png; sourceTree = "<group>"; };
+		3D7BA5311D3D1CC900924427 /* lame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lame.h; sourceTree = "<group>"; };
+		3D7BA5321D3D1CC900924427 /* libmp3lame.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libmp3lame.a; sourceTree = "<group>"; };
+		3D7BA5331D3D1CC900924427 /* Mp3Recorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mp3Recorder.h; sourceTree = "<group>"; };
+		3D7BA5341D3D1CC900924427 /* Mp3Recorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Mp3Recorder.m; sourceTree = "<group>"; };
+		3D7BA5351D3D1CC900924427 /* RecordHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordHUD.h; sourceTree = "<group>"; };
+		3D7BA5361D3D1CC900924427 /* RecordHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordHUD.m; sourceTree = "<group>"; };
 		AAF8661063224B0AF5E9C25A /* Pods-SEMPMobile.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SEMPMobile.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SEMPMobile/Pods-SEMPMobile.debug.xcconfig"; sourceTree = "<group>"; };
 		CB42DD177FBA59486DACD0C3 /* libPods-SEMPMobile.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SEMPMobile.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -214,6 +240,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3D7BA5421D3D203000924427 /* libmp3lame.a in Frameworks */,
 				3D7BA4FD1D3CA70B00924427 /* QuartzCore.framework in Frameworks */,
 				A724B69F67DF9315D0BBD703 /* libPods-SEMPMobile.a in Frameworks */,
 			);
@@ -354,6 +381,7 @@
 		3D030F1F1D360B1300ABCF82 /* Dashboard */ = {
 			isa = PBXGroup;
 			children = (
+				3D7BA5261D3D1CC900924427 /* D3RecordBtutton */,
 				3D4BCC831D38E5D7005177E9 /* photos */,
 				3D030F201D360B1300ABCF82 /* Controller */,
 				3D030F261D360B1300ABCF82 /* Model */,
@@ -677,6 +705,36 @@
 			path = SEMPMobileUITests;
 			sourceTree = "<group>";
 		};
+		3D7BA5261D3D1CC900924427 /* D3RecordBtutton */ = {
+			isa = PBXGroup;
+			children = (
+				3D7BA5271D3D1CC900924427 /* D3RecordButton.h */,
+				3D7BA5281D3D1CC900924427 /* D3RecordButton.m */,
+				3D7BA5291D3D1CC900924427 /* imgs */,
+				3D7BA5311D3D1CC900924427 /* lame.h */,
+				3D7BA5321D3D1CC900924427 /* libmp3lame.a */,
+				3D7BA5331D3D1CC900924427 /* Mp3Recorder.h */,
+				3D7BA5341D3D1CC900924427 /* Mp3Recorder.m */,
+				3D7BA5351D3D1CC900924427 /* RecordHUD.h */,
+				3D7BA5361D3D1CC900924427 /* RecordHUD.m */,
+			);
+			path = D3RecordBtutton;
+			sourceTree = "<group>";
+		};
+		3D7BA5291D3D1CC900924427 /* imgs */ = {
+			isa = PBXGroup;
+			children = (
+				3D7BA52A1D3D1CC900924427 /* mic_0.png */,
+				3D7BA52B1D3D1CC900924427 /* mic_1.png */,
+				3D7BA52C1D3D1CC900924427 /* mic_2.png */,
+				3D7BA52D1D3D1CC900924427 /* mic_3.png */,
+				3D7BA52E1D3D1CC900924427 /* mic_4.png */,
+				3D7BA52F1D3D1CC900924427 /* mic_5.png */,
+				3D7BA5301D3D1CC900924427 /* mic_cancel.png */,
+			);
+			path = imgs;
+			sourceTree = "<group>";
+		};
 		DD05CBB6C5296D9FA71169BF /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -795,6 +853,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3D4BCC9D1D38E5D7005177E9 /* 14.jpg in Resources */,
+				3D7BA53D1D3D1CC900924427 /* mic_5.png in Resources */,
 				3D4BCCA21D38E5D7005177E9 /* 19.jpg in Resources */,
 				3D4BCCA41D38E5D7005177E9 /* 20.jpg in Resources */,
 				3D4BCCA01D38E5D7005177E9 /* 17.jpg in Resources */,
@@ -809,6 +868,7 @@
 				3D030F751D36366F00ABCF82 /* add.png in Resources */,
 				3D4BCCAB1D38E5D7005177E9 /* 9.jpg in Resources */,
 				3D661EA91D3607F900A9A099 /* Assets.xcassets in Resources */,
+				3D7BA53A1D3D1CC900924427 /* mic_2.png in Resources */,
 				3D4BCCA81D38E5D7005177E9 /* 6.jpg in Resources */,
 				3D4BCC981D38E5D7005177E9 /* 1.jpg in Resources */,
 				3D4BCC9E1D38E5D7005177E9 /* 15.jpg in Resources */,
@@ -821,7 +881,9 @@
 				3D030F5D1D360B1300ABCF82 /* iconfont-biji.png in Resources */,
 				3D4BCCA71D38E5D7005177E9 /* 5.jpg in Resources */,
 				3D661EA71D3607F900A9A099 /* Main.storyboard in Resources */,
+				3D7BA53E1D3D1CC900924427 /* mic_cancel.png in Resources */,
 				3D030F631D360B1300ABCF82 /* userLogin.png in Resources */,
+				3D7BA53C1D3D1CC900924427 /* mic_4.png in Resources */,
 				3D4BCC991D38E5D7005177E9 /* 10.jpg in Resources */,
 				3D4BCCA51D38E5D7005177E9 /* 3.jpg in Resources */,
 				3D4BCCA11D38E5D7005177E9 /* 18.jpg in Resources */,
@@ -829,11 +891,14 @@
 				3D030F611D360B1300ABCF82 /* two.png in Resources */,
 				3D030F621D360B1300ABCF82 /* userButton.png in Resources */,
 				3D030F5F1D360B1300ABCF82 /* one.png in Resources */,
+				3D7BA5381D3D1CC900924427 /* mic_0.png in Resources */,
 				3D4BCC9C1D38E5D7005177E9 /* 13.jpg in Resources */,
 				3D4BCC761D38B202005177E9 /* switchOne_on@2x.png in Resources */,
 				3D030F5C1D360B1300ABCF82 /* four.png in Resources */,
 				3D030F5E1D360B1300ABCF82 /* nav.png in Resources */,
 				3D030F6A1D360B1300ABCF82 /* MBProgressHUD.bundle in Resources */,
+				3D7BA5391D3D1CC900924427 /* mic_1.png in Resources */,
+				3D7BA53B1D3D1CC900924427 /* mic_3.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -908,6 +973,7 @@
 			files = (
 				3D030F7C1D36394600ABCF82 /* SDAddReportViewController.m in Sources */,
 				3D4BCC6A1D375E22005177E9 /* SDAccountViewController.m in Sources */,
+				3D7BA5371D3D1CC900924427 /* D3RecordButton.m in Sources */,
 				3D030F651D360B1300ABCF82 /* SDTabBarViewController.m in Sources */,
 				3D030F501D360B1300ABCF82 /* SDFeedBackViewController.m in Sources */,
 				3D030F571D360B1300ABCF82 /* SDAddViewController.m in Sources */,
@@ -921,6 +987,7 @@
 				3D030F681D360B1300ABCF82 /* SDReportTableViewCell.m in Sources */,
 				3D4BCC661D374365005177E9 /* SDReportDetailViewController.m in Sources */,
 				3D4BCCB31D3B7DD2005177E9 /* CZCell.m in Sources */,
+				3D7BA5401D3D1CC900924427 /* Mp3Recorder.m in Sources */,
 				3D030F561D360B1300ABCF82 /* AppDelegate.m in Sources */,
 				3D030F511D360B1300ABCF82 /* SDInfoViewController.m in Sources */,
 				3D4BCC631D37433B005177E9 /* SDRTSectionHeaderViewController.m in Sources */,
@@ -932,6 +999,7 @@
 				3D7BA5001D3CA74B00924427 /* SDHuaBiView.m in Sources */,
 				3D030F6B1D360B1300ABCF82 /* MBProgressHUD.m in Sources */,
 				3D661E9E1D3607F900A9A099 /* main.m in Sources */,
+				3D7BA5411D3D1CC900924427 /* RecordHUD.m in Sources */,
 				3D030F691D360B1300ABCF82 /* MBProgressHUD+NJ.m in Sources */,
 				3D030F581D360B1300ABCF82 /* SDDashboardViewController.m in Sources */,
 			);
@@ -1083,6 +1151,10 @@
 				GCC_PREFIX_HEADER = "$(SRCROOT)/SEMPMobile/Tools/SEMPMobilePCH.pch";
 				INFOPLIST_FILE = SEMPMobile/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/SEMPMobile/Dashboard/D3RecordBtutton",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = Datacvg.SEMPMobil;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -1101,6 +1173,10 @@
 				GCC_PREFIX_HEADER = "$(SRCROOT)/SEMPMobile/Tools/SEMPMobilePCH.pch";
 				INFOPLIST_FILE = SEMPMobile/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/SEMPMobile/Dashboard/D3RecordBtutton",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = Datacvg.SEMPMobil;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";

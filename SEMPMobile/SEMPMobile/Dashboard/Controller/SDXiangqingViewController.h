@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "D3RecordButton.h"
 
-@interface SDXiangqingViewController : UIViewController
+
+@interface SDXiangqingViewController : UIViewController<D3RecordDelegate>{
+    AVAudioPlayer *play;
+}
+
 
 @end

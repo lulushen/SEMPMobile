@@ -8,6 +8,8 @@
 
 #import "SDXiangqingViewController.h"
 #import "SDHuaBiView.h"
+#import "RecordHUD.h"
+
 
 @interface SDXiangqingViewController () <UITextViewDelegate>
 
@@ -18,15 +20,24 @@
 @property (nonatomic , strong) UITextView * textView ;
 
 @property (nonatomic , strong)  UILongPressGestureRecognizer * longPressGr;
-@property (nonatomic , strong) UIButton * removebutton ;
-@end
 
+@property (nonatomic , strong) UIButton * removebutton ;
+
+@property (nonatomic , strong) UIView  *luyinView;
+
+@property (nonatomic , strong) D3RecordButton * luyinButtontwo;
+
+@property (nonatomic , strong) D3RecordButton * pofangButtontwo;
+@property (nonatomic , assign) BOOL zhuangtai;
+@end
+static  BOOL _zhuangtai = NO;
 @implementation SDXiangqingViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     [self.view setUserInteractionEnabled:YES];
+   
     [self maketab];
     // Do any additional setup after loading the view.
 }
@@ -47,6 +58,9 @@
     luyinbutton.frame = CGRectMake(CGRectGetMaxX(button.frame),0 , Kwidth/4.0, KTabBarFrameHeight);
     //    luyinbutton.backgroundColor = [UIColor grayColor];
     [luyinbutton setTitle:@"录音" forState:UIControlStateNormal];
+//    static BOOL  select = NO;
+//    luyinbutton.selected = select;
+   
     [luyinbutton addTarget:self action:@selector(luyinbuttonClick:) forControlEvents:UIControlEventTouchUpInside];
     [view addSubview:luyinbutton];
     UIButton * wenbenbutton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
@@ -68,6 +82,9 @@
 }
 - (void)buttonClick:(UIButton *)button
 {
+    [self.luyinView removeFromSuperview];
+
+      self.zhuangtai = NO;
     
         [self.huabiV removeFromSuperview];
         [self.textView removeFromSuperview];
@@ -102,9 +119,74 @@
 - (void)luyinbuttonClick:(UIButton *)button
 {
     
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [self.huabiV removeFromSuperview];
+    [self.textView removeFromSuperview];
+
+    
+    
+    if (button.selected == self.zhuangtai) {
+        
+        _luyinView = [[UIView alloc] initWithFrame:CGRectMake(Kwidth/4.0  , KTableViewHeight- KTabBarFrameHeight - 50, Kwidth/4.0, 50)];
+        _luyinView.backgroundColor = [UIColor redColor];
+        
+        //    [self.view addSubview:_luyinView];
+        _luyinButtontwo = [D3RecordButton buttonWithType:UIButtonTypeRoundedRect];
+        
+        _luyinButtontwo.frame = CGRectMake(0, 0, Kwidth/8.0, 50);
+        
+        _luyinButtontwo.backgroundColor = [UIColor grayColor];
+        [_luyinButtontwo setTitle:@"录音" forState:UIControlStateNormal];
+        
+        [_luyinView addSubview:_luyinButtontwo];
+        
+        _pofangButtontwo = [D3RecordButton buttonWithType:UIButtonTypeRoundedRect];
+        
+        _pofangButtontwo.frame = CGRectMake(Kwidth/8.0, 0, Kwidth/8.0, 50);
+        
+        _pofangButtontwo.backgroundColor = [UIColor yellowColor];
+        [_pofangButtontwo setTitle:@"播放" forState:UIControlStateNormal];
+        
+        [_luyinView addSubview:_pofangButtontwo];
+        [_pofangButtontwo addTarget:self action:@selector(pofangButtontwoClick:) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:_luyinView];
+        
+\
+        _zhuangtai = YES;
+        NSLog(@"=-=-=-=-=-123");
+        [_luyinButtontwo initRecord:self maxtime:60 title:@"按住录音"];
+
+    }else{
+        
+        [self.luyinView removeFromSuperview];
+        NSLog(@"=-=-=-=-=1456");
+        _zhuangtai = NO;
+
+    }
+    
+    
+    
+
 }
+- (void)pofangButtontwoClick:(UIButton *)button
+{
+    play.volume = 1.0f;
+    [play play];
+    NSLog(@"yesssssssssss..........%f",play.duration);
+}
+
+-(void)endRecord:(NSData *)voiceData{
+    NSError *error;
+    play = [[AVAudioPlayer alloc]initWithData:voiceData error:&error];
+    NSLog(@"%@",error);
+
+}
+
 - (void)wenbenbuttonClick:(UIButton *)button
 {
+        [self.luyinView removeFromSuperview];
+    
+        self.zhuangtai = NO;
     
         [[NSNotificationCenter defaultCenter] removeObserver:self];
         [self.huabiV removeFromSuperview];
@@ -127,7 +209,7 @@
     _removebutton.clipsToBounds = YES;
     _removebutton.autoresizesSubviews=YES;
 
-    self.textView.clipsToBounds = YES;
+//    self.textView.clipsToBounds = YES;
 
     
 
