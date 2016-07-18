@@ -10,8 +10,9 @@
 #define  KtotalH 4 *  smallViewH  * totalGroupCount  + marginH * (totalGroupCount * 4)
 @interface CZFlowLayout ()
 
-@property (nonatomic, strong) NSArray<UICollectionViewLayoutAttributes *> *attributes;
+
 @property (nonatomic , assign)CGFloat  Height;
+
 
 @end
 
@@ -166,10 +167,11 @@
         }
         
         
+        
         //创建布局属性 设置对应cell的frame
         UICollectionViewLayoutAttributes *att = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:[NSIndexPath indexPathForItem:i inSection:0]];
         att.frame = CGRectMake(itemX , itemY , itemW, itemH);
-        
+    
         
         [tempAtt addObject:att];
         
@@ -235,7 +237,6 @@
     }
     
     self.itemSize =CGSizeMake(itemSizeW, itemSizeH);
-    NSLog(@"-=-=-=-=%f",_Height);
 
 
 }
@@ -250,10 +251,6 @@
 
     CGSize contentSize = CGSizeMake(Kwidth,_Height
                                     );
-    
-//    if ((_numberOfCells - 1) % 3 == 0 && (_numberOfCells - 1) % 6 != 0) {
-//        contentSize = CGSizeMake(_collectionViewSize.width, (_numberOfLines * (_largeCellSize.height + _lineSpacing)) - 2 * _lineSpacing - _smallCellSize.height + + _insets.top + _insets.bottom);
-//    }
     return contentSize;
 }
 

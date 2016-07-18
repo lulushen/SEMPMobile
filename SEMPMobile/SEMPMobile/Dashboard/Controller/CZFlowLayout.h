@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface CZFlowLayout : UICollectionViewFlowLayout
-
+@property (nonatomic, strong) NSArray<UICollectionViewLayoutAttributes *> *attributes;
 @end

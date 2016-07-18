@@ -75,6 +75,9 @@
 		3D661EB71D3607F900A9A099 /* SEMPMobileTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D661EB61D3607F900A9A099 /* SEMPMobileTests.m */; };
 		3D661EC21D3607F900A9A099 /* SEMPMobileUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D661EC11D3607F900A9A099 /* SEMPMobileUITests.m */; };
 		3D7BA4A71D3BE5C300924427 /* SDHeaderCollectionReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D7BA4A61D3BE5C300924427 /* SDHeaderCollectionReusableView.m */; };
+		3D7BA4F51D3C9B2C00924427 /* SDXiangqingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D7BA4F41D3C9B2C00924427 /* SDXiangqingViewController.m */; };
+		3D7BA4FD1D3CA70B00924427 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D7BA4FC1D3CA70B00924427 /* QuartzCore.framework */; };
+		3D7BA5001D3CA74B00924427 /* SDHuaBiView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D7BA4FF1D3CA74B00924427 /* SDHuaBiView.m */; };
 		A724B69F67DF9315D0BBD703 /* libPods-SEMPMobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CB42DD177FBA59486DACD0C3 /* libPods-SEMPMobile.a */; };
 /* End PBXBuildFile section */
 
@@ -197,6 +200,11 @@
 		3D661EC31D3607F900A9A099 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3D7BA4A51D3BE5C300924427 /* SDHeaderCollectionReusableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDHeaderCollectionReusableView.h; sourceTree = "<group>"; };
 		3D7BA4A61D3BE5C300924427 /* SDHeaderCollectionReusableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDHeaderCollectionReusableView.m; sourceTree = "<group>"; };
+		3D7BA4F31D3C9B2C00924427 /* SDXiangqingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDXiangqingViewController.h; sourceTree = "<group>"; };
+		3D7BA4F41D3C9B2C00924427 /* SDXiangqingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDXiangqingViewController.m; sourceTree = "<group>"; };
+		3D7BA4FC1D3CA70B00924427 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		3D7BA4FE1D3CA74B00924427 /* SDHuaBiView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDHuaBiView.h; path = ../../../SDHuaBiView.h; sourceTree = "<group>"; };
+		3D7BA4FF1D3CA74B00924427 /* SDHuaBiView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDHuaBiView.m; path = ../../../SDHuaBiView.m; sourceTree = "<group>"; };
 		AAF8661063224B0AF5E9C25A /* Pods-SEMPMobile.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SEMPMobile.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SEMPMobile/Pods-SEMPMobile.debug.xcconfig"; sourceTree = "<group>"; };
 		CB42DD177FBA59486DACD0C3 /* libPods-SEMPMobile.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SEMPMobile.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -206,6 +214,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3D7BA4FD1D3CA70B00924427 /* QuartzCore.framework in Frameworks */,
 				A724B69F67DF9315D0BBD703 /* libPods-SEMPMobile.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -230,6 +239,7 @@
 		35E455A9BBD1ED0F9ECED9C4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3D7BA4FC1D3CA70B00924427 /* QuartzCore.framework */,
 				CB42DD177FBA59486DACD0C3 /* libPods-SEMPMobile.a */,
 			);
 			name = Frameworks;
@@ -362,6 +372,8 @@
 				3D030F241D360B1300ABCF82 /* SDDashboardViewController.h */,
 				3D030F251D360B1300ABCF82 /* SDDashboardViewController.m */,
 				3D030F211D360B1300ABCF82 /* Add */,
+				3D7BA4F31D3C9B2C00924427 /* SDXiangqingViewController.h */,
+				3D7BA4F41D3C9B2C00924427 /* SDXiangqingViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -385,6 +397,8 @@
 		3D030F271D360B1300ABCF82 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				3D7BA4FE1D3CA74B00924427 /* SDHuaBiView.h */,
+				3D7BA4FF1D3CA74B00924427 /* SDHuaBiView.m */,
 				3D030F281D360B1300ABCF82 /* SDAddTableViewCell.h */,
 				3D030F291D360B1300ABCF82 /* SDAddTableViewCell.m */,
 				3D4BCCAC1D38E6D4005177E9 /* SDCollectionViewCell.h */,
@@ -899,6 +913,7 @@
 				3D030F571D360B1300ABCF82 /* SDAddViewController.m in Sources */,
 				3D4BCCB41D3B7DD2005177E9 /* CZFlowLayout.m in Sources */,
 				3D7BA4A71D3BE5C300924427 /* SDHeaderCollectionReusableView.m in Sources */,
+				3D7BA4F51D3C9B2C00924427 /* SDXiangqingViewController.m in Sources */,
 				3D4BCC621D37433B005177E9 /* SDReportViewController.m in Sources */,
 				3D030F661D360B1300ABCF82 /* SDUserLoginViewController.m in Sources */,
 				3D030F541D360B1300ABCF82 /* SDSetViewController.m in Sources */,
@@ -914,6 +929,7 @@
 				3D4BCCAE1D38E6D4005177E9 /* SDCollectionViewCell.m in Sources */,
 				3D030F7F1D363D4700ABCF82 /* SDPublic.m in Sources */,
 				3D030F641D360B1300ABCF82 /* LoginViewController.m in Sources */,
+				3D7BA5001D3CA74B00924427 /* SDHuaBiView.m in Sources */,
 				3D030F6B1D360B1300ABCF82 /* MBProgressHUD.m in Sources */,
 				3D661E9E1D3607F900A9A099 /* main.m in Sources */,
 				3D030F691D360B1300ABCF82 /* MBProgressHUD+NJ.m in Sources */,

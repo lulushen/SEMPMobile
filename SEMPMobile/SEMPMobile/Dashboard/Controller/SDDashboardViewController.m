@@ -8,12 +8,14 @@
 
 #import "SDDashboardViewController.h"
 #import "SDAddViewController.h"
-#import "SDCollectionViewCell.h"
+#import "CZCell.h"
 #import "SDHeaderCollectionReusableView.h"
+#import "SDXiangqingViewController.h"
 
 @interface SDDashboardViewController ()<UICollectionViewDelegate,UICollectionViewDataSource>
 @property (strong, nonatomic)  UICollectionView *collectionView;
 
+@property (nonatomic , strong) CZFlowLayout * layout;
 @end
 
 @implementation SDDashboardViewController
@@ -21,8 +23,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    CZFlowLayout * layout = [[CZFlowLayout alloc] init];
-    self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, Kwidth, KTableViewHeight) collectionViewLayout:layout];
+    self.layout = [[CZFlowLayout alloc] init];
+    self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, Kwidth, KTableViewHeight) collectionViewLayout:self.layout];
+    
     self.collectionView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.collectionView];
     self.collectionView.delegate = self;
@@ -43,7 +46,7 @@
 }
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return  24;
+    return  22;
 }
 
 
@@ -51,11 +54,13 @@
 {
     
     CZCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
-    
-    
-//    NSInteger  index  =  indexPath.row % 9;
-////    NSLog(@"-------index : %ld",index);
-//    
+ 
+//    UIView * view = (UIView *)[cell.contentView viewWithTag:indexPath.row];
+//    for (view in cell.contentView.subviews) {
+//       
+//        [view removeFromSuperview];
+//        
+//    }
     cell.numberLabel.tag = indexPath.row;
     cell.numberLabel.text = [NSString stringWithFormat:@"第%ld个",indexPath.row];
     
@@ -64,10 +69,14 @@
 }
 
 
+
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    
+    SDXiangqingViewController * xiangVC = [[SDXiangqingViewController alloc] init];
+     self.hidesBottomBarWhenPushed=YES;
+    [self.navigationController pushViewController:xiangVC animated:YES];
+    self.hidesBottomBarWhenPushed=NO;
     NSLog(@"我是第%ld个",indexPath.row);
 }
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
@@ -81,14 +90,6 @@
         
         reusableview = headerView;
     }
-    
-    //    if (kind == UICollectionElementKindSectionFooter)
-    //    {
-    //        RecipeCollectionReusableView *footerview = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"FooterView" forIndexPath:indexPath];
-    //
-    //        reusableview = footerview;
-    //    }
-    
     reusableview.backgroundColor = [UIColor redColor];
     
     return reusableview;

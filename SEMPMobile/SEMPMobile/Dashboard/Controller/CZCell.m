@@ -12,13 +12,22 @@
 -(id)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
     if (self) {
-//        self.numberLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.frame), CGRectGetHeight(self.frame))];
-//        self.numberLabel.backgroundColor = [UIColor yellowColor];
-//        [self addSubview:self.numberLabel];
-//
-        [self makeLabel];
+        self.numberLabel = [[UILabel alloc] init];
+        self.numberLabel.backgroundColor = [UIColor cyanColor];
+
+        [self.contentView addSubview:self.numberLabel];
     }
     return self;
+}
+
+- (void)layoutSubviews
+{
+    
+    [super layoutSubviews];
+    self.numberLabel.frame = CGRectMake(0, 0, CGRectGetWidth(self.contentView.frame), CGRectGetHeight(self.contentView.frame));
+    
+
+    
 }
 - (void)makeLabel{
     
