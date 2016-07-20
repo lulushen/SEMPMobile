@@ -29,10 +29,5 @@
 
     
 }
-- (void)makeLabel{
-    
-//    self.numberLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.frame), CGRectGetHeight(self.frame))];
-//    self.numberLabel.backgroundColor = [UIColor yellowColor];
-//    [self addSubview:self.numberLabel];
-}
+
 @end

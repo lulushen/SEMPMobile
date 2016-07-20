@@ -77,7 +77,23 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     SDAddTableViewCell * addCell = [tableView dequeueReusableCellWithIdentifier:@"AddCELL" forIndexPath:indexPath];
-    addCell.textLabel.text = @"测试";
+    NSArray *oldArray = [NSArray arrayWithObjects:@"a",@"b",@"c",@"d",@"e",@"f",@"g",@"h",nil];
+    
+    if (indexPath.section == 0) {
+        
+        NSLog(@"-=-=-=-=-=-=-=-%ld",oldArray.count);
+        for (int i = 0; i < oldArray.count; i++) {
+            self.DataButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+//            self.DataButton.frame = CGRectMake(0, 0, Kwidth/4.0 +i, Kwidth/8.0);
+            
+            self.DataButton.backgroundColor = [UIColor redColor];
+            [addCell.contentView addSubview:self.DataButton];
+
+
+        }
+
+    }
+//    addCell.textLabel.text = @"测试";
     return addCell;
 }
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section

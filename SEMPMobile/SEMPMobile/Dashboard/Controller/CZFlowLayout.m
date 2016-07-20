@@ -30,7 +30,6 @@
     return _attributes;
 }
 
-
 - (void)prepareLayout{
 
     [super prepareLayout];
@@ -249,9 +248,10 @@
 - (CGSize)collectionViewContentSize
 {
 
-    CGSize contentSize = CGSizeMake(Kwidth,_Height
-                                    );
+    CGSize contentSize = CGSizeMake(Kwidth,_Height + 50);
     return contentSize;
 }
+
+
 
 @end

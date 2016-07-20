@@ -30,7 +30,7 @@
 @property (nonatomic , strong) D3RecordButton * pofangButtontwo;
 @property (nonatomic , assign) BOOL zhuangtai;
 @end
-static  BOOL _zhuangtai = NO;
+//static  BOOL _zhuangtai = NO;
 @implementation SDXiangqingViewController
 
 - (void)viewDidLoad {

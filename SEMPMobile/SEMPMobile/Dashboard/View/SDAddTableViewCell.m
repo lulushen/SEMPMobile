@@ -17,9 +17,16 @@
         
         self.selectionStyle = UITableViewCellAccessoryNone;
         self.backgroundColor = [UIColor whiteColor];
-       
+        [self makeButton];
     }
     return self;
+}
+- (void)makeButton
+{
+    
+    
+       
+    
 }
 
 - (void)awakeFromNib {

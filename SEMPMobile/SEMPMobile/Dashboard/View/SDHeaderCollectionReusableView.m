@@ -13,8 +13,14 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        UILabel * label12 = [[UILabel alloc] initWithFrame:self.frame];
-        label12.backgroundColor = [UIColor redColor];
+
+        self.tuImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 50, self.frame.size.height)];
+        self.tuImageView.backgroundColor = [UIColor blueColor];
+        [self addSubview:self.tuImageView];
+        self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(self.tuImageView.frame), CGRectGetMinY(self.tuImageView.frame), 200, CGRectGetHeight(self.tuImageView.frame))];
+        self.titleLabel.backgroundColor = [UIColor redColor];
+        [self addSubview:self.titleLabel];
+    
     }
     return self;
 }

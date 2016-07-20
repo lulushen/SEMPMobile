@@ -25,18 +25,19 @@
     self.view.backgroundColor = [UIColor whiteColor];
     self.layout = [[CZFlowLayout alloc] init];
     self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, Kwidth, KTableViewHeight) collectionViewLayout:self.layout];
-    
+    self.layout.headerReferenceSize = CGSizeMake(375, 50);
     self.collectionView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.collectionView];
+
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
     
     [self.collectionView registerClass:[CZCell class] forCellWithReuseIdentifier:@"cell"];
+    
     [self.collectionView registerClass:[SDHeaderCollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"HeaderView"];
     
     UIBarButtonItem * rightButotn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(clickRightButton:)];
     self.navigationItem.rightBarButtonItem = rightButotn;
-    // Do any additional setup after loading the view.
 }
 - (void)clickRightButton:(UIButton *)button
 {
@@ -46,7 +47,7 @@
 }
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return  22;
+    return  9;
 }
 
 
@@ -79,26 +80,41 @@
     self.hidesBottomBarWhenPushed=NO;
     NSLog(@"我是第%ld个",indexPath.row);
 }
+//- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath;
+
+
+
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
+
 {
+    
     UICollectionReusableView *reusableview = nil;
     
-    if (kind == UICollectionElementKindSectionHeader)
-    {
+    if (kind == UICollectionElementKindSectionHeader){
+        
         SDHeaderCollectionReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"HeaderView" forIndexPath:indexPath];
-    
+        
+        NSString *title = [[NSString alloc] initWithFormat:@"指标看板"];
+        
+        headerView.titleLabel.text = title;
         
         reusableview = headerView;
     }
-    reusableview.backgroundColor = [UIColor redColor];
+    
+    if (kind == UICollectionElementKindSectionFooter){
+        
+        //        UICollectionReusableView *footerview = [collectionView dequeueResuableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"FooterView" forIndexPath:indexPath];
+        //
+        //        reusableview = footerview;
+        
+    }
     
     return reusableview;
+    
+    
+    
 }
 
--(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section{
-    CGSize size={320,45};
-    return size;
-}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

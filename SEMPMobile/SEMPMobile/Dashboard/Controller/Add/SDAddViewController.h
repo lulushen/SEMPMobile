@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface SDAddViewController : UIViewController
+@property (nonatomic , strong) UIButton * DataButton;
 
 @end

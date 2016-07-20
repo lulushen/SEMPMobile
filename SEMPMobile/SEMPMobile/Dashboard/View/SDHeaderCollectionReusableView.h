@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface SDHeaderCollectionReusableView : UICollectionReusableView
+@property (nonatomic , strong) UILabel * titleLabel;
+@property (nonatomic , strong) UIImageView * tuImageView;
 
 @end
