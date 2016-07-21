@@ -14,7 +14,6 @@
 		3D030F561D360B1300ABCF82 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D030F1E1D360B1300ABCF82 /* AppDelegate.m */; };
 		3D030F571D360B1300ABCF82 /* SDAddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D030F231D360B1300ABCF82 /* SDAddViewController.m */; };
 		3D030F581D360B1300ABCF82 /* SDDashboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D030F251D360B1300ABCF82 /* SDDashboardViewController.m */; };
-		3D030F591D360B1300ABCF82 /* SDAddTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D030F291D360B1300ABCF82 /* SDAddTableViewCell.m */; };
 		3D030F5A1D360B1300ABCF82 /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D030F2C1D360B1300ABCF82 /* back.png */; };
 		3D030F5B1D360B1300ABCF82 /* demoButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D030F2D1D360B1300ABCF82 /* demoButton.png */; };
 		3D030F5C1D360B1300ABCF82 /* four.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D030F2E1D360B1300ABCF82 /* four.png */; };
@@ -65,9 +64,7 @@
 		3D4BCCA91D38E5D7005177E9 /* 7.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3D4BCC951D38E5D7005177E9 /* 7.jpg */; };
 		3D4BCCAA1D38E5D7005177E9 /* 8.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3D4BCC961D38E5D7005177E9 /* 8.jpg */; };
 		3D4BCCAB1D38E5D7005177E9 /* 9.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3D4BCC971D38E5D7005177E9 /* 9.jpg */; };
-		3D4BCCAE1D38E6D4005177E9 /* SDCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D4BCCAD1D38E6D4005177E9 /* SDCollectionViewCell.m */; };
 		3D4BCCB31D3B7DD2005177E9 /* CZCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D4BCCB01D3B7DD2005177E9 /* CZCell.m */; };
-		3D4BCCB41D3B7DD2005177E9 /* CZFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D4BCCB21D3B7DD2005177E9 /* CZFlowLayout.m */; };
 		3D661E9E1D3607F900A9A099 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D661E9D1D3607F900A9A099 /* main.m */; };
 		3D661EA71D3607F900A9A099 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3D661EA51D3607F900A9A099 /* Main.storyboard */; };
 		3D661EA91D3607F900A9A099 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3D661EA81D3607F900A9A099 /* Assets.xcassets */; };
@@ -89,6 +86,9 @@
 		3D7BA5401D3D1CC900924427 /* Mp3Recorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D7BA5341D3D1CC900924427 /* Mp3Recorder.m */; };
 		3D7BA5411D3D1CC900924427 /* RecordHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D7BA5361D3D1CC900924427 /* RecordHUD.m */; };
 		3D7BA5421D3D203000924427 /* libmp3lame.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D7BA5321D3D1CC900924427 /* libmp3lame.a */; };
+		3DFE326C1D3F20E0006D69D5 /* SDAddCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFE326B1D3F20E0006D69D5 /* SDAddCollectionViewCell.m */; };
+		3DFE32711D3F456F006D69D5 /* SDCollectionReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFE32701D3F456F006D69D5 /* SDCollectionReusableView.m */; };
+		3DFE32751D3F6C2C006D69D5 /* SDoneCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFE32741D3F6C2C006D69D5 /* SDoneCollectionViewCell.m */; };
 		A724B69F67DF9315D0BBD703 /* libPods-SEMPMobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CB42DD177FBA59486DACD0C3 /* libPods-SEMPMobile.a */; };
 /* End PBXBuildFile section */
 
@@ -125,8 +125,6 @@
 		3D030F231D360B1300ABCF82 /* SDAddViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDAddViewController.m; sourceTree = "<group>"; };
 		3D030F241D360B1300ABCF82 /* SDDashboardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDDashboardViewController.h; sourceTree = "<group>"; };
 		3D030F251D360B1300ABCF82 /* SDDashboardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDDashboardViewController.m; sourceTree = "<group>"; };
-		3D030F281D360B1300ABCF82 /* SDAddTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDAddTableViewCell.h; sourceTree = "<group>"; };
-		3D030F291D360B1300ABCF82 /* SDAddTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDAddTableViewCell.m; sourceTree = "<group>"; };
 		3D030F2C1D360B1300ABCF82 /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back.png; sourceTree = "<group>"; };
 		3D030F2D1D360B1300ABCF82 /* demoButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = demoButton.png; sourceTree = "<group>"; };
 		3D030F2E1D360B1300ABCF82 /* four.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = four.png; sourceTree = "<group>"; };
@@ -191,12 +189,8 @@
 		3D4BCC951D38E5D7005177E9 /* 7.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 7.jpg; sourceTree = "<group>"; };
 		3D4BCC961D38E5D7005177E9 /* 8.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 8.jpg; sourceTree = "<group>"; };
 		3D4BCC971D38E5D7005177E9 /* 9.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 9.jpg; sourceTree = "<group>"; };
-		3D4BCCAC1D38E6D4005177E9 /* SDCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDCollectionViewCell.h; sourceTree = "<group>"; };
-		3D4BCCAD1D38E6D4005177E9 /* SDCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDCollectionViewCell.m; sourceTree = "<group>"; };
 		3D4BCCAF1D3B7DD2005177E9 /* CZCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZCell.h; sourceTree = "<group>"; };
 		3D4BCCB01D3B7DD2005177E9 /* CZCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZCell.m; sourceTree = "<group>"; };
-		3D4BCCB11D3B7DD2005177E9 /* CZFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZFlowLayout.h; sourceTree = "<group>"; };
-		3D4BCCB21D3B7DD2005177E9 /* CZFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZFlowLayout.m; sourceTree = "<group>"; };
 		3D661E991D3607F900A9A099 /* SEMPMobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SEMPMobile.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D661E9D1D3607F900A9A099 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		3D661EA61D3607F900A9A099 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -231,6 +225,12 @@
 		3D7BA5341D3D1CC900924427 /* Mp3Recorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Mp3Recorder.m; sourceTree = "<group>"; };
 		3D7BA5351D3D1CC900924427 /* RecordHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordHUD.h; sourceTree = "<group>"; };
 		3D7BA5361D3D1CC900924427 /* RecordHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordHUD.m; sourceTree = "<group>"; };
+		3DFE326A1D3F20E0006D69D5 /* SDAddCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDAddCollectionViewCell.h; sourceTree = "<group>"; };
+		3DFE326B1D3F20E0006D69D5 /* SDAddCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDAddCollectionViewCell.m; sourceTree = "<group>"; };
+		3DFE326F1D3F456F006D69D5 /* SDCollectionReusableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDCollectionReusableView.h; sourceTree = "<group>"; };
+		3DFE32701D3F456F006D69D5 /* SDCollectionReusableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDCollectionReusableView.m; sourceTree = "<group>"; };
+		3DFE32731D3F6C2C006D69D5 /* SDoneCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDoneCollectionViewCell.h; sourceTree = "<group>"; };
+		3DFE32741D3F6C2C006D69D5 /* SDoneCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDoneCollectionViewCell.m; sourceTree = "<group>"; };
 		AAF8661063224B0AF5E9C25A /* Pods-SEMPMobile.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SEMPMobile.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SEMPMobile/Pods-SEMPMobile.debug.xcconfig"; sourceTree = "<group>"; };
 		CB42DD177FBA59486DACD0C3 /* libPods-SEMPMobile.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SEMPMobile.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -393,15 +393,10 @@
 		3D030F201D360B1300ABCF82 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				3D4BCCAF1D3B7DD2005177E9 /* CZCell.h */,
-				3D4BCCB01D3B7DD2005177E9 /* CZCell.m */,
-				3D4BCCB11D3B7DD2005177E9 /* CZFlowLayout.h */,
-				3D4BCCB21D3B7DD2005177E9 /* CZFlowLayout.m */,
-				3D030F241D360B1300ABCF82 /* SDDashboardViewController.h */,
-				3D030F251D360B1300ABCF82 /* SDDashboardViewController.m */,
-				3D030F211D360B1300ABCF82 /* Add */,
 				3D7BA4F31D3C9B2C00924427 /* SDXiangqingViewController.h */,
 				3D7BA4F41D3C9B2C00924427 /* SDXiangqingViewController.m */,
+				3DFE326D1D3F2DE5006D69D5 /* Main */,
+				3D030F211D360B1300ABCF82 /* Add */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -411,6 +406,8 @@
 			children = (
 				3D030F221D360B1300ABCF82 /* SDAddViewController.h */,
 				3D030F231D360B1300ABCF82 /* SDAddViewController.m */,
+				3DFE326F1D3F456F006D69D5 /* SDCollectionReusableView.h */,
+				3DFE32701D3F456F006D69D5 /* SDCollectionReusableView.m */,
 			);
 			path = Add;
 			sourceTree = "<group>";
@@ -425,14 +422,10 @@
 		3D030F271D360B1300ABCF82 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				3D7BA4FE1D3CA74B00924427 /* SDHuaBiView.h */,
-				3D7BA4FF1D3CA74B00924427 /* SDHuaBiView.m */,
-				3D030F281D360B1300ABCF82 /* SDAddTableViewCell.h */,
-				3D030F291D360B1300ABCF82 /* SDAddTableViewCell.m */,
-				3D4BCCAC1D38E6D4005177E9 /* SDCollectionViewCell.h */,
-				3D4BCCAD1D38E6D4005177E9 /* SDCollectionViewCell.m */,
-				3D7BA4A51D3BE5C300924427 /* SDHeaderCollectionReusableView.h */,
-				3D7BA4A61D3BE5C300924427 /* SDHeaderCollectionReusableView.m */,
+				3DFE32721D3F6BF3006D69D5 /* MainCell */,
+				3DFE326E1D3F2E17006D69D5 /* Xiangqing */,
+				3DFE326A1D3F20E0006D69D5 /* SDAddCollectionViewCell.h */,
+				3DFE326B1D3F20E0006D69D5 /* SDAddCollectionViewCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -735,6 +728,37 @@
 			path = imgs;
 			sourceTree = "<group>";
 		};
+		3DFE326D1D3F2DE5006D69D5 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				3D4BCCAF1D3B7DD2005177E9 /* CZCell.h */,
+				3D4BCCB01D3B7DD2005177E9 /* CZCell.m */,
+				3D030F241D360B1300ABCF82 /* SDDashboardViewController.h */,
+				3D030F251D360B1300ABCF82 /* SDDashboardViewController.m */,
+			);
+			name = Main;
+			sourceTree = "<group>";
+		};
+		3DFE326E1D3F2E17006D69D5 /* Xiangqing */ = {
+			isa = PBXGroup;
+			children = (
+				3D7BA4A51D3BE5C300924427 /* SDHeaderCollectionReusableView.h */,
+				3D7BA4A61D3BE5C300924427 /* SDHeaderCollectionReusableView.m */,
+				3D7BA4FE1D3CA74B00924427 /* SDHuaBiView.h */,
+				3D7BA4FF1D3CA74B00924427 /* SDHuaBiView.m */,
+			);
+			name = Xiangqing;
+			sourceTree = "<group>";
+		};
+		3DFE32721D3F6BF3006D69D5 /* MainCell */ = {
+			isa = PBXGroup;
+			children = (
+				3DFE32731D3F6C2C006D69D5 /* SDoneCollectionViewCell.h */,
+				3DFE32741D3F6C2C006D69D5 /* SDoneCollectionViewCell.m */,
+			);
+			name = MainCell;
+			sourceTree = "<group>";
+		};
 		DD05CBB6C5296D9FA71169BF /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -976,8 +1000,8 @@
 				3D7BA5371D3D1CC900924427 /* D3RecordButton.m in Sources */,
 				3D030F651D360B1300ABCF82 /* SDTabBarViewController.m in Sources */,
 				3D030F501D360B1300ABCF82 /* SDFeedBackViewController.m in Sources */,
+				3DFE32751D3F6C2C006D69D5 /* SDoneCollectionViewCell.m in Sources */,
 				3D030F571D360B1300ABCF82 /* SDAddViewController.m in Sources */,
-				3D4BCCB41D3B7DD2005177E9 /* CZFlowLayout.m in Sources */,
 				3D7BA4A71D3BE5C300924427 /* SDHeaderCollectionReusableView.m in Sources */,
 				3D7BA4F51D3C9B2C00924427 /* SDXiangqingViewController.m in Sources */,
 				3D4BCC621D37433B005177E9 /* SDReportViewController.m in Sources */,
@@ -991,13 +1015,13 @@
 				3D030F561D360B1300ABCF82 /* AppDelegate.m in Sources */,
 				3D030F511D360B1300ABCF82 /* SDInfoViewController.m in Sources */,
 				3D4BCC631D37433B005177E9 /* SDRTSectionHeaderViewController.m in Sources */,
-				3D030F591D360B1300ABCF82 /* SDAddTableViewCell.m in Sources */,
 				3D4BCC6D1D375E30005177E9 /* SDUserTableViewCell.m in Sources */,
-				3D4BCCAE1D38E6D4005177E9 /* SDCollectionViewCell.m in Sources */,
 				3D030F7F1D363D4700ABCF82 /* SDPublic.m in Sources */,
 				3D030F641D360B1300ABCF82 /* LoginViewController.m in Sources */,
 				3D7BA5001D3CA74B00924427 /* SDHuaBiView.m in Sources */,
 				3D030F6B1D360B1300ABCF82 /* MBProgressHUD.m in Sources */,
+				3DFE326C1D3F20E0006D69D5 /* SDAddCollectionViewCell.m in Sources */,
+				3DFE32711D3F456F006D69D5 /* SDCollectionReusableView.m in Sources */,
 				3D661E9E1D3607F900A9A099 /* main.m in Sources */,
 				3D7BA5411D3D1CC900924427 /* RecordHUD.m in Sources */,
 				3D030F691D360B1300ABCF82 /* MBProgressHUD+NJ.m in Sources */,
@@ -1147,6 +1171,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/SEMPMobile/Tools/SEMPMobilePCH.pch";
 				INFOPLIST_FILE = SEMPMobile/Info.plist;
@@ -1155,7 +1180,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/SEMPMobile/Dashboard/D3RecordBtutton",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = Datacvg.SEMPMobil;
+				PRODUCT_BUNDLE_IDENTIFIER = Datacvg.SEMPMobile;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
@@ -1168,6 +1193,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/SEMPMobile/Tools/SEMPMobilePCH.pch";
@@ -1177,7 +1203,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/SEMPMobile/Dashboard/D3RecordBtutton",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = Datacvg.SEMPMobil;
+				PRODUCT_BUNDLE_IDENTIFIER = Datacvg.SEMPMobile;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};

@@ -7,10 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "CZFlowLayout.h"
+//#import "CZFlowLayout.h"
+#import "SDAddViewController.h"
 
 
-@interface SDDashboardViewController : UIViewController
+
+@interface SDDashboardViewController : UIViewController <ChuanzhiDelegate>
 
 
 @end

@@ -12,11 +12,26 @@
 
 
 @interface SDUserLoginViewController ()
+{
+    UIAlertController * _alert;
+    UIAlertController * _alertLoginFail;
+    UIAlertController * _alertDidRegiest;
+    NSMutableDictionary *_temDic;
+
+}
+
 @property (nonatomic , strong)NSString * info;
 
 @end
 
 @implementation SDUserLoginViewController
+
+- (void)viewWillAppear:(BOOL)animated{
+    
+    
+    [super viewWillAppear:animated];
+    
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -67,20 +82,54 @@
         NSDictionary * iosExpDict = dict[@"iosExp"];
         self.info = iosExpDict[@"expMsg"];
         NSString * statusInfo = iosExpDict[@"expCode"];
-        if ([statusInfo isEqualToString: @"ERR-5026"]) {
+        
+        if ([statusInfo isEqualToString: @"SUC-1001"]) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                //数据持久化
+                //1.获得NSUserDefaults文件
+                NSUserDefaults * currentUser = [NSUserDefaults standardUserDefaults];
+                //2.向文件中写入内容
+                [currentUser setValue:@"SUC-1001" forKey:@"LoginSuc"];
+                [currentUser setValue:self.userTextField.text forKey:@"userName"];
+                [currentUser setValue:self.passWordTextField.text forKey:@"passWord"];
 
-            dispatch_async(dispatch_get_main_queue(), ^{
-                 [MBProgressHUD showSuccess:self.info];
+                
+                //2.1立即同步
+                [currentUser synchronize];
+
+//                [[NSUserDefaults standardUserDefaults] setObject:currentUser forKey:@"userLogin"];
+
+                NSLog(@"jdsj-=-=-=-=-=-=-;;;;;;;;;;%@",currentUser);
+
+                //3.读取文件
+                NSString * currentUserName = [currentUser objectForKey:@"userName"];
+                NSString * currentPassWord = [currentUser objectForKey:@"passWord"];
+                NSLog(@"-=-=-=-=-=%@,-=-=-=-=-=%@",currentUserName,currentPassWord);
+                
+    //                    //创建一个消息对象
+//                    NSNotification * notice = [NSNotification notificationWithName:@"123" object:nil userInfo:@{@"1":@"123"}];
+                    //发送消息
+                    [MBProgressHUD showSuccess:self.info];
+
+                    // 延迟1.5秒跳转页面
+                    [self performSelector:@selector(GoToMainView) withObject:self afterDelay:1.5f];
+//                [self presentViewController:_alert animated:YES completion:^{
+//
+//
+//                    }];
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"DidLogin" object:nil];
+
+                
+
+                
             });
+          
         } else {
+            
             dispatch_async(dispatch_get_main_queue(), ^{
-                
                 [MBProgressHUD showSuccess:self.info];
-                
-                // 延迟1.5秒跳转页面
-                [self performSelector:@selector(GoToMainView) withObject:nil afterDelay:1.5f];
-                
             });
+           
             
         }
         
@@ -101,6 +150,10 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    [self.userTextField resignFirstResponder];
+    [self.passWordTextField resignFirstResponder];
+}
 /*
  #pragma mark - Navigation
  

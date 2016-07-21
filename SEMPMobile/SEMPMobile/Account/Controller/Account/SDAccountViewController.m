@@ -82,9 +82,13 @@
 //    {
 //        [self.headerImageButton setBackgroundImage:[UIImage imageNamed:@"head"] forState:UIControlStateNormal];
 //    }
-    UILabel * userLabel = [[UILabel alloc] initWithFrame:CGRectMake(Kwidth/2-100*KWidth6scale, CGRectGetMaxY(self.headerImageButton.frame) + 10*KWidth6scale, 100*KWidth6scale, 30*KWidth6scale)];
+    NSUserDefaults * currentUser = [NSUserDefaults standardUserDefaults];
+    NSString * currentUserName = [currentUser objectForKey:@"userName"];
+
+
+    UILabel * userLabel = [[UILabel alloc] initWithFrame:CGRectMake(Kwidth/2-100*KWidth6scale, CGRectGetMaxY(self.headerImageButton.frame) + 10*KWidth6scale, 200*KWidth6scale, 30*KWidth6scale)];
     
-    userLabel.text = @"用户名 :";
+    userLabel.text =[NSString stringWithFormat:@"用户名 : %@",currentUserName];
     
     userLabel.textColor = [UIColor whiteColor];
     

@@ -8,7 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol ChuanzhiDelegate <NSObject>
+
+- (void)chuanzhi:(NSMutableArray *)array;
+
+@end
+
 @interface SDAddViewController : UIViewController
-@property (nonatomic , strong) UIButton * DataButton;
+
+@property (nonatomic , weak) id<ChuanzhiDelegate> delegate;
 
 @end

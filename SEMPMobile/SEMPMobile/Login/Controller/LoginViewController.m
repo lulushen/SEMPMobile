@@ -18,6 +18,19 @@
 @end
 
 @implementation LoginViewController
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    NSUserDefaults * currentUser = [NSUserDefaults standardUserDefaults];
+    NSString * islogin = [currentUser objectForKey:@"LoginSuc"];
+    NSLog(@"-==-=-=-=-=-=-=-=-=-kkkokoko:%@",islogin);
+    if ([islogin isEqualToString:@"SUC-1001"]) {
+        [self LoginSucceed];
+
+    }
+    
+}
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -71,7 +84,7 @@
     
     [self presentViewController:TabBarView animated:YES completion:nil];
     
-    
+//    [self.navigationController pushViewController:TabBarView animated:YES];
     
 }
 - (void)didReceiveMemoryWarning {

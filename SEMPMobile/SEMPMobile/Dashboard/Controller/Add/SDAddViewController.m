@@ -7,30 +7,57 @@
 //
 
 #import "SDAddViewController.h"
-#import "SDAddTableViewCell.h"
+#import "SDAddCollectionViewCell.h"
+#import "SDCollectionReusableView.h"
 
-@interface SDAddViewController ()<UITableViewDelegate,UITableViewDataSource>
+@interface SDAddViewController ()<UICollectionViewDelegate,UICollectionViewDataSource>
 
-// 表
-@property (nonatomic , strong) UITableView * AddTabelView;
+// collection
+@property (nonatomic , strong)UICollectionView * FirstCollectionView;
+
+@property (nonatomic , strong)UICollectionView * TwoCollectctionView;
+
+@property (nonatomic , strong)NSMutableArray * dataArray;
+
+@property (nonatomic , strong)NSMutableArray * array2;
+
 
 @end
 
 @implementation SDAddViewController
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    
+    //获取通知中心单例对象
+//    NSNotificationCenter * center = [NSNotificationCenter defaultCenter];
+//    //添加当前类对象为一个观察者，name和object设置为nil，表示接收一切通知
+//    [center addObserver:self selector:@selector(notice:) name:@"123" object:nil];
+
+    
+    
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.userInteractionEnabled = YES;
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationItem.title = @"Add";
+
+    self.tabBarController.tabBar.hidden = YES;
+   
+    _dataArray = [NSMutableArray  arrayWithObjects:@"a",@"b",@"1",@"c",@"3",@"4",nil];
+    
+    _array2 = [NSMutableArray  arrayWithObjects:@"1",@"2",@"c",@"4",@"5",@"6",nil];
 
     // 自定义返回按钮LeftButtonItme
     [self makeLeftButtonItme];
     
     // 定义tabelView
-    [self makeAddTabelView];
+    [self makeCollectionView];
     
     // Do any additional setup after loading the view.
 }
+
 - (void)makeLeftButtonItme
 {
     UIImage * backImage = [UIImage imageNamed:@"back.png"];
@@ -42,69 +69,194 @@
     self.navigationItem.leftBarButtonItem = leftBarButtonItem;
    
 }
+
 - (void)backButtonClick:(UIButton *)button {
     
     [self.navigationController popViewControllerAnimated:YES];
 }
-- (void)makeAddTabelView
+- (void)makeCollectionView
 {
-    self.AddTabelView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, Kwidth, Kheight) style:UITableViewStyleGrouped];
-    self.AddTabelView.delegate = self;
-    self.AddTabelView.dataSource = self;
+    UILabel * label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, Kwidth, 40)];
+    label.backgroundColor = [UIColor whiteColor];
+    label.text = @"   推荐指标";
+    [self.view addSubview:label];
     
-    [self.AddTabelView registerClass:[SDAddTableViewCell class]
-              forCellReuseIdentifier:@"AddCELL"];
     
-    [self.view addSubview:self.AddTabelView];
+    UICollectionViewFlowLayout * layout = [[UICollectionViewFlowLayout alloc] init];
+    layout.sectionInset = UIEdgeInsetsMake(10, 10, 10, 10);
+    
+    _FirstCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(label.frame), Kwidth, Kheight/3.0-40) collectionViewLayout:layout];
+    
+    layout.scrollDirection = UICollectionViewScrollDirectionVertical;//滚动方向
+    layout.minimumLineSpacing = 15;
+    layout.minimumInteritemSpacing = 8;
+    _FirstCollectionView.backgroundColor = [UIColor whiteColor];
+    
+    _FirstCollectionView.tag = 1;
+    
+    _FirstCollectionView.delegate = self;
+    
+    _FirstCollectionView.dataSource = self;
+    
+//    _FirstCollectionView.userInteractionEnabled = YES;
+    
+    [self.view addSubview:_FirstCollectionView];
+    
+    UILabel * label2 = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_FirstCollectionView.frame), Kwidth, 40)];
+    label2.backgroundColor = [UIColor whiteColor];
+    label2.text = @"   指标";
+    [self.view addSubview:label2];
+    
+    UICollectionViewFlowLayout * layout2 = [[UICollectionViewFlowLayout alloc] init];
+   layout2.sectionInset = UIEdgeInsetsMake(10, 10, 10, 10);
+    layout2.scrollDirection = UICollectionViewScrollDirectionVertical;//滚动方向
+    layout2.minimumLineSpacing = 15;
+    layout2.minimumInteritemSpacing = 8;
+    _TwoCollectctionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(label2.frame), Kwidth, Kheight*2/3.0-80)collectionViewLayout:layout2];
+    
+    _TwoCollectctionView.backgroundColor = [UIColor whiteColor];
+    
+    _TwoCollectctionView.tag = 2;
+    
+    _TwoCollectctionView.delegate = self;
+    
+    _TwoCollectctionView.dataSource = self;
+    
+    [self.view addSubview:_TwoCollectctionView];
+    
+    [_FirstCollectionView  registerClass:[SDAddCollectionViewCell class] forCellWithReuseIdentifier:@"addcell"];
+    [_FirstCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"headerone"];
+
+    [_TwoCollectctionView registerClass:[SDAddCollectionViewCell class] forCellWithReuseIdentifier:@"addcell"];
+
+    [_TwoCollectctionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"headerone"];
+
+    
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return 2;
+    NSLog(@"_dataArray  Count : %ld",_dataArray.count);
+    NSLog(@"_dataArray  Count : %ld",_array2.count);
+
+    if (collectionView.tag == 1) {
+        return _dataArray.count;
+    } else {
+        return _array2.count;
+    }
+
 }
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
     return 1;
 }
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 30*KHeight6scale;
-}
-- ( CGFloat )tableView:( UITableView *)tableView heightForRowAtIndexPath:( NSIndexPath *)indexPath
-{
-    return 200*KHeight6scale;
-}
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    SDAddTableViewCell * addCell = [tableView dequeueReusableCellWithIdentifier:@"AddCELL" forIndexPath:indexPath];
-    NSArray *oldArray = [NSArray arrayWithObjects:@"a",@"b",@"c",@"d",@"e",@"f",@"g",@"h",nil];
-    
-    if (indexPath.section == 0) {
+    SDAddCollectionViewCell * addcell = [collectionView dequeueReusableCellWithReuseIdentifier:@"addcell" forIndexPath:indexPath];
+    if (collectionView.tag == 1) {
         
-        NSLog(@"-=-=-=-=-=-=-=-%ld",oldArray.count);
-        for (int i = 0; i < oldArray.count; i++) {
-            self.DataButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-//            self.DataButton.frame = CGRectMake(0, 0, Kwidth/4.0 +i, Kwidth/8.0);
+        UILabel * label = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(addcell.contentView.frame)-10, 0, 10, 10)];
+        label.backgroundColor = [UIColor redColor];
+        [addcell addSubview:label];
+        for (int i = 0; i< _dataArray.count;i++) {
             
-            self.DataButton.backgroundColor = [UIColor redColor];
-            [addCell.contentView addSubview:self.DataButton];
-
-
+            addcell.titleLab.text = _dataArray[indexPath.row];
         }
-
-    }
-//    addCell.textLabel.text = @"测试";
-    return addCell;
-}
--(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
-    if (section == 0) {
-        return @"我的指标";
+        
     }else{
-        return @"推荐指标";
+        for (int i = 0; i< _array2.count;i++) {
+            
+            addcell.titleLab.text = _array2[indexPath.row];
+            addcell.titleLab.backgroundColor = [UIColor grayColor];
+        }
+        
+        
     }
+    return addcell;
+}
+// cell 的大小
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    return CGSizeMake((Kwidth - 44)/4,(Kwidth - 35)/8 );
+}
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+   
+    
+    if (collectionView.tag == 1) {
+        
+        [_array2 addObject:_dataArray[indexPath.row]];
+
+        [_dataArray removeObject:_dataArray[indexPath.row]];
+        
+    }else{
+        [_dataArray addObject:_array2[indexPath.row]];
+
+        [_array2 removeObject:_array2[indexPath.row]];
+    }
+    //创建一个消息对象
+    NSNotification * notice = [NSNotification notificationWithName:@"123" object:nil userInfo:_dataArray];
+    //发送消息
+    [[NSNotificationCenter defaultCenter]postNotification:notice];
+    
+    [self chuanzhi];
+    [_FirstCollectionView reloadData];
+    [_TwoCollectctionView reloadData];
+    
+    
 }
 
+- (void)chuanzhi{
+    //检测代理有没有实现changeStatus:方法
+    if([self.delegate respondsToSelector:@selector(chuanzhi:)]){
+        NSLog(@"-=-=-=-=-=-=-=-=-=-=-=-=-=-=%ld",_dataArray.count);
+        [self.delegate chuanzhi:_dataArray];
+    }else{
+        NSLog(@"代理没有实现changeStatus:方法");
+    }
+    
+}
+//- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
+//{
+//    
+//    SDCollectionReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"headerone" forIndexPath:indexPath];
+//    headerView.backgroundColor = [UIColor whiteColor];
+//
+//    if (collectionView.tag == 1) {
+//        if([kind isEqualToString:UICollectionElementKindSectionHeader])
+//        {
+//            if(headerView == nil)
+//            {
+//                headerView = [[SDCollectionReusableView alloc] init];
+//                headerView.titleLabel.text = @"342423423";
+//            }
+//            
+//            return headerView;
+//        }
+//    }else{
+//        
+//        if([kind isEqualToString:UICollectionElementKindSectionHeader])
+//        {
+//           
+//            if(headerView == nil)
+//            {
+//                headerView = [[SDCollectionReusableView alloc] init];
+//                headerView.titleLabel.text = @"vjkfdkj";
+//            }
+//            
+//            return headerView;
+//        }
+//
+//        
+//    }
+//    return nil;
+//    }
+//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
+//{
+//    return (CGSize){Kwidth,44};
+//}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
