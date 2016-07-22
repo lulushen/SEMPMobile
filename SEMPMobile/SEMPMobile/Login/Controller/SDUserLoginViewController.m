@@ -5,10 +5,11 @@
 //  Created by 上海数聚 on 16/7/9.
 //  Copyright © 2016年 上海数聚. All rights reserved.
 //
-
+#import <CommonCrypto/CommonDigest.h>
 #import "SDUserLoginViewController.h"
 #import "SDTabBarViewController.h"
 #import "MBProgressHUD+NJ.h"
+
 
 
 @interface SDUserLoginViewController ()<UITextFieldDelegate>
@@ -25,7 +26,19 @@
 @end
 
 @implementation SDUserLoginViewController
-
+- (NSString *)md5:(NSString *)str
+{
+    const char *cStr = [str UTF8String];
+    unsigned char result[16];
+    CC_MD5(cStr, (int)strlen(cStr), result); // This is the md5 call
+    return [NSString stringWithFormat:
+            @"%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x",
+            result[0], result[1], result[2], result[3],
+            result[4], result[5], result[6], result[7],
+            result[8], result[9], result[10], result[11],
+            result[12], result[13], result[14], result[15]
+            ]; 
+}
 - (void)viewWillAppear:(BOOL)animated{
 
     [super viewWillAppear:animated];
@@ -34,6 +47,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    [self  md5:@"lllljiinin"];
+    
+    NSLog(@"-=-=-=-%@",[self  md5:@"lllljiinin"]);
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"userLogin.png"]];
     // 调用设置控件的方法
     [self makeUI];

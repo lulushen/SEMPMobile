@@ -35,6 +35,8 @@
 		3D030F751D36366F00ABCF82 /* add.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D030F741D36366F00ABCF82 /* add.png */; };
 		3D030F7C1D36394600ABCF82 /* SDAddReportViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D030F7B1D36394600ABCF82 /* SDAddReportViewController.m */; };
 		3D030F7F1D363D4700ABCF82 /* SDPublic.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D030F7E1D363D4700ABCF82 /* SDPublic.m */; };
+		3D26EA7C1D42012600B3220D /* XWDragCellCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D26EA7B1D42012600B3220D /* XWDragCellCollectionView.m */; };
+		3D26EA801D42135E00B3220D /* SDdateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D26EA7F1D42135E00B3220D /* SDdateViewController.m */; };
 		3D4BCC621D37433B005177E9 /* SDReportViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D4BCC5E1D37433B005177E9 /* SDReportViewController.m */; };
 		3D4BCC631D37433B005177E9 /* SDRTSectionHeaderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D4BCC601D37433B005177E9 /* SDRTSectionHeaderViewController.m */; };
 		3D4BCC661D374365005177E9 /* SDReportDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D4BCC651D374365005177E9 /* SDReportDetailViewController.m */; };
@@ -66,6 +68,10 @@
 		3D7BA5401D3D1CC900924427 /* Mp3Recorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D7BA5341D3D1CC900924427 /* Mp3Recorder.m */; };
 		3D7BA5411D3D1CC900924427 /* RecordHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D7BA5361D3D1CC900924427 /* RecordHUD.m */; };
 		3D7BA5421D3D203000924427 /* libmp3lame.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D7BA5321D3D1CC900924427 /* libmp3lame.a */; };
+		3D7F1F6A1D41B65A00E8B26A /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D7F1F691D41B65A00E8B26A /* WebKit.framework */; };
+		3D7F1F6C1D41B6F400E8B26A /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D7F1F6B1D41B6F400E8B26A /* JavaScriptCore.framework */; };
+		3D7F1F6E1D41C69B00E8B26A /* baidu.html in Resources */ = {isa = PBXBuildFile; fileRef = 3D7F1F6D1D41C69B00E8B26A /* baidu.html */; };
+		3D7F1F701D41CD5800E8B26A /* test.html in Resources */ = {isa = PBXBuildFile; fileRef = 3D7F1F6F1D41CD5800E8B26A /* test.html */; };
 		3DFE326C1D3F20E0006D69D5 /* SDAddCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFE326B1D3F20E0006D69D5 /* SDAddCollectionViewCell.m */; };
 		3DFE32711D3F456F006D69D5 /* SDCollectionReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFE32701D3F456F006D69D5 /* SDCollectionReusableView.m */; };
 		3DFE32751D3F6C2C006D69D5 /* SDoneCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFE32741D3F6C2C006D69D5 /* SDoneCollectionViewCell.m */; };
@@ -135,6 +141,10 @@
 		3D030F7D1D363D4700ABCF82 /* SDPublic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDPublic.h; sourceTree = "<group>"; };
 		3D030F7E1D363D4700ABCF82 /* SDPublic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDPublic.m; sourceTree = "<group>"; };
 		3D030F801D363F5200ABCF82 /* SEMPMobilePCH.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SEMPMobilePCH.pch; sourceTree = "<group>"; };
+		3D26EA7B1D42012600B3220D /* XWDragCellCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XWDragCellCollectionView.m; sourceTree = "<group>"; };
+		3D26EA7D1D42013200B3220D /* XWDragCellCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XWDragCellCollectionView.h; sourceTree = "<group>"; };
+		3D26EA7E1D42135E00B3220D /* SDdateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDdateViewController.h; sourceTree = "<group>"; };
+		3D26EA7F1D42135E00B3220D /* SDdateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDdateViewController.m; sourceTree = "<group>"; };
 		3D4BCC5D1D37433B005177E9 /* SDReportViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDReportViewController.h; sourceTree = "<group>"; };
 		3D4BCC5E1D37433B005177E9 /* SDReportViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDReportViewController.m; sourceTree = "<group>"; };
 		3D4BCC5F1D37433B005177E9 /* SDRTSectionHeaderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDRTSectionHeaderViewController.h; sourceTree = "<group>"; };
@@ -185,6 +195,10 @@
 		3D7BA5341D3D1CC900924427 /* Mp3Recorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Mp3Recorder.m; sourceTree = "<group>"; };
 		3D7BA5351D3D1CC900924427 /* RecordHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordHUD.h; sourceTree = "<group>"; };
 		3D7BA5361D3D1CC900924427 /* RecordHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordHUD.m; sourceTree = "<group>"; };
+		3D7F1F691D41B65A00E8B26A /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		3D7F1F6B1D41B6F400E8B26A /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		3D7F1F6D1D41C69B00E8B26A /* baidu.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = baidu.html; sourceTree = "<group>"; };
+		3D7F1F6F1D41CD5800E8B26A /* test.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = test.html; sourceTree = "<group>"; };
 		3DFE326A1D3F20E0006D69D5 /* SDAddCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDAddCollectionViewCell.h; sourceTree = "<group>"; };
 		3DFE326B1D3F20E0006D69D5 /* SDAddCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDAddCollectionViewCell.m; sourceTree = "<group>"; };
 		3DFE326F1D3F456F006D69D5 /* SDCollectionReusableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDCollectionReusableView.h; sourceTree = "<group>"; };
@@ -200,6 +214,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3D7F1F6C1D41B6F400E8B26A /* JavaScriptCore.framework in Frameworks */,
+				3D7F1F6A1D41B65A00E8B26A /* WebKit.framework in Frameworks */,
 				3D7BA5421D3D203000924427 /* libmp3lame.a in Frameworks */,
 				3D7BA4FD1D3CA70B00924427 /* QuartzCore.framework in Frameworks */,
 				A724B69F67DF9315D0BBD703 /* libPods-SEMPMobile.a in Frameworks */,
@@ -226,6 +242,8 @@
 		35E455A9BBD1ED0F9ECED9C4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3D7F1F6B1D41B6F400E8B26A /* JavaScriptCore.framework */,
+				3D7F1F691D41B65A00E8B26A /* WebKit.framework */,
 				3D7BA4FC1D3CA70B00924427 /* QuartzCore.framework */,
 				CB42DD177FBA59486DACD0C3 /* libPods-SEMPMobile.a */,
 			);
@@ -438,6 +456,8 @@
 				3D030F3B1D360B1300ABCF82 /* SDTabBarViewController.m */,
 				3D030F3C1D360B1300ABCF82 /* SDUserLoginViewController.h */,
 				3D030F3D1D360B1300ABCF82 /* SDUserLoginViewController.m */,
+				3D26EA7E1D42135E00B3220D /* SDdateViewController.h */,
+				3D26EA7F1D42135E00B3220D /* SDdateViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -459,6 +479,8 @@
 		3D030F401D360B1300ABCF82 /* ReportCenter */ = {
 			isa = PBXGroup;
 			children = (
+				3D7F1F6F1D41CD5800E8B26A /* test.html */,
+				3D7F1F6D1D41C69B00E8B26A /* baidu.html */,
 				3D030F411D360B1300ABCF82 /* Controller */,
 				3D030F441D360B1300ABCF82 /* Model */,
 				3D030F451D360B1300ABCF82 /* View */,
@@ -665,6 +687,8 @@
 			children = (
 				3D4BCCAF1D3B7DD2005177E9 /* CZCell.h */,
 				3D4BCCB01D3B7DD2005177E9 /* CZCell.m */,
+				3D26EA7D1D42013200B3220D /* XWDragCellCollectionView.h */,
+				3D26EA7B1D42012600B3220D /* XWDragCellCollectionView.m */,
 				3D030F241D360B1300ABCF82 /* SDDashboardViewController.h */,
 				3D030F251D360B1300ABCF82 /* SDDashboardViewController.m */,
 			);
@@ -810,6 +834,7 @@
 			files = (
 				3D7BA53D1D3D1CC900924427 /* mic_5.png in Resources */,
 				3D030F731D36234900ABCF82 /* 12.png in Resources */,
+				3D7F1F6E1D41C69B00E8B26A /* baidu.html in Resources */,
 				3D030F5A1D360B1300ABCF82 /* back.png in Resources */,
 				3D661EAC1D3607F900A9A099 /* LaunchScreen.storyboard in Resources */,
 				3D4BCC771D38B202005177E9 /* switchTwo_off@2x.png in Resources */,
@@ -835,6 +860,7 @@
 				3D030F6A1D360B1300ABCF82 /* MBProgressHUD.bundle in Resources */,
 				3D7BA5391D3D1CC900924427 /* mic_1.png in Resources */,
 				3D7BA53B1D3D1CC900924427 /* mic_3.png in Resources */,
+				3D7F1F701D41CD5800E8B26A /* test.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -916,6 +942,7 @@
 				3D030F571D360B1300ABCF82 /* SDAddViewController.m in Sources */,
 				3D7BA4A71D3BE5C300924427 /* SDHeaderCollectionReusableView.m in Sources */,
 				3D7BA4F51D3C9B2C00924427 /* SDXiangqingViewController.m in Sources */,
+				3D26EA7C1D42012600B3220D /* XWDragCellCollectionView.m in Sources */,
 				3D4BCC621D37433B005177E9 /* SDReportViewController.m in Sources */,
 				3D030F661D360B1300ABCF82 /* SDUserLoginViewController.m in Sources */,
 				3D030F541D360B1300ABCF82 /* SDSetViewController.m in Sources */,
@@ -931,6 +958,7 @@
 				3D030F7F1D363D4700ABCF82 /* SDPublic.m in Sources */,
 				3D030F641D360B1300ABCF82 /* LoginViewController.m in Sources */,
 				3D7BA5001D3CA74B00924427 /* SDHuaBiView.m in Sources */,
+				3D26EA801D42135E00B3220D /* SDdateViewController.m in Sources */,
 				3D030F6B1D360B1300ABCF82 /* MBProgressHUD.m in Sources */,
 				3DFE326C1D3F20E0006D69D5 /* SDAddCollectionViewCell.m in Sources */,
 				3DFE32711D3F456F006D69D5 /* SDCollectionReusableView.m in Sources */,

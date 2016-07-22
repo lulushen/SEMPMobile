@@ -36,6 +36,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    //  适配
+    self.edgesForExtendedLayout = UIRectEdgeNone;
     self.view.userInteractionEnabled = YES;
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationItem.title = @"Add";
@@ -85,7 +87,8 @@
     //发送消息
     [[NSNotificationCenter defaultCenter]postNotificationName:@"ADDArrayChange" object:nil];
     
-    
+    self.tabBarController.tabBar.hidden = NO;
+
     [self.navigationController popViewControllerAnimated:YES];
 }
 - (void)makeCollectionView

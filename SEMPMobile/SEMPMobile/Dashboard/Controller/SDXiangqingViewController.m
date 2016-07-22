@@ -45,7 +45,7 @@
     
     
     
-    UITabBar * view = [[UITabBar alloc] initWithFrame:CGRectMake(0, KTableViewHeight-KTabBarFrameHeight, Kwidth, KTabBarFrameHeight)];
+    UITabBar * view = [[UITabBar alloc] initWithFrame:CGRectMake(0, Kheight-KTabBarFrameHeight, Kwidth, KTabBarFrameHeight)];
     NSLog(@"-=-=-=-=-=%f",KTableViewHeight-KTabBarFrameHeight);
     view.backgroundColor = [UIColor whiteColor];
     UIButton * button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
@@ -88,8 +88,8 @@
     
         [self.huabiV removeFromSuperview];
         [self.textView removeFromSuperview];
-        self.huabiV = [[SDHuaBiView alloc]initWithFrame:CGRectMake(0, 0, Kwidth, KTableViewHeight - KTabBarFrameHeight)];
-    
+        self.huabiV = [[SDHuaBiView alloc]initWithFrame:CGRectMake(0, KSNHeight, Kwidth, KTableViewHeight)];
+
         [self.huabiV addGestureRecognizer:_longPressGr];
 //        [self.huabiV setUserInteractionEnabled:YES];
     
@@ -127,7 +127,7 @@
     
     if (button.selected == self.zhuangtai) {
         
-        _luyinView = [[UIView alloc] initWithFrame:CGRectMake(Kwidth/4.0  , KTableViewHeight- KTabBarFrameHeight - 50, Kwidth/4.0, 50)];
+        _luyinView = [[UIView alloc] initWithFrame:CGRectMake(Kwidth/4.0  , KTableViewHeight + KSNHeight - 50, Kwidth/4.0, 50)];
         _luyinView.backgroundColor = [UIColor redColor];
         
         //    [self.view addSubview:_luyinView];
@@ -151,7 +151,6 @@
         [_pofangButtontwo addTarget:self action:@selector(pofangButtontwoClick:) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:_luyinView];
         
-\
         _zhuangtai = YES;
         NSLog(@"=-=-=-=-=-123");
         [_luyinButtontwo initRecord:self maxtime:60 title:@"按住录音"];
@@ -266,7 +265,7 @@ static int ScreenshotIndex = 0;
     UIGraphicsEndImageContext();
     CGImageRef imageRef = viewImage.CGImage;
     //    CGRect rect = CGRectMake(166, 211, 426, 320);//这里可以设置想要截图的区域
-    CGRect rect = CGRectMake(0, 0, Kwidth * 2, (KTableViewHeight-KTabBarFrameHeight)*2);//这里可以设置想要截图的区域
+    CGRect rect = CGRectMake(0, KSNHeight, Kwidth * 2, (Kheight)*2);//这里可以设置想要截图的区域
     CGImageRef imageRefRect =CGImageCreateWithImageInRect(imageRef, rect);
     UIImage *sendImage = [[UIImage alloc] initWithCGImage:imageRefRect];
     UIImageWriteToSavedPhotosAlbum(sendImage, nil, nil, nil);//保存图片到照片库

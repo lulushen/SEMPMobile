@@ -34,13 +34,16 @@
     // 指标
     SDDashboardViewController * DashboardView = [[SDDashboardViewController alloc] init];
     UINavigationController * DashNC = [[UINavigationController alloc] initWithRootViewController:DashboardView];
-    DashboardView.navigationItem.title = @"Dashboard";
+//    DashboardView.navigationItem.title = @"Dashboard";
+//    DashboardView.navigationItem.titleView;
     //选择自己喜欢的颜色
     UIColor * color = [UIColor whiteColor];
     //这里我们设置的是颜色，还可以设置shadow等，具体可以参见api
     NSDictionary * dict = [NSDictionary dictionaryWithObject:color forKey:NSForegroundColorAttributeName];
     DashNC.navigationBar.titleTextAttributes = dict;
-    [DashboardView.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav.png"] forBarMetrics:UIBarMetricsDefault];
+//    [DashboardView.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav.png"] forBarMetrics:UIBarMetricsDefault];
+    DashboardView.navigationController.navigationBar.barTintColor = [UIColor orangeColor];
+    [UINavigationBar appearance].tintColor = [UIColor whiteColor];
     DashboardView.tabBarItem = [[UITabBarItem alloc]initWithTitle:@"指标" image:[UIImage imageNamed:@"iconfont-biji.png"] tag:100];
     DashboardView.tabBarItem.badgeValue = @"10";
     

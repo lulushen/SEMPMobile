@@ -11,9 +11,10 @@
 #import "SDHeaderCollectionReusableView.h"
 #import "SDXiangqingViewController.h"
 #import "SDoneCollectionViewCell.h"
+#import "XWDragCellCollectionView.h"
 
-@interface SDDashboardViewController ()<UICollectionViewDelegate,UICollectionViewDataSource>
-@property (strong, nonatomic)  UICollectionView *collectionView;
+@interface SDDashboardViewController ()<XWDragCellCollectionViewDataSource, XWDragCellCollectionViewDelegate>
+@property (strong, nonatomic)  XWDragCellCollectionView *collectionView;
 @property (nonatomic , strong) SDoneCollectionViewCell *cell ;
 
 @property (nonatomic , strong) UICollectionViewFlowLayout * layout;
@@ -40,19 +41,16 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     self.layout = [[UICollectionViewFlowLayout alloc] init];
-    self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, Kwidth, KTableViewHeight) collectionViewLayout:self.layout];
+    _collectionView = [[XWDragCellCollectionView alloc] initWithFrame:CGRectMake(0, 0, Kwidth, Kheight) collectionViewLayout:self.layout];
     _layout.minimumLineSpacing = 15;
     _layout.minimumInteritemSpacing = 20;
     _layout.sectionInset = UIEdgeInsetsMake(10, 10, 10, 10);;
     self.layout.headerReferenceSize = CGSizeMake(Kwidth, 40);
-    self.collectionView.backgroundColor = [UIColor whiteColor];
+    _collectionView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.collectionView];
 
-    //此处给其增加长按手势，用此手势触发cell移动效果
-    UILongPressGestureRecognizer *longGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handlelongGesture:)];
-    [_collectionView addGestureRecognizer:longGesture];
-    self.collectionView.delegate = self;
-    self.collectionView.dataSource = self;
+    _collectionView.delegate = self;
+    _collectionView.dataSource = self;
     _array =  [[[NSUserDefaults standardUserDefaults] objectForKey:@"tuijianArray"] mutableCopy];
    
     if (_array.count == 0) {
@@ -61,9 +59,9 @@
 
     }
 
-    [self.collectionView registerClass:[SDoneCollectionViewCell class] forCellWithReuseIdentifier:@"cell"];
+    [_collectionView registerClass:[SDoneCollectionViewCell class] forCellWithReuseIdentifier:@"cell"];
     
-    [self.collectionView registerClass:[SDHeaderCollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"HeaderView"];
+    [_collectionView registerClass:[SDHeaderCollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"HeaderView"];
     
     UIBarButtonItem * rightButotn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(clickRightButton:)];
     self.navigationItem.rightBarButtonItem = rightButotn;
@@ -95,7 +93,7 @@
 - (void)shuzuCount
 {
     _array =  [[[NSUserDefaults standardUserDefaults] objectForKey:@"tuijianArray"] mutableCopy];
-    [_collectionView reloadData];
+
 }
 
 
@@ -103,13 +101,6 @@
 {
     
     _cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
- 
-//    UIView * view = (UIView *)[cell.contentView viewWithTag:indexPath.row];
-//    for (view in cell.contentView.subviews) {
-//       
-//        [view removeFromSuperview];
-//        
-//    }
 
     _cell.titLabone.tag = indexPath.row;
     _cell.titLabone.text = _array[indexPath.row];
@@ -151,8 +142,6 @@
     self.hidesBottomBarWhenPushed=NO;
     NSLog(@"我是第%ld个",indexPath.row);
 }
-//- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath;
-
 
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
@@ -186,68 +175,56 @@
     
 }
 
-- (void)handlelongGesture:(UILongPressGestureRecognizer *)longGesture {
-    //判断手势状态
-    switch (longGesture.state) {
-        case UIGestureRecognizerStateBegan:{
-            //判断手势落点位置是否在路径上
-            NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:[longGesture locationInView:self.collectionView]];
-            if (indexPath == nil) {
-                break;
-            }
-            //在路径上则开始移动该路径上的cell
-            [self.collectionView beginInteractiveMovementForItemAtIndexPath:indexPath];
-        }
-            break;
-        case UIGestureRecognizerStateChanged:
-            //移动过程当中随时更新cell位置
-            [self.collectionView updateInteractiveMovementTargetPosition:[longGesture locationInView:self.collectionView]];
-            break;
-        case UIGestureRecognizerStateEnded:
-            //移动结束后关闭cell移动
-            [self.collectionView endInteractiveMovement];
-            break;
-        default:
-            [self.collectionView cancelInteractiveMovement];
-            break;
-    }
+- (NSArray *)dataSourceArrayOfCollectionView:(XWDragCellCollectionView *)collectionView{
+    return _array;
 }
 
-- (BOOL)collectionView:(UICollectionView *)collectionView canMoveItemAtIndexPath:(NSIndexPath *)indexPath{
-    //返回YES允许其item移动
-    return YES;
-}
+- (void)dragCellCollectionView:(XWDragCellCollectionView *)collectionView newDataArrayAfterMove:(NSArray *)newDataArray{
+    _array = [newDataArray mutableCopy];
+    NSLog(@"-=-=-=%@",_array);
+//    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"tuijianArray"];
+//    
+//    
+    [[NSUserDefaults standardUserDefaults]setObject:_array forKey:@"tuijianArray"];
+//    //发送消息
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"ADDArrayChange" object:nil];
 
-- (void)collectionView:(UICollectionView *)collectionView moveItemAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath*)destinationIndexPath {
-//    取出源item数据
-    id objc = [_array objectAtIndex:sourceIndexPath.item];
-  
-    //从资源数组中移除该数据
-    [_array removeObject:objc];
-    //将数据插入到资源数组中的目标位置上
-    [_array insertObject:objc atIndex:destinationIndexPath.item];
+}
+//- (BOOL)collectionView:(UICollectionView *)collectionView canMoveItemAtIndexPath:(NSIndexPath *)indexPath{
+//    //返回YES允许其item移动
+//    return YES;
+//}
+//
+//- (void)collectionView:(UICollectionView *)collectionView moveItemAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath*)destinationIndexPath {
+////    取出源item数据
+//    id objc = [_array objectAtIndex:sourceIndexPath.item];
+//  
+//    //从资源数组中移除该数据
+//    [_array removeObject:objc];
+//    //将数据插入到资源数组中的目标位置上
+//    [_array insertObject:objc atIndex:destinationIndexPath.item];
+////
+////    
+////    [_array replaceObjectAtIndex:sourceIndexPath.item withObject:_array[destinationIndexPath.item]];
+////    [_array replaceObjectAtIndex:destinationIndexPath.item withObject:_array[sourceIndexPath.item]];
 //
 //    
-//    [_array replaceObjectAtIndex:sourceIndexPath.item withObject:_array[destinationIndexPath.item]];
-//    [_array replaceObjectAtIndex:destinationIndexPath.item withObject:_array[sourceIndexPath.item]];
-
-    
-    NSLog(@"-=-=--------x:%f",_cell.frame.origin.x);
-    NSLog(@"-==-=-=-=-=-y:%f",_cell.frame.origin.y);
-    
-
-    
-    _nArray = [NSMutableArray arrayWithArray:_array];
-    
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"tuijianArray"];
-    
- 
-    [[NSUserDefaults standardUserDefaults]setObject:_nArray forKey:@"tuijianArray"];
-    //发送消息
-    [[NSNotificationCenter defaultCenter]postNotificationName:@"ADDArrayChange" object:nil];
+//    NSLog(@"-=-=--------x:%f",_cell.frame.origin.x);
+//    NSLog(@"-==-=-=-=-=-y:%f",_cell.frame.origin.y);
+//    
 //
-    
-}
+//    
+//    _nArray = [NSMutableArray arrayWithArray:_array];
+//    
+//    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"tuijianArray"];
+//    
+// 
+//    [[NSUserDefaults standardUserDefaults]setObject:_nArray forKey:@"tuijianArray"];
+//    //发送消息
+//    [[NSNotificationCenter defaultCenter]postNotificationName:@"ADDArrayChange" object:nil];
+////
+//    
+//}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

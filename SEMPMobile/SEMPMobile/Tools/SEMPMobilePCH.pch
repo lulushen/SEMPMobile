@@ -28,9 +28,10 @@
 #define KNavigationBarFrameHeight self.navigationController.navigationBar.frame.size.height
 // tabBar高
 #define  KTabBarFrameHeight self.tabBarController.tabBar.frame.size.height
-
+// 状态栏河导航栏的高
+#define KSNHeight (KSTATUSBarFrameHeight+KNavigationBarFrameHeight)
 // 页面中tableView的高
-#define KTableViewHeight (Kheight-KSTATUSBarFrameHeight-KNavigationBarFrameHeight )
+#define KTableViewHeight (Kheight-KSTATUSBarFrameHeight-KNavigationBarFrameHeight-KTabBarFrameHeight)
 
 // 测试登录接口头
 #define LoginHttp @"http://demo.datacvg.com:9111/DMC/ValidateUserByIOSTest.action?"

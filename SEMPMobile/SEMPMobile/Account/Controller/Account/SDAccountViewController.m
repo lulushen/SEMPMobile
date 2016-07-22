@@ -332,13 +332,23 @@
         
     }else if(indexPath.section == 3){
         
-        
         NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
+        NSMutableDictionary * dic = [[NSUserDefaults standardUserDefaults] objectForKey:@"userLogin"];
+
+
+        NSLog(@"=-=-=-=-=-=-=-=[dic %@",[dic objectForKey:@"userName"]);
+        if ([dic objectForKey:@"userName"]  == nil) {
+            
+            [MBProgressHUD showError:@"用户还未登录，请登录"];
+            
+        }else{
+            
         [defaults removeObjectForKey:@"login"];
         [defaults removeObjectForKey:@"userLogin"];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"userExit" object:self];
         [MBProgressHUD showSuccess:@"退出成功"];
     
+        }
         
 
         
