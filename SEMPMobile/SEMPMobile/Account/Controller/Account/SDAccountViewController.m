@@ -11,6 +11,7 @@
 #import "SDSetViewController.h"
 #import "SDInfoViewController.h"
 #import "SDFeedBackViewController.h"
+#import "MBProgressHUD+NJ.h"
 
 @interface SDAccountViewController ()<UITableViewDelegate,UITableViewDataSource,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 
@@ -82,23 +83,26 @@
 //    {
 //        [self.headerImageButton setBackgroundImage:[UIImage imageNamed:@"head"] forState:UIControlStateNormal];
 //    }
-    NSUserDefaults * currentUser = [NSUserDefaults standardUserDefaults];
-    NSString * currentUserName = [currentUser objectForKey:@"userName"];
+    NSMutableDictionary * dic = [[NSUserDefaults standardUserDefaults] objectForKey:@"userLogin"];
 
+    
 
-    UILabel * userLabel = [[UILabel alloc] initWithFrame:CGRectMake(Kwidth/2-100*KWidth6scale, CGRectGetMaxY(self.headerImageButton.frame) + 10*KWidth6scale, 200*KWidth6scale, 30*KWidth6scale)];
+    // 注册观察者
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(callBack) name:@"userExit" object:nil];
+
+    _userLabel = [[UILabel alloc] initWithFrame:CGRectMake(Kwidth/2-100*KWidth6scale, CGRectGetMaxY(self.headerImageButton.frame) + 10*KWidth6scale, 200*KWidth6scale, 30*KWidth6scale)];
     
-    userLabel.text =[NSString stringWithFormat:@"用户名 : %@",currentUserName];
+    _userLabel.text =[NSString stringWithFormat:@"用户名 : %@",[dic objectForKey:@"userName"]];
     
-    userLabel.textColor = [UIColor whiteColor];
+    _userLabel.textColor = [UIColor whiteColor];
     
-    [userLabel setTextAlignment:NSTextAlignmentRight];
+    [_userLabel setTextAlignment:NSTextAlignmentRight];
     
-    [self.userTableHeaderView addSubview:userLabel];
+    [self.userTableHeaderView addSubview:_userLabel];
     
-    UILabel * jobLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(userLabel.frame), CGRectGetMaxY(userLabel.frame), CGRectGetWidth(userLabel.frame), CGRectGetHeight(userLabel.frame))];
+    UILabel * jobLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(_userLabel.frame), CGRectGetMaxY(_userLabel.frame), CGRectGetWidth(_userLabel.frame), CGRectGetHeight(_userLabel.frame))];
     
-    jobLabel.text = @"职    位 :";
+    jobLabel.text = @"职  位 :";
     
     jobLabel.textColor = [UIColor whiteColor];
     
@@ -114,6 +118,14 @@
     
     
     
+    
+}
+- (void)callBack
+{
+    NSMutableDictionary * dic = [[NSUserDefaults standardUserDefaults] objectForKey:@"userLogin"];
+    
+    _userLabel.text =[NSString stringWithFormat:@"用户名 : %@",[dic objectForKey:@"userName"]];
+
     
 }
 - (void)headerImageButtonClick: (UIButton * )button
@@ -316,6 +328,20 @@
         
         SDFeedBackViewController * feedBackVC = [[SDFeedBackViewController alloc] init];
         [self.navigationController pushViewController:feedBackVC animated:YES];
+        
+        
+    }else if(indexPath.section == 3){
+        
+        
+        NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
+        [defaults removeObjectForKey:@"login"];
+        [defaults removeObjectForKey:@"userLogin"];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"userExit" object:self];
+        [MBProgressHUD showSuccess:@"退出成功"];
+    
+        
+
+        
         
         
     }

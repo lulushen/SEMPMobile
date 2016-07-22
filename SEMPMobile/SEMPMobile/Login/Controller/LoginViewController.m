@@ -21,14 +21,6 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    NSUserDefaults * currentUser = [NSUserDefaults standardUserDefaults];
-    NSString * islogin = [currentUser objectForKey:@"LoginSuc"];
-    NSLog(@"-==-=-=-=-=-=-=-=-=-kkkokoko:%@",islogin);
-    if ([islogin isEqualToString:@"SUC-1001"]) {
-        [self LoginSucceed];
-
-    }
-    
 }
 
 
@@ -36,12 +28,6 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"userLogin.png"]];
     [self  makeButton];
-    NSLog(@"------width:%f",Kwidth);
-    NSLog(@"-------height:%f",Kheight);
-    NSLog(@"-------bili:%f",KWidth6scale);
-    NSLog(@"-------bili:%f",KHeight6scale);
-
-    // Do any additional setup after loading the view.
 }
 // 创建登录按钮控件的方法
 - (void)makeButton{
@@ -72,7 +58,6 @@
 // 游客用户登录实现方法
 - (void)demoButtonClick:(UIButton *)button
 {
-    
    
      [self LoginSucceed];
     
@@ -83,9 +68,6 @@
     SDTabBarViewController * TabBarView = [[SDTabBarViewController alloc] init];
     
     [self presentViewController:TabBarView animated:YES completion:nil];
-    
-//    [self.navigationController pushViewController:TabBarView animated:YES];
-    
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

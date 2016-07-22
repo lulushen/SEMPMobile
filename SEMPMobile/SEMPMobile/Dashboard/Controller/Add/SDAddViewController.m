@@ -26,36 +26,42 @@
 
 @implementation SDAddViewController
 
+
 - (void)viewWillAppear:(BOOL)animated
 {
     
-    //获取通知中心单例对象
-//    NSNotificationCenter * center = [NSNotificationCenter defaultCenter];
-//    //添加当前类对象为一个观察者，name和object设置为nil，表示接收一切通知
-//    [center addObserver:self selector:@selector(notice:) name:@"123" object:nil];
-
-    
+    [super viewWillAppear:animated];
     
 }
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.userInteractionEnabled = YES;
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationItem.title = @"Add";
-
-    self.tabBarController.tabBar.hidden = YES;
-   
-    _dataArray = [NSMutableArray  arrayWithObjects:@"a",@"b",@"1",@"c",@"3",@"4",nil];
     
-    _array2 = [NSMutableArray  arrayWithObjects:@"1",@"2",@"c",@"4",@"5",@"6",nil];
+    self.tabBarController.tabBar.hidden = YES;
 
+    _dataArray =  [[[NSUserDefaults standardUserDefaults] objectForKey:@"tuijianArray"] mutableCopy];
+    _array2 =  [[[NSUserDefaults standardUserDefaults] objectForKey:@"zhibiaoArray"] mutableCopy];
+    
+    
+    if (_dataArray.count == 0 && _array2.count == 0) {
+        
+        _dataArray = [NSMutableArray  arrayWithObjects:@"a",@"b",@"c",@"d",@"e",@"f",nil];
+        
+        _array2 = [NSMutableArray  arrayWithObjects:@"1",@"2",@"3",@"4",@"5",@"6",nil];
+        
+        
+    }
+    
     // 自定义返回按钮LeftButtonItme
     [self makeLeftButtonItme];
     
     // 定义tabelView
     [self makeCollectionView];
     
-    // Do any additional setup after loading the view.
+    
 }
 
 - (void)makeLeftButtonItme
@@ -67,10 +73,18 @@
     [backButton addTarget:self action:@selector(backButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem * leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
     self.navigationItem.leftBarButtonItem = leftBarButtonItem;
-   
+    
 }
 
 - (void)backButtonClick:(UIButton *)button {
+    
+    [[NSUserDefaults standardUserDefaults] setObject:_dataArray forKey:@"tuijianArray"];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:_array2 forKey:@"zhibiaoArray"];
+    
+    //发送消息
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"ADDArrayChange" object:nil];
+    
     
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -98,8 +112,6 @@
     
     _FirstCollectionView.dataSource = self;
     
-//    _FirstCollectionView.userInteractionEnabled = YES;
-    
     [self.view addSubview:_FirstCollectionView];
     
     UILabel * label2 = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_FirstCollectionView.frame), Kwidth, 40)];
@@ -108,7 +120,7 @@
     [self.view addSubview:label2];
     
     UICollectionViewFlowLayout * layout2 = [[UICollectionViewFlowLayout alloc] init];
-   layout2.sectionInset = UIEdgeInsetsMake(10, 10, 10, 10);
+    layout2.sectionInset = UIEdgeInsetsMake(10, 10, 10, 10);
     layout2.scrollDirection = UICollectionViewScrollDirectionVertical;//滚动方向
     layout2.minimumLineSpacing = 15;
     layout2.minimumInteritemSpacing = 8;
@@ -126,26 +138,25 @@
     
     [_FirstCollectionView  registerClass:[SDAddCollectionViewCell class] forCellWithReuseIdentifier:@"addcell"];
     [_FirstCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"headerone"];
-
+    
     [_TwoCollectctionView registerClass:[SDAddCollectionViewCell class] forCellWithReuseIdentifier:@"addcell"];
-
+    
     [_TwoCollectctionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"headerone"];
-
+    
     
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    NSLog(@"_dataArray  Count : %ld",_dataArray.count);
-    NSLog(@"_dataArray  Count : %ld",_array2.count);
-
+    
     if (collectionView.tag == 1) {
         return _dataArray.count;
     } else {
         return _array2.count;
     }
-
+    
 }
+
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
     return 1;
@@ -183,24 +194,22 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     
-   
-    
     if (collectionView.tag == 1) {
         
+        
         [_array2 addObject:_dataArray[indexPath.row]];
-
         [_dataArray removeObject:_dataArray[indexPath.row]];
         
+        
     }else{
+       
         [_dataArray addObject:_array2[indexPath.row]];
-
         [_array2 removeObject:_array2[indexPath.row]];
+        
+        
+        
+        
     }
-    //创建一个消息对象
-    NSNotification * notice = [NSNotification notificationWithName:@"123" object:nil userInfo:_dataArray];
-    //发送消息
-    [[NSNotificationCenter defaultCenter]postNotification:notice];
-    
     [self chuanzhi];
     [_FirstCollectionView reloadData];
     [_TwoCollectctionView reloadData];
@@ -211,7 +220,7 @@
 - (void)chuanzhi{
     //检测代理有没有实现changeStatus:方法
     if([self.delegate respondsToSelector:@selector(chuanzhi:)]){
-        NSLog(@"-=-=-=-=-=-=-=-=-=-=-=-=-=-=%ld",_dataArray.count);
+
         [self.delegate chuanzhi:_dataArray];
     }else{
         NSLog(@"代理没有实现changeStatus:方法");
@@ -220,7 +229,7 @@
 }
 //- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
 //{
-//    
+//
 //    SDCollectionReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"headerone" forIndexPath:indexPath];
 //    headerView.backgroundColor = [UIColor whiteColor];
 //
@@ -232,24 +241,24 @@
 //                headerView = [[SDCollectionReusableView alloc] init];
 //                headerView.titleLabel.text = @"342423423";
 //            }
-//            
+//
 //            return headerView;
 //        }
 //    }else{
-//        
+//
 //        if([kind isEqualToString:UICollectionElementKindSectionHeader])
 //        {
-//           
+//
 //            if(headerView == nil)
 //            {
 //                headerView = [[SDCollectionReusableView alloc] init];
 //                headerView.titleLabel.text = @"vjkfdkj";
 //            }
-//            
+//
 //            return headerView;
 //        }
 //
-//        
+//
 //    }
 //    return nil;
 //    }
@@ -263,13 +272,13 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

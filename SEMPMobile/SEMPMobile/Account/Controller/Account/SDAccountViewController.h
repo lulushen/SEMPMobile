@@ -10,4 +10,5 @@
 
 @interface SDAccountViewController : UIViewController
 
+@property (nonatomic , strong) UILabel * userLabel;
 @end

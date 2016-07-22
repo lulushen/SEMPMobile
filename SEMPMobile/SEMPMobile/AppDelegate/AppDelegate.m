@@ -21,10 +21,28 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
-    // 设置根视图
-    LoginViewController * LoginView = [[LoginViewController alloc] init];
-    self.window.rootViewController = LoginView;
+    
+    [self mainTab];
     return YES;
+}
+- (void)mainTab
+{
+    NSString *login = [[NSUserDefaults standardUserDefaults] objectForKey:@"login"];
+    if ([login isEqualToString:@"SUC-1001"])
+    {
+        _tabBarController  = [[SDTabBarViewController alloc] init];
+        self.window.rootViewController = _tabBarController;
+    }
+    else
+    {
+        // 设置根视图
+        LoginViewController * LoginView = [[LoginViewController alloc] init];
+        self.window.rootViewController = LoginView;
+        
+    }
+
+    
+    
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

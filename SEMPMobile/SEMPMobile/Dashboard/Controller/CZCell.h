@@ -10,5 +10,6 @@
 
 @interface CZCell : UICollectionViewCell
 @property (strong, nonatomic)  UILabel *numberLabel;
+@property (nonatomic , assign) NSInteger statu;
 
 @end

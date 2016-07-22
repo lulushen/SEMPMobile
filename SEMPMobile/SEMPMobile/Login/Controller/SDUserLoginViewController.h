@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AppDelegate.h"
 
 @interface SDUserLoginViewController : UIViewController
 
@@ -16,5 +17,7 @@
 @property (nonatomic , strong) UITextField * passWordTextField;
 // 登录按钮
 @property (nonatomic , strong) UIButton * LoginButton;
+
+
 
 @end

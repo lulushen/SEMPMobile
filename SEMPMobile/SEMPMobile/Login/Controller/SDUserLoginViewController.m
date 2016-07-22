@@ -11,13 +11,13 @@
 #import "MBProgressHUD+NJ.h"
 
 
-@interface SDUserLoginViewController ()
+@interface SDUserLoginViewController ()<UITextFieldDelegate>
 {
     UIAlertController * _alert;
     UIAlertController * _alertLoginFail;
     UIAlertController * _alertDidRegiest;
     NSMutableDictionary *_temDic;
-
+    
 }
 
 @property (nonatomic , strong)NSString * info;
@@ -27,15 +27,13 @@
 @implementation SDUserLoginViewController
 
 - (void)viewWillAppear:(BOOL)animated{
-    
-    
+
     [super viewWillAppear:animated];
-    
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"userLogin.png"]];
     // 调用设置控件的方法
     [self makeUI];
@@ -48,6 +46,7 @@
     
     self.passWordTextField = [[UITextField alloc] initWithFrame:CGRectMake(CGRectGetMinX(self.userTextField.frame), CGRectGetMaxY(self.userTextField.frame)+10*KHeight6scale, CGRectGetWidth(self.userTextField.frame), CGRectGetHeight(self.userTextField.frame))];
     self.passWordTextField.backgroundColor = [UIColor whiteColor];
+    self.passWordTextField.secureTextEntry = YES;
     [self.view addSubview:self.passWordTextField];
     
     
@@ -61,7 +60,7 @@
 }
 - (void)LoginButtonClick:(UIButton *)button{
     
-
+    
     // 1.设置请求路径
     NSString * urlStr = [NSString stringWithFormat:LoginHttp];
     NSURL * url = [NSURL URLWithString:urlStr];
@@ -85,51 +84,48 @@
         
         if ([statusInfo isEqualToString: @"SUC-1001"]) {
             dispatch_async(dispatch_get_main_queue(), ^{
+                
+                NSMutableDictionary * dic = [NSMutableDictionary dictionary];
+//                [dic setObject:@"SUC-1001" forKey:@"loginSuc"];
+                [dic setObject:_userTextField.text forKey:@"userName"];
+                [dic setObject:_passWordTextField.text forKey:@"passWord"];
+                [[NSUserDefaults standardUserDefaults] setObject:dic forKey:@"userLogin"];
+
                 //数据持久化
-                //1.获得NSUserDefaults文件
-                NSUserDefaults * currentUser = [NSUserDefaults standardUserDefaults];
-                //2.向文件中写入内容
-                [currentUser setValue:@"SUC-1001" forKey:@"LoginSuc"];
-                [currentUser setValue:self.userTextField.text forKey:@"userName"];
-                [currentUser setValue:self.passWordTextField.text forKey:@"passWord"];
-
+//                //1.获得NSUserDefaults文件
+//                NSUserDefaults * currentUser = [NSUserDefaults standardUserDefaults];
+//                //2.向文件中写入内容
+//                [currentUser setValue:@"SUC-1001" forKey:@"LoginSuc"];
+//                [currentUser setValue:self.userTextField.text forKey:@"userName"];
+//                [currentUser setValue:self.passWordTextField.text forKey:@"passWord"];
+//                //2.1立即同步
+//                [currentUser synchronize];
+//                  //3.读取文件
+//                NSString * currentUserName = [currentUser objectForKey:@"userName"];
+//                NSString * currentPassWord = [currentUser objectForKey:@"passWord"];
                 
-                //2.1立即同步
-                [currentUser synchronize];
-
-//                [[NSUserDefaults standardUserDefaults] setObject:currentUser forKey:@"userLogin"];
-
-                NSLog(@"jdsj-=-=-=-=-=-=-;;;;;;;;;;%@",currentUser);
-
-                //3.读取文件
-                NSString * currentUserName = [currentUser objectForKey:@"userName"];
-                NSString * currentPassWord = [currentUser objectForKey:@"passWord"];
-                NSLog(@"-=-=-=-=-=%@,-=-=-=-=-=%@",currentUserName,currentPassWord);
+                [MBProgressHUD showSuccess:self.info];
                 
-    //                    //创建一个消息对象
-//                    NSNotification * notice = [NSNotification notificationWithName:@"123" object:nil userInfo:@{@"1":@"123"}];
-                    //发送消息
-                    [MBProgressHUD showSuccess:self.info];
-
-                    // 延迟1.5秒跳转页面
-                    [self performSelector:@selector(GoToMainView) withObject:self afterDelay:1.5f];
-//                [self presentViewController:_alert animated:YES completion:^{
-//
-//
-//                    }];
-                    [[NSNotificationCenter defaultCenter] postNotificationName:@"DidLogin" object:nil];
-
                 
-
+                // 延迟1.5秒跳转页面
+                [self performSelector:@selector(GoToMainView) withObject:self afterDelay:1.5f];
+                [[NSUserDefaults standardUserDefaults] setObject:@"SUC-1001" forKey:@"login"];
                 
+//                [((AppDelegate *)APP ];
+
+                AppDelegate * app = [[AppDelegate alloc] init];
+                [app mainTab];
             });
-          
+            
         } else {
             
             dispatch_async(dispatch_get_main_queue(), ^{
-                [MBProgressHUD showSuccess:self.info];
+                
+//                [MBProgressHUD showSuccess:self.info];
+                
+                [MBProgressHUD showSuccess:@"登录失败"];
             });
-           
+            
             
         }
         

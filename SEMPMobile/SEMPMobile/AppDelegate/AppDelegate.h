@@ -7,10 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SDTabBarViewController.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+
+@property(nonatomic,strong)SDTabBarViewController * tabBarController;
+
+- (void)mainTab;
 
 
 @end
