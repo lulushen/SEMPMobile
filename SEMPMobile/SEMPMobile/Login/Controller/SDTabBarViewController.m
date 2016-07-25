@@ -11,6 +11,7 @@
 #import "SDReportViewController.h"
 #import "SDActionViewController.h"
 #import "SDAccountViewController.h"
+#import "SDdateViewController.h"
 
 @interface SDTabBarViewController ()
 
@@ -34,15 +35,19 @@
     // 指标
     SDDashboardViewController * DashboardView = [[SDDashboardViewController alloc] init];
     UINavigationController * DashNC = [[UINavigationController alloc] initWithRootViewController:DashboardView];
-//    DashboardView.navigationItem.title = @"Dashboard";
-//    DashboardView.navigationItem.titleView;
+
+    SDdateViewController * data = [[SDdateViewController  alloc] init];
+    
+    [DashboardView.navigationItem.titleView addSubview:data.view];
     //选择自己喜欢的颜色
     UIColor * color = [UIColor whiteColor];
     //这里我们设置的是颜色，还可以设置shadow等，具体可以参见api
     NSDictionary * dict = [NSDictionary dictionaryWithObject:color forKey:NSForegroundColorAttributeName];
     DashNC.navigationBar.titleTextAttributes = dict;
-//    [DashboardView.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav.png"] forBarMetrics:UIBarMetricsDefault];
+
+    // 设置导航栏的颜色
     DashboardView.navigationController.navigationBar.barTintColor = [UIColor orangeColor];
+    // 设置导航栏上面字体的颜色
     [UINavigationBar appearance].tintColor = [UIColor whiteColor];
     DashboardView.tabBarItem = [[UITabBarItem alloc]initWithTitle:@"指标" image:[UIImage imageNamed:@"iconfont-biji.png"] tag:100];
     DashboardView.tabBarItem.badgeValue = @"10";

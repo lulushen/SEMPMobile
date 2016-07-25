@@ -14,7 +14,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         _titLabone = [[UILabel alloc] init];
-        _titLabone.backgroundColor = [UIColor grayColor];
+//        _titLabone.backgroundColor = [UIColor grayColor];
         [_titLabone setTextAlignment:NSTextAlignmentCenter];
         _titLabone.numberOfLines = 2;
        
