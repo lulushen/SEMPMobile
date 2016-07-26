@@ -59,8 +59,8 @@ typedef NS_ENUM(NSUInteger, XWDragCellCollectionViewScrollDirection) {
 
 - (void)xwp_initializeProperty{
     _minimumPressDuration = 1;
-    _edgeScrollEable = YES;
-    _shakeWhenMoveing = YES;
+    _edgeScrollEable = NO;
+    _shakeWhenMoveing = NO;
     _shakeLevel = 4.0f;
 }
 
@@ -98,7 +98,10 @@ typedef NS_ENUM(NSUInteger, XWDragCellCollectionViewScrollDirection) {
 - (void)xwp_gestureBegan:(UILongPressGestureRecognizer *)longPressGesture{
     //获取手指所在的cell
     _originalIndexPath = [self indexPathForItemAtPoint:[longPressGesture locationOfTouch:0 inView:longPressGesture.view]];
-    UICollectionViewCell *cell = [self cellForItemAtIndexPath:_originalIndexPath];
+    
+    UICollectionViewCell * cell = [self cellForItemAtIndexPath:_originalIndexPath];
+    NSLog(@"=-=-=-=-=-=-=-=-=cell : %@",cell);
+    
     UIView *tempMoveCell = [cell snapshotViewAfterScreenUpdates:NO];
     cell.hidden = YES;
     _tempMoveCell = tempMoveCell;
@@ -132,19 +135,24 @@ typedef NS_ENUM(NSUInteger, XWDragCellCollectionViewScrollDirection) {
         }
         //计算中心距
         CGFloat space = sqrtf(pow(_tempMoveCell.center.x - cell.center.x, 2) + powf(_tempMoveCell.center.y - cell.center.y, 2));
-        if (space <= _tempMoveCell.bounds.size.width / 2) {
-            _moveIndexPath = [self indexPathForCell:cell];
-            //更新数据源
-            [self xwp_updateDataSource];
-            //移动
-            [self moveItemAtIndexPath:_originalIndexPath toIndexPath:_moveIndexPath];
-            //通知代理
-            if ([self.delegate respondsToSelector:@selector(dragCellCollectionView:moveCellFromIndexPath:toIndexPath:)]) {
-                [self.delegate dragCellCollectionView:self moveCellFromIndexPath:_originalIndexPath toIndexPath:_moveIndexPath];
+        _moveIndexPath = [self indexPathForCell:cell];
+
+        if (_tempMoveCell.frame.size.width != cell.frame.size.width) {
+            if (space <= _tempMoveCell.bounds.size.width / 2) {
+                //更新数据源
+                [self xwp_updateDataSource];
+                //移动
+                [self moveItemAtIndexPath:_originalIndexPath toIndexPath:_moveIndexPath];
+                //通知代理
+                if ([self.delegate respondsToSelector:@selector(dragCellCollectionView:moveCellFromIndexPath:toIndexPath:)]) {
+                    [self.delegate dragCellCollectionView:self moveCellFromIndexPath:_originalIndexPath toIndexPath:_moveIndexPath];
+                }
+                //设置移动后的起始indexPath
+                _originalIndexPath = _moveIndexPath;
+                break;
+
             }
-            //设置移动后的起始indexPath
-            _originalIndexPath = _moveIndexPath;
-            break;
+            
         }
     }
 }
@@ -243,32 +251,34 @@ typedef NS_ENUM(NSUInteger, XWDragCellCollectionViewScrollDirection) {
 
 - (void)xwp_edgeScroll{
     [self xwp_setScrollDirection];
+    int d = 0;
+
     switch (_scrollDirection) {
         case XWDragCellCollectionViewScrollDirectionLeft:{
             //这里的动画必须设为NO
-            [self setContentOffset:CGPointMake(self.contentOffset.x - 4, self.contentOffset.y) animated:NO];
-            _tempMoveCell.center = CGPointMake(_tempMoveCell.center.x - 4, _tempMoveCell.center.y);
-            _lastPoint.x -= 4;
+            [self setContentOffset:CGPointMake(self.contentOffset.x - d, self.contentOffset.y) animated:NO];
+            _tempMoveCell.center = CGPointMake(_tempMoveCell.center.x - d, _tempMoveCell.center.y);
+            _lastPoint.x -= d;
             
         }
             break;
         case XWDragCellCollectionViewScrollDirectionRight:{
-            [self setContentOffset:CGPointMake(self.contentOffset.x + 4, self.contentOffset.y) animated:NO];
-            _tempMoveCell.center = CGPointMake(_tempMoveCell.center.x + 4, _tempMoveCell.center.y);
-            _lastPoint.x += 4;
+            [self setContentOffset:CGPointMake(self.contentOffset.x + d, self.contentOffset.y) animated:NO];
+            _tempMoveCell.center = CGPointMake(_tempMoveCell.center.x + d, _tempMoveCell.center.y);
+            _lastPoint.x += d;
             
         }
             break;
         case XWDragCellCollectionViewScrollDirectionUp:{
-            [self setContentOffset:CGPointMake(self.contentOffset.x, self.contentOffset.y - 4) animated:NO];
-            _tempMoveCell.center = CGPointMake(_tempMoveCell.center.x, _tempMoveCell.center.y - 4);
-            _lastPoint.y -= 4;
+            [self setContentOffset:CGPointMake(self.contentOffset.x, self.contentOffset.y - d) animated:NO];
+            _tempMoveCell.center = CGPointMake(_tempMoveCell.center.x, _tempMoveCell.center.y - d);
+            _lastPoint.y -= d;
         }
             break;
         case XWDragCellCollectionViewScrollDirectionDown:{
-            [self setContentOffset:CGPointMake(self.contentOffset.x, self.contentOffset.y + 4) animated:NO];
-            _tempMoveCell.center = CGPointMake(_tempMoveCell.center.x, _tempMoveCell.center.y + 4);
-            _lastPoint.y += 4;
+            [self setContentOffset:CGPointMake(self.contentOffset.x, self.contentOffset.y + d) animated:NO];
+            _tempMoveCell.center = CGPointMake(_tempMoveCell.center.x, _tempMoveCell.center.y + d);
+            _lastPoint.y += d;
         }
             break;
         default:
