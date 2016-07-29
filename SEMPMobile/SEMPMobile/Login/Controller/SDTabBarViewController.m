@@ -11,20 +11,24 @@
 #import "SDReportViewController.h"
 #import "SDActionViewController.h"
 #import "SDAccountViewController.h"
-#import "SDdateViewController.h"
 
 @interface SDTabBarViewController ()
+
+
 
 @end
 
 @implementation SDTabBarViewController
 
+    
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    UIView *bgView = [[UIView alloc] initWithFrame:self.tabBar.bounds];
-    bgView.backgroundColor = [UIColor whiteColor];
-    [self.tabBar insertSubview:bgView atIndex:0];
-    self.tabBar.opaque = YES;
+    // 设置tabbar 选中时背景色
+    [[UITabBar appearance] setTintColor:[UIColor orangeColor]];
+//    [[UITabBar appearance] setShadowImage:[[UIImage alloc] init]];
+
     // 调用设置tabbar方法
     [self makeTabBar];
     // Do any additional setup after loading the view.
@@ -36,20 +40,23 @@
     SDDashboardViewController * DashboardView = [[SDDashboardViewController alloc] init];
     UINavigationController * DashNC = [[UINavigationController alloc] initWithRootViewController:DashboardView];
 
-    SDdateViewController * data = [[SDdateViewController  alloc] init];
-    
-    [DashboardView.navigationItem.titleView addSubview:data.view];
+   
     //选择自己喜欢的颜色
     UIColor * color = [UIColor whiteColor];
     //这里我们设置的是颜色，还可以设置shadow等，具体可以参见api
     NSDictionary * dict = [NSDictionary dictionaryWithObject:color forKey:NSForegroundColorAttributeName];
     DashNC.navigationBar.titleTextAttributes = dict;
-
+   
     // 设置导航栏的颜色
-    DashboardView.navigationController.navigationBar.barTintColor = [UIColor orangeColor];
+    DashboardView.navigationController.navigationBar.barTintColor = [UIColor blackColor];
+    // 设置半透明状态（yes） 不透明状态 （no）
+    DashboardView.navigationController.navigationBar.translucent = NO;
+    
+    DashboardView.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
     // 设置导航栏上面字体的颜色
     [UINavigationBar appearance].tintColor = [UIColor whiteColor];
     DashboardView.tabBarItem = [[UITabBarItem alloc]initWithTitle:@"指标" image:[UIImage imageNamed:@"iconfont-biji.png"] tag:100];
+    // 设置消息数量
     DashboardView.tabBarItem.badgeValue = @"10";
     
     // 报表
@@ -57,7 +64,10 @@
     UINavigationController * ReportNC = [[UINavigationController alloc] initWithRootViewController:ReportView];
     ReportView.navigationItem.title = @"Report Center";
     ReportNC.navigationBar.titleTextAttributes = dict;
-    [ReportView.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav.png"] forBarMetrics:UIBarMetricsDefault];
+//    [ReportView.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav.png"] forBarMetrics:UIBarMetricsDefault];
+    ReportView.navigationController.navigationBar.barTintColor = [UIColor blackColor];
+    ReportView.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+
     ReportView.tabBarItem = [[UITabBarItem alloc]initWithTitle:@"报表" image:[UIImage imageNamed:@"iconfont-biji.png"] tag:101];
     
     // 行动
@@ -65,7 +75,11 @@
     UINavigationController * ActionNC = [[UINavigationController alloc] initWithRootViewController:ActionView];
     ActionView.navigationItem.title = @"Action";
     ActionNC.navigationBar.titleTextAttributes = dict;
-    [ActionView.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav.png"] forBarMetrics:UIBarMetricsDefault];
+    ActionView.navigationController.navigationBar.translucent = NO;
+
+//    [ActionView.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav.png"] forBarMetrics:UIBarMetricsDefault];
+    ActionView.navigationController.navigationBar.barTintColor = [UIColor orangeColor];
+
     ActionView.tabBarItem = [[UITabBarItem alloc]initWithTitle:@"行动" image:[UIImage imageNamed:@"iconfont-biji.png"] tag:102];
     
     // 用户
@@ -73,7 +87,10 @@
     UINavigationController * AccountNC = [[UINavigationController alloc] initWithRootViewController:AccountView];
     AccountView.navigationItem.title = @"Account";
     AccountNC.navigationBar.titleTextAttributes = dict;
-    [AccountView.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav.png"] forBarMetrics:UIBarMetricsDefault];
+//    [AccountView.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav.png"] forBarMetrics:UIBarMetricsDefault];
+    AccountView.navigationController.navigationBar.barTintColor = [UIColor orangeColor];
+    AccountView.navigationController.navigationBar.translucent = NO;
+
     AccountView.tabBarItem = [[UITabBarItem alloc]initWithTitle:@"个人" image:[UIImage imageNamed:@"iconfont-biji.png"] tag:103];
     
     

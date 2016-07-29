@@ -9,10 +9,22 @@
 #import <UIKit/UIKit.h>
 //#import "CZFlowLayout.h"
 #import "SDAddViewController.h"
+#import "SDModelZhiBiao.h"
 
 
 
 @interface SDDashboardViewController : UIViewController <ChuanzhiDelegate>
+@property (nonatomic , strong) UIScrollView * scrollview;
 
+@property (nonatomic , strong) UIView * viewmove;
 
+@property (nonatomic , strong) NSMutableArray * arrayZhiBiao;
+
+@property (nonatomic , strong) NSMutableArray * nowArray;
+
+@property (nonatomic , strong) NSMutableArray * buttonArray;
+
+@property (nonatomic , strong) NSMutableArray * wanzhengbuttonArray;
+
+@property (nonatomic , strong) UIButton * moreButton;
 @end

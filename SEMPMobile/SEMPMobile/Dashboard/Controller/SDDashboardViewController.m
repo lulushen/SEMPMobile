@@ -7,34 +7,16 @@
 //
 
 #import "SDDashboardViewController.h"
-//#import "CZCell.h"
 #import "SDHeaderCollectionReusableView.h"
 #import "SDXiangqingViewController.h"
 #import "SDoneCollectionViewCell.h"
-//#import "XWDragCellCollectionView.h"
+#import "DataView.h"
+#import "UIColor+NSString.h"
+
 
 @interface SDDashboardViewController ()
-<UICollectionViewDelegate,UICollectionViewDataSource>
-//@property (strong, nonatomic)  UICollectionView *collectionView;
-//@property (nonatomic , strong) SDoneCollectionViewCell *tempcelli ;
-//@property (nonatomic , strong) SDoneCollectionViewCell *cell ;
-//@property (nonatomic , strong) SDoneCollectionViewCell *tempcellj ;
+@property (nonatomic , strong)DataView * dataview;
 
-@property (nonatomic , strong) NSIndexPath * orightindexPath;
-
-@property (nonatomic , strong) UICollectionViewFlowLayout * layout;
-
-@property (nonatomic , strong) NSMutableArray * array;
-
-@property (nonatomic , strong) NSMutableArray * nArray;
-
-@property (nonatomic , strong) NSMutableArray * buttonArray;
-
-@property (nonatomic , strong) NSMutableArray * wanzhengbuttonArray;
-
-@property (nonatomic , strong) UIView * viewmove;
-
-@property (nonatomic , strong) UIScrollView * scrollview;
 @end
 
 @implementation SDDashboardViewController
@@ -42,60 +24,110 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
     
-//    [_collectionView reloadData];
+    
 }
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.view.backgroundColor = [UIColor whiteColor];
     self.view.userInteractionEnabled = YES;
-//    self.layout = [[UICollectionViewFlowLayout alloc] init];
-//    _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, Kwidth, KTableViewHeight) collectionViewLayout:self.layout];
-//    _collectionView.userInteractionEnabled = YES;
-////    _layout.minimumLineSpacing = 15;
-////    _layout.minimumInteritemSpacing = 20;
-//    _layout.sectionInset = UIEdgeInsetsMake(0, 10, 10, 10);;
-//    _collectionView.backgroundColor = [UIColor whiteColor];
-//    [self.view addSubview:self.collectionView];
-//
-//    _collectionView.delegate = self;
-//    _collectionView.dataSource = self;
+    self.dataview = [[DataView alloc] initWithFrame:CGRectMake(0, 0, Kwidth*2/5, 44)];
+    self.navigationItem.titleView = self.dataview;
+    
+
     self.scrollview = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, Kwidth, KTableViewHeight)];
-    self.scrollview.contentSize = CGSizeMake(Kwidth, Kheight*2);
+    self.scrollview.showsHorizontalScrollIndicator = NO;
+
+    self.scrollview.showsVerticalScrollIndicator = NO;
     [self.view addSubview:self.scrollview];
-    _array =  [[[NSUserDefaults standardUserDefaults] objectForKey:@"tuijianArray"] mutableCopy];
-    
-//    if (_array.count == 0) {
-    
-    _array = [NSMutableArray  arrayWithObjects:@"a",@"c",@"d",@"b",@"e",@"f",nil];
-    
-//        }
+    [self maketopView];
+    // 添加观察者
+     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(shuzuCount) name:@"ADDArrayChange" object:nil];
+    _arrayZhiBiao = [NSMutableArray array];
+    if (_arrayZhiBiao.count == 0) {
+        [self  makeDate];
+    }else{
+            _arrayZhiBiao =  [[[NSUserDefaults standardUserDefaults] objectForKey:@"tuijianArray"] mutableCopy];
+  
+    }
+
     _buttonArray = [NSMutableArray array];
     _wanzhengbuttonArray = [NSMutableArray array];
-    
-//    [_collectionView registerClass:[SDoneCollectionViewCell class] forCellWithReuseIdentifier:@"cellui"];
-//
-//    [_collectionView registerClass:[SDHeaderCollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"HeaderView"];
-    
-    UIBarButtonItem * rightButotn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(clickRightButton:)];
+
+    UIBarButtonItem * rightButotn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(clickRightButton:)];
     self.navigationItem.rightBarButtonItem = rightButotn;
     [self makeviewmove];
-//    UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handlelongGesture:)];
-//    
-//    [self.collectionView addGestureRecognizer:longPress];
-//
+
 }
-- (void)clickRightButton:(UIButton *)button
+- (void)makeDate
 {
+  
+    NSString * filePath = [[NSBundle mainBundle]pathForResource:@"date_JSON" ofType:@"txt"];
+    
+    NSData * data = [NSData dataWithContentsOfFile:filePath];
+    
+    NSArray * array = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+    
+    for (NSDictionary * dict in array) {
+        
+        SDModelZhiBiao * m = [[SDModelZhiBiao alloc] init];
+        
+        [m setValuesForKeysWithDictionary:dict];
+        
+        [_arrayZhiBiao addObject:m];
+        
+    }
+    NSLog(@"========array.count : %ld",_arrayZhiBiao.count);
+    NSLog(@"_arrayZhiBiao %@",_arrayZhiBiao);
+
+    
+}
+- (void)maketopView
+{
+    UIView * topview = [[UIView alloc] initWithFrame:CGRectMake(0, 0, Kwidth, 40)];
+    [self.scrollview addSubview:topview];
+    
+    UILabel * labelimage = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 35, 35)];
+    labelimage.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"zhibiao.png"]];
+    [topview addSubview:labelimage];
+    UILabel * label = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(labelimage.frame), CGRectGetMinY(labelimage.frame)+10, CGRectGetWidth(labelimage.frame) * 3, CGRectGetHeight(labelimage.frame))];
+    label.text = @"  指标看板";
+    [topview addSubview:label];
+    
+    self.moreButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    self.moreButton.frame = CGRectMake(Kwidth - 80, CGRectGetMinY(label.frame)+5, 60, CGRectGetHeight(label.frame)/2);
+    [self.moreButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    [self.moreButton setTitle:@"more" forState:UIControlStateNormal];
+    self.moreButton.layer.borderWidth = 1;
+    self.moreButton.layer.cornerRadius = 5;
+    self.moreButton.layer.borderColor = [[UIColor grayColor] CGColor];
+    [topview addSubview:self.moreButton];
+
+    [self.moreButton addTarget:self action:@selector(moreButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+    
+}
+- (void)moreButtonClick:(UIButton *)button
+{
+    for (UIView * view in self.scrollview.subviews) {
+        
+        [view removeFromSuperview];
+        
+    }
+    
+    [_buttonArray removeAllObjects];
+    [_wanzhengbuttonArray removeAllObjects];
     
     SDAddViewController * addVC = [[SDAddViewController alloc] init];
     addVC.delegate = self;
-    
-    
+    [_wanzhengbuttonArray removeAllObjects];
     [self.navigationController pushViewController:addVC animated:YES];
-    
+
+}
+- (void)clickRightButton:(UIButton *)button
+{
+ 
 }
 - (void)chuanzhi:(NSMutableArray *)array
 {
@@ -105,12 +137,10 @@
 }
 - (void)makeviewmove
 {
+    [self maketopView];
     UIView * tempviewi = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
     UIView * tempviewj = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
-     [self.scrollview addSubview:tempviewi];
-     [self.scrollview addSubview:tempviewj];
-    
-    for (int i = 0; i < _array.count; i++) {
+    for (int i = 0; i < _arrayZhiBiao.count; i++) {
         _viewmove = [[UIView alloc] init];
         int bianju = 10;
             if (i == 0) {
@@ -126,35 +156,43 @@
         
             CGRect  tempi = tempviewi.frame;
             CGRect tempj = tempviewj.frame;
-        
+        SDModelZhiBiao * model = [[SDModelZhiBiao alloc] init];
+        SDModelZhiBiao * modeltwo = [[SDModelZhiBiao alloc] init];
+
+
             if (i == 0) {
         
-                tempi.origin = CGPointMake(bianju, 0);
-                if ([_array[i] isEqualToString:@"a"] || [_array[i] isEqualToString:@"d"]) {
+                tempi.origin = CGPointMake(bianju, 40);
+                model = _arrayZhiBiao[i];
+                NSLog(@"========model=%@",model);
+                if ((model.size_x == 1 )&& (model.size_y == 1) ) {
         
-                    tempi.size = CGSizeMake((Kwidth-30)/2.0, 100);
+                    tempi.size = CGSizeMake((Kwidth-30)/2.0, (Kwidth-100)/2.0);
                     
-                }else if([_array[i] isEqualToString:@"b"] || [_array[i] isEqualToString:@"c"]){
+                }else if((model.size_x == 2 )&& (model.size_y == 1) ){
         
-                    tempi.size = CGSizeMake(Kwidth-20, 100);
+                    tempi.size = CGSizeMake(Kwidth-20, (Kwidth-100)/2.0);
         
-                }else if([_array[i] isEqualToString:@"e"] || [_array[i] isEqualToString:@"f"]){
+                }else if((model.size_x == 2 )&& (model.size_y == 2) ){
         
-                    tempi.size = CGSizeMake(Kwidth-20, 200);
+                    tempi.size = CGSizeMake(Kwidth-20, Kwidth-100);
         
                 }
             }else{
         
-                if ([_array[i] isEqualToString:@"a"] || [_array[i] isEqualToString:@"d"]) {
+                model = _arrayZhiBiao[i];
+
+                if ((model.size_x == 1 )&& (model.size_y == 1)) {
+                    NSLog(@"========model=%@",model);
+
+                    tempi.size = CGSizeMake((Kwidth-30)/2.0, (Kwidth-100)/2.0);
         
-                    tempi.size = CGSizeMake((Kwidth-30)/2.0, 100);
-        
-        
-                    if ([_array[i-1] isEqualToString:@"a"] || [_array[i-1] isEqualToString:@"d"]) {
+                    modeltwo = _arrayZhiBiao[i-1];
+                    if ((modeltwo.size_x == 1 )&& (modeltwo.size_y == 1)) {
         
                         if (tempj.origin.x > Kwidth*2/3) {
         
-                            tempi.origin = CGPointMake(bianju, CGRectGetMaxY(tempj) + bianju);
+                            tempi.origin = CGPointMake(bianju, CGRectGetMaxY(tempj) + bianju );
         
                         }else{
                             tempi.origin = CGPointMake(bianju + CGRectGetMaxX(tempj), CGRectGetMinY(tempj));
@@ -165,15 +203,15 @@
                         tempi.origin = CGPointMake(bianju, CGRectGetMaxY(tempj) + bianju);
                     }
         
-                }else if([_array[i] isEqualToString:@"b"] || [_array[i] isEqualToString:@"c"]){
+                }else if((model.size_x == 2 )&& (model.size_y == 1)){
         
-                    tempi.size = CGSizeMake(Kwidth-20, 100);
+                    tempi.size = CGSizeMake(Kwidth-20, (Kwidth-100)/2.0);
         
                     tempi.origin = CGPointMake(bianju, CGRectGetMaxY(tempj) + bianju);
         
-                }else if([_array[i] isEqualToString:@"e"] || [_array[i] isEqualToString:@"f"]){
+                }else if((model.size_x == 2 )&& (model.size_y == 2) ){
         
-                    tempi.size = CGSizeMake(Kwidth-20, 200);
+                    tempi.size = CGSizeMake(Kwidth-20, Kwidth-100);
         
                     tempi.origin = CGPointMake(bianju, CGRectGetMaxY(tempj) + bianju);
         
@@ -188,25 +226,93 @@
             [_buttonArray addObject:_viewmove];
         
             [_wanzhengbuttonArray addObject:tempviewi];
-         tempviewi.backgroundColor = [UIColor redColor];
         
         
     }
-    
-    int i = 0;
-    for (UIView * view in _wanzhengbuttonArray) {
+    self.scrollview.contentSize = CGSizeMake(Kwidth, CGRectGetMaxY(tempviewi.frame));
+
+    NSLog(@"-=-=-=-=%@",_wanzhengbuttonArray);
+    NSLog(@"-=-=_wanzhengbuttonArray.count : %ld",_wanzhengbuttonArray.count);
+    for (int i = 0;i < _wanzhengbuttonArray.count ; i++) {
+        UIView * view = _wanzhengbuttonArray[i];
         [self.scrollview addSubview:view];
-        UILabel * lab = [[UILabel alloc] initWithFrame:view.bounds];
-        lab.backgroundColor = [UIColor grayColor];
-        lab.text = _array[i];
+        UILabel * lab = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, view.frame.size.width-20, 20)];
+//        lab.backgroundColor = [UIColor grayColor];
+        UILabel * lab6 = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(lab.frame), CGRectGetHeight(view.frame)-30, CGRectGetWidth(lab.frame),  20)];
+        UILabel * lab3 = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(lab.frame), CGRectGetMinY(lab6.frame)-20, CGRectGetWidth(lab.frame)/4.0,20)];
+        UILabel * lab4 = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(lab3.frame), CGRectGetMinY(lab3.frame), CGRectGetWidth(lab3.frame), CGRectGetHeight(lab3.frame))];
+        UILabel * lab5 = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(lab4.frame), CGRectGetMinY(lab3.frame), CGRectGetWidth(lab3.frame)*2, CGRectGetHeight(lab3.frame))];
+        UILabel * lab2 = [[UILabel alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(lab.frame), CGRectGetWidth(lab.frame), CGRectGetHeight(view.frame)-CGRectGetHeight(lab.frame) - CGRectGetHeight(lab3.frame) - CGRectGetHeight(lab6.frame))];
+        [lab2 setTextAlignment:NSTextAlignmentRight];
+
+        [lab6 setTextAlignment:NSTextAlignmentRight];
+
+        SDModelZhiBiao * m = [[SDModelZhiBiao alloc] init];
+        m = _arrayZhiBiao[i];
+        view.backgroundColor = [UIColor colorWithString:m.bgcolor];
+        [lab setTextColor:[UIColor colorWithString:m.color]];
+        lab.text = m.title;
+lab2.adjustsFontSizeToFitWidth = YES;
+        lab2.font = [UIFont systemFontOfSize:24];
+        if ([m.char_type isEqualToString:@"line"]) {
+            
+        
+        }else if([m.char_type isEqualToString:@"longtext"]){
+            lab2.text = m.midval;
+            lab6.text = m.unit;
+            lab4.text = m.bottomval;
+            lab3.text = m.bottomtitle;
+        }else{
+            lab2.text = m.midval;
+            lab6.text = m.unit;
+            lab4.text = m.bottomval;
+
+            lab3.text = m.bottomtitle;
+            
+        }
         [view addSubview:lab];
-        NSLog(@"-=-=-=-=-_viewmove : %@" ,view);
-        i++;
+        [view addSubview:lab2];
+        [view addSubview:lab3];
+        [view addSubview:lab4];
+        [view addSubview:lab5];
+        [view addSubview:lab6];
+//                lab.backgroundColor = [UIColor grayColor];
+//                lab2.backgroundColor = [UIColor whiteColor];
+//                lab3.backgroundColor = [UIColor redColor];
+//                lab4.backgroundColor = [UIColor orangeColor];
+//                lab5.backgroundColor = [UIColor blueColor];
+//                lab6.backgroundColor = [UIColor cyanColor];
 
+        
+//        UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
+//                                                                                     action:@selector(handleTap)];
+//        //使用一根手指双击时，才触发点按手势识别器
+//        //         recognizer.numberOfTapsRequired = 2;
+//        recognizer.numberOfTouchesRequired = 1;
+//        [view addGestureRecognizer:recognizer];
     }
-
-
     
+}
+- (void)shuzuCount
+
+{
+
+    _arrayZhiBiao =  [[[NSUserDefaults standardUserDefaults] objectForKey:@"tuijianArray"] mutableCopy];
+
+
+
+    [self makeviewmove];
+
+}
+- (void)handleTap
+{
+    SDXiangqingViewController * xiangqing = [[SDXiangqingViewController alloc] init];
+    
+    self.hidesBottomBarWhenPushed=YES;
+
+    [self.navigationController pushViewController:xiangqing animated:YES];
+    self.hidesBottomBarWhenPushed=NO;
+
 }
 //- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 //{
@@ -217,11 +323,6 @@
 //}
 //- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
 //    return 1;
-//}
-//- (void)shuzuCount
-//{
-//    _array =  [[[NSUserDefaults standardUserDefaults] objectForKey:@"tuijianArray"] mutableCopy];
-//    
 //}
 //
 //

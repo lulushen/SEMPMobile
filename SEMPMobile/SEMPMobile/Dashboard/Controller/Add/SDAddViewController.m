@@ -50,7 +50,7 @@
     
     if (_dataArray.count == 0 && _array2.count == 0) {
         
-        _dataArray = [NSMutableArray  arrayWithObjects:@"a",@"b",@"c",@"d",@"e",@"f",nil];
+        _dataArray = [NSMutableArray  arrayWithObjects:@"a",@"b",@"c",@"d",@"e",@"f",@"g",nil];
         
         _array2 = [NSMutableArray  arrayWithObjects:@"1",@"2",@"3",@"4",@"5",@"6",nil];
         
@@ -170,8 +170,8 @@
     SDAddCollectionViewCell * addcell = [collectionView dequeueReusableCellWithReuseIdentifier:@"addcell" forIndexPath:indexPath];
     if (collectionView.tag == 1) {
         
-        UILabel * label = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(addcell.contentView.frame)-10, 0, 10, 10)];
-        label.backgroundColor = [UIColor redColor];
+        UILabel * label = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(addcell.contentView.frame)-10, 0, 12, 12)];
+        label.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"delete.png"]];
         [addcell addSubview:label];
         for (int i = 0; i< _dataArray.count;i++) {
             

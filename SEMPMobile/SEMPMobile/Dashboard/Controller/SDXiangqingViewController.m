@@ -45,7 +45,7 @@
     
     
     
-    UITabBar * view = [[UITabBar alloc] initWithFrame:CGRectMake(0, Kheight-KTabBarFrameHeight, Kwidth, KTabBarFrameHeight)];
+    UITabBar * view = [[UITabBar alloc] initWithFrame:CGRectMake(0, Kheight-KSNHeight-KTabBarFrameHeight, Kwidth, KTabBarFrameHeight)];
     NSLog(@"-=-=-=-=-=%f",KTableViewHeight-KTabBarFrameHeight);
     view.backgroundColor = [UIColor whiteColor];
     UIButton * button = [UIButton buttonWithType:UIButtonTypeRoundedRect];

@@ -26,19 +26,23 @@
 @end
 
 @implementation SDUserLoginViewController
-- (NSString *)md5:(NSString *)str
+#pragma mrak 声明一个md5加密方法
+- (NSString *)md5HexDigest:(NSString*)password
 {
-    const char *cStr = [str UTF8String];
-    unsigned char result[16];
-    CC_MD5(cStr, (int)strlen(cStr), result); // This is the md5 call
-    return [NSString stringWithFormat:
-            @"%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x",
-            result[0], result[1], result[2], result[3],
-            result[4], result[5], result[6], result[7],
-            result[8], result[9], result[10], result[11],
-            result[12], result[13], result[14], result[15]
-            ]; 
+    const char *original_str = [password UTF8String];
+    unsigned char result[CC_MD5_DIGEST_LENGTH];
+    CC_MD5(original_str, (int)strlen(original_str), result);
+    NSMutableString *hash = [NSMutableString string];
+    for (int i = 0; i < 16; i++)
+    {
+        [hash appendFormat:@"%02x", result[i]];
+    }
+    NSString *mdfiveString = [hash lowercaseString];
+    
+    NSLog(@"Encryption Result = %@",mdfiveString);
+    return mdfiveString;
 }
+
 - (void)viewWillAppear:(BOOL)animated{
 
     [super viewWillAppear:animated];
@@ -47,36 +51,51 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    [self  md5:@"lllljiinin"];
-    
-    NSLog(@"-=-=-=-%@",[self  md5:@"lllljiinin"]);
-    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"userLogin.png"]];
+   
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"userlogin.png"]];
     // 调用设置控件的方法
     [self makeUI];
 }
 - (void)makeUI{
     
-    self.userTextField  = [[UITextField alloc] initWithFrame:CGRectMake(100*KWidth6scale, 200*KHeight6scale, 200*KWidth6scale, 40*KHeight6scale)];
+    
+    self.biaoshiTextField  = [[UITextField alloc] initWithFrame:CGRectMake(100*KWidth6scale, 230*KHeight6scale, 200*KWidth6scale, 35*KHeight6scale)];
+    self.biaoshiTextField.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:self.biaoshiTextField];
+    
+    
+    self.userTextField  = [[UITextField alloc] initWithFrame:CGRectMake(100*KWidth6scale, CGRectGetMaxY(self.biaoshiTextField.frame) + 27*KHeight6scale, 200*KWidth6scale, CGRectGetHeight(self.biaoshiTextField.frame))];
     self.userTextField.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.userTextField];
     
-    self.passWordTextField = [[UITextField alloc] initWithFrame:CGRectMake(CGRectGetMinX(self.userTextField.frame), CGRectGetMaxY(self.userTextField.frame)+10*KHeight6scale, CGRectGetWidth(self.userTextField.frame), CGRectGetHeight(self.userTextField.frame))];
+    self.passWordTextField = [[UITextField alloc] initWithFrame:CGRectMake(CGRectGetMinX(self.userTextField.frame), CGRectGetMaxY(self.userTextField.frame)+27*KHeight6scale, CGRectGetWidth(self.userTextField.frame), CGRectGetHeight(self.userTextField.frame))];
     self.passWordTextField.backgroundColor = [UIColor whiteColor];
     self.passWordTextField.secureTextEntry = YES;
     [self.view addSubview:self.passWordTextField];
     
     
     self.LoginButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.LoginButton.frame = CGRectMake(Kwidth/2 - 75*KWidth6scale,Kheight - 200*KHeight6scale, 150*KWidth6scale, 40*KHeight6scale);
+    self.LoginButton.frame = CGRectMake(Kwidth/2 - 75*KWidth6scale,CGRectGetMaxY(self.passWordTextField.frame) + 30*KHeight6scale, 150*KWidth6scale, CGRectGetHeight(self.passWordTextField.frame));
     [self.LoginButton setTitle:@"Login" forState:UIControlStateNormal];
     self.LoginButton.backgroundColor = [UIColor grayColor];
     [self.LoginButton addTarget:self action:@selector(LoginButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.LoginButton];
+    UIButton * backbutton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    backbutton.frame = CGRectMake(10, 20, 80, 50);
+//    backbutton.backgroundColor = [UIColor grayColor];
+    [self.view addSubview:backbutton];
+    [backbutton addTarget:self action:@selector(backbuttonClick:) forControlEvents:UIControlEventTouchUpInside];
     
+}
+
+- (void)backbuttonClick:(UIButton *)button
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 - (void)LoginButtonClick:(UIButton *)button{
     
-    
+    // 调用加密方法将密码加密
+    NSString * md5PasswordStr = [self md5HexDigest:self.passWordTextField.text];
     // 1.设置请求路径
     NSString * urlStr = [NSString stringWithFormat:LoginHttp];
     NSURL * url = [NSURL URLWithString:urlStr];

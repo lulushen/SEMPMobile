@@ -33,13 +33,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.edgesForExtendedLayout = YES;
     self.view.backgroundColor = [UIColor whiteColor];
     [self makeReportTable];
 }
 - (void)makeReportTable
 {
     
-    self.reportTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, Kwidth, KTableViewHeight)  style:(UITableViewStyleGrouped)];
+    self.reportTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, Kwidth, KTableViewHeight + KSNHeight)  style:(UITableViewStyleGrouped)];
     [self.view addSubview:self.reportTableView];
     self.reportTableView.delegate = self;
     self.reportTableView.dataSource = self;

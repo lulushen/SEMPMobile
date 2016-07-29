@@ -34,7 +34,7 @@
 
 - (void)makeTableView{
     
-    self.userTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, Kwidth, KTableViewHeight) style:(UITableViewStyleGrouped)];
+    self.userTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, Kwidth, KTableViewHeight+ KSNHeight) style:(UITableViewStyleGrouped)];
     
     self.userTableView.delegate = self;
     
