@@ -1,0 +1,247 @@
+[
+	{
+			"id" 	    : "minth_01_100",
+			"title"    : "销售费用00",
+			"unit"		 : "万元",
+			"midval"       :"23.057",
+            "bgcolor"      : "#004EA1",
+            "color"        : "#FFFFFF",
+            "size_x"       : 1,
+            "size_y"       : 1,
+            "char_type"    :"text",
+            "bottomtitle"  :"",
+            "bottomval"    :"",
+            "bottomunit"   : "",
+            "data"        :{}
+
+},
+{
+            "id" 	    : "minth_01_101",
+            "title"    : "销售费用01",
+            "unit"		 : "万元",
+            "midval"       :"23.057",
+            "bgcolor"      : "#004EA1",
+            "color"        : "#FFFFFF",
+            "size_x"       : 1,
+            "size_y"       : 1,
+            "char_type"    :"text",
+            "bottomtitle"  :"",
+            "bottomval"    :"",
+            "bottomunit"   : "",
+            "data"        :{}
+
+},
+
+	{
+           "id" 	    : "minth_01_102",
+            "title"    : "销售费用02",
+            "unit"		 : "万元",
+            "midval"       :"23.057",
+            "bgcolor"      : "#004EA1",
+            "color"        : "#FFFFFF",
+            "size_x"       : 2,
+            "size_y"       : 1,
+            "char_type"    :"longtext",
+            "bottomtitle"  :"同比",
+            "bottomval"    :"13,057",
+            "bottomunit"   : "",
+            "data"        :{}
+
+},
+{
+            "id" 	    : "minth_01_103",
+            "title"    : "销售费用03",
+            "unit"		 : "万元",
+            "midval"       :"23.057",
+            "bgcolor"      : "#004EA1",
+            "color"        : "#FFFFFF",
+            "size_x"       : 2,
+            "size_y"       : 1,
+            "char_type"    :"longtext",
+            "bottomtitle"  :"同比",
+            "bottomval"    :"13,057",
+            "bottomunit"   : "",
+            "data"        :{}
+
+},
+
+    {
+            "id" 	    : "minth_01_104",
+            "title"    : "销售费用04",
+            "unit"		 : "万元",
+            "midval"       :"23.057",
+            "bgcolor"      : "#004EA1",
+            "color"        : "#FFFFFF",
+            "size_x"       : 2,
+            "size_y"       : 2,
+            "char_type"    :"line",
+            "bottomtitle"  :"",
+            "bottomval"    :"",
+            "bottomunit"   : "",
+            "data"        :{
+                "x":["2012","2013","2014","2016","2017"],
+                "y":["128,023","2,345,678","1,956,782","3,658,721","3,679,765"]
+    }
+},
+    {
+            "id" 	    : "minth_01_105",
+            "title"    : "销售费用05",
+            "unit"		 : "万元",
+            "midval"       :"23.057",
+            "bgcolor"      : "#004EA1",
+            "color"        : "#FFFFFF",
+            "size_x"       : 2,
+            "size_y"       : 2,
+            "char_type"    :"Bar",
+            "bottomtitle"  :"",
+            "bottomval"    :"",
+            "bottomunit"   : "",
+            "data"        :{
+                "x":["2012","2013","2014","2016","2017"],
+                "y":["128,023","2,345,678","1,956,782","3,658,721","3,679,765"]
+    }
+},
+{
+            "id" 	    : "minth_01_106",
+            "title"    : "销售费用06",
+            "unit"		 : "万元",
+            "midval"       :"23.057",
+            "bgcolor"      : "#004EA1",
+            "color"        : "#FFFFFF",
+            "size_x"       : 2,
+            "size_y"       : 2,
+            "char_type"    :"shan",
+            "bottomtitle"  :"",
+            "bottomval"    :"",
+            "bottomunit"   : "",
+            "data"        :{
+            "x":["2012","2013","2014","2016","2017"],
+            "y":["128,023","2,345,678","1,956,782","3,658,721","3,679,765"]
+    }
+},
+{
+"id" 	    : "minth_01_107",
+"title"    : "销售费用7",
+"unit"		 : "万元",
+"midval"       :"23.057",
+"bgcolor"      : "#004EA1",
+"color"        : "#FFFFFF",
+"size_x"       : 1,
+"size_y"       : 1,
+"char_type"    :"text",
+"bottomtitle"  :"",
+"bottomval"    :"",
+"bottomunit"   : "",
+"data"        :{}
+
+},
+{
+"id" 	    : "minth_01_108",
+"title"    : "销售费用8",
+"unit"		 : "万元",
+"midval"       :"23.057",
+"bgcolor"      : "#004EA1",
+"color"        : "#FFFFFF",
+"size_x"       : 1,
+"size_y"       : 1,
+"char_type"    :"text",
+"bottomtitle"  :"",
+"bottomval"    :"",
+"bottomunit"   : "",
+"data"        :{}
+
+},
+
+{
+"id" 	    : "minth_01_109",
+"title"    : "销售费用9",
+"unit"		 : "万元",
+"midval"       :"23.057",
+"bgcolor"      : "#004EA1",
+"color"        : "#FFFFFF",
+"size_x"       : 2,
+"size_y"       : 1,
+"char_type"    :"longtext",
+"bottomtitle"  :"同比",
+"bottomval"    :"13,057",
+"bottomunit"   : "",
+"data"        :{}
+
+},
+{
+"id" 	    : "minth_01_110",
+"title"    : "销售费用10",
+"unit"		 : "万元",
+"midval"       :"23.057",
+"bgcolor"      : "#004EA1",
+"color"        : "#FFFFFF",
+"size_x"       : 2,
+"size_y"       : 1,
+"char_type"    :"longtext",
+"bottomtitle"  :"同比",
+"bottomval"    :"13,057",
+"bottomunit"   : "",
+"data"        :{}
+
+},
+
+{
+"id" 	    : "minth_01_111",
+"title"    : "销售费用11",
+"unit"		 : "万元",
+"midval"       :"23.057",
+"bgcolor"      : "#004EA1",
+"color"        : "#FFFFFF",
+"size_x"       : 2,
+"size_y"       : 2,
+"char_type"    :"line",
+"bottomtitle"  :"",
+"bottomval"    :"",
+"bottomunit"   : "",
+"data"        :{
+"x":["2012","2013","2014","2016","2017"],
+"y":["128,023","2,345,678","1,956,782","3,658,721","3,679,765"]
+}
+},
+{
+"id" 	    : "minth_01_112",
+"title"    : "销售费用12",
+"unit"		 : "万元",
+"midval"       :"23.057",
+"bgcolor"      : "#004EA1",
+"color"        : "#FFFFFF",
+"size_x"       : 2,
+"size_y"       : 2,
+"char_type"    :"Bar",
+"bottomtitle"  :"",
+"bottomval"    :"",
+"bottomunit"   : "",
+"data"        :{
+"x":["2012","2013","2014","2016","2017"],
+"y":["128,023","2,345,678","1,956,782","3,658,721","3,679,765"]
+}
+},
+{
+"id" 	    : "minth_01_113",
+"title"    : "销售费用13",
+"unit"		 : "万元",
+"midval"       :"23.057",
+"bgcolor"      : "#004EA1",
+"color"        : "#FFFFFF",
+"size_x"       : 2,
+"size_y"       : 2,
+"char_type"    :"shan",
+"bottomtitle"  :"",
+"bottomval"    :"",
+"bottomunit"   : "",
+"data"        :{
+"x":["2012","2013","2014","2016","2017"],
+"y":["128,023","2,345,678","1,956,782","3,658,721","3,679,765"]
+}
+}
+
+
+
+
+
+]
