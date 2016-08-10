@@ -11,9 +11,12 @@
 #import "RecordHUD.h"
 #import "DataView.h"
 #import "DataSearchView.h"
+#import "IncomeTableViewCell.h"
+#import "IncomeTableViewTopCell.h"
+#import "IncomeTableViewChartCell.h"
 
 
-@interface SDIncomeViewController () <UITextViewDelegate>
+@interface SDIncomeViewController () <UITextViewDelegate,UITableViewDataSource,UITableViewDelegate>
 //nav上的日期视图
 @property (nonatomic ,strong) DataView * dataView;
 //日期选择视图
@@ -36,21 +39,28 @@
 @property (nonatomic , strong) D3RecordButton * pofangButtontwo;
 
 @property (nonatomic , assign) BOOL zhuangtai;
+
+#warning 实验
+// tableView
+@property (nonatomic , strong) UITableView * IncomeTableView;
+
 @end
 @implementation SDIncomeViewController
-
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor whiteColor];
-    [self.view setUserInteractionEnabled:YES];
+#pragma ==nav方法 头
     [self makeNavigation];
+    
+#warning tableView方法
+    [self makeTableView];
+    
+#pragma ==tab方法 尾
     [self maketab];
     // Do any additional setup after loading the view.
 }
 - (void)makeNavigation
 {
     _dataView = [[DataView alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width*2/5, 44)];
-    
     // dataView视图 相当于navigationItem.titleView  _dataView视图上有一个button与视图一样大，dateLabel和ImageView 添加在button上
     self.navigationItem.titleView  = _dataView;
     _dataView.dateLabel.text = _IncomeDateString;
@@ -63,7 +73,7 @@
     [_dataSearchView.deleteButton addTarget:self action:@selector(deleteButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     
     [self makeLeftButtonItme];
-
+    
     
 }
 // 被观察者发生改变时 调用观察者方法
@@ -95,7 +105,7 @@
     [_dataSearchView removeFromSuperview];
     Btnstatu = YES;
     [self.navigationController popViewControllerAnimated:YES];
-
+    
 }
 // 相当于 日期按钮的点击状态
 static  BOOL Btnstatu = YES;
@@ -128,51 +138,20 @@ static  BOOL Btnstatu = YES;
     Btnstatu = YES;
     
 }
-- (void)maketab{
-    
-    
-    
-    UITabBar * view = [[UITabBar alloc] initWithFrame:CGRectMake(0, KViewHeight, Main_Screen_Width, BottomBarHeight)];
-    view.backgroundColor = [UIColor whiteColor];
-    UIButton * button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    button.frame = CGRectMake(0, 0, Main_Screen_Width/4.0, BottomBarHeight);
-    [button setTitle:@"画笔" forState:UIControlStateNormal];
-    [button addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
-    [view addSubview:button];
-    UIButton * luyinbutton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    luyinbutton.frame = CGRectMake(CGRectGetMaxX(button.frame),0 , Main_Screen_Width/4.0, BottomBarHeight);
-    [luyinbutton setTitle:@"录音" forState:UIControlStateNormal];
- 
-    [luyinbutton addTarget:self action:@selector(luyinbuttonClick:) forControlEvents:UIControlEventTouchUpInside];
-    [view addSubview:luyinbutton];
-    UIButton * wenbenbutton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    wenbenbutton.frame = CGRectMake(CGRectGetMaxX(luyinbutton.frame),0 , Main_Screen_Width/4.0, BottomBarHeight);
-    [wenbenbutton setTitle:@"文本" forState:UIControlStateNormal];
-    [wenbenbutton addTarget:self action:@selector(wenbenbuttonClick:) forControlEvents:UIControlEventTouchUpInside];
-    [view addSubview:wenbenbutton];
-    UIButton * fenxiangbutton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    fenxiangbutton.frame = CGRectMake(CGRectGetMaxX(wenbenbutton.frame), 0, Main_Screen_Width/4.0, BottomBarHeight);
-    [fenxiangbutton setTitle:@"分享" forState:UIControlStateNormal];
-    [fenxiangbutton addTarget:self action:@selector(fenxiangbuttonClick:) forControlEvents:UIControlEventTouchUpInside];
-    [view addSubview:fenxiangbutton];
-    [self.view addSubview:view];
-   _longPressGr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressToDo:)];
-    _longPressGr.minimumPressDuration = 1.0;
-    
-}
+
 - (void)buttonClick:(UIButton *)button
 {
     [self.luyinView removeFromSuperview];
-
-      self.zhuangtai = NO;
     
-        [self.huabiV removeFromSuperview];
-        [self.textView removeFromSuperview];
-        self.huabiV = [[SDHuaBiView alloc]initWithFrame:CGRectMake(0, 0, Main_Screen_Width, KViewHeight)];
-
-        [self.huabiV addGestureRecognizer:_longPressGr];
+    self.zhuangtai = NO;
     
-        [self.view addSubview:self.huabiV];
+    [self.huabiV removeFromSuperview];
+    [self.textView removeFromSuperview];
+    self.huabiV = [[SDHuaBiView alloc]initWithFrame:CGRectMake(0, 0, Main_Screen_Width, KViewHeight)];
+    
+    [self.huabiV addGestureRecognizer:_longPressGr];
+    
+    [self.view addSubview:self.huabiV];
     
     
 }
@@ -201,7 +180,7 @@ static  BOOL Btnstatu = YES;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self.huabiV removeFromSuperview];
     [self.textView removeFromSuperview];
-
+    
     
     
     if (button.selected == self.zhuangtai) {
@@ -231,17 +210,17 @@ static  BOOL Btnstatu = YES;
         
         _zhuangtai = YES;
         [_luyinButtontwo initRecord:self maxtime:60 title:@"按住录音"];
-
+        
     }else{
         
         [self.luyinView removeFromSuperview];
         _zhuangtai = NO;
-
+        
     }
     
     
     
-
+    
 }
 - (void)pofangButtontwoClick:(UIButton *)button
 {
@@ -252,27 +231,27 @@ static  BOOL Btnstatu = YES;
 -(void)endRecord:(NSData *)voiceData{
     NSError *error;
     play = [[AVAudioPlayer alloc]initWithData:voiceData error:&error];
-
+    
 }
 
 - (void)wenbenbuttonClick:(UIButton *)button
 {
-        [self.luyinView removeFromSuperview];
+    [self.luyinView removeFromSuperview];
     
-        self.zhuangtai = NO;
+    self.zhuangtai = NO;
     
-        [[NSNotificationCenter defaultCenter] removeObserver:self];
-        [self.huabiV removeFromSuperview];
-        [self.textView removeFromSuperview];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [self.huabiV removeFromSuperview];
+    [self.textView removeFromSuperview];
     
-        self.textView = [[UITextView alloc] init];
-        self.textView.frame = CGRectMake(Main_Screen_Width/2.0-150, KViewHeight/2.0-100, 300, 200);
-        self.textView.backgroundColor = [UIColor grayColor];
-        self.textView.font = [UIFont boldSystemFontOfSize:28];
-        self.textView.delegate = self;[self.textView resignFirstResponder];
-        [self.textView addGestureRecognizer:_longPressGr];
+    self.textView = [[UITextView alloc] init];
+    self.textView.frame = CGRectMake(Main_Screen_Width/2.0-150, KViewHeight/2.0-100, 300, 200);
+    self.textView.backgroundColor = [UIColor grayColor];
+    self.textView.font = [UIFont boldSystemFontOfSize:28];
+    self.textView.delegate = self;[self.textView resignFirstResponder];
+    [self.textView addGestureRecognizer:_longPressGr];
     
-     [self.view addSubview:self.textView];
+    [self.view addSubview:self.textView];
     _removebutton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     _removebutton.frame = CGRectMake(- 25, - 25, 50, 50);
     _removebutton.backgroundColor = [UIColor redColor];
@@ -281,20 +260,12 @@ static  BOOL Btnstatu = YES;
     [self.textView addSubview:_removebutton];
     _removebutton.clipsToBounds = YES;
     _removebutton.autoresizesSubviews=YES;
-
-//    self.textView.clipsToBounds = YES;
-
     
-
     if (self.textView != nil) {
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleKeyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleKeyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     }
-    
-        
-
-       
     
 }
 //键盘将要出现
@@ -305,8 +276,6 @@ static  BOOL Btnstatu = YES;
     CGRect keyboardRect = [value CGRectValue];
     CGFloat keyboardH = keyboardRect.size.height;
     self.textView.transform = CGAffineTransformMakeTranslation(0, -(keyboardH - (Main_Screen_Height -  CGRectGetMaxY(self.textView.frame))) - 100);
-
-    
 }
 
 //键盘将要隐藏
@@ -329,6 +298,7 @@ static  BOOL Btnstatu = YES;
     [self ScreenShot];
 }
 static int ScreenshotIndex = 0;
+
 -(void)ScreenShot{
     
     //这里因为我需要全屏接图所以直接改了，宏定义iPadWithd为1024，iPadHeight为768，
@@ -363,6 +333,118 @@ static int ScreenshotIndex = 0;
 //获取路径<这里我就直接用于邮件推送的代码中去了，能达到效果，但肯定有更好的写法>
 - (NSString *)GetPickPath {
     return _ScreenshotsPickPath;
+}
+- (void)maketab{
+    
+    UITabBar * view = [[UITabBar alloc] initWithFrame:CGRectMake(0, KViewHeight, Main_Screen_Width, BottomBarHeight)];
+    view.backgroundColor = [UIColor whiteColor];
+    UIButton * button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    button.frame = CGRectMake(0, 0, Main_Screen_Width/4.0, BottomBarHeight);
+    [button setImage:[[UIImage imageNamed:@"IncomeHuaBi.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] forState:UIControlStateNormal];
+    [button addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
+    [view addSubview:button];
+    UIButton * luyinbutton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    luyinbutton.frame = CGRectMake(CGRectGetMaxX(button.frame),0 , Main_Screen_Width/4.0, BottomBarHeight);
+    [luyinbutton setImage:[[UIImage imageNamed:@"IncomeLunYin.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] forState:UIControlStateNormal];
+    [luyinbutton addTarget:self action:@selector(luyinbuttonClick:) forControlEvents:UIControlEventTouchUpInside];
+    [view addSubview:luyinbutton];
+    UIButton * textButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    textButton.frame = CGRectMake(CGRectGetMaxX(luyinbutton.frame),0 , Main_Screen_Width/4.0, BottomBarHeight);
+    [textButton setImage:[[UIImage imageNamed:@"IncomeText.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] forState:UIControlStateNormal];
+    [textButton addTarget:self action:@selector(wenbenbuttonClick:) forControlEvents:UIControlEventTouchUpInside];
+    [view addSubview:textButton];
+    UIButton * shareButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    shareButton.frame = CGRectMake(CGRectGetMaxX(textButton.frame), 0, Main_Screen_Width/4.0, BottomBarHeight);
+    [shareButton setImage:[[UIImage imageNamed:@"IncomeShare.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] forState:UIControlStateNormal];
+    
+    [shareButton addTarget:self action:@selector(fenxiangbuttonClick:) forControlEvents: UIControlEventTouchUpInside];
+    [view addSubview:shareButton];
+    [self.view addSubview:view];
+    _longPressGr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressToDo:)];
+    _longPressGr.minimumPressDuration = 1.0;
+    
+}
+
+
+#warning tableView
+
+- (void)makeTableView
+{
+    _IncomeTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, KViewHeight) style:UITableViewStyleGrouped];
+    _IncomeTableView.backgroundColor = [UIColor whiteColor];
+    
+    [self.view addSubview:_IncomeTableView];
+    //去掉分割线
+     _IncomeTableView.separatorStyle = UITableViewCellSelectionStyleNone;
+    _IncomeTableView.delegate = self;
+    
+    _IncomeTableView.dataSource = self;
+    // cell重用标示
+//    [_IncomeTableView registerClass:[IncomeTableViewCell class] forCellReuseIdentifier:@"IncomeCell"];
+//    [_IncomeTableView registerClass:[IncomeTableViewTopCell class] forCellReuseIdentifier:@"IncomeTopCell"];
+
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 5;
+}
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+ 
+    if (indexPath.row == 0) {
+    
+        IncomeTableViewTopCell * cell = [tableView cellForRowAtIndexPath:indexPath];
+        if (cell == nil) {
+            
+            cell =  [[IncomeTableViewTopCell alloc] initWithStyle:(UITableViewCellStyleSubtitle) reuseIdentifier:@"TopCell"] ;
+            cell.titleLabel.text = @"92,018,300";
+            cell.bottomtitleLabel.text = @"同比";
+            cell.bottomvalLabel.text = @"20%";
+            cell.bottomtitleTwoLabel.text = @"环比";
+            cell.bottomvalTwoLabel.text = @"7%";
+            cell.titleImage.image = [UIImage imageNamed:@"sanjiao.png"];
+        }
+
+        
+       return cell;
+    }else  if(indexPath.row == 1){
+        
+        IncomeTableViewChartCell * cell = [tableView cellForRowAtIndexPath:indexPath];
+         cell =  [[IncomeTableViewChartCell alloc] initWithStyle:(UITableViewCellStyleSubtitle) reuseIdentifier:@"ChartCell"] ;
+        
+        return cell;
+    }else{
+        
+        IncomeTableViewCell * cell = [tableView cellForRowAtIndexPath:indexPath];
+        cell =  [[IncomeTableViewCell alloc] initWithStyle:(UITableViewCellStyleSubtitle) reuseIdentifier:@"cell"] ;
+        cell.titleLabel.text = @"Total";
+        cell.ValueLabel.text = @"123";
+        
+        return cell;
+        
+    }
+
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    if (indexPath.row == 0) {
+        
+        return 100;
+    }else if(indexPath.row == 1){
+        return 300;
+    }else{
+        return (_IncomeTableView.frame.size.height - 400)/3.0;
+    }
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 1;
 }
 
 - (void)didReceiveMemoryWarning {

@@ -24,6 +24,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.backgroundColor = [UIColor whiteColor];
+    
     //选择自己喜欢的颜色
     UIColor * color = [UIColor whiteColor];
     //这里我们设置的是颜色，还可以设置shadow等，具体可以参见api
@@ -31,20 +33,20 @@
     self.navigationController.navigationBar.titleTextAttributes = dict;
     
     // 设置导航栏的颜色
-    self.navigationController.navigationBar.barTintColor = [UIColor blackColor];
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:38/255 green:38/255 blue:39/255 alpha:1];
     // 设置半透明状态（yes） 不透明状态 （no）
     self.navigationController.navigationBar.translucent = NO;
     
     self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
     // 设置导航栏上面字体的颜色
     [UINavigationBar appearance].tintColor = [UIColor whiteColor];
-        // Do any additional setup after loading the view.
-        _originY = Main_Screen_Height - BottomBarHeight;
-        self.view.backgroundColor = DEFAULT_BGCOLOR;
+    // Do any additional setup after loading the view.
+    _originY = Main_Screen_Height - BottomBarHeight;
+    self.view.backgroundColor = [UIColor whiteColor];
     
-        //添加网络监测通知
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkChanged:) name:kRealReachabilityChangedNotification object:nil];
-        // ReachabilityStatus status = [GLobalRealReachability currentReachabilityStatus];
+    //添加网络监测通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkChanged:) name:kRealReachabilityChangedNotification object:nil];
+    // ReachabilityStatus status = [GLobalRealReachability currentReachabilityStatus];
     
 }
 
@@ -65,14 +67,14 @@
     ReachabilityStatus status = [reachability currentReachabilityStatus];
     ReachabilityStatus previousStatus = [reachability previousReachabilityStatus];
     NSLog(@"networkChanged: currentStatus:%@, previouStatus:%@",@(status),@(previousStatus));
-       if (status == RealStatusNotReachable) {
-           [self showHudInView:self.view showHint:@"断网了,请检查网络"];
-       }
-       if (status == RealStatusViaWiFi) {
-          [self showHudInView:self.view showHint:@"切换到了WIFI"];
-      }
+    if (status == RealStatusNotReachable) {
+        [self showHudInView:self.view showHint:@"断网了,请检查网络"];
+    }
+    if (status == RealStatusViaWiFi) {
+        [self showHudInView:self.view showHint:@"切换到了WIFI"];
+    }
     if (status == RealStatusViaWWAN) {
-           [self showHudInView:self.view showHint:@"切换到了局域网"];
+        [self showHudInView:self.view showHint:@"切换到了局域网"];
     }
     WWANAccessType accessType = [GLobalRealReachability currentWWANtype];
     if (status == RealStatusViaWWAN) {

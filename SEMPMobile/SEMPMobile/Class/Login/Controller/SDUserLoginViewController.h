@@ -7,11 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "AppDelegate.h"
+
 
 @interface SDUserLoginViewController : UIViewController
 
-//  企业标示码
+// 企业标示码
 @property (nonatomic , strong) UITextField * biaoshiTextField;
 // 用户名
 @property (nonatomic , strong) UITextField * userTextField;

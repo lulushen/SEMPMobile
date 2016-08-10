@@ -8,6 +8,8 @@
 
 #import "RootViewController.h"
 #import "DashBoardModel.h"
+#import "userModel.h"
+
 
 @interface DashBoardViewController : RootViewController
 
@@ -22,4 +24,8 @@
 @property (nonatomic , strong) NSMutableArray *DashArray;
 
 @property (nonatomic , strong) UIButton * moreButton;
+
+////用户登录时获取的model
+@property (nonatomic , strong) userModel * userModel;
+
 @end

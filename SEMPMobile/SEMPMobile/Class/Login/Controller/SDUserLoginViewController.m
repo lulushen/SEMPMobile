@@ -9,7 +9,7 @@
 #import "SDUserLoginViewController.h"
 #import "TabBarControllerConfig.h"
 #import "MBProgressHUD+MJ.h"
-
+#import "userModel.h"
 
 
 @interface SDUserLoginViewController ()<UITextFieldDelegate>
@@ -18,7 +18,7 @@
     UIAlertController * _alertLoginFail;
     UIAlertController * _alertDidRegiest;
     NSMutableDictionary *_temDic;
-    
+    userModel * model;
 }
 
 @property (nonatomic , strong)NSString * info;
@@ -44,14 +44,14 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated{
-
+    
     [super viewWillAppear:animated];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-   
+    
+    
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"userlogin.png"]];
     // 调用设置控件的方法
     [self makeUI];
@@ -59,7 +59,7 @@
 - (void)makeUI{
     
     
-    self.biaoshiTextField  = [[UITextField alloc] initWithFrame:CGRectMake(100*KWidth6scale, 230*KHeight6scale, 200*KWidth6scale, 35*KHeight6scale)];
+    self.biaoshiTextField  = [[UITextField alloc] initWithFrame:CGRectMake(100*KWidth6scale, 235*KHeight6scale, 200*KWidth6scale, 35*KHeight6scale)];
     self.biaoshiTextField.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.biaoshiTextField];
     
@@ -82,7 +82,6 @@
     [self.view addSubview:self.LoginButton];
     UIButton * backbutton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     backbutton.frame = CGRectMake(10, 20, 80, 50);
-//    backbutton.backgroundColor = [UIColor grayColor];
     [self.view addSubview:backbutton];
     [backbutton addTarget:self action:@selector(backbuttonClick:) forControlEvents:UIControlEventTouchUpInside];
     
@@ -93,11 +92,9 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 - (void)LoginButtonClick:(UIButton *)button{
-    
-    // 调用加密方法将密码加密
-    NSString * md5PasswordStr = [self md5HexDigest:self.passWordTextField.text];
     // 1.设置请求路径
     NSString * urlStr = [NSString stringWithFormat:LoginHttp];
+    NSLog(@"login --=  url %@",urlStr);
     NSURL * url = [NSURL URLWithString:urlStr];
     
     // 2.创建请求对象,同时设置缓存策略和超时时间
@@ -105,49 +102,63 @@
     
     // 3.发送Post请求
     request.HTTPMethod = @"POST";
-    NSString * bodyStr = [NSString stringWithFormat:LoginHttpBody,self.userTextField.text,self.passWordTextField.text];
+//    NSString * bodyStr = [NSString stringWithFormat:LoginHttpBody,self.userTextField.text,self.passWordTextField.text];
+    NSString * bodyStr = [NSString stringWithFormat:LoginHttpBody,@"mobile",@"111111"];
     NSData * bodyData = [bodyStr dataUsingEncoding:NSUTF8StringEncoding];
     [request setHTTPBody:bodyData];
     NSURLSession * session = [NSURLSession sharedSession];
     NSURLSessionDataTask * task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
-        
-        NSDictionary * iosExpDict = dict[@"iosExp"];
-        self.info = iosExpDict[@"expMsg"];
-        NSString * statusInfo = iosExpDict[@"expCode"];
-        
-        if ([statusInfo isEqualToString: @"SUC-1001"]) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                
-                NSMutableDictionary * dic = [NSMutableDictionary dictionary];
-//                [dic setObject:@"SUC-1001" forKey:@"loginSuc"];
-                [dic setObject:_userTextField.text forKey:@"userName"];
-                [dic setObject:_passWordTextField.text forKey:@"passWord"];
-                [[NSUserDefaults standardUserDefaults] setObject:dic forKey:@"userLogin"];
-                [MBProgressHUD showSuccess:self.info];
-                
-                
-//                // 延迟1.5秒跳转页面
-//                [self performSelector:@selector(GoToMainView) withObject:self afterDelay:1.5f];
-//                [[NSUserDefaults standardUserDefaults] setObject:@"SUC-1001" forKey:@"login"];
-//                
-////                [((AppDelegate *)APP ];
-//
-//                AppDelegate * app = [[AppDelegate alloc] init];
-//                [app mainTab];
-            });
+        NSLog(@"data --- %@",data);
+        if (data != nil) {
             
-        } else {
+            NSMutableDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
             
-            dispatch_async(dispatch_get_main_queue(), ^{
-                
-//                [MBProgressHUD showSuccess:self.info];
-                
-                [MBProgressHUD showSuccess:@"登录失败"];
-            });
+            NSLog(@"dict -- %@",dict);
+            
+            model = [[userModel alloc] init];
             
             
+            [model setValuesForKeysWithDictionary:dict];
+            
+            NSLog(@"model . usertoken %@",model.user_token);
+            
+            NSInteger status = model.status;
+            
+            if (status == 1) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    
+                    NSMutableDictionary * dic = [NSMutableDictionary dictionary];
+                    [dic setObject:_userTextField.text forKey:@"userName"];
+                    [dic setObject:_passWordTextField.text forKey:@"passWord"];
+                    [[NSUserDefaults standardUserDefaults] setObject:dic forKey:@"userLogin"];
+                    [MBProgressHUD showSuccess:model.message];
+                    
+                    
+                    // 延迟1.5秒跳转页面
+                    [self performSelector:@selector(GoToMainView) withObject:self afterDelay:1.5f];
+                    [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:@"login"];
+                    
+                    //  AppDelegate * app = [[AppDelegate alloc] init];
+                    //  [app mainTab];
+                });
+                
+            } else {
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    
+                    // [MBProgressHUD showSuccess:self.info];
+                    
+                    [MBProgressHUD showSuccess:@"登录失败"];
+                    
+                    
+                });
+                
+                
+            }
+
+        }else{
+            
+            NSLog(@"login -- data为空");
         }
         
     }];
@@ -157,8 +168,20 @@
 }
 - (void)GoToMainView
 {
-    TabBarControllerConfig *tabBarConfig = [[TabBarControllerConfig alloc]init];
+    NSLog(@"model   -----    : %@",model.user_token);
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"userModel"] != nil) {
+        
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"userModel"];
+        
+    }
     
+    NSData * userModelData = [NSData data];
+    
+    userModelData = [NSKeyedArchiver archivedDataWithRootObject:model];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:userModelData forKey:@"userModel"];
+    
+    TabBarControllerConfig *tabBarConfig = [[TabBarControllerConfig alloc]init];
     [self presentViewController:tabBarConfig.tabBarController animated:YES completion:nil];
 }
 

@@ -12,7 +12,7 @@
 #import <IQKeyboardManager.h>
 #import "RealReachability.h"
 #import <MLTransition.h>
-
+//#import "UMSocial.h"
 
 
 @interface AppDelegate ()
@@ -24,11 +24,8 @@
 - (BOOL)application:(UIApplication *)application willFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     //开启网络监测
-    [GLobalRealReachability startNotifier];
-    
-    //添加屏幕中间右滑返回手势
-    //[MLTransition validatePanBackWithMLTransitionGestureRecognizerType:MLTransitionGestureRecognizerTypePan];
-    
+//    [GLobalRealReachability startNotifier];
+
     //监控键盘
     IQKeyboardManager * manager = [IQKeyboardManager sharedManager];
     manager.enable = YES;
@@ -55,6 +52,9 @@
     // 设置根视图
     LoginViewController * LoginView = [[LoginViewController alloc] init];
     self.window.rootViewController = LoginView;
+    
+    // UM分享 507fcab25270157b37000010
+//    [UMSocialData setAppKey:@"507fcab25270157b37000010"];
     
     return YES;
 }

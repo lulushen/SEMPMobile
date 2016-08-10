@@ -29,6 +29,7 @@ PODS:
   - SDWebImage/Core (3.7.6)
   - TZImagePickerController (1.5.0)
   - UICountingLabel (1.2.0)
+  - UMengSocialCOM (5.2.1)
 
 DEPENDENCIES:
   - AFNetworking (~> 3.1.0)
@@ -41,6 +42,7 @@ DEPENDENCIES:
   - Reachability (~> 3.2)
   - SDWebImage (~> 3.7.5)
   - TZImagePickerController (~> 1.5.0)
+  - UMengSocialCOM (~> 5.2.1)
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
@@ -54,7 +56,8 @@ SPEC CHECKSUMS:
   SDWebImage: c325cf02c30337336b95beff20a13df489ec0ec9
   TZImagePickerController: d09eef6042852a9dd19224ae4e874f7430852a51
   UICountingLabel: 1db4e7d023e1762171eb226d6dff47a7a84f27aa
+  UMengSocialCOM: 074c135ce349aa4c8848d3fb8458757bcb6ffb67
 
-PODFILE CHECKSUM: 78acaa4e76e5584c43644f5f8e54c74956717b77
+PODFILE CHECKSUM: 6bcfb317d79bc2735671e742c18ceecab245f9c9
 
 COCOAPODS: 1.0.1

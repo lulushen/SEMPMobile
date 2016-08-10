@@ -21,7 +21,7 @@
         _titleLab.layer.masksToBounds = YES;
         _titleLab.layer.cornerRadius = 10.0;
         _titleLab.layer.borderWidth = 1.0;
-        _titleLab.layer.borderColor = [[UIColor grayColor] CGColor ];
+        _titleLab.layer.borderColor = [DEFAULT_BGCOLOR CGColor ];
         
         [self.contentView addSubview:_titleLab];
     }

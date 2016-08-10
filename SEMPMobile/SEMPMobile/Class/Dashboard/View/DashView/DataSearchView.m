@@ -13,12 +13,12 @@
 @implementation DataSearchView
 {
     
-    NSMutableArray *yearArray;
-    NSArray *monthArray;
-    NSMutableArray *monthMutableArray;
-    NSMutableArray *DaysMutableArray;
-    NSMutableArray *DaysArray;
-    NSString *currentMonthString;
+    NSMutableArray * yearArray;
+    NSArray        * monthArray;
+    NSMutableArray * monthMutableArray;
+    NSMutableArray * DaysMutableArray;
+    NSMutableArray * DaysArray;
+    NSString       * currentMonthString;
     
     NSInteger selectedYearRow;
     NSInteger selectedMonthRow;
@@ -35,7 +35,7 @@
     int yearNumeber;
     int  mouthNumber;
     int  DayNumber;
-
+    
     
 }
 - (instancetype)initWithFrame:(CGRect)frame
@@ -52,9 +52,8 @@
 }
 - (void)p_makeview
 {
-
+    
     _yearButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    NSLog(@"%@",_yearButton);
     [_yearButton setTitle:@"年" forState:UIControlStateNormal];
     [self addSubview:_yearButton];
     [_yearButton addTarget:self action:@selector(yearButtonClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -62,30 +61,30 @@
     [_mouthButton setTitle:@"月" forState:UIControlStateNormal];
     [self addSubview:_mouthButton];
     [_mouthButton addTarget:self action:@selector(mouthButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-
+    
     _dayButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [_dayButton setTitle:@"日" forState:UIControlStateNormal];
     [self addSubview:_dayButton];
     [_dayButton addTarget:self action:@selector(dayButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-
     
-
+    
+    
     _okButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [_okButton setTitle:@"ok" forState:UIControlStateNormal];
     [self addSubview:_okButton];
     [_okButton addTarget:self action:@selector(okButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-
+    
     
     _deleteButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [_deleteButton setTitle:@"关闭" forState:UIControlStateNormal];
     _deleteButton.userInteractionEnabled = YES;
     [self addSubview:_deleteButton];
     
-
+    
     _myPickerView = [[UIPickerView alloc] init];
     _myPickerView.userInteractionEnabled = YES;
     _myPickerView.backgroundColor = [UIColor whiteColor];
-
+    
 }
 - (void)layoutSubviews{
     
@@ -96,12 +95,12 @@
     _deleteButton.frame = CGRectMake(0, CGRectGetHeight(self.frame) - 30, CGRectGetWidth(self.frame), CGRectGetHeight(_yearButton.frame));
     _myPickerView.frame = CGRectMake(CGRectGetWidth(self.frame)/2-CGRectGetWidth(self.frame)*3/8, CGRectGetMaxY(_yearButton.frame), CGRectGetWidth(self.frame)*3/4, CGRectGetHeight(self.frame) - CGRectGetHeight(_yearButton.frame) - CGRectGetMaxY(_yearButton.frame));
     [self addSubview:_myPickerView];
-
+    
 }
 // 进入日期选择器时的默认日期，年，月，日（从DataView界面传值过来的）
 - (void)makeDefaultDate
 {
-   // 根据日期字符串长度 判断默认日期的年月日
+    // 根据日期字符串长度 判断默认日期的年月日
     // 默认仅有年
     if (_defaultDateString.length == 5) {
         yearNumeber = [[_defaultDateString substringWithRange:NSMakeRange(0, 4)] intValue];
@@ -109,11 +108,11 @@
     // 默认仅有年月
     if (_defaultDateString.length > 5 && _defaultDateString.length <= 8) {
         NSRange rangeYear = [_defaultDateString rangeOfString:@"年"];//匹配得到的下标
-
+        
         NSRange rangeMouth = [_defaultDateString rangeOfString:@"月"];//匹配得到的下标
         NSUInteger  lenghtMouth = rangeMouth.location - rangeYear.location;// 月截取的长度
         yearNumeber = [[_defaultDateString substringWithRange:NSMakeRange(0, 4)] intValue];
-
+        
         mouthNumber = [[_defaultDateString substringWithRange:NSMakeRange(rangeYear.location+1, lenghtMouth-1)] intValue];
     }
     // 默认年月日
@@ -133,7 +132,7 @@
 }
 - (void)yearButtonClick:(UIButton *)button
 {
-   
+    
     number = 1;
     [self makedata];
     [self makeDefaultDate];
@@ -150,7 +149,7 @@
     [self makedata];
     // 进入日期选择器时的默认日期，年，月，日（从DataView界面传值过来的）
     [self makeDefaultDate];
-
+    
     // 进入日期选择器是的默认日期
     [_myPickerView selectRow:yearNumeber-1970 inComponent:0 animated:NO];
     [_myPickerView selectRow:mouthNumber-1 inComponent:1 animated:NO];
@@ -161,7 +160,7 @@
     number = 3;
     [self makedata];
     [self makeDefaultDate];
-
+    
     // 进入日期选择器是的默认日期
     [_myPickerView selectRow:yearNumeber-1970 inComponent:0 animated:NO];
     
@@ -175,7 +174,7 @@
 {
     _myPickerView.delegate = self;
     _myPickerView.dataSource = self;
-   
+    
     NSDate *date = [NSDate date];
     
     // Get Current Year
@@ -216,7 +215,7 @@
     // PickerView -  Months data
     
     
-    monthArray = @[@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9",@"10",@"11",@"12"];
+    monthArray = @[@"01",@"02",@"03",@"04",@"05",@"06",@"07",@"08",@"09",@"10",@"11",@"12"];
     
     for (int i=1; i<month+1; i++) {
         [monthMutableArray addObject:[NSString stringWithFormat:@"%d",i]];
@@ -245,18 +244,18 @@
 {
     
     if (number == 1) {
-         _dateString = [NSString stringWithFormat:@"%@年",[yearArray objectAtIndex:[_myPickerView selectedRowInComponent:0]]];
+        _dateString = [NSString stringWithFormat:@"%@年",[yearArray objectAtIndex:[_myPickerView selectedRowInComponent:0]]];
     }else if (number == 2){
-         _dateString = [NSString stringWithFormat:@"%@年%@月",[yearArray objectAtIndex:[_myPickerView selectedRowInComponent:0]],[monthArray objectAtIndex:[_myPickerView selectedRowInComponent:1]]];
+        _dateString = [NSString stringWithFormat:@"%@年%@月",[yearArray objectAtIndex:[_myPickerView selectedRowInComponent:0]],[monthArray objectAtIndex:[_myPickerView selectedRowInComponent:1]]];
     }else if(number == 3){
-         _dateString = [NSString stringWithFormat:@"%@年%@月%@日",[yearArray objectAtIndex:[_myPickerView selectedRowInComponent:0]],[monthArray objectAtIndex:[_myPickerView selectedRowInComponent:1]],[DaysArray objectAtIndex:[_myPickerView selectedRowInComponent:2]]];
+        _dateString = [NSString stringWithFormat:@"%@年%@月%@日",[yearArray objectAtIndex:[_myPickerView selectedRowInComponent:0]],[monthArray objectAtIndex:[_myPickerView selectedRowInComponent:1]],[DaysArray objectAtIndex:[_myPickerView selectedRowInComponent:2]]];
     }
-
+    
     // 发送消息   对应观察者在DashBoard视图中  当日期选择器中的日期确定是发送消息到DataView视图的观察者，在观察者方法中确定nav上label.text值，再把label.text的值赋给_defaultDateString默认日期  下次打开日期选择器的时候就会显示默认日期
     [[NSNotificationCenter defaultCenter] postNotificationName:@"DateChange" object:nil];
     // 发送消息 对应观察者在Income视图中
     [[NSNotificationCenter defaultCenter] postNotificationName:@"DateIncomeChange" object:nil];
-
+    
 }
 
 
@@ -416,11 +415,11 @@
 
 
 /*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
-}
-*/
+ // Only override drawRect: if you perform custom drawing.
+ // An empty implementation adversely affects performance during animation.
+ - (void)drawRect:(CGRect)rect {
+ // Drawing code
+ }
+ */
 
 @end

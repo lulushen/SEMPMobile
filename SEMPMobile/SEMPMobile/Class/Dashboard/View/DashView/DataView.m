@@ -25,7 +25,6 @@
 {
     
     _dateButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-//    _dateButton.backgroundColor = [UIColor grayColor];
     [self addSubview:_dateButton];
     _dateButton.userInteractionEnabled = YES;
     
@@ -45,7 +44,7 @@
     _dateButton.frame = CGRectMake(0, 0, CGRectGetWidth(self.frame), CGRectGetHeight(self.frame));
     _dateLabel.frame = CGRectMake(0, 0, CGRectGetWidth(_dateButton.frame)*5/6, self.frame.size.height);
 
-    _dateImage.frame = CGRectMake(CGRectGetMaxX(_dateLabel.frame), CGRectGetMinY(_dateLabel.frame)+5, CGRectGetWidth(_dateButton.frame)/6, CGRectGetHeight(_dateLabel.frame)-10);
+    _dateImage.frame = CGRectMake(CGRectGetMaxX(_dateLabel.frame), CGRectGetMinY(_dateLabel.frame)+10, CGRectGetWidth(_dateButton.frame)/6 -10, CGRectGetHeight(_dateLabel.frame)-20);
 }
 
 /*

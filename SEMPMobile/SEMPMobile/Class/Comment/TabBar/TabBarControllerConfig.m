@@ -7,7 +7,6 @@
 //
 
 #import "TabBarControllerConfig.h"
-#import "BaseNavigationController.h"
 #import <UIKit/UIKit.h>
 
 CGFloat const ZTCellMargin = 44.0;
@@ -82,7 +81,7 @@ CGFloat const ZTCellMargin = 44.0;
     Class someClass = NSClassFromString(className);
     id obj = [[someClass alloc]init];
     
-    UINavigationController *nav = [[BaseNavigationController alloc]initWithRootViewController:obj];
+    UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:obj];
     
     return nav;
 }
