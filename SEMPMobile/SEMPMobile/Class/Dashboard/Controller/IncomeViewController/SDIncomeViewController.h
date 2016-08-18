@@ -8,15 +8,21 @@
 
 #import "RootViewController.h"
 #import "D3RecordButton.h"
+#import "IncomeDashModel.h"
 
 
 @interface SDIncomeViewController : RootViewController <D3RecordDelegate>{
     AVAudioPlayer *play;
 }
-// block日期传值到DashBoardVC
-@property (nonatomic , copy) void (^IncomeDateBlockValue)(NSString * IncomeDateString,NSString * DefaultDateString);
+//// block日期传值到DashBoardVC
+//@property (nonatomic , copy) void (^IncomeDateBlockValue)(NSString * IncomeDateString,NSString * DefaultDateString);
+
 // _dateview上的日期 从DashBoardVC传值
 @property (nonatomic , strong) NSString * IncomeDateString;
 // 打开日期选择器时的默认日期 从DashBoardVC传值
 @property (nonatomic , strong) NSString * IncomeDefaultDateString;
+
+//进入指标详情界面中的指标model
+@property (nonatomic , strong) IncomeDashModel * incomeDashModel;
+
 @end

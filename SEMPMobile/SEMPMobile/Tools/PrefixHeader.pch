@@ -91,8 +91,11 @@
 #define indexCheckedHttp @"http://192.168.2.33:9111/DAP/app_indexChecked.do?user_token=%@&index_id=%@"
 
 // 指标详情界面
-#define IncomeHttp @"http://192.168.2.33:9111/DAP/app_indexInfoByOne.do?indexId=%@&timeVal=%@&dim_val=%@&defaultType=%@&contrastType=%@"
+#define IncomeHttp @"http://192.168.2.33:9111/DAP/app_indexInfoByOne.do?indexId=%@&timeVal=%@"
 
+
+// 测试报表详情界面的webView接口
+#define ReportIncomeWebHttp @"http://192.168.2.57:9090/DAP/reportviewapp.do?model_id=147149934813446276&user_token=%@"
 // Include any system framework and library headers here that should be included in all compilation units.
 // You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
 

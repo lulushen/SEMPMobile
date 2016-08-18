@@ -81,6 +81,7 @@
 		3D3B3F9E1D5C61F000096AC7 /* databgImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D3B3F9D1D5C61F000096AC7 /* databgImage.png */; };
 		3D3B3FA01D5C6FD500096AC7 /* delete.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D3B3F9F1D5C6FD500096AC7 /* delete.png */; };
 		3D3B3FA21D5C75AE00096AC7 /* wenBenDelete.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D3B3FA11D5C75AE00096AC7 /* wenBenDelete.png */; };
+		3D7012331D65990200C3648D /* IncomeDashModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D7012321D65990200C3648D /* IncomeDashModel.m */; };
 		3D7261271D62AB9B0006945E /* DashBoardCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D7261261D62AB9B0006945E /* DashBoardCollectionViewCell.m */; };
 		3D72D3201D59E19000EDD71A /* sanjiao.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D72D31F1D59E19000EDD71A /* sanjiao.png */; };
 		3D72D3261D59ED7200EDD71A /* account_highlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D72D3251D59ED7200EDD71A /* account_highlight.png */; };
@@ -115,6 +116,7 @@
 		3D9EE8901D59B34A0062DB1F /* IncomeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D9EE88F1D59B34A0062DB1F /* IncomeTableViewCell.m */; };
 		3D9EE8931D59C5CB0062DB1F /* IncomeTableViewTopCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D9EE8921D59C5CB0062DB1F /* IncomeTableViewTopCell.m */; };
 		3D9EE8961D59D9750062DB1F /* IncomeTableViewChartCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D9EE8951D59D9750062DB1F /* IncomeTableViewChartCell.m */; };
+		3DCA35801D658CEA00F305CA /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DCA357F1D658CEA00F305CA /* WebKit.framework */; };
 		3DCAD79D1D61AB2B00BE758F /* DashBoardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DCAD79C1D61AB2B00BE758F /* DashBoardViewController.m */; };
 		3DCAD7A01D61B04C00BE758F /* DashCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DCAD79F1D61B04C00BE758F /* DashCollectionViewFlowLayout.m */; };
 		3DCAD7A61D62A0FE00BE758F /* DashCollectionReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DCAD7A51D62A0FE00BE758F /* DashCollectionReusableView.m */; };
@@ -274,6 +276,8 @@
 		3D3B3F9D1D5C61F000096AC7 /* databgImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = databgImage.png; sourceTree = "<group>"; };
 		3D3B3F9F1D5C6FD500096AC7 /* delete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = delete.png; sourceTree = "<group>"; };
 		3D3B3FA11D5C75AE00096AC7 /* wenBenDelete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wenBenDelete.png; sourceTree = "<group>"; };
+		3D7012311D65990200C3648D /* IncomeDashModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IncomeDashModel.h; sourceTree = "<group>"; };
+		3D7012321D65990200C3648D /* IncomeDashModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IncomeDashModel.m; sourceTree = "<group>"; };
 		3D7261251D62AB9B0006945E /* DashBoardCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DashBoardCollectionViewCell.h; sourceTree = "<group>"; };
 		3D7261261D62AB9B0006945E /* DashBoardCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DashBoardCollectionViewCell.m; sourceTree = "<group>"; };
 		3D72D31F1D59E19000EDD71A /* sanjiao.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sanjiao.png; sourceTree = "<group>"; };
@@ -317,6 +321,7 @@
 		3D9EE8921D59C5CB0062DB1F /* IncomeTableViewTopCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IncomeTableViewTopCell.m; sourceTree = "<group>"; };
 		3D9EE8941D59D9750062DB1F /* IncomeTableViewChartCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IncomeTableViewChartCell.h; sourceTree = "<group>"; };
 		3D9EE8951D59D9750062DB1F /* IncomeTableViewChartCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IncomeTableViewChartCell.m; sourceTree = "<group>"; };
+		3DCA357F1D658CEA00F305CA /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		3DCAD79B1D61AB2B00BE758F /* DashBoardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DashBoardViewController.h; sourceTree = "<group>"; };
 		3DCAD79C1D61AB2B00BE758F /* DashBoardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DashBoardViewController.m; sourceTree = "<group>"; };
 		3DCAD79E1D61B04C00BE758F /* DashCollectionViewFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DashCollectionViewFlowLayout.h; sourceTree = "<group>"; };
@@ -344,6 +349,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3DCA35801D658CEA00F305CA /* WebKit.framework in Frameworks */,
 				3D9EE87B1D5982600062DB1F /* libiconv.tbd in Frameworks */,
 				3D9EE8791D5982530062DB1F /* libz.tbd in Frameworks */,
 				3D9EE8771D5982480062DB1F /* libstdc++.tbd in Frameworks */,
@@ -377,6 +383,7 @@
 		256E69D44D0C965AC69E853E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3DCA357F1D658CEA00F305CA /* WebKit.framework */,
 				3D9EE87A1D5982600062DB1F /* libiconv.tbd */,
 				3D9EE8781D5982530062DB1F /* libz.tbd */,
 				3D9EE8761D5982480062DB1F /* libstdc++.tbd */,
@@ -724,6 +731,7 @@
 		3D267F771D4EEC10001E732B /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				3D7012301D6598DD00C3648D /* IncomeDashModel */,
 				3D26800D1D4F40FB001E732B /* DashBoardModel.h */,
 				3D26800E1D4F40FB001E732B /* DashBoardModel.m */,
 				3D9EE8661D5815EA0062DB1F /* userModel.h */,
@@ -1077,6 +1085,15 @@
 			path = ReportCenter;
 			sourceTree = "<group>";
 		};
+		3D7012301D6598DD00C3648D /* IncomeDashModel */ = {
+			isa = PBXGroup;
+			children = (
+				3D7012311D65990200C3648D /* IncomeDashModel.h */,
+				3D7012321D65990200C3648D /* IncomeDashModel.m */,
+			);
+			path = IncomeDashModel;
+			sourceTree = "<group>";
+		};
 		3D88285A1D65866000242B6A /* ReportIncomeController */ = {
 			isa = PBXGroup;
 			children = (
@@ -1400,6 +1417,7 @@
 				3D9EE8931D59C5CB0062DB1F /* IncomeTableViewTopCell.m in Sources */,
 				3D267F3D1D4EE5E2001E732B /* CYLTabBar.m in Sources */,
 				3DCAD79D1D61AB2B00BE758F /* DashBoardViewController.m in Sources */,
+				3D7012331D65990200C3648D /* IncomeDashModel.m in Sources */,
 				3DF9058C1D5AB9CF0009DBA6 /* ActionViewController.m in Sources */,
 				3D2680341D4FAC31001E732B /* AddViewController.m in Sources */,
 				3DCAD7A01D61B04C00BE758F /* DashCollectionViewFlowLayout.m in Sources */,

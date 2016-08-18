@@ -17,6 +17,7 @@
 #import "UIColor+NSString.h"
 #import "AddViewController.h"
 #import "AddDashModel.h"
+#import "IncomeDashModel.h"
 
 
 
@@ -71,7 +72,7 @@
 {
     [super viewWillAppear:animated];
     
-    
+    _topView.moreButton.selected = NO;
     //显示tabbar
     [self showTabBar];
     
@@ -90,11 +91,10 @@
     
     NSMutableDictionary * dict = model.resdata;
     
-//    _Time = [NSString stringWithFormat:@"%@",dict[@"defaulttime"]];
-    
-    _Time = @"201606";
-    
+    _Time = [NSString stringWithFormat:@"%@",dict[@"defaulttime"]];
+        
    _topView = [[DashCollectionReusableView alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, 30*KHeight6scale)];
+    
     
     [_topView.moreButton addTarget:self action:@selector(moreButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     
@@ -609,7 +609,6 @@ static  BOOL Btnstatu = YES;
     
     Btnstatu = YES;
     
-    //    [self makeIncomeDate];
     _dashModel = [[DashBoardModel alloc] init];
     
     _dashModel = _DashModelArray[indexPath.row];
@@ -617,13 +616,7 @@ static  BOOL Btnstatu = YES;
     [self makeIncomeDate];
     
     
-    SDIncomeViewController * incomeVC = [[SDIncomeViewController alloc] init];
-    
-    incomeVC.IncomeDateString  = _dataView.dateLabel.text;
-    
-    incomeVC.IncomeDefaultDateString = _dataSearchView.defaultDateString;
-    
-//    incomeVC.IncomeDateBlockValue = ^(NSString * IncomeDateString,NSString *DefaultDateString){
+   //    incomeVC.IncomeDateBlockValue = ^(NSString * IncomeDateString,NSString *DefaultDateString){
 //        // 传日期
 //        _DataString = IncomeDateString;
 //        
@@ -632,11 +625,7 @@ static  BOOL Btnstatu = YES;
 //        _dataView.dateLabel.text = _DataString;
 //        
 //    };
-    self.hidesBottomBarWhenPushed=YES;
     
-    [self.navigationController pushViewController:incomeVC animated:YES];
-    
-    self.hidesBottomBarWhenPushed=NO;
 }
 
 // 折线图
@@ -681,29 +670,16 @@ static  BOOL Btnstatu = YES;
 
 #warning collectionView头部视图 如果是系统的layout就会走此方法，但是如果是自定义的layout就不走此方法   问题没有解决
 
-//- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
-//{
-//    
-//    if([kind isEqualToString:UICollectionElementKindSectionHeader])
-//    {
-//        DashCollectionReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"header" forIndexPath:indexPath];
-//        headerView.frame = CGRectMake(0, 0, Main_Screen_Width, 40);
-//        
-//        [headerView.moreButton addTarget:self action:@selector(moreButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-//        
-//        return headerView;
-//        
-//    }else{
-//        
-//        return nil;
-//    }
-//    
-//    
-//}
 - (void)moreButtonClick:(UIButton *)button
 {
-    // 添加界面的数据
-    [self makeADDDate];
+    if (button.selected == NO) {
+        button.selected = YES;
+        // 添加界面的数据
+        [self makeADDDate];
+
+    }else{
+        
+    }
     
 }
 
@@ -725,7 +701,8 @@ static  BOOL Btnstatu = YES;
         
         _Time = time ;
         // 指标界面的接口
-        NSString * urlStr = [NSString stringWithFormat:IncomeHttp,_dashModel.Did,_Time,_dashModel.dim_val,_dashModel.defaulttype,_dashModel.contrasttype];
+        NSString * urlStr = [NSString stringWithFormat:IncomeHttp,_dashModel.Did,_Time];
+        
         NSLog(@"url       ----   %@",urlStr);
         
         AFHTTPSessionManager * manager = [AFHTTPSessionManager manager];
@@ -738,10 +715,49 @@ static  BOOL Btnstatu = YES;
             NSLog(@"responseObjectresponseObjectresponseObject--%@",responseObject);
             if (responseObject != nil) {
                 
-                NSMutableArray * array = [NSMutableArray array];
+                NSMutableDictionary * dict = [NSMutableDictionary dictionary];
+                 dict = responseObject;
+                // 防止是参数不是数组
+//                id poi = dict[@"contrastVal"];
+//                
+//                if ([poi isKindOfClass:[NSDictionary class]]) {
+                    IncomeDashModel * model = [[IncomeDashModel alloc] init];
+                    
+                    [model setValuesForKeysWithDictionary:dict];
+                    
+                    
+                    SDIncomeViewController * incomeVC = [[SDIncomeViewController alloc] init];
+                    
+                    incomeVC.IncomeDateString  = _dataView.dateLabel.text;
+                    
+                    incomeVC.IncomeDefaultDateString = _dataSearchView.defaultDateString;
+                    
+                    
+                    incomeVC.incomeDashModel = model;
+                    
+                    self.hidesBottomBarWhenPushed=YES;
+                    
+                    [self.navigationController pushViewController:incomeVC animated:YES];
+                    
+                    self.hidesBottomBarWhenPushed=NO;
+
+                    NSLog(@"---------modelmodelmodel----%@",model.midval);
+                    NSLog(@"---------modelmodelmodel----%@",model.bottomunit);
+                    NSLog(@"---------modelmodelmodel----%@",model.bottomval);
+                    NSLog(@"---------modelmodelmodel----%@",model.threshold_flag);
+                    NSLog(@"---------modelmodelmodel----%@",model.unit);
+                    NSLog(@"---------modelmodelmodel----%@",model.color);
+                    NSLog(@"---------modelmodelmodel----%@",model.contrastVal);
+                    NSLog(@"---------modelmodelmodel----%@",model.defaultVal);
+                    
+
+
+//                }else {
+//                    NSLog(@"its a other class");
+//                }
                 
-                array = responseObject[@"resdata"];
-                
+            
+             
             }else{
                 
                 NSLog(@"数据为空");
@@ -856,6 +872,7 @@ static  BOOL Btnstatu = YES;
             
             //这里可以用来显示下载进度
         } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            NSLog(@"[-----------responseObject---%@",responseObject);
             //成功
             NSMutableDictionary * dict = [NSMutableDictionary dictionary];
             dict = responseObject[@"resdata"];

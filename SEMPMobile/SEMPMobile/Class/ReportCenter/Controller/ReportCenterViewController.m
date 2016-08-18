@@ -11,6 +11,7 @@
 #import "ReportTableViewCell.h"
 #import "HeaderView.h"
 #import "ReportIncomeViewController.h"
+#import "userModel.h"
 
 @interface ReportCenterViewController ()<UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,UITableViewDelegate,UITableViewDataSource>
 // 搜索按钮
@@ -32,6 +33,9 @@
 // 表头视图
 @property (nonatomic , strong) HeaderView * headerView;
 
+//
+@property (nonatomic , strong) userModel * userModel;
+
 @end
 #define NotSelectedColor [UIColor colorWithRed:107/255.0 green:108/255.0 blue:109/255.0 alpha:1]
 @implementation ReportCenterViewController
@@ -43,6 +47,12 @@
     
     // 全部报表collectionView样式
     [self makeAllReportCollectionView];
+    
+    NSData * data = [[NSUserDefaults standardUserDefaults] objectForKey:@"userModel"];
+    _userModel = [[userModel alloc] init];
+    _userModel = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+   
+   
     
     
 }
@@ -423,9 +433,14 @@
     
     ReportIncomeViewController * reportIncomeVC = [[ReportIncomeViewController alloc] init];
     
+    NSLog(@"token ----- %@",_userModel.user_token);
+    NSString * token = [NSString stringWithFormat:@"%@",_userModel.user_token];
+    
+    reportIncomeVC.webViewHttpString = [NSString stringWithFormat:ReportIncomeWebHttp,token];
+    
+    
     [self.navigationController pushViewController:reportIncomeVC animated:YES];
 
-    NSLog(@"-----选中");
 }
 #pragma mark ---- UICollectionViewDelegateFlowLayout
 

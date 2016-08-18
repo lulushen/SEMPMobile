@@ -14,6 +14,7 @@
 @property (nonatomic , strong) UILabel * titleLabel;
 @property (nonatomic , strong) UILabel * bottomtitleLabel;
 @property (nonatomic , strong) UILabel * bottomvalLabel;
+@property (nonatomic , strong) UILabel * bottomunitLable;
 @property (nonatomic , strong) UILabel * bottomtitleTwoLabel;
 @property (nonatomic , strong) UILabel * bottomvalTwoLabel;
 @property (nonatomic , strong) UILabel * label;

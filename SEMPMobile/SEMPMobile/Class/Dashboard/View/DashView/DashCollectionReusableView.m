@@ -31,7 +31,7 @@
     
     _labelTitle = [[UILabel alloc] init];
     
-    _moreButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    _moreButton = [[UIButton alloc] init];
     
     _labelTitle.text = @"指标看板";
     

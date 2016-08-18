@@ -48,6 +48,15 @@
 
 @end
 @implementation SDIncomeViewController
+
+//懒加载
+- (IncomeDashModel *)incomeDashModel
+{
+    if (_incomeDashModel) {
+        _incomeDashModel = [[IncomeDashModel alloc] init];
+    }
+    return _incomeDashModel;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
 #pragma ==nav方法 头
@@ -82,7 +91,6 @@
 - (void)DateChange
 {
     NSString * date = [[NSUserDefaults standardUserDefaults] objectForKey:@"DateChange"];
-    NSLog(@"--------incomejiemiandeshijian  -----%@",date);
 
     _dataView.dateLabel.text = date;
     
@@ -112,11 +120,7 @@
     
     _dataSearchView.dateString =  _dataSearchView.defaultDateString;
 
-    NSLog(@"--------incomejiemiandeshijian  -----%@",_dataSearchView.dateString);
 
-//    // 调用block反向传值
-//    self.IncomeDateBlockValue(_dataView.dateLabel.text,_dataView.dateLabel.text);
-    
     [_dataSearchView removeFromSuperview];
     
     Btnstatu = YES;
@@ -412,7 +416,7 @@ static int ScreenshotIndex = 0;
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
+    return 1;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -427,11 +431,15 @@ static int ScreenshotIndex = 0;
         if (cell == nil) {
             
             cell =  [[IncomeTableViewTopCell alloc] initWithStyle:(UITableViewCellStyleSubtitle) reuseIdentifier:@"TopCell"] ;
-            cell.titleLabel.text = @"92,018,300";
-            cell.bottomtitleLabel.text = @"同比";
-            cell.bottomvalLabel.text = @"20%";
-            cell.bottomtitleTwoLabel.text = @"环比";
-            cell.bottomvalTwoLabel.text = @"7%";
+            NSLog(@"-----model   -- %@",_incomeDashModel);
+            
+            
+            cell.titleLabel.text = _incomeDashModel.midval;
+            cell.bottomtitleLabel.text = _incomeDashModel.contrastVal[@"name"];
+            cell.bottomvalLabel.text = _incomeDashModel.bottomval;
+            cell.bottomunitLable.text = _incomeDashModel.bottomunit;
+//            cell.bottomtitleTwoLabel.text = @"环比";
+//            cell.bottomvalTwoLabel.text = @"7%";
             cell.titleImage.image = [UIImage imageNamed:@"sanjiao.png"];
         }
 

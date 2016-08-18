@@ -7,9 +7,11 @@
 //
 
 #import "ReportIncomeViewController.h"
+#import <WebKit/WebKit.h>
+
 
 @interface ReportIncomeViewController ()
-@property(nonatomic , strong) UIWebView * reportWebView;
+@property(nonatomic , strong)  UIWebView * reportWebView;
 @end
 
 @implementation ReportIncomeViewController
@@ -22,6 +24,13 @@
 - (void)makeWebView
 {
     
+    _reportWebView = [[UIWebView alloc]initWithFrame:CGRectMake(0, 0, Main_Screen_Width, KViewHeight)];
+    
+    NSLog(@"------------------%@",_webViewHttpString);
+    
+    [_reportWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:_webViewHttpString]]];
+    
+    [self.view addSubview:_reportWebView];
     
     
     

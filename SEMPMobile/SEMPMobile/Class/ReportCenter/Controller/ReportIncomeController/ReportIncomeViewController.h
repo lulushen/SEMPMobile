@@ -12,4 +12,6 @@
 
 @property (nonatomic , strong) NSString * titleString;
 
+@property (nonatomic , strong) NSString * webViewHttpString;
+
 @end

@@ -27,6 +27,7 @@
     _titleLabel = [[UILabel alloc] init];
     _bottomtitleLabel = [[UILabel alloc] init];
     _bottomvalLabel = [[UILabel alloc] init];
+    _bottomunitLable = [[UILabel alloc] init];
     _bottomvalTwoLabel = [[UILabel alloc] init];
     _bottomtitleTwoLabel = [[UILabel alloc] init];
     _label = [[UILabel alloc] init];
@@ -35,18 +36,23 @@
     [self.contentView addSubview:_titleLabel];
     [self.contentView addSubview:_bottomtitleLabel];
     [self.contentView addSubview:_bottomvalLabel];
+    [self.contentView addSubview:_bottomunitLable];
     [self.contentView addSubview:_bottomtitleTwoLabel];
     [self.contentView addSubview:_bottomvalTwoLabel];
     [self.contentView addSubview:_label];
 
     
-    [_bottomtitleLabel setTextAlignment:NSTextAlignmentRight];
-    [_bottomvalLabel setTextAlignment:NSTextAlignmentRight];
-    [_bottomtitleTwoLabel setTextAlignment:NSTextAlignmentRight];
-    [_bottomvalTwoLabel setTextAlignment:NSTextAlignmentRight];
+    [_bottomtitleLabel setTextAlignment:NSTextAlignmentCenter];
+    [_bottomvalLabel setTextAlignment:NSTextAlignmentLeft];
+    [_bottomunitLable setTextAlignment:NSTextAlignmentLeft];
+    [_bottomtitleTwoLabel setTextAlignment:NSTextAlignmentCenter];
+    [_bottomvalTwoLabel setTextAlignment:NSTextAlignmentCenter];
+    
     _titleLabel.font = [UIFont systemFontOfSize:20];
     _bottomtitleLabel.font = [UIFont systemFontOfSize:12];
     _bottomvalLabel.font = [UIFont systemFontOfSize:12];
+    _bottomunitLable.font = [UIFont systemFontOfSize:12];
+
     _bottomtitleTwoLabel.font = [UIFont systemFontOfSize:12];
     _bottomvalTwoLabel.font = [UIFont systemFontOfSize:12];
     _bottomtitleLabel.textColor = [UIColor grayColor];
@@ -58,6 +64,8 @@
 //    _titleLabel.backgroundColor = [UIColor redColor];
 //    _bottomtitleLabel.backgroundColor = [UIColor orangeColor];
 //    _bottomvalLabel.backgroundColor = [UIColor blueColor];
+//    _bottomunitLable.backgroundColor = [UIColor grayColor];
+//
 //    _bottomtitleTwoLabel.backgroundColor = [UIColor blackColor];
 //    _bottomvalTwoLabel.backgroundColor = [UIColor cyanColor];
 
@@ -71,7 +79,9 @@
     
      _bottomtitleLabel.frame = CGRectMake(CGRectGetMaxX(_titleLabel.frame)+10*KWidth6scale, CGRectGetMinY(_titleLabel.frame)-10*KHeight6scale, 50*KWidth6scale, 30*KHeight6scale);
     
-     _bottomvalLabel.frame = CGRectMake(CGRectGetMaxX(_bottomtitleLabel.frame), CGRectGetMinY(_bottomtitleLabel.frame), 50*KWidth6scale, 30*KHeight6scale);
+     _bottomvalLabel.frame = CGRectMake(CGRectGetMaxX(_bottomtitleLabel.frame), CGRectGetMinY(_bottomtitleLabel.frame), 25*KWidth6scale, 30*KHeight6scale);
+    
+      _bottomunitLable.frame = CGRectMake(CGRectGetMaxX(_bottomvalLabel.frame), CGRectGetMinY(_bottomvalLabel.frame), 25*KWidth6scale, 30*KHeight6scale);
     
      _bottomtitleTwoLabel.frame = CGRectMake(CGRectGetMinX(_bottomtitleLabel.frame), CGRectGetMaxY(_bottomtitleLabel.frame)+10*KHeight6scale, CGRectGetWidth(_bottomtitleLabel.frame), CGRectGetHeight(_bottomtitleLabel.frame));
     
