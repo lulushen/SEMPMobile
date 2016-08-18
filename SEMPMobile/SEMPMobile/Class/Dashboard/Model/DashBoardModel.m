@@ -37,6 +37,9 @@
     [aCoder encodeObject:_chart_top_title forKey:@"chart_top_title"];
     [aCoder encodeObject:_defaulttype forKey:@"defaulttype"];
     [aCoder encodeObject:_threshold_flag forKey:@"threshold_flag"];
+    [aCoder encodeObject:_contrasttype forKey:@"contrasttype"];
+    [aCoder encodeObject:_dim_val forKey:@"dim_val"];
+
 
     
 }
@@ -62,8 +65,9 @@
         _chart_range = [aDecoder decodeIntegerForKey:@"chart_range"];
         _defaulttype = [aDecoder decodeObjectForKey:@"defaulttype"];
         _threshold_flag = [aDecoder decodeObjectForKey:@"threshold_flag"];
-
+        _contrasttype = [aDecoder decodeObjectForKey:@"contrasttype"];
         
+        _dim_val = [aDecoder decodeObjectForKey:@"dim_val"];
         
     }
     

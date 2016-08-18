@@ -19,6 +19,7 @@
     NSMutableArray * DaysMutableArray;
     NSMutableArray * DaysArray;
     NSString       * currentMonthString;
+    UIImageView    * bgImageView;
     
     NSInteger selectedYearRow;
     NSInteger selectedMonthRow;
@@ -52,6 +53,9 @@
 }
 - (void)p_makeview
 {
+//    bgImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"databgImage.png"]];
+    [self addSubview:bgImageView];
+
     
     _yearButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [_yearButton setTitle:@"年" forState:UIControlStateNormal];
@@ -70,7 +74,7 @@
     
     
     _okButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [_okButton setTitle:@"ok" forState:UIControlStateNormal];
+    [_okButton setTitle:@"确定" forState:UIControlStateNormal];
     [self addSubview:_okButton];
     [_okButton addTarget:self action:@selector(okButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     
@@ -87,12 +91,13 @@
     
 }
 - (void)layoutSubviews{
-    
-    _yearButton.frame = CGRectMake(0, 10, CGRectGetWidth(self.frame)/4.0, 30);
+    bgImageView.frame = CGRectMake(0, 0, CGRectGetWidth(self.frame), CGRectGetHeight(self.frame));
+    _yearButton.frame = CGRectMake(0, 10, CGRectGetWidth(self.frame)/3.0, 30*KHeight6scale);
     _mouthButton.frame = CGRectMake(CGRectGetMaxX(_yearButton.frame), CGRectGetMinY(_yearButton.frame), CGRectGetWidth(_yearButton.frame), CGRectGetHeight(_yearButton.frame));
     _dayButton.frame = CGRectMake( CGRectGetMaxX(_mouthButton.frame), CGRectGetMinY(_mouthButton.frame), CGRectGetWidth(_mouthButton.frame), CGRectGetHeight(_mouthButton.frame));
-    _okButton.frame = CGRectMake(CGRectGetMaxX(_dayButton.frame), CGRectGetMinY(_dayButton.frame), self.frame.size.width/4.0, CGRectGetHeight(_dayButton.frame));
-    _deleteButton.frame = CGRectMake(0, CGRectGetHeight(self.frame) - 30, CGRectGetWidth(self.frame), CGRectGetHeight(_yearButton.frame));
+    
+    _okButton.frame = CGRectMake(0, CGRectGetHeight(self.frame) - 30*KHeight6scale, CGRectGetWidth(self.frame)/2.0, CGRectGetHeight(_dayButton.frame));
+    _deleteButton.frame = CGRectMake(CGRectGetMaxX(_okButton.frame), CGRectGetMinY(_okButton.frame), CGRectGetWidth(_okButton.frame), CGRectGetHeight(_yearButton.frame));
     _myPickerView.frame = CGRectMake(CGRectGetWidth(self.frame)/2-CGRectGetWidth(self.frame)*3/8, CGRectGetMaxY(_yearButton.frame), CGRectGetWidth(self.frame)*3/4, CGRectGetHeight(self.frame) - CGRectGetHeight(_yearButton.frame) - CGRectGetMaxY(_yearButton.frame));
     [self addSubview:_myPickerView];
     
@@ -217,22 +222,21 @@
     
     monthArray = @[@"01",@"02",@"03",@"04",@"05",@"06",@"07",@"08",@"09",@"10",@"11",@"12"];
     
-    for (int i=1; i<month+1; i++) {
+    for (int i = 1; i<month+1; i++) {
         [monthMutableArray addObject:[NSString stringWithFormat:@"%d",i]];
     }
     DaysArray = [[NSMutableArray alloc]init];
     
     for (int i = 1; i <= 31; i++)
     {
-        [DaysArray addObject:[NSString stringWithFormat:@"%d",i]];
+        [DaysArray addObject:[NSString stringWithFormat:@"%02d",i]];
         
     }
     for (int i = 1; i <day+1; i++)
     {
-        [DaysMutableArray addObject:[NSString stringWithFormat:@"%d",i]];
+        [DaysMutableArray addObject:[NSString stringWithFormat:@"02%d",i]];
         
     }
-    
     // PickerView - Default Selection as per current Date
     // 设置初始默认值
     // [_myPickerView selectRow:20 inComponent:0 animated:YES];
@@ -243,6 +247,8 @@
 - (void)okButtonClick:(UIButton *)button
 {
     
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"DateChange"];
+
     if (number == 1) {
         _dateString = [NSString stringWithFormat:@"%@年",[yearArray objectAtIndex:[_myPickerView selectedRowInComponent:0]]];
     }else if (number == 2){
@@ -251,11 +257,15 @@
         _dateString = [NSString stringWithFormat:@"%@年%@月%@日",[yearArray objectAtIndex:[_myPickerView selectedRowInComponent:0]],[monthArray objectAtIndex:[_myPickerView selectedRowInComponent:1]],[DaysArray objectAtIndex:[_myPickerView selectedRowInComponent:2]]];
     }
     
+    [[NSUserDefaults standardUserDefaults] setObject:_dateString forKey:@"DateChange"];
+
     // 发送消息   对应观察者在DashBoard视图中  当日期选择器中的日期确定是发送消息到DataView视图的观察者，在观察者方法中确定nav上label.text值，再把label.text的值赋给_defaultDateString默认日期  下次打开日期选择器的时候就会显示默认日期
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"DateChange" object:nil];
+
     // 发送消息 对应观察者在Income视图中
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"DateIncomeChange" object:nil];
+//    [[NSNotificationCenter defaultCenter] postNotificationName:@"DateIncomeChange" object:nil];
     
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"DateChange" object:nil];
+
 }
 
 

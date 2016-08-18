@@ -9,5 +9,13 @@
 #import <UIKit/UIKit.h>
 
 @interface AllReportCollectionViewCell : UICollectionViewCell
+// 图片
+@property (nonatomic , strong)UIImageView * imageView;
+// title
+@property (nonatomic , strong)UILabel * titleLabel;
+// 关注按钮
+@property (nonatomic , strong)UIButton * concernButton;
+// 按钮
+@property (nonatomic , strong)UIButton * detailButton;
 
 @end

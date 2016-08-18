@@ -45,6 +45,7 @@
 
 -(void)layoutSubviews{
     
+    [super layoutSubviews];
     
     _titleLabel.frame = CGRectMake(30*KWidth6scale, 10*KHeight6scale, 100*KWidth6scale, 30*KHeight6scale);
     

@@ -48,5 +48,8 @@
 
 @property (nonatomic,copy) NSString * defaulttype;
 
+@property (nonatomic , copy)NSString *contrasttype;
+
+@property (nonatomic,copy)NSString * dim_val;
 
 @end

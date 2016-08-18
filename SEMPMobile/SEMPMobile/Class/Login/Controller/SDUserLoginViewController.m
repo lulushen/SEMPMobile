@@ -10,6 +10,8 @@
 #import "TabBarControllerConfig.h"
 #import "MBProgressHUD+MJ.h"
 #import "userModel.h"
+#import "AFNetworking.h"
+#import "DashBoardModel.h"
 
 
 @interface SDUserLoginViewController ()<UITextFieldDelegate>
@@ -20,7 +22,6 @@
     NSMutableDictionary *_temDic;
     userModel * model;
 }
-
 @property (nonatomic , strong)NSString * info;
 
 @end
@@ -76,8 +77,8 @@
     
     self.LoginButton = [UIButton buttonWithType:UIButtonTypeCustom];
     self.LoginButton.frame = CGRectMake(Main_Screen_Width/2 - 75*KWidth6scale,CGRectGetMaxY(self.passWordTextField.frame) + 30*KHeight6scale, 150*KWidth6scale, CGRectGetHeight(self.passWordTextField.frame));
-    [self.LoginButton setTitle:@"Login" forState:UIControlStateNormal];
-    self.LoginButton.backgroundColor = [UIColor grayColor];
+//    [self.LoginButton setTitle:@"Login" forState:UIControlStateNormal];
+//    self.LoginButton.backgroundColor = [UIColor grayColor];
     [self.LoginButton addTarget:self action:@selector(LoginButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.LoginButton];
     UIButton * backbutton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
@@ -92,83 +93,66 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 - (void)LoginButtonClick:(UIButton *)button{
+    self.userTextField.text = @"mobile";
+    self.passWordTextField.text = @"111111";
     // 1.设置请求路径
     NSString * urlStr = [NSString stringWithFormat:LoginHttp];
-    NSLog(@"login --=  url %@",urlStr);
-    NSURL * url = [NSURL URLWithString:urlStr];
+    AFHTTPSessionManager * manager = [AFHTTPSessionManager manager];
     
-    // 2.创建请求对象,同时设置缓存策略和超时时间
-    NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:0];
+    NSDictionary *parameters = @{@"loginname":self.userTextField.text,@"password":self.passWordTextField.text};
     
-    // 3.发送Post请求
-    request.HTTPMethod = @"POST";
-//    NSString * bodyStr = [NSString stringWithFormat:LoginHttpBody,self.userTextField.text,self.passWordTextField.text];
-    NSString * bodyStr = [NSString stringWithFormat:LoginHttpBody,@"mobile",@"111111"];
-    NSData * bodyData = [bodyStr dataUsingEncoding:NSUTF8StringEncoding];
-    [request setHTTPBody:bodyData];
-    NSURLSession * session = [NSURLSession sharedSession];
-    NSURLSessionDataTask * task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        NSLog(@"data --- %@",data);
-        if (data != nil) {
-            
-            NSMutableDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-            
-            NSLog(@"dict -- %@",dict);
+    [manager POST:urlStr parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        NSLog(@"-----%@",responseObject);
+        
+        if (responseObject != nil) {
             
             model = [[userModel alloc] init];
             
-            
-            [model setValuesForKeysWithDictionary:dict];
-            
-            NSLog(@"model . usertoken %@",model.user_token);
+            [model setValuesForKeysWithDictionary:responseObject];
             
             NSInteger status = model.status;
             
             if (status == 1) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    
-                    NSMutableDictionary * dic = [NSMutableDictionary dictionary];
-                    [dic setObject:_userTextField.text forKey:@"userName"];
-                    [dic setObject:_passWordTextField.text forKey:@"passWord"];
-                    [[NSUserDefaults standardUserDefaults] setObject:dic forKey:@"userLogin"];
-                    [MBProgressHUD showSuccess:model.message];
-                    
-                    
-                    // 延迟1.5秒跳转页面
-                    [self performSelector:@selector(GoToMainView) withObject:self afterDelay:1.5f];
-                    [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:@"login"];
-                    
-                    //  AppDelegate * app = [[AppDelegate alloc] init];
-                    //  [app mainTab];
-                });
+                
+                NSMutableDictionary * dic = [NSMutableDictionary dictionary];
+                
+                [dic setObject:_userTextField.text forKey:@"userName"];
+                [dic setObject:_passWordTextField.text forKey:@"passWord"];
+                
+                //[[NSUserDefaults standardUserDefaults] setObject:dic forKey:@"userLogin"];
+                [MBProgressHUD showSuccess:model.message];
+                
+                // 延迟0.5秒跳转页面
+                [self performSelector:@selector(GoToMainView) withObject:self afterDelay:0.5f];
+                // [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:@"login"];
+                
+                //  AppDelegate * app = [[AppDelegate alloc] init];
+                //  [app mainTab];
                 
             } else {
                 
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    
-                    // [MBProgressHUD showSuccess:self.info];
-                    
-                    [MBProgressHUD showSuccess:@"登录失败"];
-                    
-                    
-                });
-                
-                
+                [MBProgressHUD showSuccess:model.message];
             }
-
+            
         }else{
             
-            NSLog(@"login -- data为空");
+            [MBProgressHUD showSuccess:@"请求数据为空，登录失败"];
         }
         
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+        [MBProgressHUD showSuccess:@"可能服务器停止，解析失败，登录失败"];
+        
     }];
-    
-    [task resume];
+
     
 }
 - (void)GoToMainView
 {
-    NSLog(@"model   -----    : %@",model.user_token);
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"userModel"] != nil) {
         
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"userModel"];
@@ -176,12 +160,13 @@
     }
     
     NSData * userModelData = [NSData data];
-    
+    // 用户model归档
     userModelData = [NSKeyedArchiver archivedDataWithRootObject:model];
     
     [[NSUserDefaults standardUserDefaults] setObject:userModelData forKey:@"userModel"];
     
     TabBarControllerConfig *tabBarConfig = [[TabBarControllerConfig alloc]init];
+    
     [self presentViewController:tabBarConfig.tabBarController animated:YES completion:nil];
 }
 
@@ -194,6 +179,7 @@
     [self.userTextField resignFirstResponder];
     [self.passWordTextField resignFirstResponder];
 }
+
 /*
  #pragma mark - Navigation
  

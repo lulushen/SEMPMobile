@@ -27,7 +27,7 @@ CGFloat const ZTCellMargin = 44.0;
 - (CYLTabBarController *)tabBarController
 {
     if (_tabBarController == nil) {
-        NSArray *vcNameArray = @[@"DashBoardViewController",@"AttractionViewController",@"ShoppingCentreViewController",@"SDAccountViewController"];
+        NSArray *vcNameArray = @[@"DashBoardViewController",@"ReportCenterViewController",@"ActionViewController",@"SDAccountViewController"];
         NSMutableArray *navArray =[NSMutableArray arrayWithCapacity:0];
         for (NSString *vcName in vcNameArray) {
             [navArray addObject:[self produceNavControllerWithClassName:vcName]];

@@ -19,10 +19,6 @@
 @property (nonatomic , strong)UICollectionView * DashCollectionView;
 //推荐指标视图
 @property (nonatomic , strong)UICollectionView * AllDashCollectctionView;
-//我的指标数组
-@property (nonatomic , strong)NSMutableArray * dashLabelArray;
-//推荐指标数组
-@property (nonatomic , strong)NSMutableArray * dashAllArray;
 
 @property (nonatomic , strong)NSIndexPath * orightindexPath;
 
@@ -45,6 +41,15 @@
     }
     return _dashLabelArray;
 }
+//- (NSMutableArray *)firstDashArray
+//{
+//    if (_firstDashArray == nil) {
+//        
+//               _firstDashArray = [NSMutableArray array];
+//        
+//    }
+//    return _firstDashArray;
+//}
 - (NSMutableArray *)dashAllArray
 {
     if (_dashAllArray == nil) {
@@ -62,14 +67,19 @@
     [super viewDidLoad];
     
     [self hideTabbar];
+
     
     self.navigationItem.title = @"ADD";
     
-    [self makeDate];
+    
+    [self makeCollectionView];
+    
+    
     
     // 自定义返回按钮LeftButtonItme
     [self makeLeftButtonItme];
     // Do any additional setup after loading the view.
+    
 }
 // 自定义返回按钮LeftButtonItme
 - (void)makeLeftButtonItme
@@ -83,81 +93,12 @@
     self.navigationItem.leftBarButtonItem = leftBarButtonItem;
     
 }
-
-- (void)makeDate
-{
-    
-    
-    NSData * data = [[NSUserDefaults standardUserDefaults] objectForKey:@"userModel"];
-    _userModel = [[userModel alloc] init];
-    _userModel = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-    // 转化成字符串
-    _token = [NSString stringWithFormat:@"%@",_userModel.user_token];
-    
-    NSString * urlStr = [NSString stringWithFormat:ADDHttp,_token];
-    
-    AFHTTPSessionManager * manager = [AFHTTPSessionManager manager];
-    
-    [manager GET:urlStr parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
-        
-        //这里可以用来显示下载进度
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        //成功
-        NSMutableDictionary * dict = [NSMutableDictionary dictionary];
-        dict = responseObject[@"resdata"];
-        NSMutableArray * array = [NSMutableArray array];
-        array = dict[@"checked"];
-        NSMutableArray * arrayAll = [NSMutableArray array];
-        arrayAll = dict[@"waitcheck"];
-        NSMutableArray * arrayDashLabel = [NSMutableArray array];
-        
-        if (dict != nil) {
-            
-            for (NSDictionary * dict in array) {
-                
-                AddDashModel * m = [[AddDashModel alloc] init];
-                
-                [m setValuesForKeysWithDictionary:dict];
-                
-                [arrayDashLabel addObject:m];
-            }
-            NSMutableArray * arrayAllDashLabel = [NSMutableArray array];
-            
-            for (NSDictionary * dict in arrayAll) {
-                
-                AddDashModel * m = [[AddDashModel alloc] init];
-                
-                [m setValuesForKeysWithDictionary:dict];
-                
-                [arrayAllDashLabel addObject:m];
-            }
-            
-            if ( _dashLabelArray.count == 0) {
-                
-                _dashLabelArray = arrayDashLabel;
-                
-                _dashAllArray = arrayAllDashLabel;
-                
-            }
-        }
-        
-        
-        [self makeCollectionView];
-        
-        
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        //失败
-        NSLog(@"failure  error ： %@",error);
-    }];
-    
-    
-}
 - (void)backButtonClick:(UIButton *)button {
     
     
-    NSString * indexCheckedString = [NSString string];
     
+    NSString * indexCheckedString = [NSString string];
+   
     if (_dashLabelArray.count > 0) {
         
         for (int i = 0; i <= _dashLabelArray.count - 1;i++) {
@@ -181,7 +122,12 @@
         
         indexCheckedString = [NSString stringWithFormat:@""];
     }
-    
+    NSData * data = [[NSUserDefaults standardUserDefaults] objectForKey:@"userModel"];
+    _userModel = [[userModel alloc] init];
+    _userModel = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    //  转化成字符串
+    _token = [NSString stringWithFormat:@"%@",_userModel.user_token];
+
     NSString * urlStr = [NSString stringWithFormat:indexCheckedHttp,_token,indexCheckedString];
     
     AFHTTPSessionManager * manager = [AFHTTPSessionManager manager];
@@ -190,16 +136,33 @@
         
         //这里可以用来显示下载进度
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        //发送消息
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"ADDDashLabelArrayChange" object:nil];
+        
+        
+            //发送消息
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ADDDashLabelArrayChange" object:nil];
+            
+        
+            if ((_dashLabelArray.count == 0)&&(_dashAllArray.count == 0)) {
+                
+                
+            }else{
+                
+                [self.navigationController popViewControllerAnimated:YES];
+                
+            }
+            
+
+    
         
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         //失败
         NSLog(@"failure  error ： %@",error);
+        
     }];
     
-    [self.navigationController popViewControllerAnimated:YES];
+    
+    
     
 }
 
@@ -234,9 +197,9 @@
     
     [self.view addSubview:_DashCollectionView];
     //此处给其增加长按手势，用此手势触发cell移动效果
-    UILongPressGestureRecognizer *longGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handlelongGesture:)];
-    [_DashCollectionView addGestureRecognizer:longGesture];
-    
+    //    UILongPressGestureRecognizer *longGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handlelongGesture:)];
+    //    [_DashCollectionView addGestureRecognizer:longGesture];
+    //
     UILabel * label2 = [[UILabel alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(_DashCollectionView.frame), Main_Screen_Width, 40)];
     
     label2.text = @"推荐指标";
@@ -296,17 +259,17 @@
     
     if (collectionView.tag == 1) {
         
-        UILabel * label = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(addcell.contentView.frame)-10, 0, 12, 12)];
-        label.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"delete.png"]];
+        UIImageView * deleteImage = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(addcell.contentView.frame)-10, 0, 15, 15)];
+        deleteImage.image = [UIImage imageNamed:@"delete.png"];
         
-        [addcell addSubview:label];
+        [addcell addSubview:deleteImage];
         
         for (int i = 0; i< _dashLabelArray.count;i++) {
-           
+            
             dashModel = _dashLabelArray[indexPath.row];
             
             addcell.titleLab.text = dashModel.title;
-
+            
         }
         
     }else{
@@ -316,13 +279,13 @@
             dashModel = _dashAllArray[indexPath.row];
             
             addcell.titleLab.text = dashModel.title;
-
+            
         }
         addcell.titleLab.backgroundColor = DEFAULT_BGCOLOR;
         
     }
     addcell.titleLab.font = [UIFont systemFontOfSize:14];
-   
+    
     return addcell;
 }
 // cell 的大小
@@ -353,50 +316,50 @@
     
     
 }
-- (void)handlelongGesture:(UILongPressGestureRecognizer *)longGesture {
-    //判断手势状态
-    switch (longGesture.state) {
-        case UIGestureRecognizerStateBegan:{
-            //判断手势落点位置是否在路径上
-            _orightindexPath = [_DashCollectionView indexPathForItemAtPoint:[longGesture locationInView:_DashCollectionView]];
-            if (_orightindexPath == nil) {
-                break;
-            }
-            //在路径上则开始移动该路径上的cell
-            [_DashCollectionView beginInteractiveMovementForItemAtIndexPath:_orightindexPath];
-        }
-            break;
-        case UIGestureRecognizerStateChanged:{
-            
-            //移动过程当中随时更新cell位置
-            [_DashCollectionView updateInteractiveMovementTargetPosition:[longGesture locationInView:_DashCollectionView]];
-        }
-            break;
-        case UIGestureRecognizerStateEnded:
-            //移动结束后关闭cell移动
-            [_DashCollectionView endInteractiveMovement];
-            break;
-        default:
-            [_DashCollectionView cancelInteractiveMovement];
-            break;
-    }
-}
-- (BOOL)collectionView:(UICollectionView *)collectionView canMoveItemAtIndexPath:(NSIndexPath *)indexPath{
-    //返回YES允许其item移动
-    return YES;
-}
-
-- (void)collectionView:(UICollectionView *)collectionView moveItemAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath*)destinationIndexPath {
-    DashBoardModel * dashModel = [[DashBoardModel alloc] init];
-    
-    dashModel = _dashLabelArray[sourceIndexPath.row];
-    //  从资源数组中移除该数据
-    [_dashLabelArray removeObject:dashModel];
-    //  将数据插入到资源数组中的目标位置上
-    [_dashLabelArray insertObject:dashModel atIndex:destinationIndexPath.item];
-    
-    
-}
+//- (void)handlelongGesture:(UILongPressGestureRecognizer *)longGesture {
+//    //判断手势状态
+//    switch (longGesture.state) {
+//        case UIGestureRecognizerStateBegan:{
+//            //判断手势落点位置是否在路径上
+//            _orightindexPath = [_DashCollectionView indexPathForItemAtPoint:[longGesture locationInView:_DashCollectionView]];
+//            if (_orightindexPath == nil) {
+//                break;
+//            }
+//            //在路径上则开始移动该路径上的cell
+//            [_DashCollectionView beginInteractiveMovementForItemAtIndexPath:_orightindexPath];
+//        }
+//            break;
+//        case UIGestureRecognizerStateChanged:{
+//
+//            //移动过程当中随时更新cell位置
+//            [_DashCollectionView updateInteractiveMovementTargetPosition:[longGesture locationInView:_DashCollectionView]];
+//        }
+//            break;
+//        case UIGestureRecognizerStateEnded:
+//            //移动结束后关闭cell移动
+//            [_DashCollectionView endInteractiveMovement];
+//            break;
+//        default:
+//            [_DashCollectionView cancelInteractiveMovement];
+//            break;
+//    }
+//}
+//- (BOOL)collectionView:(UICollectionView *)collectionView canMoveItemAtIndexPath:(NSIndexPath *)indexPath{
+//    //返回YES允许其item移动
+//    return YES;
+//}
+//
+//- (void)collectionView:(UICollectionView *)collectionView moveItemAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath*)destinationIndexPath {
+//    DashBoardModel * dashModel = [[DashBoardModel alloc] init];
+//
+//    dashModel = _dashLabelArray[sourceIndexPath.row];
+//    //  从资源数组中移除该数据
+//    [_dashLabelArray removeObject:dashModel];
+//    //  将数据插入到资源数组中的目标位置上
+//    [_dashLabelArray insertObject:dashModel atIndex:destinationIndexPath.item];
+//
+//
+//}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

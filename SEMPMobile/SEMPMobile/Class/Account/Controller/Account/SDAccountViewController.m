@@ -12,6 +12,9 @@
 #import "SDInfoViewController.h"
 #import "SDFeedBackViewController.h"
 #import "MBProgressHUD+MJ.h"
+#import "userModel.h"
+#import "UIColor+NSString.h"
+#import "LoginViewController.h"
 
 @interface SDAccountViewController ()<UITableViewDelegate,UITableViewDataSource,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 
@@ -20,14 +23,18 @@
 @property (nonatomic , strong)UIView * userTableHeaderView;
 //UITableView头部视图的头像button
 @property (nonatomic , strong)UIButton * headerImageButton;
-
+//用户model
+@property (nonatomic , strong)userModel * model;
 @end
 
 @implementation SDAccountViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    self.navigationItem.title = @"Account";
+    NSData * data = [[NSUserDefaults standardUserDefaults] objectForKey:@"userModel"];
+    //反归档
+    _model = [NSKeyedUnarchiver unarchiveObjectWithData:data];
     [self makeTableView];
     // Do any additional setup after loading the view.
 }
@@ -54,14 +61,12 @@
 
     self.userTableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(1, 0, Main_Screen_Width, Main_Screen_Height/3.0)];
     
-    self.userTableHeaderView.backgroundColor = [UIColor grayColor];
+    self.userTableHeaderView.backgroundColor = [UIColor colorWithString:@"#bfbfbf"];
     
     self.headerImageButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     
     self.headerImageButton.frame = CGRectMake(Main_Screen_Width/2 - Main_Screen_Width/8.0, 30*KHeight6scale, Main_Screen_Width/4.0, Main_Screen_Width/4.0);
-    
-    self.headerImageButton.backgroundColor = [UIColor whiteColor];
-    
+    [self.headerImageButton setBackgroundImage:[UIImage imageNamed:@"header.png"] forState:UIControlStateNormal];
     self.headerImageButton.layer.cornerRadius = Main_Screen_Width/8.0;
     //设置超过子图层的部分裁减掉
     self.headerImageButton.layer.masksToBounds = YES;
@@ -83,32 +88,48 @@
 //    {
 //        [self.headerImageButton setBackgroundImage:[UIImage imageNamed:@"head"] forState:UIControlStateNormal];
 //    }
-    NSMutableDictionary * dic = [[NSUserDefaults standardUserDefaults] objectForKey:@"userLogin"];
+   
 
     
 
     // 注册观察者
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(callBack) name:@"userExit" object:nil];
+    UILabel * userNameTitle = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMidX(_headerImageButton.frame)-80*KWidth6scale, CGRectGetMaxY(self.headerImageButton.frame) + 10*KWidth6scale, 80*KWidth6scale, 30*KHeight6scale)];
+    userNameTitle.text = @"用户名 :";
+    [userNameTitle setTextAlignment:NSTextAlignmentRight];
 
-    _userLabel = [[UILabel alloc] initWithFrame:CGRectMake(Main_Screen_Width/2-100*KWidth6scale, CGRectGetMaxY(self.headerImageButton.frame) + 10*KWidth6scale, 200*KWidth6scale, 30*KWidth6scale)];
+    [self.userTableHeaderView addSubview:userNameTitle];
     
-    _userLabel.text =[NSString stringWithFormat:@"用户名 : %@",[dic objectForKey:@"userName"]];
+    _userLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(userNameTitle.frame)+5*KWidth6scale, CGRectGetMinY(userNameTitle.frame), 150*KWidth6scale, CGRectGetHeight(userNameTitle.frame))];
     
-    _userLabel.textColor = [UIColor whiteColor];
     
-    [_userLabel setTextAlignment:NSTextAlignmentRight];
+    [_userLabel setTextAlignment:NSTextAlignmentLeft];
     
     [self.userTableHeaderView addSubview:_userLabel];
     
-    UILabel * jobLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(_userLabel.frame), CGRectGetMaxY(_userLabel.frame), CGRectGetWidth(_userLabel.frame), CGRectGetHeight(_userLabel.frame))];
+    UILabel * orgTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(userNameTitle.frame), CGRectGetMaxY(userNameTitle.frame), CGRectGetWidth(userNameTitle.frame), CGRectGetHeight(userNameTitle.frame) )];
     
-    jobLabel.text = @"职  位 :";
+    orgTitleLabel.text = @"职    位 :";
+    [orgTitleLabel setTextAlignment:NSTextAlignmentRight];
+
+    [self.userTableHeaderView addSubview:orgTitleLabel];
     
-    jobLabel.textColor = [UIColor whiteColor];
+    _orgLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(_userLabel.frame), CGRectGetMinY(orgTitleLabel.frame), CGRectGetWidth(_userLabel.frame), CGRectGetHeight(_userLabel.frame) + 20 * KHeight6scale)];
+    if (_model == nil) {
+        
+        _userLabel.text =@"";
+        _orgLabel.text = @"";
+        
+    }else{
+        _userLabel.text =[NSString stringWithFormat:@"%@",[_model.resdata objectForKey:@"userName"]];
+        _orgLabel.text =[NSString stringWithFormat:@"%@",[_model.resdata objectForKey:@"orgName"]];
+
+    }
+    _orgLabel.numberOfLines = 0;
     
-    [jobLabel setTextAlignment:NSTextAlignmentRight];
+    [_orgLabel setTextAlignment:NSTextAlignmentLeft];
     
-    [self.userTableHeaderView addSubview:jobLabel];
+    [self.userTableHeaderView addSubview:_orgLabel];
     
     self.userTableView.tableHeaderView = self.userTableHeaderView;
     
@@ -120,11 +141,14 @@
     
     
 }
+// 用户退出时观察者方法
 - (void)callBack
 {
-    NSMutableDictionary * dic = [[NSUserDefaults standardUserDefaults] objectForKey:@"userLogin"];
+   [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"userModel"];
     
-    _userLabel.text =[NSString stringWithFormat:@"用户名 : %@",[dic objectForKey:@"userName"]];
+    _userLabel.text =[NSString stringWithFormat:@""];
+    _orgLabel.text = @"";
+    [MBProgressHUD showSuccess:@"退出成功"];
 
     
 }
@@ -332,32 +356,29 @@
         
     }else if(indexPath.section == 3){
         
-        NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
-        NSMutableDictionary * dic = [[NSUserDefaults standardUserDefaults] objectForKey:@"userLogin"];
-
-
-        NSLog(@"=-=-=-=-=-=-=-=[dic %@",[dic objectForKey:@"userName"]);
-        if ([dic objectForKey:@"userName"]  == nil) {
+        if (_model  == nil) {
             
             [MBProgressHUD showError:@"用户还未登录，请登录"];
             
         }else{
             
-        [defaults removeObjectForKey:@"login"];
-        [defaults removeObjectForKey:@"userLogin"];
+        
         [[NSNotificationCenter defaultCenter] postNotificationName:@"userExit" object:self];
-        [MBProgressHUD showSuccess:@"退出成功"];
     
         }
-        
-
+         [self performSelector:@selector(GoToMainView) withObject:self afterDelay:0.8f];
         
         
         
     }
     
 }
-
+- (void)GoToMainView
+{
+    LoginViewController *  laginVC =  [[LoginViewController alloc] init];
+    [self presentViewController:laginVC animated:YES completion:nil];
+    
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

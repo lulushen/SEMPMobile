@@ -57,6 +57,10 @@
 #define DEFAULT_BGCOLOR RGBCOLOR(238.0,238.0,238.0)
 //moreButtonColor
 #define MoreButtonColor RGBCOLOR(66.0,165.0,254.0)
+//行动按钮选中时的颜色23 133 252
+#define ActionButtonColor RGBCOLOR(23.0,133.0,252.0)
+//导航栏颜色
+#define NavigationColor RGBCOLOR(38.0,38.0,39.0)
 //bashboardView边距
 #define KBianJu 5
 // 以iphone6为基本屏幕，当前尺寸与6屏幕宽的比例
@@ -85,6 +89,9 @@
 
 // 测试添加界面指标被选中时的接口
 #define indexCheckedHttp @"http://192.168.2.33:9111/DAP/app_indexChecked.do?user_token=%@&index_id=%@"
+
+// 指标详情界面
+#define IncomeHttp @"http://192.168.2.33:9111/DAP/app_indexInfoByOne.do?indexId=%@&timeVal=%@&dim_val=%@&defaultType=%@&contrastType=%@"
 
 // Include any system framework and library headers here that should be included in all compilation units.
 // You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.

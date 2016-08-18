@@ -48,8 +48,6 @@
 		3D26801B1D4F4835001E732B /* zhibiao.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D26801A1D4F4835001E732B /* zhibiao.png */; };
 		3D26801D1D4F4D11001E732B /* date.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3D26801C1D4F4D11001E732B /* date.txt */; };
 		3D2680241D4F549F001E732B /* UIColor+NSString.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D2680231D4F549F001E732B /* UIColor+NSString.m */; };
-		3D26802B1D4F5F5A001E732B /* DashTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D2680281D4F5F5A001E732B /* DashTopView.m */; };
-		3D26802C1D4F5F5A001E732B /* DashView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D26802A1D4F5F5A001E732B /* DashView.m */; };
 		3D26802F1D4F5F7D001E732B /* AddCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D26802E1D4F5F7D001E732B /* AddCollectionViewCell.m */; };
 		3D2680311D4F8BCC001E732B /* dateAll.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3D2680301D4F8BCC001E732B /* dateAll.txt */; };
 		3D2680341D4FAC31001E732B /* AddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D2680331D4FAC31001E732B /* AddViewController.m */; };
@@ -66,6 +64,24 @@
 		3D2680541D4FAD20001E732B /* RecordHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D2680491D4FAD20001E732B /* RecordHUD.m */; };
 		3D26805A1D4FAE0E001E732B /* SDHeaderCollectionReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D2680571D4FAE0E001E732B /* SDHeaderCollectionReusableView.m */; };
 		3D26805B1D4FAE0E001E732B /* SDHuaBiView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D2680591D4FAE0E001E732B /* SDHuaBiView.m */; };
+		3D3B3F7A1D5B033900096AC7 /* search.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D3B3F791D5B033900096AC7 /* search.png */; };
+		3D3B3F7D1D5B051B00096AC7 /* style_highligh.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D3B3F7B1D5B051B00096AC7 /* style_highligh.png */; };
+		3D3B3F7E1D5B051B00096AC7 /* style_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D3B3F7C1D5B051B00096AC7 /* style_normal.png */; };
+		3D3B3F841D5B154A00096AC7 /* AllReportCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D3B3F831D5B154A00096AC7 /* AllReportCollectionViewCell.m */; };
+		3D3B3F861D5B205800096AC7 /* report.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D3B3F851D5B205800096AC7 /* report.png */; };
+		3D3B3F891D5B236A00096AC7 /* concern.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D3B3F871D5B236A00096AC7 /* concern.png */; };
+		3D3B3F8A1D5B236A00096AC7 /* detail.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D3B3F881D5B236A00096AC7 /* detail.png */; };
+		3D3B3F8C1D5B270E00096AC7 /* concern_highligh.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D3B3F8B1D5B270E00096AC7 /* concern_highligh.png */; };
+		3D3B3F901D5B309F00096AC7 /* shu.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D3B3F8F1D5B309F00096AC7 /* shu.png */; };
+		3D3B3F931D5B395E00096AC7 /* ReportTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D3B3F921D5B395E00096AC7 /* ReportTableViewCell.m */; };
+		3D3B3F961D5C0CB200096AC7 /* HeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D3B3F951D5C0CB200096AC7 /* HeaderView.m */; };
+		3D3B3F9A1D5C5C0500096AC7 /* luyin.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D3B3F971D5C5C0500096AC7 /* luyin.png */; };
+		3D3B3F9B1D5C5C0500096AC7 /* play.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D3B3F981D5C5C0500096AC7 /* play.png */; };
+		3D3B3F9C1D5C5C0500096AC7 /* qipao.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D3B3F991D5C5C0500096AC7 /* qipao.png */; };
+		3D3B3F9E1D5C61F000096AC7 /* databgImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D3B3F9D1D5C61F000096AC7 /* databgImage.png */; };
+		3D3B3FA01D5C6FD500096AC7 /* delete.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D3B3F9F1D5C6FD500096AC7 /* delete.png */; };
+		3D3B3FA21D5C75AE00096AC7 /* wenBenDelete.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D3B3FA11D5C75AE00096AC7 /* wenBenDelete.png */; };
+		3D7261271D62AB9B0006945E /* DashBoardCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D7261261D62AB9B0006945E /* DashBoardCollectionViewCell.m */; };
 		3D72D3201D59E19000EDD71A /* sanjiao.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D72D31F1D59E19000EDD71A /* sanjiao.png */; };
 		3D72D3261D59ED7200EDD71A /* account_highlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D72D3251D59ED7200EDD71A /* account_highlight.png */; };
 		3D72D32E1D59ED8000EDD71A /* account_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D72D3271D59ED8000EDD71A /* account_normal.png */; };
@@ -75,7 +91,9 @@
 		3D72D3321D59ED8000EDD71A /* dash_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D72D32B1D59ED8000EDD71A /* dash_normal.png */; };
 		3D72D3331D59ED8000EDD71A /* report_highlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D72D32C1D59ED8000EDD71A /* report_highlight.png */; };
 		3D72D3341D59ED8000EDD71A /* report_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D72D32D1D59ED8000EDD71A /* report_normal.png */; };
-		3D955B6D1D509C170070A586 /* DashBoardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D955B6C1D509C170070A586 /* DashBoardViewController.m */; };
+		3D86E2421D6311D600FF7245 /* cellDelete.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D86E2411D6311D600FF7245 /* cellDelete.png */; };
+		3D8828591D65654200242B6A /* add.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D8828581D65654200242B6A /* add.png */; };
+		3D88285D1D65869B00242B6A /* ReportIncomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D88285C1D65869B00242B6A /* ReportIncomeViewController.m */; };
 		3D955B701D50A0D00070A586 /* DataView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D955B6F1D50A0D00070A586 /* DataView.m */; };
 		3D955B731D50A11E0070A586 /* DataSearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D955B721D50A11E0070A586 /* DataSearchView.m */; };
 		3D955B7E1D5311A50070A586 /* libmp3lame.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D955B7C1D530F800070A586 /* libmp3lame.a */; };
@@ -97,9 +115,17 @@
 		3D9EE8901D59B34A0062DB1F /* IncomeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D9EE88F1D59B34A0062DB1F /* IncomeTableViewCell.m */; };
 		3D9EE8931D59C5CB0062DB1F /* IncomeTableViewTopCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D9EE8921D59C5CB0062DB1F /* IncomeTableViewTopCell.m */; };
 		3D9EE8961D59D9750062DB1F /* IncomeTableViewChartCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D9EE8951D59D9750062DB1F /* IncomeTableViewChartCell.m */; };
+		3DCAD79D1D61AB2B00BE758F /* DashBoardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DCAD79C1D61AB2B00BE758F /* DashBoardViewController.m */; };
+		3DCAD7A01D61B04C00BE758F /* DashCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DCAD79F1D61B04C00BE758F /* DashCollectionViewFlowLayout.m */; };
+		3DCAD7A61D62A0FE00BE758F /* DashCollectionReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DCAD7A51D62A0FE00BE758F /* DashCollectionReusableView.m */; };
 		3DD244211D532364006F40BA /* share.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DD244201D532364006F40BA /* share.png */; };
 		3DD244231D5323C3006F40BA /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DD244221D5323C3006F40BA /* back.png */; };
 		3DD244251D532C1C006F40BA /* date.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DD244241D532C1C006F40BA /* date.png */; };
+		3DDA62891D64982600F89C13 /* ActionTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DDA62881D64982600F89C13 /* ActionTopView.m */; };
+		3DDA628C1D64B68B00F89C13 /* ActionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DDA628B1D64B68B00F89C13 /* ActionTableViewCell.m */; };
+		3DF905891D5AB96F0009DBA6 /* ReportCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DF905881D5AB96F0009DBA6 /* ReportCenterViewController.m */; };
+		3DF9058C1D5AB9CF0009DBA6 /* ActionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DF9058B1D5AB9CF0009DBA6 /* ActionViewController.m */; };
+		3DF9058E1D5AD01A0009DBA6 /* header.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DF9058D1D5AD01A0009DBA6 /* header.png */; };
 		92A8A138353B2C5C5A1DD799 /* libPods-SEMPMobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 62B66D3555AAD588E4F509E7 /* libPods-SEMPMobile.a */; };
 /* End PBXBuildFile section */
 
@@ -203,10 +229,6 @@
 		3D26801C1D4F4D11001E732B /* date.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = date.txt; sourceTree = "<group>"; };
 		3D2680221D4F549F001E732B /* UIColor+NSString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+NSString.h"; sourceTree = "<group>"; };
 		3D2680231D4F549F001E732B /* UIColor+NSString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+NSString.m"; sourceTree = "<group>"; };
-		3D2680271D4F5F5A001E732B /* DashTopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DashTopView.h; sourceTree = "<group>"; };
-		3D2680281D4F5F5A001E732B /* DashTopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DashTopView.m; sourceTree = "<group>"; };
-		3D2680291D4F5F5A001E732B /* DashView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DashView.h; sourceTree = "<group>"; };
-		3D26802A1D4F5F5A001E732B /* DashView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DashView.m; sourceTree = "<group>"; };
 		3D26802D1D4F5F7D001E732B /* AddCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddCollectionViewCell.h; sourceTree = "<group>"; };
 		3D26802E1D4F5F7D001E732B /* AddCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddCollectionViewCell.m; sourceTree = "<group>"; };
 		3D2680301D4F8BCC001E732B /* dateAll.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dateAll.txt; sourceTree = "<group>"; };
@@ -232,6 +254,28 @@
 		3D2680571D4FAE0E001E732B /* SDHeaderCollectionReusableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDHeaderCollectionReusableView.m; sourceTree = "<group>"; };
 		3D2680581D4FAE0E001E732B /* SDHuaBiView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDHuaBiView.h; sourceTree = "<group>"; };
 		3D2680591D4FAE0E001E732B /* SDHuaBiView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDHuaBiView.m; sourceTree = "<group>"; };
+		3D3B3F791D5B033900096AC7 /* search.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = search.png; sourceTree = "<group>"; };
+		3D3B3F7B1D5B051B00096AC7 /* style_highligh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = style_highligh.png; sourceTree = "<group>"; };
+		3D3B3F7C1D5B051B00096AC7 /* style_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = style_normal.png; sourceTree = "<group>"; };
+		3D3B3F821D5B154A00096AC7 /* AllReportCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AllReportCollectionViewCell.h; sourceTree = "<group>"; };
+		3D3B3F831D5B154A00096AC7 /* AllReportCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AllReportCollectionViewCell.m; sourceTree = "<group>"; };
+		3D3B3F851D5B205800096AC7 /* report.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = report.png; sourceTree = "<group>"; };
+		3D3B3F871D5B236A00096AC7 /* concern.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = concern.png; sourceTree = "<group>"; };
+		3D3B3F881D5B236A00096AC7 /* detail.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = detail.png; sourceTree = "<group>"; };
+		3D3B3F8B1D5B270E00096AC7 /* concern_highligh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = concern_highligh.png; sourceTree = "<group>"; };
+		3D3B3F8F1D5B309F00096AC7 /* shu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shu.png; sourceTree = "<group>"; };
+		3D3B3F911D5B395E00096AC7 /* ReportTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportTableViewCell.h; sourceTree = "<group>"; };
+		3D3B3F921D5B395E00096AC7 /* ReportTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReportTableViewCell.m; sourceTree = "<group>"; };
+		3D3B3F941D5C0CB200096AC7 /* HeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HeaderView.h; sourceTree = "<group>"; };
+		3D3B3F951D5C0CB200096AC7 /* HeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HeaderView.m; sourceTree = "<group>"; };
+		3D3B3F971D5C5C0500096AC7 /* luyin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = luyin.png; sourceTree = "<group>"; };
+		3D3B3F981D5C5C0500096AC7 /* play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = play.png; sourceTree = "<group>"; };
+		3D3B3F991D5C5C0500096AC7 /* qipao.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = qipao.png; sourceTree = "<group>"; };
+		3D3B3F9D1D5C61F000096AC7 /* databgImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = databgImage.png; sourceTree = "<group>"; };
+		3D3B3F9F1D5C6FD500096AC7 /* delete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = delete.png; sourceTree = "<group>"; };
+		3D3B3FA11D5C75AE00096AC7 /* wenBenDelete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wenBenDelete.png; sourceTree = "<group>"; };
+		3D7261251D62AB9B0006945E /* DashBoardCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DashBoardCollectionViewCell.h; sourceTree = "<group>"; };
+		3D7261261D62AB9B0006945E /* DashBoardCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DashBoardCollectionViewCell.m; sourceTree = "<group>"; };
 		3D72D31F1D59E19000EDD71A /* sanjiao.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sanjiao.png; sourceTree = "<group>"; };
 		3D72D3251D59ED7200EDD71A /* account_highlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = account_highlight.png; sourceTree = "<group>"; };
 		3D72D3271D59ED8000EDD71A /* account_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = account_normal.png; sourceTree = "<group>"; };
@@ -241,8 +285,10 @@
 		3D72D32B1D59ED8000EDD71A /* dash_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dash_normal.png; sourceTree = "<group>"; };
 		3D72D32C1D59ED8000EDD71A /* report_highlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = report_highlight.png; sourceTree = "<group>"; };
 		3D72D32D1D59ED8000EDD71A /* report_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = report_normal.png; sourceTree = "<group>"; };
-		3D955B6B1D509C170070A586 /* DashBoardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DashBoardViewController.h; sourceTree = "<group>"; };
-		3D955B6C1D509C170070A586 /* DashBoardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DashBoardViewController.m; sourceTree = "<group>"; };
+		3D86E2411D6311D600FF7245 /* cellDelete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cellDelete.png; sourceTree = "<group>"; };
+		3D8828581D65654200242B6A /* add.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add.png; sourceTree = "<group>"; };
+		3D88285B1D65869B00242B6A /* ReportIncomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportIncomeViewController.h; sourceTree = "<group>"; };
+		3D88285C1D65869B00242B6A /* ReportIncomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReportIncomeViewController.m; sourceTree = "<group>"; };
 		3D955B6E1D50A0D00070A586 /* DataView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataView.h; sourceTree = "<group>"; };
 		3D955B6F1D50A0D00070A586 /* DataView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataView.m; sourceTree = "<group>"; };
 		3D955B711D50A11E0070A586 /* DataSearchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataSearchView.h; sourceTree = "<group>"; };
@@ -271,9 +317,24 @@
 		3D9EE8921D59C5CB0062DB1F /* IncomeTableViewTopCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IncomeTableViewTopCell.m; sourceTree = "<group>"; };
 		3D9EE8941D59D9750062DB1F /* IncomeTableViewChartCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IncomeTableViewChartCell.h; sourceTree = "<group>"; };
 		3D9EE8951D59D9750062DB1F /* IncomeTableViewChartCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IncomeTableViewChartCell.m; sourceTree = "<group>"; };
+		3DCAD79B1D61AB2B00BE758F /* DashBoardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DashBoardViewController.h; sourceTree = "<group>"; };
+		3DCAD79C1D61AB2B00BE758F /* DashBoardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DashBoardViewController.m; sourceTree = "<group>"; };
+		3DCAD79E1D61B04C00BE758F /* DashCollectionViewFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DashCollectionViewFlowLayout.h; sourceTree = "<group>"; };
+		3DCAD79F1D61B04C00BE758F /* DashCollectionViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DashCollectionViewFlowLayout.m; sourceTree = "<group>"; };
+		3DCAD7A41D62A0FE00BE758F /* DashCollectionReusableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DashCollectionReusableView.h; sourceTree = "<group>"; };
+		3DCAD7A51D62A0FE00BE758F /* DashCollectionReusableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DashCollectionReusableView.m; sourceTree = "<group>"; };
 		3DD244201D532364006F40BA /* share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = share.png; sourceTree = "<group>"; };
 		3DD244221D5323C3006F40BA /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back.png; sourceTree = "<group>"; };
 		3DD244241D532C1C006F40BA /* date.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = date.png; sourceTree = "<group>"; };
+		3DDA62871D64982600F89C13 /* ActionTopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionTopView.h; sourceTree = "<group>"; };
+		3DDA62881D64982600F89C13 /* ActionTopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionTopView.m; sourceTree = "<group>"; };
+		3DDA628A1D64B68B00F89C13 /* ActionTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionTableViewCell.h; sourceTree = "<group>"; };
+		3DDA628B1D64B68B00F89C13 /* ActionTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionTableViewCell.m; sourceTree = "<group>"; };
+		3DF905871D5AB96F0009DBA6 /* ReportCenterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportCenterViewController.h; sourceTree = "<group>"; };
+		3DF905881D5AB96F0009DBA6 /* ReportCenterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReportCenterViewController.m; sourceTree = "<group>"; };
+		3DF9058A1D5AB9CF0009DBA6 /* ActionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionViewController.h; sourceTree = "<group>"; };
+		3DF9058B1D5AB9CF0009DBA6 /* ActionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionViewController.m; sourceTree = "<group>"; };
+		3DF9058D1D5AD01A0009DBA6 /* header.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = header.png; sourceTree = "<group>"; };
 		58C5113B77E2456708FE891A /* Pods-SEMPMobile.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SEMPMobile.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SEMPMobile/Pods-SEMPMobile.debug.xcconfig"; sourceTree = "<group>"; };
 		62B66D3555AAD588E4F509E7 /* libPods-SEMPMobile.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SEMPMobile.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -420,6 +481,7 @@
 		3D267F231D4EDD4F001E732B /* AccountImage */ = {
 			isa = PBXGroup;
 			children = (
+				3DF9058D1D5AD01A0009DBA6 /* header.png */,
 			);
 			path = AccountImage;
 			sourceTree = "<group>";
@@ -427,6 +489,7 @@
 		3D267F241D4EDD4F001E732B /* ActionImage */ = {
 			isa = PBXGroup;
 			children = (
+				3DCF1FF51D6547150007FF80 /* Action */,
 			);
 			path = ActionImage;
 			sourceTree = "<group>";
@@ -453,6 +516,7 @@
 		3D267F271D4EDD4F001E732B /* ReportCenterImage */ = {
 			isa = PBXGroup;
 			children = (
+				3D3B3F781D5B033900096AC7 /* ReportCenter */,
 			);
 			path = ReportCenterImage;
 			sourceTree = "<group>";
@@ -613,6 +677,8 @@
 		3D267F6F1D4EEC10001E732B /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				3DF9058A1D5AB9CF0009DBA6 /* ActionViewController.h */,
+				3DF9058B1D5AB9CF0009DBA6 /* ActionViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -627,6 +693,10 @@
 		3D267F711D4EEC10001E732B /* View */ = {
 			isa = PBXGroup;
 			children = (
+				3DDA62871D64982600F89C13 /* ActionTopView.h */,
+				3DDA62881D64982600F89C13 /* ActionTopView.m */,
+				3DDA628A1D64B68B00F89C13 /* ActionTableViewCell.h */,
+				3DDA628B1D64B68B00F89C13 /* ActionTableViewCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -644,7 +714,7 @@
 		3D267F761D4EEC10001E732B /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				3D955B6A1D509C170070A586 /* DashboardController */,
+				3DCAD79A1D61AB1200BE758F /* DashboardController */,
 				3D2680131D4F45E6001E732B /* AddViewController */,
 				3D2680351D4FAC9E001E732B /* IncomeViewController */,
 			);
@@ -694,6 +764,9 @@
 		3D267F7B1D4EEC10001E732B /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				3DF905871D5AB96F0009DBA6 /* ReportCenterViewController.h */,
+				3DF905881D5AB96F0009DBA6 /* ReportCenterViewController.m */,
+				3D88285A1D65866000242B6A /* ReportIncomeController */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -708,6 +781,12 @@
 		3D267F7D1D4EEC10001E732B /* View */ = {
 			isa = PBXGroup;
 			children = (
+				3D3B3F821D5B154A00096AC7 /* AllReportCollectionViewCell.h */,
+				3D3B3F831D5B154A00096AC7 /* AllReportCollectionViewCell.m */,
+				3D3B3F911D5B395E00096AC7 /* ReportTableViewCell.h */,
+				3D3B3F921D5B395E00096AC7 /* ReportTableViewCell.m */,
+				3D3B3F941D5C0CB200096AC7 /* HeaderView.h */,
+				3D3B3F951D5C0CB200096AC7 /* HeaderView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -831,8 +910,8 @@
 				3D72D32A1D59ED8000EDD71A /* dash_highlight.png */,
 				3D72D32B1D59ED8000EDD71A /* dash_normal.png */,
 				3D72D32C1D59ED8000EDD71A /* report_highlight.png */,
-				3D72D32D1D59ED8000EDD71A /* report_normal.png */,
 				3D72D3251D59ED7200EDD71A /* account_highlight.png */,
+				3D72D32D1D59ED8000EDD71A /* report_normal.png */,
 			);
 			path = TabbarImage;
 			sourceTree = "<group>";
@@ -885,6 +964,8 @@
 		3D2680191D4F4835001E732B /* Dash */ = {
 			isa = PBXGroup;
 			children = (
+				3D86E2411D6311D600FF7245 /* cellDelete.png */,
+				3D3B3F9D1D5C61F000096AC7 /* databgImage.png */,
 				3DD244241D532C1C006F40BA /* date.png */,
 				3DD244201D532364006F40BA /* share.png */,
 				3D26801A1D4F4835001E732B /* zhibiao.png */,
@@ -913,14 +994,14 @@
 		3D2680261D4F5F5A001E732B /* DashView */ = {
 			isa = PBXGroup;
 			children = (
+				3D7261251D62AB9B0006945E /* DashBoardCollectionViewCell.h */,
+				3D7261261D62AB9B0006945E /* DashBoardCollectionViewCell.m */,
 				3D955B711D50A11E0070A586 /* DataSearchView.h */,
 				3D955B721D50A11E0070A586 /* DataSearchView.m */,
 				3D955B6E1D50A0D00070A586 /* DataView.h */,
 				3D955B6F1D50A0D00070A586 /* DataView.m */,
-				3D2680271D4F5F5A001E732B /* DashTopView.h */,
-				3D2680281D4F5F5A001E732B /* DashTopView.m */,
-				3D2680291D4F5F5A001E732B /* DashView.h */,
-				3D26802A1D4F5F5A001E732B /* DashView.m */,
+				3DCAD7A41D62A0FE00BE758F /* DashCollectionReusableView.h */,
+				3DCAD7A51D62A0FE00BE758F /* DashCollectionReusableView.m */,
 			);
 			path = DashView;
 			sourceTree = "<group>";
@@ -981,21 +1062,37 @@
 			path = IncomeView;
 			sourceTree = "<group>";
 		};
+		3D3B3F781D5B033900096AC7 /* ReportCenter */ = {
+			isa = PBXGroup;
+			children = (
+				3D3B3F8F1D5B309F00096AC7 /* shu.png */,
+				3D3B3F8B1D5B270E00096AC7 /* concern_highligh.png */,
+				3D3B3F871D5B236A00096AC7 /* concern.png */,
+				3D3B3F881D5B236A00096AC7 /* detail.png */,
+				3D3B3F851D5B205800096AC7 /* report.png */,
+				3D3B3F7B1D5B051B00096AC7 /* style_highligh.png */,
+				3D3B3F7C1D5B051B00096AC7 /* style_normal.png */,
+				3D3B3F791D5B033900096AC7 /* search.png */,
+			);
+			path = ReportCenter;
+			sourceTree = "<group>";
+		};
+		3D88285A1D65866000242B6A /* ReportIncomeController */ = {
+			isa = PBXGroup;
+			children = (
+				3D88285B1D65869B00242B6A /* ReportIncomeViewController.h */,
+				3D88285C1D65869B00242B6A /* ReportIncomeViewController.m */,
+			);
+			path = ReportIncomeController;
+			sourceTree = "<group>";
+		};
 		3D955B671D509AB60070A586 /* Add */ = {
 			isa = PBXGroup;
 			children = (
+				3D3B3F9F1D5C6FD500096AC7 /* delete.png */,
 				3DD244221D5323C3006F40BA /* back.png */,
 			);
 			path = Add;
-			sourceTree = "<group>";
-		};
-		3D955B6A1D509C170070A586 /* DashboardController */ = {
-			isa = PBXGroup;
-			children = (
-				3D955B6B1D509C170070A586 /* DashBoardViewController.h */,
-				3D955B6C1D509C170070A586 /* DashBoardViewController.m */,
-			);
-			path = DashboardController;
 			sourceTree = "<group>";
 		};
 		3D955B781D530D5B0070A586 /* CBDate */ = {
@@ -1008,6 +1105,10 @@
 		3D9EE87C1D59A7970062DB1F /* Income */ = {
 			isa = PBXGroup;
 			children = (
+				3D3B3F971D5C5C0500096AC7 /* luyin.png */,
+				3D3B3FA11D5C75AE00096AC7 /* wenBenDelete.png */,
+				3D3B3F981D5C5C0500096AC7 /* play.png */,
+				3D3B3F991D5C5C0500096AC7 /* qipao.png */,
 				3D72D31F1D59E19000EDD71A /* sanjiao.png */,
 				3D9EE87D1D59A7970062DB1F /* IncomeHuaBi.png */,
 				3D9EE87E1D59A7970062DB1F /* IncomeLunYin.png */,
@@ -1015,6 +1116,25 @@
 				3D9EE8801D59A7970062DB1F /* IncomeText.png */,
 			);
 			path = Income;
+			sourceTree = "<group>";
+		};
+		3DCAD79A1D61AB1200BE758F /* DashboardController */ = {
+			isa = PBXGroup;
+			children = (
+				3DCAD79B1D61AB2B00BE758F /* DashBoardViewController.h */,
+				3DCAD79C1D61AB2B00BE758F /* DashBoardViewController.m */,
+				3DCAD79E1D61B04C00BE758F /* DashCollectionViewFlowLayout.h */,
+				3DCAD79F1D61B04C00BE758F /* DashCollectionViewFlowLayout.m */,
+			);
+			path = DashboardController;
+			sourceTree = "<group>";
+		};
+		3DCF1FF51D6547150007FF80 /* Action */ = {
+			isa = PBXGroup;
+			children = (
+				3D8828581D65654200242B6A /* add.png */,
+			);
+			path = Action;
 			sourceTree = "<group>";
 		};
 		88A65B09D2B0C4128C7FF695 /* Pods */ = {
@@ -1136,14 +1256,26 @@
 				3D2680311D4F8BCC001E732B /* dateAll.txt in Resources */,
 				3D9EE8811D59A7970062DB1F /* IncomeHuaBi.png in Resources */,
 				3D26804D1D4FAD20001E732B /* mic_2.png in Resources */,
+				3D8828591D65654200242B6A /* add.png in Resources */,
+				3D3B3FA01D5C6FD500096AC7 /* delete.png in Resources */,
 				3DD244231D5323C3006F40BA /* back.png in Resources */,
 				3D72D3341D59ED8000EDD71A /* report_normal.png in Resources */,
 				3D26801D1D4F4D11001E732B /* date.txt in Resources */,
+				3DF9058E1D5AD01A0009DBA6 /* header.png in Resources */,
+				3D3B3F7A1D5B033900096AC7 /* search.png in Resources */,
+				3D3B3F9E1D5C61F000096AC7 /* databgImage.png in Resources */,
+				3D3B3F8C1D5B270E00096AC7 /* concern_highligh.png in Resources */,
 				3D267EF01D4EDB3F001E732B /* LaunchScreen.storyboard in Resources */,
 				3D9EE8831D59A7970062DB1F /* IncomeShare.png in Resources */,
 				3D26804B1D4FAD20001E732B /* mic_0.png in Resources */,
+				3D3B3F9C1D5C5C0500096AC7 /* qipao.png in Resources */,
+				3D3B3F9A1D5C5C0500096AC7 /* luyin.png in Resources */,
+				3D86E2421D6311D600FF7245 /* cellDelete.png in Resources */,
 				3D72D32E1D59ED8000EDD71A /* account_normal.png in Resources */,
+				3D3B3F891D5B236A00096AC7 /* concern.png in Resources */,
 				3D26804F1D4FAD20001E732B /* mic_4.png in Resources */,
+				3D3B3FA21D5C75AE00096AC7 /* wenBenDelete.png in Resources */,
+				3D3B3F7E1D5B051B00096AC7 /* style_normal.png in Resources */,
 				3D72D3331D59ED8000EDD71A /* report_highlight.png in Resources */,
 				3D26804E1D4FAD20001E732B /* mic_3.png in Resources */,
 				3D26804C1D4FAD20001E732B /* mic_1.png in Resources */,
@@ -1152,12 +1284,17 @@
 				3D72D32F1D59ED8000EDD71A /* action_highlight.png in Resources */,
 				3D2680511D4FAD20001E732B /* mic_cancel.png in Resources */,
 				3D72D3311D59ED8000EDD71A /* dash_highlight.png in Resources */,
+				3D3B3F7D1D5B051B00096AC7 /* style_highligh.png in Resources */,
 				3D267EED1D4EDB3F001E732B /* Assets.xcassets in Resources */,
+				3D3B3F901D5B309F00096AC7 /* shu.png in Resources */,
 				3D9EE8821D59A7970062DB1F /* IncomeLunYin.png in Resources */,
 				3D72D3301D59ED8000EDD71A /* action_normal.png in Resources */,
 				3D9EE8841D59A7970062DB1F /* IncomeText.png in Resources */,
+				3D3B3F8A1D5B236A00096AC7 /* detail.png in Resources */,
 				3D955B841D5315820070A586 /* userlogin.png in Resources */,
 				3D2680501D4FAD20001E732B /* mic_5.png in Resources */,
+				3D3B3F861D5B205800096AC7 /* report.png in Resources */,
+				3D3B3F9B1D5C5C0500096AC7 /* play.png in Resources */,
 				3D72D3201D59E19000EDD71A /* sanjiao.png in Resources */,
 				3D26801B1D4F4835001E732B /* zhibiao.png in Resources */,
 				3DD244251D532C1C006F40BA /* date.png in Resources */,
@@ -1239,7 +1376,6 @@
 				3D267F971D4F0108001E732B /* UIView+HUD.m in Sources */,
 				3D267F841D4EECF1001E732B /* BaseViewController.m in Sources */,
 				3D267F641D4EEA1F001E732B /* ReachStateWIFI.m in Sources */,
-				3D26802C1D4F5F5A001E732B /* DashView.m in Sources */,
 				3D26805B1D4FAE0E001E732B /* SDHuaBiView.m in Sources */,
 				3D267FB41D4F32CE001E732B /* SDUserLoginViewController.m in Sources */,
 				3D9EE8681D5815EA0062DB1F /* userModel.m in Sources */,
@@ -1247,10 +1383,11 @@
 				3D2680241D4F549F001E732B /* UIColor+NSString.m in Sources */,
 				3D267FB31D4F32CE001E732B /* LoginViewController.m in Sources */,
 				3D267F681D4EEA1F001E732B /* RealReachability.m in Sources */,
-				3D26802B1D4F5F5A001E732B /* DashTopView.m in Sources */,
+				3D3B3F931D5B395E00096AC7 /* ReportTableViewCell.m in Sources */,
 				3D267F5E1D4EEA1F001E732B /* FSMEngine.m in Sources */,
 				3D26800F1D4F40FB001E732B /* DashBoardModel.m in Sources */,
 				3D26805A1D4FAE0E001E732B /* SDHeaderCollectionReusableView.m in Sources */,
+				3DDA62891D64982600F89C13 /* ActionTopView.m in Sources */,
 				3D267F671D4EEA1F001E732B /* PingHelper.m in Sources */,
 				3D267F3F1D4EE5E2001E732B /* UIViewController+CYLJumpToOtherTabBarControllerItem.m in Sources */,
 				3D267F2E1D4EDD4F001E732B /* AppDelegate.m in Sources */,
@@ -1262,20 +1399,29 @@
 				3D267F3C1D4EE5E2001E732B /* CYLPlusButton.m in Sources */,
 				3D9EE8931D59C5CB0062DB1F /* IncomeTableViewTopCell.m in Sources */,
 				3D267F3D1D4EE5E2001E732B /* CYLTabBar.m in Sources */,
+				3DCAD79D1D61AB2B00BE758F /* DashBoardViewController.m in Sources */,
+				3DF9058C1D5AB9CF0009DBA6 /* ActionViewController.m in Sources */,
 				3D2680341D4FAC31001E732B /* AddViewController.m in Sources */,
-				3D955B6D1D509C170070A586 /* DashBoardViewController.m in Sources */,
+				3DCAD7A01D61B04C00BE758F /* DashCollectionViewFlowLayout.m in Sources */,
 				3D2680091D4F3EA7001E732B /* SDSetViewController.m in Sources */,
 				3D26804A1D4FAD20001E732B /* D3RecordButton.m in Sources */,
+				3D3B3F841D5B154A00096AC7 /* AllReportCollectionViewCell.m in Sources */,
 				3D267EE21D4EDB3F001E732B /* main.m in Sources */,
 				3D2680381D4FAC9E001E732B /* SDIncomeViewController.m in Sources */,
+				3D3B3F961D5C0CB200096AC7 /* HeaderView.m in Sources */,
 				3D2680531D4FAD20001E732B /* Mp3Recorder.m in Sources */,
 				3D9EE8961D59D9750062DB1F /* IncomeTableViewChartCell.m in Sources */,
 				3D267F601D4EEA1F001E732B /* ReachState.m in Sources */,
 				3D267F5F1D4EEA1F001E732B /* FSMStateUtil.m in Sources */,
 				3D267F8A1D4EFAC1001E732B /* RootViewController.m in Sources */,
+				3DCAD7A61D62A0FE00BE758F /* DashCollectionReusableView.m in Sources */,
 				3D267F661D4EEA1F001E732B /* PingFoundation.m in Sources */,
 				3D9EE8901D59B34A0062DB1F /* IncomeTableViewCell.m in Sources */,
+				3DDA628C1D64B68B00F89C13 /* ActionTableViewCell.m in Sources */,
+				3D88285D1D65869B00242B6A /* ReportIncomeViewController.m in Sources */,
+				3DF905891D5AB96F0009DBA6 /* ReportCenterViewController.m in Sources */,
 				3D267F651D4EEA1F001E732B /* ReachStateWWAN.m in Sources */,
+				3D7261271D62AB9B0006945E /* DashBoardCollectionViewCell.m in Sources */,
 				3D955B701D50A0D00070A586 /* DataView.m in Sources */,
 				3D267F621D4EEA1F001E732B /* ReachStateUnloaded.m in Sources */,
 				3D955B731D50A11E0070A586 /* DataSearchView.m in Sources */,

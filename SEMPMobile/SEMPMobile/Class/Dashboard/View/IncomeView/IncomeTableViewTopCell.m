@@ -64,6 +64,8 @@
 }
 -(void)layoutSubviews
 {
+    [super layoutSubviews];
+    
     _titleImage.frame = CGRectMake(50*KWidth6scale, CGRectGetHeight(self.contentView.frame)/2.0-15*KHeight6scale, 30*KWidth6scale, 40*KHeight6scale);
     _titleLabel.frame = CGRectMake(CGRectGetMaxX(_titleImage.frame)+30*KWidth6scale, CGRectGetMinY(_titleImage.frame), 140*KWidth6scale, CGRectGetHeight(_titleImage.frame));
     

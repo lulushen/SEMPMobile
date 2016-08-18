@@ -32,7 +32,7 @@
 
 -(void)layoutSubviews{
     
-    
+    [super layoutSubviews];
     _label.frame = CGRectMake(0, CGRectGetMaxY(self.contentView.frame)-0.5*KWidth6scale, CGRectGetWidth(self.contentView.frame), 0.5*KWidth6scale);
     
     

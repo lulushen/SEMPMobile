@@ -8,6 +8,9 @@
 
 #import "RootViewController.h"
 @interface SDAccountViewController : RootViewController
-
+// 用户名
 @property (nonatomic , strong) UILabel * userLabel;
+// 职位
+@property (nonatomic , strong) UILabel * orgLabel;
+
 @end

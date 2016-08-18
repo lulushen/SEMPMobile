@@ -10,6 +10,7 @@
 #import "AFNetworking.h"
 
 @interface RootViewController : BaseViewController
+
 /**
  *  显示标签栏
  */
@@ -18,5 +19,8 @@
  *  隐藏标签栏
  */
 - (void)hideTabbar;
+
+
+
 
 @end

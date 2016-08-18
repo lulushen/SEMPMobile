@@ -166,11 +166,13 @@
 
 - (void)setXLabels:(NSArray *)xLabels {
     CGFloat xLabelWidth;
-
     if (_showLabel) {
+        
         xLabelWidth = _chartCavanWidth / [xLabels count];
+        
     } else {
-        xLabelWidth = (self.frame.size.width - _chartMarginLeft - _chartMarginRight) / [xLabels count];
+        
+        xLabelWidth = (self.frame.size.width - _chartMarginLeft - _chartMarginRight) / [xLabels count]*2.0;
     }
 
     return [self setXLabels:xLabels withWidth:xLabelWidth];
@@ -194,11 +196,14 @@
             labelText = xLabels[index];
 
             NSInteger x = (index * _xLabelWidth + _chartMarginLeft + _xLabelWidth / 2.0);
-            NSInteger y = _chartMarginBottom + _chartCavanHeight;
+            NSInteger y = _chartMarginBottom + _chartCavanHeight ;
 
             PNChartLabel *label = [[PNChartLabel alloc] initWithFrame:CGRectMake(x, y, (NSInteger) _xLabelWidth, (NSInteger) _chartMarginBottom)];
             [label setTextAlignment:NSTextAlignmentCenter];
+            label.transform = CGAffineTransformMakeRotation(0.4);
             label.text = labelText;
+            label.textAlignment = NSTextAlignmentLeft;
+//            label.backgroundColor = [UIColor orangeColor];
             [self setCustomStyleForXLabel:label];
             [self addSubview:label];
             [_xChartLabels addObject:label];

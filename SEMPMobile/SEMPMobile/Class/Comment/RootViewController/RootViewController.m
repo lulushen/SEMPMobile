@@ -9,8 +9,12 @@
 #import "RootViewController.h"
 #import "RealReachability.h"
 #import "UIViewController+HUD.h"
+#import "userModel.h"
+#import "DashBoardModel.h"
 
 @interface RootViewController ()
+
+@property (nonatomic , strong)userModel * userModel;
 
 @end
 
@@ -33,7 +37,7 @@
     self.navigationController.navigationBar.titleTextAttributes = dict;
     
     // 设置导航栏的颜色
-    self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:38/255 green:38/255 blue:39/255 alpha:1];
+    self.navigationController.navigationBar.barTintColor = NavigationColor;
     // 设置半透明状态（yes） 不透明状态 （no）
     self.navigationController.navigationBar.translucent = NO;
     
@@ -43,6 +47,7 @@
     // Do any additional setup after loading the view.
     _originY = Main_Screen_Height - BottomBarHeight;
     self.view.backgroundColor = [UIColor whiteColor];
+    
     
     //添加网络监测通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkChanged:) name:kRealReachabilityChangedNotification object:nil];
@@ -156,6 +161,7 @@
     NSLog(@"--current H hide--:%f",self.view.frame.size.height);
     return;
 }
+
 
 /*
  #pragma mark - Navigation

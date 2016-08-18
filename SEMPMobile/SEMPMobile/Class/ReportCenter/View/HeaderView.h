@@ -9,5 +9,11 @@
 #import <UIKit/UIKit.h>
 
 @interface HeaderView : UIView
+// 背景图
+@property (nonatomic , strong)UIImageView * bgImageView;
+
+@property (nonatomic , strong)UIImageView * imageView;
+
+@property (nonatomic , strong)UILabel * titleLabel;
 
 @end
