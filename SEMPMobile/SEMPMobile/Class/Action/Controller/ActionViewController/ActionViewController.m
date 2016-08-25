@@ -8,7 +8,11 @@
 
 #import "ActionViewController.h"
 #import "ActionTopView.h"
+#import "AddActionViewController.h"
 #import "ActionTableViewCell.h"
+#import "ActionIncomeViewController.h"
+#import "userModel.h"
+#import "ActionModel.h"
 //#import "ReportTableViewCell.h"
 
 @interface ActionViewController ()<UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate>
@@ -25,29 +29,130 @@
 @property (nonatomic , strong) UITableView * yiXiaDaTableView;
 // 待处理任务的tableView
 @property (nonatomic , strong) UITableView * daiChuliTableView;
+
+@property (nonatomic , strong) userModel * userModel;
+
+@property (nonatomic , strong) NSMutableArray * allActionArray;
+@property (nonatomic , strong) NSMutableArray * weiWanChengActionArray;
+@property (nonatomic , strong) NSMutableArray * daiChuLiActionArray;
+@property (nonatomic , strong) NSMutableArray * yiXiaDaActionArray;
+
+
 @end
 
 @implementation ActionViewController
-
+- (NSMutableArray *)allActionArray
+{
+    if (_allActionArray.count == 0) {
+        _allActionArray = [NSMutableArray array];
+    }
+    return _allActionArray;
+}
+- (NSMutableArray *)weiWanChengActionArray
+{
+    if (_weiWanChengActionArray.count == 0) {
+        _weiWanChengActionArray = [NSMutableArray array];
+    }
+    return _weiWanChengActionArray;
+}
+- (NSMutableArray *)daiChuLiActionArray
+{
+    if (_daiChuLiActionArray.count == 0) {
+        _daiChuLiActionArray = [NSMutableArray array];
+    }
+    return _daiChuLiActionArray;
+}
+- (NSMutableArray *)yiXiaDaActionArray
+{
+    if (_yiXiaDaActionArray.count == 0) {
+        _yiXiaDaActionArray = [NSMutableArray array];
+    }
+    return _yiXiaDaActionArray;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    // 数据
+    [self makeDataTableView];
     // nav
     [self makeNavigationView];
     // 头部视图
     [self makeActionTopView];
     
-    //全部任务tableView
-    [self makeAllActionTableView];
-    //未完成任务tableView
-    [self  makeWeiWanChengTableView];
-    
-    //已下达任务tableView
-    [self makeYiXiaDaTableView];
-    
-    //待处理任务tableView
-    [self makeDaiChuliTableView];
+   
+  
 //
     // Do any additional setup after loading the view.
+}
+-(void)makeDataTableView
+{
+    NSData * data = [[NSUserDefaults standardUserDefaults] objectForKey:@"userModel"];
+    _userModel = [[userModel alloc] init];
+    _userModel = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    //  转化成字符串
+    NSString *   token = [NSString stringWithFormat:@"%@",_userModel.user_token];
+    
+    
+    NSString * urlStr = [NSString stringWithFormat:ActionHttp];
+    
+    NSLog(@"----%@",urlStr);
+    
+    AFHTTPSessionManager * manager = [AFHTTPSessionManager manager];
+    
+    [manager GET:urlStr parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
+        
+        //这里可以用来显示下载进度
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    
+        if (responseObject != nil) {
+            
+            NSMutableArray * array = responseObject[@"resdata"];
+            
+            for (NSDictionary * dict in array) {
+                
+                ActionModel * actionModel = [[ActionModel alloc] init];
+                [actionModel setValuesForKeysWithDictionary:dict];
+                // _xxx和self.xxx的区别：当使用self.xxx会调用xxx的get方法而_xxx并不会调用，正确的使用个方式是通过self去调用才会执行懒加载方法
+                [self.allActionArray addObject:actionModel];
+                
+                if ([actionModel.task_state isEqualToString:@"9"]) {
+                    
+                    [self.weiWanChengActionArray addObject:actionModel];
+                }else if ([actionModel.task_state isEqualToString:@"3"]) {
+                    
+                    [self.daiChuLiActionArray addObject:actionModel];
+                }else if ([actionModel.task_state isEqualToString:@"1"]) {
+                    
+                    [self.yiXiaDaActionArray addObject:actionModel];
+                }
+                
+                
+                
+            }
+            
+            NSLog(@"_allActionArray------%ld",_allActionArray.count);
+            NSLog(@"ActionresponseObject------%@",responseObject);
+
+            
+        }
+       
+        //全部任务tableView
+        [self makeAllActionTableView];
+        //未完成任务tableView
+        [self  makeWeiWanChengTableView];
+        
+        //已下达任务tableView
+        [self makeYiXiaDaTableView];
+        
+        //待处理任务tableView
+        [self makeDaiChuliTableView];
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        //失败
+        NSLog(@"failure  error ： %@",error);
+        
+    }];
+
 }
 -(void)makeNavigationView
 {
@@ -219,7 +324,10 @@
 //添加按钮点击事件
 - (void)addButtonClick:(UIButton *)button
 {
+    AddActionViewController * addActionVC = [[AddActionViewController alloc] init];
     
+    [self.navigationController pushViewController:addActionVC animated:YES];
+
 }
 
 
@@ -237,45 +345,131 @@
     
     
     if (tableView.tag == 0) {
-       
-        return 10;
+        return _allActionArray.count;
     }else if (tableView.tag == 1){
-        
-        return 12;
+
+        return _weiWanChengActionArray.count;
     }else if (tableView.tag == 2){
         
-        return 5;
+        return _yiXiaDaActionArray.count;
     }else{
-        return 1;
+        return _daiChuLiActionArray.count;
     }
    
 }
 - (ActionTableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     ActionTableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"actionCell" forIndexPath:indexPath];
-    cell.actionTitleLabel.text = @"SEMP ";
-    cell.actionDateLabel.text = @"2016/08/01";
-    cell.actionTimeLabel.text = @"15.44";
-    cell.actionDifficultyLabel.text = @"高";
-    cell.actionStatuLabel.text = @"进行中";
     
-    
+    ActionModel * actionModel = [[ActionModel alloc] init];
     if (tableView.tag == 0) {
-              return cell;
+        
+        actionModel = _allActionArray[indexPath.row];
+        
+        [self makeCell:cell actionModel:actionModel];
+        
+        if ([actionModel.loginUser isEqualToString:[NSString stringWithFormat:@"%@",actionModel.create_user]]) {
+            
+            if ([actionModel.task_state isEqualToString:@"1"]) {
+              
+                cell.actionStatuLabel.text = @"已下达";
+            }
+            
+        }else{
+            if ([actionModel.task_state isEqualToString:@"1"]) {
+                cell.actionStatuLabel.text = @"待接收";
+            }
+            
+        }
+        NSLog(@"actionModel.task_type---%@",actionModel.task_type);
+      if ([actionModel.task_state isEqualToString:@"3"]) {
+            
+            cell.actionStatuLabel.text = @"待处理";
+            
+            
+        }else if ([actionModel.task_state isEqualToString:@"9"]){
+            cell.actionStatuLabel.text = @"进行中";
+            
+        }else if ([actionModel.task_state isEqualToString:@"7"]){
+            
+            cell.actionStatuLabel.text = @"已完成";
+            
+        }
+
+        
+      return cell;
         
     }else if (tableView.tag == 1){
-      
-        
+        actionModel = _weiWanChengActionArray[indexPath.row];
+        [self makeCell:cell actionModel:actionModel];
+        cell.actionStatuLabel.text = @"进行中";
         return cell;
         
     }else if (tableView.tag == 2){
-       
+        actionModel = _yiXiaDaActionArray[indexPath.row];
+        [self makeCell:cell actionModel:actionModel];
+        
+        if ([actionModel.loginUser isEqualToString:[NSString stringWithFormat:@"%@",actionModel.create_user]]) {
+            
+            if ([actionModel.task_state isEqualToString:@"1"]) {
+                
+                cell.actionStatuLabel.text = @"已下达";
+            }
+            
+        }else{
+            if ([actionModel.task_state isEqualToString:@"1"]) {
+                cell.actionStatuLabel.text = @"待接收";
+            }
+            
+        }
+
         return cell;
     }else {
-       
+        
+        actionModel = _daiChuLiActionArray[indexPath.row];
+        
+        [self makeCell:cell actionModel:actionModel];
+
+        cell.actionStatuLabel.text = @"待处理";
+
         return cell;
     }
     
+}
+
+-(void)makeCell:(ActionTableViewCell *)cell actionModel: (ActionModel*)actionModel
+{
+    
+    cell.actionTitleLabel.text = actionModel.task_title;
+
+    cell.actionDateLabel.text = actionModel.create_time;
+    
+ 
+    if ([actionModel.task_priority isEqualToString:@"1" ]) {
+        
+        cell.actionDifficultyLabel.backgroundColor = [UIColor grayColor];
+        cell.actionDifficultyLabel.text = @"高";
+        
+    }else if ([actionModel.task_priority isEqualToString:@"2" ]){
+        cell.actionDifficultyLabel.backgroundColor = [UIColor orangeColor];
+        
+        cell.actionDifficultyLabel.text = @"中";
+        
+    }else{
+        
+        cell.actionDifficultyLabel.text = @"低";
+        
+    }
+    
+
+}
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    ActionIncomeViewController * ActionIncomeVC = [[ActionIncomeViewController alloc]init];
+    
+//    ActionIncomeVC.titleString =
+    
+    [self.navigationController pushViewController:ActionIncomeVC animated:YES];
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {

@@ -6,8 +6,12 @@
 //  Copyright © 2016年 上海数聚. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "RootViewController.h"
 
-@interface SDFeedBackViewController : UIViewController
+@interface SDFeedBackViewController : RootViewController
+
+@property (nonatomic , strong) UITextView * feedBackInfoTextView;
+
+@property (nonatomic , strong) UIButton * feedBackButton;
 
 @end

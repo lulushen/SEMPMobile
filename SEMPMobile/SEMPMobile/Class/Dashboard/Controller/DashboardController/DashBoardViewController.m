@@ -58,7 +58,6 @@
 
 @property (nonatomic , strong) DashCollectionReusableView * topView;
 
-
 #pragma 记得删除 临时的time
 @property (nonatomic , strong) NSString * Time;
 @property (nonatomic , strong) NSString * token;
@@ -246,11 +245,8 @@ static  BOOL Btnstatu = YES;
 - (void)DateChange
 {
     [_dataSearchView removeFromSuperview];
-
     
     NSString * date = [[NSUserDefaults standardUserDefaults] objectForKey:@"DateChange"];
-
-    NSLog(@"--------zhibiaojiemiandeshijian  -----%@",date);
 
     _dataView.dateLabel.text = date;
     
@@ -305,7 +301,6 @@ static  BOOL Btnstatu = YES;
         
         // 转化成字符串
         _token = [NSString stringWithFormat:@"%@",_userModel.user_token];
-        NSLog(@"-----%@",time);
         
         // 指标界面的接口
         NSString * urlStr = [NSString stringWithFormat:DashBoardHttp,_token,time];
@@ -485,14 +480,17 @@ static  BOOL Btnstatu = YES;
         NSMutableArray * XValueArray = [NSMutableArray arrayWithArray:[m.data valueForKey:@"x"]];
         NSMutableArray * YValueArray = [NSMutableArray arrayWithArray:[m.data valueForKey:@"y"]];
         
-        _lineChart = [[PNLineChart alloc] initWithFrame:CGRectMake(0, 10,Main_Screen_Width-40,CGRectGetHeight(cell.frame)-50)];
+        _lineChart = [[PNLineChart alloc] initWithFrame:CGRectMake(10, 20,Main_Screen_Width-50,CGRectGetHeight(cell.frame)-60)];
         _barChart = [[PNBarChart alloc] initWithFrame:CGRectMake(CGRectGetMinX(_lineChart.frame), CGRectGetMinY(_lineChart.frame), CGRectGetWidth(_lineChart.frame), CGRectGetHeight(_lineChart.frame))];
         
-        
-        
+        cell.contentView.userInteractionEnabled = YES;
+         _lineChart.userInteractionEnabled = YES;
+        cell.midvalView.userInteractionEnabled = NO;
+       
+       
         if ([m.chart_type isEqualToString:@"line_chart"]) {
             
-            _lineChart.backgroundColor = [UIColor redColor];
+            [cell.contentView addSubview:cell.midvalView];
             [self makeLine];
             _lineChart.yUnit = m.unit;
             [_lineChart setXLabels:XValueArray];
@@ -500,6 +498,9 @@ static  BOOL Btnstatu = YES;
             data01.color = [UIColor whiteColor];
             data01.itemCount = self.lineChart.xLabels.count;
             data01.inflexionPointWidth = 4;
+            data01.lineWidth = 1.5f;
+
+            data01.alpha = 0.5;
             data01.inflexionPointStyle = PNLineChartPointStyleCircle;
             data01.getData = ^(NSUInteger index){
                 
@@ -510,10 +511,11 @@ static  BOOL Btnstatu = YES;
             };
             self.lineChart.chartData = @[data01];
             [_lineChart strokeChart];
-            [cell.labelMidval addSubview:_lineChart];
+            [cell.midvalView addSubview:_lineChart];
             
         }else if([m.chart_type isEqualToString:@"bar_chart"]){
-            
+            [cell.contentView addSubview:cell.midvalView];
+
             static NSNumberFormatter *barChartFormatter;
             if (!barChartFormatter){
                 barChartFormatter = [[NSNumberFormatter alloc] init];
@@ -533,11 +535,14 @@ static  BOOL Btnstatu = YES;
             _barChart.isGradientShow = NO;
             _barChart.isShowNumbers = NO;
             [_barChart strokeChart];
-            [cell.labelMidval addSubview:_barChart];
+            [cell.midvalView addSubview:_barChart];
             
             
         }else if([m.chart_type isEqualToString:@"pie_chart"]){
             
+            [cell.contentView addSubview:cell.midvalView];
+           
+
             NSMutableArray *items  = [NSMutableArray array];
             
             int i = 0;
@@ -565,9 +570,10 @@ static  BOOL Btnstatu = YES;
             
             [legend setFrame:CGRectMake(CGRectGetMaxX(_pieChart.frame)+20, CGRectGetMidY(_pieChart.frame)- 80, legend.frame.size.width, legend.frame.size.height)];
             
-            [cell.labelMidval addSubview:legend];
+            [cell.midvalView addSubview:legend];
             
-            [cell.labelMidval addSubview:self.pieChart];
+            [cell.midvalView addSubview:self.pieChart];
+            
             
         }else if([m.chart_type isEqualToString:@"text"]){
             
@@ -575,6 +581,7 @@ static  BOOL Btnstatu = YES;
             cell.labelunit.text = m.unit;
             cell.labelBottomval.text = m.bottomval;
             cell.labelBottomtilte.text = m.bottomtitle;
+            [cell addSubview:cell.labelMidval];
             [cell addSubview:cell.labelBottomtilte];
             [cell addSubview:cell.labelBottomval];
             [cell addSubview:cell.label];
@@ -586,6 +593,7 @@ static  BOOL Btnstatu = YES;
             cell.labelunit.text = m.unit;
             cell.labelBottomval.text = m.bottomval;
             cell.labelBottomtilte.text = m.bottomtitle;
+            [cell addSubview:cell.labelMidval];
             [cell addSubview:cell.labelBottomtilte];
             [cell addSubview:cell.labelBottomval];
             [cell addSubview:cell.label];
@@ -605,6 +613,7 @@ static  BOOL Btnstatu = YES;
 // 选中cell
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    [_cellDeleteButton removeFromSuperview];
     [_dataSearchView removeFromSuperview];
     
     Btnstatu = YES;
@@ -713,14 +722,19 @@ static  BOOL Btnstatu = YES;
         } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
             //成功
             NSLog(@"responseObjectresponseObjectresponseObject--%@",responseObject);
+            
+          
             if (responseObject != nil) {
                 
                 NSMutableDictionary * dict = [NSMutableDictionary dictionary];
-                 dict = responseObject;
-                // 防止是参数不是数组
-//                id poi = dict[@"contrastVal"];
-//                
-//                if ([poi isKindOfClass:[NSDictionary class]]) {
+                dict = responseObject[@"resdata"];
+                
+                if (dict != nil) {
+                    
+                    // 防止是参数不是数组
+                    //                id poi = dict[@"contrastVal"];
+                    //
+                    //                if ([poi isKindOfClass:[NSDictionary class]]) {
                     IncomeDashModel * model = [[IncomeDashModel alloc] init];
                     
                     [model setValuesForKeysWithDictionary:dict];
@@ -735,29 +749,16 @@ static  BOOL Btnstatu = YES;
                     
                     incomeVC.incomeDashModel = model;
                     
+                    // tabbar的显示和隐藏
                     self.hidesBottomBarWhenPushed=YES;
                     
                     [self.navigationController pushViewController:incomeVC animated:YES];
                     
                     self.hidesBottomBarWhenPushed=NO;
-
-                    NSLog(@"---------modelmodelmodel----%@",model.midval);
-                    NSLog(@"---------modelmodelmodel----%@",model.bottomunit);
-                    NSLog(@"---------modelmodelmodel----%@",model.bottomval);
-                    NSLog(@"---------modelmodelmodel----%@",model.threshold_flag);
-                    NSLog(@"---------modelmodelmodel----%@",model.unit);
-                    NSLog(@"---------modelmodelmodel----%@",model.color);
-                    NSLog(@"---------modelmodelmodel----%@",model.contrastVal);
-                    NSLog(@"---------modelmodelmodel----%@",model.defaultVal);
                     
 
-
-//                }else {
-//                    NSLog(@"its a other class");
-//                }
-                
-            
-             
+                }
+          
             }else{
                 
                 NSLog(@"数据为空");
@@ -808,52 +809,61 @@ static  BOOL Btnstatu = YES;
 - (void)cellDeleteButtonClick:(UIButton *)button
 {
     
-    [_DashModelArray removeObjectAtIndex:_cellIndexPath.row];
-    
-    
-    NSString * indexCheckedString = [NSString string];
-    
-    if (_DashModelArray.count > 0) {
+    if (button.selected == YES) {
         
-        for (int i = 0; i < _DashModelArray.count;i++) {
-            
-            DashBoardModel * model = [[DashBoardModel alloc] init];
-            
-            model = _DashModelArray[i];
-            
-            if (i > 0) {
-                NSString * string = [NSString stringWithFormat:@",%@",model.Did];
-                
-                indexCheckedString = [indexCheckedString  stringByAppendingString:string];
-                
-            }else{
-                
-                indexCheckedString = [NSString stringWithFormat:@"%@",model.Did];
-                
-            }
-        }
+       
         
     }else{
+        button.selected = YES;
+
         
-        indexCheckedString = [NSString stringWithFormat:@""];
+        [_DashModelArray removeObjectAtIndex:_cellIndexPath.row];
+        
+        
+        NSString * indexCheckedString = [NSString string];
+        
+        if (_DashModelArray.count > 0) {
+            
+            for (int i = 0; i < _DashModelArray.count;i++) {
+                
+                DashBoardModel * model = [[DashBoardModel alloc] init];
+                
+                model = _DashModelArray[i];
+                
+                if (i > 0) {
+                    NSString * string = [NSString stringWithFormat:@",%@",model.Did];
+                    
+                    indexCheckedString = [indexCheckedString  stringByAppendingString:string];
+                    
+                }else{
+                    
+                    indexCheckedString = [NSString stringWithFormat:@"%@",model.Did];
+                    
+                }
+            }
+            
+        }else{
+            
+            indexCheckedString = [NSString stringWithFormat:@""];
+        }
+        
+        NSString * urlStr = [NSString stringWithFormat:indexCheckedHttp,_token,indexCheckedString];
+        
+        AFHTTPSessionManager * manager = [AFHTTPSessionManager manager];
+        
+        [manager GET:urlStr parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
+            
+            //这里可以用来显示下载进度
+        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            //指标重新排序
+            [self makeNewDashModelArray];
+            //加载collectionView
+            [self makeCollectionView];
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            //失败
+            NSLog(@"failure  error ： %@",error);
+        }];
     }
-    
-    NSString * urlStr = [NSString stringWithFormat:indexCheckedHttp,_token,indexCheckedString];
-    
-    AFHTTPSessionManager * manager = [AFHTTPSessionManager manager];
-    
-    [manager GET:urlStr parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
-        
-        //这里可以用来显示下载进度
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        //指标重新排序
-        [self makeNewDashModelArray];
-        //加载collectionView
-        [self makeCollectionView];
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        //失败
-        NSLog(@"failure  error ： %@",error);
-    }];
     
     
     
@@ -937,6 +947,22 @@ static  BOOL Btnstatu = YES;
     });
     
     
+}
+
+// 图表代理方法PNChartDelegate
+- (void)userClickedOnLineKeyPoint:(CGPoint)point lineIndex:(NSInteger)lineIndex pointIndex:(NSInteger)pointIndex{
+    
+    NSLog(@"----Click Key on line %f, %f line index is %d and point index is %d",point.x, point.y,(int)lineIndex, (int)pointIndex);
+    
+}
+
+- (void)userClickedOnLinePoint:(CGPoint)point lineIndex:(NSInteger)lineIndex{
+    
+    //    UILabel * label = [[UILabel alloc] initWithFrame:CGRectMake(point.x,0, 1, 200)];
+    //    label.backgroundColor = [UIColor grayColor];
+    //    [_lineChart addSubview:label];
+    
+    NSLog(@"Click on line %f, %f, line index is %d",point.x, point.y, (int)lineIndex);
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

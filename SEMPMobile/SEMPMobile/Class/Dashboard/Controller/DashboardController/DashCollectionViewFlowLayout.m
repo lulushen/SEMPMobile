@@ -10,11 +10,11 @@
 
 
 // 1X1 指标的大小
-#define SizeOneDash CGSizeMake((Main_Screen_Width-3*KBianJu)/2.0, (Main_Screen_Width-100)/2.0)
+#define SizeOneDash CGSizeMake((Main_Screen_Width-3*KBianJu)/2.0, (KViewHeight-30*KHeight6scale - 4*KBianJu)/4.0)
 // 2X1 指标的大小
-#define SizeTwoDash CGSizeMake(Main_Screen_Width-2*KBianJu, (Main_Screen_Width-100)/2.0)
+#define SizeTwoDash CGSizeMake(Main_Screen_Width-2*KBianJu, (KViewHeight-30*KHeight6scale- 4*KBianJu)/4.0)
 // 2X2 指标的大小
-#define SizeThreeDash CGSizeMake(Main_Screen_Width-2*KBianJu, Main_Screen_Width-100)
+#define SizeThreeDash CGSizeMake(Main_Screen_Width-2*KBianJu, (KViewHeight-30*KHeight6scale- 2*KBianJu)/2.0)
 
 @implementation DashCollectionViewFlowLayout
 

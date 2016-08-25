@@ -11,12 +11,9 @@
 @interface ActionTableViewCell : UITableViewCell
 
 @property (nonatomic , strong) UILabel * actionTitleLabel;
-
 @property (nonatomic , strong) UILabel * actionDifficultyLabel;
 
 @property (nonatomic , strong) UILabel * actionDateLabel;
-
-@property (nonatomic , strong) UILabel * actionTimeLabel;
 
 @property (nonatomic , strong) UILabel * actionStatuLabel;
 

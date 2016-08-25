@@ -11,6 +11,8 @@
 @interface DashBoardCollectionViewCell : UICollectionViewCell
 @property (nonatomic , strong) UILabel * labelTitle;
 @property (nonatomic , strong) UILabel * labelMidval;
+@property (nonatomic , strong) UIView *  midvalView;
+
 @property (nonatomic , strong) UILabel * labelBottomtilte;
 @property (nonatomic , strong) UILabel * labelBottomval;
 @property (nonatomic , strong) UILabel * label;

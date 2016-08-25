@@ -200,6 +200,7 @@
 
             PNChartLabel *label = [[PNChartLabel alloc] initWithFrame:CGRectMake(x, y, (NSInteger) _xLabelWidth, (NSInteger) _chartMarginBottom)];
             [label setTextAlignment:NSTextAlignmentCenter];
+            // label的倾斜角度
             label.transform = CGAffineTransformMakeRotation(0.4);
             label.text = labelText;
             label.textAlignment = NSTextAlignmentLeft;
@@ -294,6 +295,7 @@
             float distance = MIN(distanceToP1, distanceToP2);
 
             if (distance <= 10.0) {
+                
                 [_delegate userClickedOnLineKeyPoint:touchPoint
                                            lineIndex:p
                                           pointIndex:(distance == distanceToP2 ? i + 1 : i)];

@@ -31,7 +31,6 @@
     _bottomvalTwoLabel = [[UILabel alloc] init];
     _bottomtitleTwoLabel = [[UILabel alloc] init];
     _label = [[UILabel alloc] init];
-    
     [self.contentView addSubview:_titleImage];
     [self.contentView addSubview:_titleLabel];
     [self.contentView addSubview:_bottomtitleLabel];
@@ -43,15 +42,16 @@
 
     
     [_bottomtitleLabel setTextAlignment:NSTextAlignmentCenter];
-    [_bottomvalLabel setTextAlignment:NSTextAlignmentLeft];
+    [_bottomvalLabel setTextAlignment:NSTextAlignmentRight];
     [_bottomunitLable setTextAlignment:NSTextAlignmentLeft];
     [_bottomtitleTwoLabel setTextAlignment:NSTextAlignmentCenter];
     [_bottomvalTwoLabel setTextAlignment:NSTextAlignmentCenter];
-    
+    _bottomvalLabel.numberOfLines=0;
+    [_bottomvalLabel sizeToFit];
     _titleLabel.font = [UIFont systemFontOfSize:20];
     _bottomtitleLabel.font = [UIFont systemFontOfSize:12];
-    _bottomvalLabel.font = [UIFont systemFontOfSize:12];
-    _bottomunitLable.font = [UIFont systemFontOfSize:12];
+    _bottomvalLabel.font = [UIFont systemFontOfSize:11];
+    _bottomunitLable.font = [UIFont systemFontOfSize:11];
 
     _bottomtitleTwoLabel.font = [UIFont systemFontOfSize:12];
     _bottomvalTwoLabel.font = [UIFont systemFontOfSize:12];
@@ -77,9 +77,9 @@
     _titleImage.frame = CGRectMake(50*KWidth6scale, CGRectGetHeight(self.contentView.frame)/2.0-15*KHeight6scale, 30*KWidth6scale, 40*KHeight6scale);
     _titleLabel.frame = CGRectMake(CGRectGetMaxX(_titleImage.frame)+30*KWidth6scale, CGRectGetMinY(_titleImage.frame), 140*KWidth6scale, CGRectGetHeight(_titleImage.frame));
     
-     _bottomtitleLabel.frame = CGRectMake(CGRectGetMaxX(_titleLabel.frame)+10*KWidth6scale, CGRectGetMinY(_titleLabel.frame)-10*KHeight6scale, 50*KWidth6scale, 30*KHeight6scale);
+     _bottomtitleLabel.frame = CGRectMake(CGRectGetMaxX(_titleLabel.frame), CGRectGetMinY(_titleLabel.frame)-10*KHeight6scale, 50*KWidth6scale, 30*KHeight6scale);
     
-     _bottomvalLabel.frame = CGRectMake(CGRectGetMaxX(_bottomtitleLabel.frame), CGRectGetMinY(_bottomtitleLabel.frame), 25*KWidth6scale, 30*KHeight6scale);
+     _bottomvalLabel.frame = CGRectMake(CGRectGetMaxX(_bottomtitleLabel.frame), CGRectGetMinY(_bottomtitleLabel.frame), 35*KWidth6scale, 30*KHeight6scale);
     
       _bottomunitLable.frame = CGRectMake(CGRectGetMaxX(_bottomvalLabel.frame), CGRectGetMinY(_bottomvalLabel.frame), 25*KWidth6scale, 30*KHeight6scale);
     

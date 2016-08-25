@@ -30,13 +30,13 @@
     _labelBottomval= [[UILabel alloc] init];
     _label = [[UILabel alloc] init];
     _labelMidval = [[UILabel alloc] init];
+    _midvalView =[[UIView alloc] init];
     
     [_labelMidval setTextAlignment:NSTextAlignmentRight];
     [_labelunit setTextAlignment:NSTextAlignmentRight];
     
     _labelMidval.adjustsFontSizeToFitWidth = YES;
     [self addSubview:_labelTitle];
-    [self addSubview:_labelMidval];
     
     _labelMidval.font = [UIFont systemFontOfSize:30];
     _labelBottomtilte.font = [UIFont systemFontOfSize:13];
@@ -47,8 +47,8 @@
 //    _labelBottomval.backgroundColor = [UIColor  blackColor];
 //    _labelBottomtilte.backgroundColor = [UIColor blueColor];
 //    _label.backgroundColor = [UIColor whiteColor];
-    
-//    _labelMidval.backgroundColor = [UIColor cyanColor];
+//    
+//    _midvalView.backgroundColor = [UIColor cyanColor];
 //    _labelTitle.backgroundColor = [UIColor grayColor];
     
 }
@@ -62,6 +62,7 @@
     _labelBottomval.frame = CGRectMake(CGRectGetMaxX(_labelBottomtilte.frame), CGRectGetMinY(_labelBottomtilte.frame), CGRectGetWidth(_labelBottomtilte.frame), CGRectGetHeight(_labelBottomtilte.frame));
     _label.frame = CGRectMake(CGRectGetMaxX(_labelBottomval.frame), CGRectGetMinY(_labelBottomtilte.frame), CGRectGetWidth(_labelBottomtilte.frame), CGRectGetHeight(_labelBottomtilte.frame));
     _labelMidval.frame = CGRectMake(10*KWidth6scale, CGRectGetMaxY(_labelTitle.frame), CGRectGetWidth(_labelTitle.frame), CGRectGetHeight(self.frame)-CGRectGetHeight(_labelTitle.frame) - CGRectGetHeight(_labelBottomtilte.frame) - CGRectGetHeight(_labelunit.frame));
+     _midvalView.frame = CGRectMake(10*KWidth6scale, CGRectGetMaxY(_labelTitle.frame), CGRectGetWidth(_labelTitle.frame), CGRectGetHeight(self.frame)-CGRectGetHeight(_labelTitle.frame) - CGRectGetHeight(_labelBottomtilte.frame));
     
 }
 @end

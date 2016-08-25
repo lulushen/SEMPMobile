@@ -14,9 +14,11 @@
 #import "IncomeTableViewCell.h"
 #import "IncomeTableViewTopCell.h"
 #import "IncomeTableViewChartCell.h"
+#import "PNChart.h"
+#import "CFLineChartView.h"
 
-
-@interface SDIncomeViewController () <UITextViewDelegate,UITableViewDataSource,UITableViewDelegate>
+#define PNArc4randomColor [UIColor colorWithRed:arc4random_uniform(255)/255.0 green:arc4random_uniform(255)/255.0 blue:arc4random_uniform(255)/255.0 alpha:1]
+@interface SDIncomeViewController () <UITextViewDelegate,UITableViewDataSource,UITableViewDelegate,PNChartDelegate,UIAlertViewDelegate>
 //nav上的日期视图
 @property (nonatomic ,strong) DataView * dataView;
 //日期选择视图
@@ -41,10 +43,24 @@
 @property (nonatomic , strong) D3RecordButton * pofangButtontwo;
 
 @property (nonatomic , assign) BOOL zhuangtai;
+//折线图
+@property (nonatomic , strong)PNLineChart * lineChart;
 
+//柱形图
+@property (nonatomic , strong)PNBarChart * barChart;
+@property (nonatomic, strong) CFLineChartView *LCView;
+
+//扇形图
+@property (nonatomic) PNPieChart *pieChart;
+@property (nonatomic) PNPieChart *midvalPieChart;
 #warning 实验
 // tableView
 @property (nonatomic , strong) UITableView * IncomeTableView;
+
+//实际数据折线上点的路径
+@property (nonatomic , assign) NSInteger pointIndexPath;
+
+@property (nonatomic , strong) UILabel * label;
 
 @end
 @implementation SDIncomeViewController
@@ -91,12 +107,12 @@
 - (void)DateChange
 {
     NSString * date = [[NSUserDefaults standardUserDefaults] objectForKey:@"DateChange"];
-
+    
     _dataView.dateLabel.text = date;
     
     _dataSearchView.defaultDateString = _dataView.dateLabel.text;
-//    [_IncomeTableView reloadData];
-  
+    //    [_IncomeTableView reloadData];
+    
     [_dataSearchView removeFromSuperview];
 }
 // 自定义nav上的左边按钮
@@ -114,13 +130,13 @@
 // 返回事件
 - (void)backButtonClick:(UIButton *)sender
 {
-  
-//    NSString * date = [[NSUserDefaults standardUserDefaults] objectForKey:@"dateChange"];
+    
+    //    NSString * date = [[NSUserDefaults standardUserDefaults] objectForKey:@"dateChange"];
     _dataSearchView.defaultDateString = _dataView.dateLabel.text;
     
     _dataSearchView.dateString =  _dataSearchView.defaultDateString;
-
-
+    
+    
     [_dataSearchView removeFromSuperview];
     
     Btnstatu = YES;
@@ -201,7 +217,7 @@ static  BOOL Btnstatu = YES;
     [self.huabiV removeFromSuperview];
     [self.wenBenView removeFromSuperview];
     
-   
+    
     
     if (button.selected == self.zhuangtai) {
         
@@ -364,7 +380,6 @@ static int ScreenshotIndex = 0;
     return _ScreenshotsPickPath;
 }
 - (void)maketab{
-    
     UITabBar * view = [[UITabBar alloc] initWithFrame:CGRectMake(0, KViewHeight, Main_Screen_Width, BottomBarHeight)];
     view.backgroundColor = [UIColor whiteColor];
     UIButton * button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
@@ -404,14 +419,14 @@ static int ScreenshotIndex = 0;
     
     [self.view addSubview:_IncomeTableView];
     //去掉分割线
-     _IncomeTableView.separatorStyle = UITableViewCellSelectionStyleNone;
+    _IncomeTableView.separatorStyle = UITableViewCellSelectionStyleNone;
     _IncomeTableView.delegate = self;
     
     _IncomeTableView.dataSource = self;
     // cell重用标示
-//    [_IncomeTableView registerClass:[IncomeTableViewCell class] forCellReuseIdentifier:@"IncomeCell"];
-//    [_IncomeTableView registerClass:[IncomeTableViewTopCell class] forCellReuseIdentifier:@"IncomeTopCell"];
-
+    //    [_IncomeTableView registerClass:[IncomeTableViewCell class] forCellReuseIdentifier:@"IncomeCell"];
+    //    [_IncomeTableView registerClass:[IncomeTableViewTopCell class] forCellReuseIdentifier:@"IncomeTopCell"];
+    
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -424,9 +439,9 @@ static int ScreenshotIndex = 0;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
- 
-    if (indexPath.section==0 && indexPath.row == 0) {
     
+    if (indexPath.section==0 && indexPath.row == 0) {
+        
         IncomeTableViewTopCell * cell = [tableView cellForRowAtIndexPath:indexPath];
         if (cell == nil) {
             
@@ -438,17 +453,20 @@ static int ScreenshotIndex = 0;
             cell.bottomtitleLabel.text = _incomeDashModel.contrastVal[@"name"];
             cell.bottomvalLabel.text = _incomeDashModel.bottomval;
             cell.bottomunitLable.text = _incomeDashModel.bottomunit;
-//            cell.bottomtitleTwoLabel.text = @"环比";
-//            cell.bottomvalTwoLabel.text = @"7%";
+            //            cell.bottomtitleTwoLabel.text = @"环比";
+            //            cell.bottomvalTwoLabel.text = @"7%";
             cell.titleImage.image = [UIImage imageNamed:@"sanjiao.png"];
         }
-
         
-       return cell;
+        
+        return cell;
     }else  if(indexPath.row == 1){
         
         IncomeTableViewChartCell * cell = [tableView cellForRowAtIndexPath:indexPath];
-         cell =  [[IncomeTableViewChartCell alloc] initWithStyle:(UITableViewCellStyleSubtitle) reuseIdentifier:@"ChartCell"] ;
+        cell =  [[IncomeTableViewChartCell alloc] initWithStyle:(UITableViewCellStyleSubtitle) reuseIdentifier:@"ChartCell"] ;
+        
+        
+        [self incomeTableViewChartCell:cell indexPath:indexPath];
         
         return cell;
         
@@ -463,18 +481,20 @@ static int ScreenshotIndex = 0;
         
         IncomeTableViewCell * cell = [tableView cellForRowAtIndexPath:indexPath];
         cell =  [[IncomeTableViewCell alloc] initWithStyle:(UITableViewCellStyleSubtitle) reuseIdentifier:@"cell"] ;
-        cell.titleLabel.text = @"Total";
-        cell.ValueLabel.text = @"123";
+        [self incomeTableViewCell:cell indexPath:indexPath];
         
         return cell;
         
     }
-
+    
 }
+
+
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
     if (indexPath.row == 0) {
+        
         if (indexPath.section == 0) {
             return 100;
         }else{
@@ -483,6 +503,7 @@ static int ScreenshotIndex = 0;
         
     }else if(indexPath.row == 1){
         return 300;
+        
     }else{
         return (_IncomeTableView.frame.size.height - 400)/3.0;
     }
@@ -492,10 +513,436 @@ static int ScreenshotIndex = 0;
     return 1;
 }
 
+
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+// 图表代理方法PNChartDelegate
+- (void)userClickedOnLineKeyPoint:(CGPoint)point lineIndex:(NSInteger)lineIndex pointIndex:(NSInteger)pointIndex{
+    NSLog(@"----Click Key on line %f, %f line index is %d and point index is %d",point.x, point.y,(int)lineIndex, (int)pointIndex);
+    _lineChart.showCoordinateAxis = NO;
+    
+    //    if (lineIndex == 0) {
+    
+    
+    _pointIndexPath = (int)pointIndex;
+    
+    //    }else{
+    //
+    //        _pointIndexPath = (int)pointIndex;
+    //    }
+    
+    NSIndexPath *indexPath1=[NSIndexPath indexPathForRow:2 inSection:0];
+    NSIndexPath *indexPath2=[NSIndexPath indexPathForRow:3 inSection:0];
+    NSIndexPath *indexPath3=[NSIndexPath indexPathForRow:4 inSection:0];
+    
+    [_IncomeTableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath1,indexPath2,indexPath3,nil] withRowAnimation:UITableViewRowAnimationNone];
+    
+    
+}
+
+- (void)userClickedOnLinePoint:(CGPoint)point lineIndex:(NSInteger)lineIndex{
+    
+    NSLog(@"Click on line %f, %f, line index is %d",point.x, point.y, (int)lineIndex);
+}
+- (void)userClickedOnPieIndexItem:(NSInteger)pieIndex
+{
+    NSLog(@"12-------pieIndex--%ld",pieIndex);
+    _pointIndexPath = (int)pieIndex;
+    NSIndexPath *indexPath1=[NSIndexPath indexPathForRow:2 inSection:0];
+    NSIndexPath *indexPath2=[NSIndexPath indexPathForRow:3 inSection:0];
+    NSIndexPath *indexPath3=[NSIndexPath indexPathForRow:4 inSection:0];
+    
+    [_IncomeTableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath1,indexPath2,indexPath3,nil] withRowAnimation:UITableViewRowAnimationNone];
+}
+- (void)didUnselectPieItem{
+    
+    // 扇形中间的圆形
+}
+//
+
+- (void)incomeTableViewChartCell:(IncomeTableViewChartCell *)cell indexPath:(NSIndexPath *)indexPath{
+    
+    
+    cell.midvalTitleLabel.text = _incomeDashModel.defaultVal[@"name"];
+    cell.bottomTitleLabel.text = _incomeDashModel.contrastVal[@"name"];
+    cell.midvalColorLabel.backgroundColor = [UIColor orangeColor];
+    cell.bottomvalColorLabel.backgroundColor = MoreButtonColor;
+    NSMutableArray * XdefaultValValueArray = [NSMutableArray arrayWithArray:[_incomeDashModel.defaultVal valueForKey:@"x"]];
+    NSMutableArray * YdefaultValValueArray = [NSMutableArray arrayWithArray:[_incomeDashModel.defaultVal valueForKey:@"y"]];
+    NSMutableArray * XcontrastValValueArray = [NSMutableArray arrayWithArray:[_incomeDashModel.contrastVal valueForKey:@"x"]];
+    NSMutableArray * YcontrastValValueArray = [NSMutableArray arrayWithArray:[_incomeDashModel.contrastVal valueForKey:@"y"]];
+    
+    if ((XdefaultValValueArray.count == 0) && (YdefaultValValueArray.count == 0) && (XcontrastValValueArray.count ==0) && (YcontrastValValueArray.count == 0)) {
+        
+    }else{
+        
+        _lineChart = [[PNLineChart alloc] initWithFrame:CGRectMake(0, 0,Main_Screen_Width-40*KWidth6scale,220*KHeight6scale)];
+        _barChart = [[PNBarChart alloc] initWithFrame:CGRectMake(CGRectGetMinX(_lineChart.frame), CGRectGetMinY(_lineChart.frame), CGRectGetWidth(_lineChart.frame), CGRectGetHeight(_lineChart.frame))];
+        
+        if ([_incomeDashModel.charttype isEqualToString:@"line_chart"]) {
+            
+            
+            _lineChart.backgroundColor = [UIColor redColor];
+            [self makeLine];
+            _lineChart.yUnit = _incomeDashModel.unit;
+            [_lineChart setXLabels:XdefaultValValueArray];
+            
+            PNLineChartData * data01 = [PNLineChartData new];
+            data01.color = [UIColor orangeColor];
+            data01.itemCount = self.lineChart.xLabels.count;
+            data01.alpha = 0.8f;
+            data01.lineWidth = 2.f;
+            //        data01.showPointLabel = YES;
+            
+            data01.inflexionPointWidth = 4;
+            data01.inflexionPointStyle = PNLineChartPointStyleCircle;
+            data01.getData = ^(NSUInteger index){
+                
+                CGFloat yValue = [YdefaultValValueArray[index] floatValue];
+                
+                return [PNLineChartDataItem dataItemWithY:yValue andRawY:yValue];
+                
+            };
+            if (_incomeDashModel.contrastVal.count == 0) {
+                
+                self.lineChart.chartData = @[data01];
+                
+            }else{
+                // Line Chart #2
+                [_lineChart setXLabels:XcontrastValValueArray];
+                
+                PNLineChartData *data02 = [PNLineChartData new];
+                
+                data02.color = MoreButtonColor;
+                
+                data02.alpha = 0.8f;
+                
+                data02.itemCount = self.lineChart.xLabels.count;
+                
+                data02.inflexionPointWidth = 4;
+                
+                data02.inflexionPointStyle = PNLineChartPointStyleCircle;
+                
+                data02.getData = ^(NSUInteger index) {
+                    
+                    CGFloat yValue = [YcontrastValValueArray[index] floatValue];
+                    return [PNLineChartDataItem dataItemWithY:yValue];
+                };
+                
+                self.lineChart.chartData = @[data01, data02];
+                
+            }
+            _lineChart.delegate = self;
+            
+            [_lineChart strokeChart];
+            [cell.chartView addSubview:_lineChart];
+            
+        }else if ([_incomeDashModel.charttype isEqualToString:@"pie_chart"]){
+            
+#warning ====存不存在实际值为空，对比值不为空的情况＝＝＝＝
+            if (_incomeDashModel.contrastVal.count == 0) {
+                NSMutableArray *items  = [NSMutableArray array];
+                int i = 0;
+                
+                for (NSString * value in YdefaultValValueArray) {
+                    
+                    PNPieChartDataItem * item = [PNPieChartDataItem dataItemWithValue:[value floatValue] color:PNArc4randomColor description:XdefaultValValueArray[i]];
+                    [items addObject:item];
+                    i++;
+                }
+                
+                _pieChart = [[PNPieChart alloc] initWithFrame:CGRectMake(50*KWidth6scale,10*KHeight6scale, CGRectGetHeight(_lineChart.frame)-20*KHeight6scale, CGRectGetHeight(_lineChart.frame)-20*KHeight6scale) items:items];
+                _pieChart.descriptionTextColor = [UIColor whiteColor];
+                _pieChart.descriptionTextFont  = [UIFont fontWithName:@"Avenir-Medium" size:11.0];
+                _pieChart.descriptionTextShadowColor = [UIColor clearColor];
+                _pieChart.showAbsoluteValues = NO;
+                _pieChart.showOnlyValues = YES;
+                [_pieChart strokeChart];
+                _pieChart.legendStyle = PNLegendItemStyleSerial;
+                _pieChart.legendFont = [UIFont systemFontOfSize:12.0f];
+                _pieChart.legendFontColor = [UIColor grayColor];
+                _pieChart.delegate = self;
+                
+                UIView *legend = [self.pieChart getLegendWithMaxWidth:10];
+                
+                [legend setFrame:CGRectMake(CGRectGetMaxX(_pieChart.frame)+10*KWidth6scale, CGRectGetMinY(_pieChart.frame), legend.frame.size.width, legend.frame.size.height)];
+                
+                [cell.chartView addSubview:legend];
+                
+                [cell.chartView addSubview:self.pieChart];
+                
+                
+            }else{
+                if (_incomeDashModel.contrastVal.count == 0) {
+                    
+                }else{
+                    [cell.chartView addSubview:cell.scrollView];
+                    //            cell.scrollView.directionalLockEnabled=YES;//定向锁定
+                    NSMutableArray *items  = [NSMutableArray array];
+                    int i = 0;
+                    
+                    for (NSString * value in YdefaultValValueArray) {
+                        
+                        PNPieChartDataItem * item = [PNPieChartDataItem dataItemWithValue:[value floatValue] color:PNArc4randomColor description:XdefaultValValueArray[i]];
+                        [items addObject:item];
+                        i++;
+                    }
+                    _midvalPieChart = [[PNPieChart alloc] initWithFrame:CGRectMake(50*KWidth6scale, 10*KHeight6scale, CGRectGetHeight(_lineChart.frame)-20*KHeight6scale, CGRectGetHeight(_lineChart.frame)-20*KHeight6scale) items:items];
+                    _midvalPieChart.descriptionTextColor = [UIColor whiteColor];
+                    _midvalPieChart.descriptionTextFont  = [UIFont fontWithName:@"Avenir-Medium" size:11.0];
+                    _midvalPieChart.descriptionTextShadowColor = [UIColor clearColor];
+                    _midvalPieChart.showAbsoluteValues = NO;
+                    _midvalPieChart.showOnlyValues = YES;
+                    _midvalPieChart.delegate = self;
+                    
+                    [_midvalPieChart strokeChart];
+                    _midvalPieChart.legendStyle = PNLegendItemStyleStacked;
+                    _midvalPieChart.legendFont = [UIFont systemFontOfSize:12.0f];
+                    _midvalPieChart.legendFontColor = [UIColor grayColor];
+                    
+                    
+                    UIView *legend = [self.midvalPieChart getLegendWithMaxWidth:60*KWidth6scale];
+                    
+                    [legend setFrame:CGRectMake(CGRectGetMaxX(_midvalPieChart.frame)+10*KWidth6scale, CGRectGetMinY(_midvalPieChart.frame), legend.frame.size.width, legend.frame.size.height)];
+                    
+                    [cell.scrollView addSubview:legend];
+                    
+                    [cell.scrollView addSubview:self.midvalPieChart];
+                    
+                    
+                    NSMutableArray *items2  = [NSMutableArray array];
+                    int j = 0;
+                    
+                    for (NSString * value in YcontrastValValueArray) {
+                        
+                        PNPieChartDataItem * item = [PNPieChartDataItem dataItemWithValue:[value floatValue] color:PNArc4randomColor description:XcontrastValValueArray[j]];
+                        [items2 addObject:item];
+                        i++;
+                    }
+                    
+                    _pieChart = [[PNPieChart alloc] initWithFrame:CGRectMake(Main_Screen_Width + 10*KWidth6scale, 10*KHeight6scale, CGRectGetHeight(_lineChart.frame)-20*KHeight6scale, CGRectGetHeight(_lineChart.frame)-20*KHeight6scale) items:items2];
+                    _pieChart.descriptionTextColor = [UIColor whiteColor];
+                    _pieChart.descriptionTextFont  = [UIFont fontWithName:@"Avenir-Medium" size:11.0];
+                    _pieChart.showAbsoluteValues = NO;
+                    _pieChart.showOnlyValues = YES;
+                    _pieChart.delegate = self;
+                    _pieChart.descriptionTextShadowColor = [UIColor clearColor];
+                    
+                    [_pieChart strokeChart];
+                    _pieChart.legendStyle = PNLegendItemStyleStacked;
+                    _pieChart.legendFont = [UIFont systemFontOfSize:12.0f];
+                    _pieChart.legendFontColor = [UIColor grayColor];
+                    
+                    
+                    UIView *legend2 = [self.pieChart getLegendWithMaxWidth:60*KWidth6scale];
+                    
+                    [legend2 setFrame:CGRectMake(CGRectGetMaxX(_pieChart.frame)+10*KWidth6scale, CGRectGetMinY(_pieChart.frame), legend.frame.size.width, legend.frame.size.height)];
+                    
+                    [cell.scrollView addSubview:legend2];
+                    
+                    [cell.scrollView addSubview:self.pieChart];
+                    
+                    
+                }
+            }
+        }else if([_incomeDashModel.charttype isEqualToString:@"text"] | [_incomeDashModel.charttype isEqualToString:@"long_text"] | [_incomeDashModel.charttype isEqualToString:@"bar_chart"]){
+            
+            CFLineChartView * LCView = [CFLineChartView lineChartViewWithFrame:CGRectMake(0,0, CGRectGetWidth(_lineChart.frame), CGRectGetHeight(_lineChart.frame))];
+            [cell.chartView addSubview:LCView];
+            
+         
+            // 画图
+            if ((_incomeDashModel.defaultVal.count !=0 )&& (_incomeDashModel.contrastVal.count !=0)) {
+                // 如果实际值和对比值的数据都不为空
+                if ((XdefaultValValueArray.count != 0) && (YdefaultValValueArray.count != 0) && (XcontrastValValueArray.count != 0)&&(YcontrastValValueArray.count != 0) ) {
+                    
+                    // 数组中最大值
+                    NSNumber* defaultValMaxValue = [YdefaultValValueArray valueForKeyPath:@"@max.floatValue"];
+                    NSNumber* contrastValMaxValue = [YcontrastValValueArray valueForKeyPath:@"@max.floatValue"];
+                    if ([defaultValMaxValue floatValue]> [contrastValMaxValue floatValue]) {
+                        
+                        LCView.yValues = YdefaultValValueArray;
+                        LCView.xValues = XdefaultValValueArray;
+                        
+                    }else{
+                        
+                        LCView.yValues = YcontrastValValueArray;
+                        LCView.xValues = XcontrastValValueArray;
+                    }
+                    
+                    // 绘制图的基本
+                    [LCView drawChartWithLineChartType:0 pointType:1];
+                    // 画柱状图
+                    [LCView drawPillarYvalues:YdefaultValValueArray];
+                    // 画折线图
+                    [LCView drawFoldLineWithLineChartType:0 Yvalues:YcontrastValValueArray];
+                    
+                }else if ((( XdefaultValValueArray.count == 0 ) && ( YdefaultValValueArray.count == 0 )) && (( XcontrastValValueArray.count != 0 )&& (YcontrastValValueArray.count != 0))){
+                    // 如果实际值为空，对比值不为空
+                    
+                    LCView.xValues = XcontrastValValueArray;
+                    LCView.yValues = YcontrastValValueArray;
+                    // 绘制图的基本
+                    [LCView drawChartWithLineChartType:0 pointType:1];
+                    
+                    // 画折线图
+                    [LCView drawFoldLineWithLineChartType:0 Yvalues:YcontrastValValueArray];
+                    
+
+                    
+                }else if ((( XdefaultValValueArray.count != 0 ) && ( YdefaultValValueArray.count != 0 )) && (( XcontrastValValueArray.count == 0 )&& (YcontrastValValueArray.count == 0))){
+                    // 如果实际值不为空，对比值为空
+                    LCView.xValues = XdefaultValValueArray;
+                    LCView.yValues = YdefaultValValueArray;
+                    
+                    // 绘制图的基本
+                    [LCView drawChartWithLineChartType:0 pointType:1];
+                    // 画柱状图
+                    [LCView drawPillarYvalues:YdefaultValValueArray];
+                    
+
+                }else{
+                    
+                    
+                    
+                }
+                
+                
+            }else if((_incomeDashModel.defaultVal.count ==0 )&& (_incomeDashModel.contrastVal.count !=0)){
+                // 如果实际值为空，对比值不为空
+                
+                LCView.xValues = XcontrastValValueArray;
+                LCView.yValues = YcontrastValValueArray;
+                // 绘制图的基本
+                [LCView drawChartWithLineChartType:0 pointType:1];
+                
+                // 画折线图
+                [LCView drawFoldLineWithLineChartType:0 Yvalues:YcontrastValValueArray];
+
+            }else if((_incomeDashModel.defaultVal.count !=0 )&& (_incomeDashModel.contrastVal.count ==0)){
+                // 如果实际值不为空，对比值为空
+                LCView.xValues = XdefaultValValueArray;
+                LCView.yValues = YdefaultValValueArray;
+                
+                // 绘制图的基本
+                [LCView drawChartWithLineChartType:0 pointType:1];
+                // 画柱状图
+                [LCView drawPillarYvalues:YdefaultValValueArray];
+            
+            }else{
+                // 如果实际值和对比值都为空
+            }
+            
+        }
+        
+    }
+    
+}
+// 此方法把下面三个cell和cell的indexPath出来
+- (void)incomeTableViewCell:(IncomeTableViewCell *)cell indexPath:(NSIndexPath *)indexPath
+{
+    
+    
+    if (indexPath.row == 2) {
+        cell.titleLabel.text = @"实际值：x,y";
+        NSMutableArray * arrX = [NSMutableArray arrayWithArray:_incomeDashModel.defaultVal[@"x"]];
+        NSMutableArray * arrY = [NSMutableArray arrayWithArray:_incomeDashModel.defaultVal[@"y"]];
+        if ((arrX.count == 0  ) | (arrY.count == 0 )) {
+            
+            cell.ValueLabel.text = [NSString stringWithFormat:@"%@,%@",@"",@""];
+            
+        }else{
+            
+            cell.ValueLabel.text =[NSString stringWithFormat:@"%@,%@",_incomeDashModel.defaultVal[@"x"][_pointIndexPath],_incomeDashModel.defaultVal[@"y"][_pointIndexPath]] ;
+        }
+        
+        
+        
+        
+    }else if (indexPath.row == 3)
+    {
+        cell.titleLabel.text = @"对比值：x,y";
+        
+        
+        NSMutableArray * arrX = [NSMutableArray arrayWithArray:_incomeDashModel.contrastVal[@"x"]];
+        NSMutableArray * arrY = [NSMutableArray arrayWithArray:_incomeDashModel.contrastVal[@"y"]];
+        
+        if ((arrX.count == 0  ) | (arrY.count == 0 )) {
+            
+            cell.ValueLabel.text = [NSString stringWithFormat:@"%@,%@",@"",@""];
+            
+        }else{
+            cell.ValueLabel.text = [NSString stringWithFormat:@"%@,%@",_incomeDashModel.contrastVal[@"x"][_pointIndexPath],_incomeDashModel.contrastVal[@"y"][_pointIndexPath]];
+        }
+        
+    }else{
+        
+        cell.titleLabel.text = @"实际值：y";
+        NSMutableArray * arrY = [NSMutableArray arrayWithArray:_incomeDashModel.defaultVal[@"y"]];
+        if ( (arrY.count == 0 )) {
+            
+            cell.ValueLabel.text = [NSString stringWithFormat:@"%@",@""];
+            
+        }else{
+            cell.ValueLabel.text = _incomeDashModel.defaultVal[@"y"][_pointIndexPath];        }
+        
+        
+    }
+    
+    
+}
+// 折线图
+- (void)makeLine
+{
+    _lineChart.userInteractionEnabled = YES;
+    _lineChart.backgroundColor = [UIColor clearColor];
+    _lineChart.legendStyle =  PNLegendItemStyleSerial;
+    _lineChart.showCoordinateAxis = YES;
+    _lineChart.showGenYLabels = YES;
+    _lineChart.showLabel = YES;
+    _lineChart.delegate = self;
+    
+    
+    //    self.lineChart.yLabelColor =[UIColor whiteColor];
+    //    self.lineChart.xLabelColor = [UIColor whiteColor];
+    
+    // 小数点
+    //    _lineChart.thousandsSeparator = YES;
+    
+}
+
+// 柱状图
+- (void)makeBar
+{
+    _barChart.backgroundColor = [UIColor clearColor];
+    _barChart.yChartLabelWidth = 20.0;
+    //    _barChart.chartBorderColor = [UIColor whiteColor];
+    //    _barChart.strokeColor = [UIColor whiteColor];
+    _barChart.chartMarginLeft = 30.0;
+    _barChart.chartMarginRight = 10.0;
+    _barChart.chartMarginTop = 5.0;
+    _barChart.chartMarginBottom = 10.0;
+    _barChart.barBackgroundColor = [UIColor clearColor];
+    _barChart.delegate = self;
+    //    _barChart.labelTextColor = [UIColor whiteColor];
+    _barChart.labelFont = [UIFont systemFontOfSize:12];
+    _barChart.labelMarginTop = 5.0;
+    _barChart.showChartBorder = YES;
+    _barChart.delegate = self;
+    
+}
+-(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    if (gestureRecognizer.state != 0) {
+        return YES;
+    } else {
+        return NO;
+    }
+}
+
 
 /*
  #pragma mark - Navigation

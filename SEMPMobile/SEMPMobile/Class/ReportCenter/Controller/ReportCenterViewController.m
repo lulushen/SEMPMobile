@@ -39,7 +39,10 @@
 @end
 #define NotSelectedColor [UIColor colorWithRed:107/255.0 green:108/255.0 blue:109/255.0 alpha:1]
 @implementation ReportCenterViewController
-
+-(void)viewWillAppear:(BOOL)animated
+{
+    [self showTabBar];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // 修改视图上navigation的样式
@@ -438,9 +441,12 @@
     
     reportIncomeVC.webViewHttpString = [NSString stringWithFormat:ReportIncomeWebHttp,token];
     
-    
-    [self.navigationController pushViewController:reportIncomeVC animated:YES];
+    self.hidesBottomBarWhenPushed=YES;
 
+    [self.navigationController pushViewController:reportIncomeVC animated:YES];
+    self.hidesBottomBarWhenPushed=NO;
+
+    
 }
 #pragma mark ---- UICollectionViewDelegateFlowLayout
 
