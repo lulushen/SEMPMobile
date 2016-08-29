@@ -52,7 +52,6 @@
     
     _actionDifficultyLabel.layer.masksToBounds = YES;
     _actionDifficultyLabel.layer.cornerRadius = 2.0;
-    _actionDifficultyLabel.backgroundColor = RGBCOLOR(250.0, 110.0, 114.0);
     _actionDifficultyLabel.textColor = [UIColor whiteColor];
     _actionDifficultyLabel.font = [UIFont boldSystemFontOfSize:13.0f];
     _actionDifficultyLabel.textAlignment = NSTextAlignmentCenter;
@@ -72,9 +71,7 @@
     [super layoutSubviews];
     CGRect rectTitle = [_actionTitleLabel.text boundingRectWithSize:CGSizeMake(CGRectGetWidth(self.contentView.frame)-60, 30) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:_actionTitleLabel.font} context:nil];
     CGRect rectTime = [_actionDateLabel.text boundingRectWithSize:CGSizeMake(CGRectGetWidth(self.contentView.frame)-60, 30) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:_actionDateLabel.font} context:nil];
-//    CGRect rectDifficulty = [_actionDifficultyLabel.text boundingRectWithSize:CGSizeMake(CGRectGetWidth(self.contentView.frame)-60, 30) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:_actionDifficultyLabel.font} context:nil];
 
-    
     _actionTitleLabel.frame = CGRectMake(20*KWidth6scale, CGRectGetHeight(self.contentView.frame)/3.0, rectTitle.size.width, CGRectGetHeight(self.contentView.frame)/4.0);
     _actionDifficultyLabel.frame = CGRectMake(CGRectGetMinX(_actionTitleLabel.frame), CGRectGetMaxY(_actionTitleLabel.frame) + 5*KHeight6scale, 20*KWidth6scale, 20*KHeight6scale);
     _actionDateLabel.frame = CGRectMake(CGRectGetMaxX(_actionDifficultyLabel.frame) + 10*KWidth6scale, CGRectGetMinY(_actionDifficultyLabel.frame), rectTime.size.width, CGRectGetHeight(_actionDifficultyLabel.frame));

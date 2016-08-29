@@ -62,6 +62,8 @@
 
 @property (nonatomic , strong) UILabel * label;
 
+@property (nonatomic , strong)NSString * Time;
+
 @end
 @implementation SDIncomeViewController
 
@@ -98,7 +100,7 @@
     _dataSearchView = [[DataSearchView alloc] initWithFrame:CGRectMake(50, 10, Main_Screen_Width-100, Main_Screen_Width-100)];
     _dataSearchView.defaultDateString = _IncomeDefaultDateString;
     [_dataSearchView.deleteButton addTarget:self action:@selector(deleteButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-    
+
     [self makeLeftButtonItme];
     
     
@@ -111,9 +113,19 @@
     _dataView.dateLabel.text = date;
     
     _dataSearchView.defaultDateString = _dataView.dateLabel.text;
-    //    [_IncomeTableView reloadData];
+    
+    _Time = [_dataSearchView.defaultDateString stringByReplacingOccurrencesOfString:@"年" withString:@""];
+    
+    _Time = [_Time stringByReplacingOccurrencesOfString:@"月" withString:@""];
+    
+    _Time = [_Time stringByReplacingOccurrencesOfString:@"日" withString:@""];
+
+    
+    NSLog(@"------_time---%@",_Time);
     
     [_dataSearchView removeFromSuperview];
+    [self makeIncomeDate:_Time];
+
 }
 // 自定义nav上的左边按钮
 - (void)makeLeftButtonItme
@@ -175,6 +187,67 @@ static  BOOL Btnstatu = YES;
     
 }
 
+- (void)makeIncomeDate:(NSString *)Time
+{
+    //1.获取一个全局串行队列
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    //2.把任务添加到队列中执行
+    dispatch_async(queue, ^{
+        
+
+        // 指标界面的接口
+        NSString * urlStr = [NSString stringWithFormat:IncomeHttp,_IndexID,_Time];
+        
+        NSLog(@"--------urlstr---%@",urlStr);
+        
+        AFHTTPSessionManager * manager = [AFHTTPSessionManager manager];
+//
+        [manager GET:urlStr parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
+            
+            //这里可以用来显示下载进度
+        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            //成功
+            
+            
+            if (responseObject != nil) {
+                
+                NSMutableDictionary * dict = [NSMutableDictionary dictionary];
+                dict = responseObject[@"resdata"];
+                
+                if (dict != nil) {
+                    
+                  
+                    IncomeDashModel * model = [[IncomeDashModel alloc] init];
+                    
+                    [model setValuesForKeysWithDictionary:dict];
+                    
+                  
+                    self.incomeDashModel = model;
+                    
+//                    // tabbar的显示和隐藏
+//                    self.hidesBottomBarWhenPushed=YES;
+//                    
+//                    [self.navigationController pushViewController:incomeVC animated:YES];
+//                    
+//                    self.hidesBottomBarWhenPushed=NO;
+                    
+                    [_IncomeTableView reloadData];
+                    
+                }
+                
+            }else{
+                
+                NSLog(@"数据为空");
+            }
+            
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            //失败
+            NSLog(@"failure  error ： %@",error);
+        }];
+        
+    });
+    
+}
 - (void)buttonClick:(UIButton *)button
 {
     [_luyinImageView removeFromSuperview];

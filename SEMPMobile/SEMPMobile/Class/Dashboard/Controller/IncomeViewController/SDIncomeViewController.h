@@ -24,5 +24,7 @@
 
 //进入指标详情界面中的指标model
 @property (nonatomic , strong) IncomeDashModel * incomeDashModel;
+//被点击的指标id
+@property (nonatomic , strong) NSString * IndexID;
 
 @end

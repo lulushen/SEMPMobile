@@ -251,13 +251,13 @@ static  BOOL Btnstatu = YES;
     _dataView.dateLabel.text = date;
     
     _dataSearchView.defaultDateString = _dataView.dateLabel.text;
-    
     _Time = [_dataSearchView.defaultDateString stringByReplacingOccurrencesOfString:@"年" withString:@""];
     
     _Time = [_Time stringByReplacingOccurrencesOfString:@"月" withString:@""];
     
     _Time = [_Time stringByReplacingOccurrencesOfString:@"日" withString:@""];
-
+//    _Time = _dataSearchView.timeString;
+    NSLog(@"---=================================---%@",_Time);
 #warning 刷新 ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
 
     // 刷新数据
@@ -310,7 +310,7 @@ static  BOOL Btnstatu = YES;
         [manager GET:urlStr parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
             //这里可以用来显示下载进度
         } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-            NSLog(@"-----%@",responseObject);
+//            NSLog(@"-----%@",responseObject);
             //成功
             if (responseObject != nil) {
                 
@@ -622,7 +622,7 @@ static  BOOL Btnstatu = YES;
     
     _dashModel = _DashModelArray[indexPath.row];
 
-    [self makeIncomeDate];
+    [self makeIncomeDate:_Time];
     
     
    //    incomeVC.IncomeDateBlockValue = ^(NSString * IncomeDateString,NSString *DefaultDateString){
@@ -693,7 +693,7 @@ static  BOOL Btnstatu = YES;
 }
 
 
-- (void)makeIncomeDate
+- (void)makeIncomeDate:(NSString *)Time
 {
     //1.获取一个全局串行队列
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
@@ -704,13 +704,13 @@ static  BOOL Btnstatu = YES;
         _token = [NSString stringWithFormat:@"%@",_userModel.user_token];
         
         
-        NSMutableDictionary * dict = _userModel.resdata;
-        // 进入指标界面的默认时间
-        NSString * time = [NSString stringWithFormat:@"%@",dict[@"defaulttime"]];
-        
-        _Time = time ;
+//        NSMutableDictionary * dict = _userModel.resdata;
+//        // 进入指标界面的默认时间
+//        NSString * time = [NSString stringWithFormat:@"%@",dict[@"defaulttime"]];
+//        
+//        _Time = time ;
         // 指标界面的接口
-        NSString * urlStr = [NSString stringWithFormat:IncomeHttp,_dashModel.Did,_Time];
+        NSString * urlStr = [NSString stringWithFormat:IncomeHttp,_dashModel.Did,Time];
         
         NSLog(@"url       ----   %@",urlStr);
         
@@ -721,7 +721,7 @@ static  BOOL Btnstatu = YES;
             //这里可以用来显示下载进度
         } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
             //成功
-            NSLog(@"responseObjectresponseObjectresponseObject--%@",responseObject);
+//            NSLog(@"responseObjectresponseObjectresponseObject--%@",responseObject);
             
           
             if (responseObject != nil) {
@@ -746,6 +746,7 @@ static  BOOL Btnstatu = YES;
                     
                     incomeVC.IncomeDefaultDateString = _dataSearchView.defaultDateString;
                     
+                    incomeVC.IndexID = _dashModel.Did;
                     
                     incomeVC.incomeDashModel = model;
                     
@@ -882,7 +883,7 @@ static  BOOL Btnstatu = YES;
             
             //这里可以用来显示下载进度
         } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-            NSLog(@"[-----------responseObject---%@",responseObject);
+//            NSLog(@"[-----------responseObject---%@",responseObject);
             //成功
             NSMutableDictionary * dict = [NSMutableDictionary dictionary];
             dict = responseObject[@"resdata"];

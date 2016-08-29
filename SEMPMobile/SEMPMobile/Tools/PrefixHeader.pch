@@ -74,10 +74,8 @@
 #define LoginHttp @"http://192.168.2.33:9111/DAP/app_userCheckLogin.do?"
 // 测试登录接口body
 #define LoginHttpBody @"loginname=%@&password=%@"
-
+//-------------------------------指标接口------------------------------------
 // 测试首届面接口
-
-
 #define DashBoardHttp @"http://192.168.2.33:9111/DAP/app_indexInfo.do?user_token=%@&timeVal=%@"
 // 测试首届面接口body
 //#define DashBoardBody @"user_token=%@&timeVal=%@"
@@ -94,16 +92,31 @@
 #define ReportIncomeWebHttp @"http://192.168.2.184:9090/DAP/reportviewapp.do?model_id=147149934813446276&user_token=%@"
 // 测试用户反馈的接口
 #define FeedbackHttp  @"http://192.168.2.33:9111/DAP/app_srvUserFeedback.action?feedback_content=%@&user_token=%@"
-// 测试任务首页接口
+//-------------------------------任务接口------------------------------------
+// 任务首页接口
 #define ActionHttp @"http://192.168.2.33:9111/DAP/app_getTasksByUserId.action"
-// 测试任务详情的接口
+// 任务详情的接口
 #define GetTaskInfoHttp @"http://192.168.2.33:9111/DAP/app_getTaskInfoByTaskId.action?taskId=%@"
-// 测试任务添加界面的指标数据
+// 任务添加界面的指标数据
 #define GetDefaultIndexInfoHttp  @"http://192.168.2.33:9111/DAP/app_getDefaultIndexInfo.action?"
-// 测试任务添加界面的负责人和协助人接口
+// 任务添加界面的负责人和协助人接口
 #define GetDefaultDimUserInfoHttp @"http://192.168.2.33:9111/DAP/app_getDefaultDimUserInfo.action?"
-// 测试新建，编辑任务的接口
-#define OperationTaskHttp @"http://192.168.2.33:9111/DAP/app_operationTask.action"
+// 下达人新建任务发布接口
+#define NewActionHttp @"http://192.168.2.33:9111/DAP/app_operationTask.action?key=new&taskid=""&dateline=%@&tasktitle=%@&priority=%@&tasktype=N&user=%@&index=%@&taskinfo=%@"
+// 下达人编辑任务接口
+#define EditActionHttp @"http://192.168.2.33:9111/DAP/app_operationTask.action?key=edit&taskid=%@dateline=%@&tasktitle=%@&priority=%@&tasktype=N&user=%@&index=%@&taskinfo=%@"
+// 负责人接受任务接口
+#define AcceptActionHttp @"http://192.168.2.33:9111/DAP/app_operationTask.action?key=accept&taskid=%@dateline=%@&tasktitle=%@&priority=%@&tasktype=N&user=%@&index=%@&taskinfo=%@"
+// 负责人拒绝任务
+#define RefuseActionHttp @"http://192.168.2.33:9111/DAP/app_operationTask.action?key=refuse&taskid=%@dateline=%@&tasktitle=%@&priority=%@&tasktype=N&user=%@&index=%@&taskinfo=%@"
+// 负责人确认任务完成（任务待审核)
+#define ReviewActionHttp @"http://192.168.2.33:9111/DAP/app_operationTask.action?key=review&taskid=%@dateline=%@&tasktitle=%@&priority=%@&tasktype=N&user=%@&index=%@&taskinfo=%@"
+// 下达人确认任务完成
+#define FinishActionHttp @"http://192.168.2.33:9111/DAP/app_operationTask.action?key=finish&taskid=%@dateline=%@&tasktitle=%@&priority=%@&tasktype=N&user=%@&index=%@&taskinfo=%@"
+// 下达人确认任务未完成
+#define UnfinishActionHttp @"http://192.168.2.33:9111/DAP/app_operationTask.action?key=unfinish&taskid=%@dateline=%@&tasktitle=%@&priority=%@&tasktype=N&user=%@&index=%@&taskinfo=%@"
+// 下达人删除任务
+#define DeleteActionHttp @"http://192.168.2.33:9111/DAP/app_operationTask.action?key=delete&taskid=%@dateline=%@&tasktitle=%@&priority=%@&tasktype=N&user=%@&index=%@&taskinfo=%@"
 // Include any system framework and library headers here that should be included in all compilation units.
 // You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
 

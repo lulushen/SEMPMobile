@@ -39,6 +39,16 @@
     }
     return self;
 }
+- (instancetype)initWithParentId : (NSString*)parentId nodeId : (NSString*)nodeId name : (NSString *)name  expand : (BOOL)expand{
+    self = [self init];
+    if (self) {
+        self.d_res_parentid = parentId;
+        self.d_res_id = nodeId;
+        self.d_res_clname = name;
+//        self.expand = expand;
+    }
+    return self;
+}
 
 
 @end

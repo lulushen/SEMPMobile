@@ -10,11 +10,11 @@
 
 @interface ActionTopView : UIView
 
-@property (nonatomic , strong) UIButton * weiWanChengButton;
+@property (nonatomic , strong) UIButton * yiXiaButton;
 
-@property (nonatomic , strong) UIButton * yiXiaDaButton;
+@property (nonatomic , strong) UIButton * yiJieShouButton;
 
-@property (nonatomic , strong) UIButton * daiChuliButton;
+@property (nonatomic , strong) UIButton * daiJieShouButton;
 
 @property (nonatomic , strong) UIButton * allActionButton;
 

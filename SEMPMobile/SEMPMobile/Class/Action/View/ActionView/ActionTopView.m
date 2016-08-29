@@ -24,32 +24,32 @@
 }
 - (void)p_setupView
 {
-    _weiWanChengButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    _yiXiaDaButton = [[UIButton alloc] init];
-    _daiChuliButton = [[UIButton alloc] init];
+    _yiXiaButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    _yiJieShouButton = [[UIButton alloc] init];
+    _daiJieShouButton = [[UIButton alloc] init];
     _allActionButton = [[UIButton alloc] init];
     
-    _weiWanChengButton.titleLabel.font = [UIFont boldSystemFontOfSize:16.0f];
-    _yiXiaDaButton.titleLabel.font = [UIFont boldSystemFontOfSize:16.0f];
-    _daiChuliButton.titleLabel.font = [UIFont boldSystemFontOfSize:16.0f];
+    _yiXiaButton.titleLabel.font = [UIFont boldSystemFontOfSize:16.0f];
+    _yiJieShouButton.titleLabel.font = [UIFont boldSystemFontOfSize:16.0f];
+    _daiJieShouButton.titleLabel.font = [UIFont boldSystemFontOfSize:16.0f];
     _allActionButton.titleLabel.font = [UIFont boldSystemFontOfSize:16.0f];
 
-    _weiWanChengButton.layer.masksToBounds = YES;
-    _weiWanChengButton.layer.cornerRadius = 5;
-    _yiXiaDaButton.layer.masksToBounds = YES;
-    _yiXiaDaButton.layer.cornerRadius = 5;
-    _daiChuliButton.layer.masksToBounds = YES;
-    _daiChuliButton.layer.cornerRadius = 5;
+    _yiXiaButton.layer.masksToBounds = YES;
+    _yiXiaButton.layer.cornerRadius = 5;
+    _yiJieShouButton.layer.masksToBounds = YES;
+    _yiJieShouButton.layer.cornerRadius = 5;
+    _daiJieShouButton.layer.masksToBounds = YES;
+    _daiJieShouButton.layer.cornerRadius = 5;
     _allActionButton.layer.masksToBounds = YES;
     _allActionButton.layer.cornerRadius = 5;
     
-    [_weiWanChengButton setTitle:@"未完成" forState:UIControlStateNormal];
-    [_weiWanChengButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    [_yiXiaButton setTitle:@"已下达" forState:UIControlStateNormal];
+    [_yiXiaButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
 
-    [_yiXiaDaButton setTitle:@"已下达" forState:UIControlStateNormal];
-    [_yiXiaDaButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    [_yiJieShouButton setTitle:@"已接收" forState:UIControlStateNormal];
+    [_yiJieShouButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
    
-    [_daiChuliButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    [_daiJieShouButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
    
     [_allActionButton setTitle:@"全部任务" forState:UIControlStateNormal];
     _allActionButton.backgroundColor = ActionButtonColor;
@@ -57,9 +57,9 @@
     [_allActionButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     
     
-    [self addSubview:_weiWanChengButton];
-    [self addSubview:_yiXiaDaButton];
-    [self addSubview:_daiChuliButton];
+    [self addSubview:_yiXiaButton];
+    [self addSubview:_yiJieShouButton];
+    [self addSubview:_daiJieShouButton];
     [self addSubview:_allActionButton];
     
     
@@ -67,10 +67,10 @@
 -(void)layoutSubviews
 {
    
-    _weiWanChengButton.frame = CGRectMake(20*KWidth6scale, 10*KHeight6scale, (self.frame.size.width-40*KWidth6scale)/4.0, self.frame.size.height- 10*KHeight6scale);
-    _yiXiaDaButton.frame = CGRectMake(CGRectGetMaxX(_weiWanChengButton.frame), CGRectGetMinY(_weiWanChengButton.frame), CGRectGetWidth(_weiWanChengButton.frame), CGRectGetHeight(_weiWanChengButton.frame));
-    _daiChuliButton.frame = CGRectMake(CGRectGetMaxX(_yiXiaDaButton.frame), CGRectGetMinY(_yiXiaDaButton.frame), CGRectGetWidth(_yiXiaDaButton.frame), CGRectGetHeight(_yiXiaDaButton.frame));
-    _allActionButton.frame = CGRectMake(CGRectGetMaxX(_daiChuliButton.frame), CGRectGetMinY(_daiChuliButton.frame), CGRectGetWidth(_daiChuliButton.frame), CGRectGetHeight(_daiChuliButton.frame));
+    _yiXiaButton.frame = CGRectMake(20*KWidth6scale, 10*KHeight6scale, (self.frame.size.width-40*KWidth6scale)/4.0, self.frame.size.height- 10*KHeight6scale);
+    _yiJieShouButton.frame = CGRectMake(CGRectGetMaxX(_yiXiaButton.frame), CGRectGetMinY(_yiXiaButton.frame), CGRectGetWidth(_yiXiaButton.frame), CGRectGetHeight(_yiXiaButton.frame));
+    _daiJieShouButton.frame = CGRectMake(CGRectGetMaxX(_yiJieShouButton.frame), CGRectGetMinY(_yiJieShouButton.frame), CGRectGetWidth(_yiJieShouButton.frame), CGRectGetHeight(_yiJieShouButton.frame));
+    _allActionButton.frame = CGRectMake(CGRectGetMaxX(_daiJieShouButton.frame), CGRectGetMinY(_daiJieShouButton.frame), CGRectGetWidth(_daiJieShouButton.frame), CGRectGetHeight(_daiJieShouButton.frame));
 //    _daiChuliLabel.frame = CGRectMake(CGRectGetWidth(_daiChuliButton.frame) - CGRectGetWidth(_daiChuliButton.frame)/4.0, 0, CGRectGetWidth(_daiChuliButton.frame)/4.0, CGRectGetHeight(_daiChuliButton.frame));
     
 }

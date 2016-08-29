@@ -247,14 +247,18 @@
 - (void)okButtonClick:(UIButton *)button
 {
     
+    
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"DateChange"];
 
     if (number == 1) {
         _dateString = [NSString stringWithFormat:@"%@年",[yearArray objectAtIndex:[_myPickerView selectedRowInComponent:0]]];
+    
     }else if (number == 2){
         _dateString = [NSString stringWithFormat:@"%@年%@月",[yearArray objectAtIndex:[_myPickerView selectedRowInComponent:0]],[monthArray objectAtIndex:[_myPickerView selectedRowInComponent:1]]];
+        
     }else if(number == 3){
         _dateString = [NSString stringWithFormat:@"%@年%@月%@日",[yearArray objectAtIndex:[_myPickerView selectedRowInComponent:0]],[monthArray objectAtIndex:[_myPickerView selectedRowInComponent:1]],[DaysArray objectAtIndex:[_myPickerView selectedRowInComponent:2]]];
+        
     }
     
     [[NSUserDefaults standardUserDefaults] setObject:_dateString forKey:@"DateChange"];

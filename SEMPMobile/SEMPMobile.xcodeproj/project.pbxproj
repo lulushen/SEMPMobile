@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3D0B0CE71D74085500DBCD6E /* image.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D0B0CE31D74085500DBCD6E /* image.png */; };
+		3D0B0CE81D74085500DBCD6E /* text.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D0B0CE41D74085500DBCD6E /* text.png */; };
+		3D0B0CE91D74085500DBCD6E /* type.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D0B0CE51D74085500DBCD6E /* type.png */; };
+		3D0B0CEA1D74085500DBCD6E /* user.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D0B0CE61D74085500DBCD6E /* user.png */; };
 		3D267EE21D4EDB3F001E732B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D267EE11D4EDB3F001E732B /* main.m */; };
 		3D267EEB1D4EDB3F001E732B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3D267EE91D4EDB3F001E732B /* Main.storyboard */; };
 		3D267EED1D4EDB3F001E732B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3D267EEC1D4EDB3F001E732B /* Assets.xcassets */; };
@@ -98,7 +102,6 @@
 		3D9452831D69D5BB00B6D4B7 /* ActionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D9452811D69D5BB00B6D4B7 /* ActionViewController.m */; };
 		3D9452861D69D5DF00B6D4B7 /* AddActionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D9452851D69D5DF00B6D4B7 /* AddActionViewController.m */; };
 		3D94528E1D69DADE00B6D4B7 /* ActionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D9452891D69DADE00B6D4B7 /* ActionTableViewCell.m */; };
-		3D94528F1D69DADE00B6D4B7 /* ActionTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D94528B1D69DADE00B6D4B7 /* ActionTopView.m */; };
 		3D9452921D69DB0600B6D4B7 /* AddActionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D9452911D69DB0600B6D4B7 /* AddActionTableViewCell.m */; };
 		3D94529A1D69EBB900B6D4B7 /* 0.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D9452941D69EBB900B6D4B7 /* 0.png */; };
 		3D94529B1D69EBB900B6D4B7 /* 1.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D9452951D69EBB900B6D4B7 /* 1.png */; };
@@ -147,6 +150,11 @@
 		3DD34D101D6D3F7A0087836E /* noSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DD34D0E1D6D3F7A0087836E /* noSelected.png */; };
 		3DD34D111D6D3F7A0087836E /* selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DD34D0F1D6D3F7A0087836E /* selected.png */; };
 		3DD34D141D6DA2E90087836E /* DefaultD_resModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DD34D131D6DA2E90087836E /* DefaultD_resModel.m */; };
+		3DDB58611D6E8D1F00CB50C5 /* arrow_down_grey.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DDB585F1D6E8D1F00CB50C5 /* arrow_down_grey.png */; };
+		3DDB58621D6E8D1F00CB50C5 /* arrow_right_grey.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DDB58601D6E8D1F00CB50C5 /* arrow_right_grey.png */; };
+		3DDB58651D6EFCBA00CB50C5 /* ActionTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DDB58641D6EFCBA00CB50C5 /* ActionTopView.m */; };
+		3DDB58691D6FF20000CB50C5 /* ActionDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DDB58681D6FF20000CB50C5 /* ActionDetailModel.m */; };
+		3DDB586D1D731D5A00CB50C5 /* NSDate+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DDB586C1D731D5A00CB50C5 /* NSDate+Helper.m */; };
 		3DF905891D5AB96F0009DBA6 /* ReportCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DF905881D5AB96F0009DBA6 /* ReportCenterViewController.m */; };
 		3DF9058E1D5AD01A0009DBA6 /* header.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DF9058D1D5AD01A0009DBA6 /* header.png */; };
 		92A8A138353B2C5C5A1DD799 /* libPods-SEMPMobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 62B66D3555AAD588E4F509E7 /* libPods-SEMPMobile.a */; };
@@ -171,6 +179,10 @@
 
 /* Begin PBXFileReference section */
 		092E84D0A4F3B6D362F6B9F2 /* Pods-SEMPMobile.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SEMPMobile.release.xcconfig"; path = "Pods/Target Support Files/Pods-SEMPMobile/Pods-SEMPMobile.release.xcconfig"; sourceTree = "<group>"; };
+		3D0B0CE31D74085500DBCD6E /* image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = image.png; sourceTree = "<group>"; };
+		3D0B0CE41D74085500DBCD6E /* text.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = text.png; sourceTree = "<group>"; };
+		3D0B0CE51D74085500DBCD6E /* type.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = type.png; sourceTree = "<group>"; };
+		3D0B0CE61D74085500DBCD6E /* user.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = user.png; sourceTree = "<group>"; };
 		3D267EDD1D4EDB3E001E732B /* SEMPMobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SEMPMobile.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D267EE11D4EDB3F001E732B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		3D267EEA1D4EDB3F001E732B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -320,8 +332,6 @@
 		3D9452851D69D5DF00B6D4B7 /* AddActionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddActionViewController.m; sourceTree = "<group>"; };
 		3D9452881D69DADE00B6D4B7 /* ActionTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionTableViewCell.h; sourceTree = "<group>"; };
 		3D9452891D69DADE00B6D4B7 /* ActionTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionTableViewCell.m; sourceTree = "<group>"; };
-		3D94528A1D69DADE00B6D4B7 /* ActionTopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionTopView.h; sourceTree = "<group>"; };
-		3D94528B1D69DADE00B6D4B7 /* ActionTopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionTopView.m; sourceTree = "<group>"; };
 		3D9452901D69DB0600B6D4B7 /* AddActionTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddActionTableViewCell.h; sourceTree = "<group>"; };
 		3D9452911D69DB0600B6D4B7 /* AddActionTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddActionTableViewCell.m; sourceTree = "<group>"; };
 		3D9452941D69EBB900B6D4B7 /* 0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 0.png; sourceTree = "<group>"; };
@@ -389,6 +399,14 @@
 		3DD34D0F1D6D3F7A0087836E /* selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = selected.png; sourceTree = "<group>"; };
 		3DD34D121D6DA2E90087836E /* DefaultD_resModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DefaultD_resModel.h; sourceTree = "<group>"; };
 		3DD34D131D6DA2E90087836E /* DefaultD_resModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DefaultD_resModel.m; sourceTree = "<group>"; };
+		3DDB585F1D6E8D1F00CB50C5 /* arrow_down_grey.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow_down_grey.png; sourceTree = "<group>"; };
+		3DDB58601D6E8D1F00CB50C5 /* arrow_right_grey.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow_right_grey.png; sourceTree = "<group>"; };
+		3DDB58631D6EFCBA00CB50C5 /* ActionTopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionTopView.h; sourceTree = "<group>"; };
+		3DDB58641D6EFCBA00CB50C5 /* ActionTopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionTopView.m; sourceTree = "<group>"; };
+		3DDB58671D6FF20000CB50C5 /* ActionDetailModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionDetailModel.h; sourceTree = "<group>"; };
+		3DDB58681D6FF20000CB50C5 /* ActionDetailModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionDetailModel.m; sourceTree = "<group>"; };
+		3DDB586B1D731D5A00CB50C5 /* NSDate+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Helper.h"; sourceTree = "<group>"; };
+		3DDB586C1D731D5A00CB50C5 /* NSDate+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Helper.m"; sourceTree = "<group>"; };
 		3DF905871D5AB96F0009DBA6 /* ReportCenterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportCenterViewController.h; sourceTree = "<group>"; };
 		3DF905881D5AB96F0009DBA6 /* ReportCenterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReportCenterViewController.m; sourceTree = "<group>"; };
 		3DF9058D1D5AD01A0009DBA6 /* header.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = header.png; sourceTree = "<group>"; };
@@ -447,6 +465,17 @@
 				62B66D3555AAD588E4F509E7 /* libPods-SEMPMobile.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		3D0B0CE21D74085500DBCD6E /* actionjilu */ = {
+			isa = PBXGroup;
+			children = (
+				3D0B0CE31D74085500DBCD6E /* image.png */,
+				3D0B0CE41D74085500DBCD6E /* text.png */,
+				3D0B0CE51D74085500DBCD6E /* type.png */,
+				3D0B0CE61D74085500DBCD6E /* user.png */,
+			);
+			path = actionjilu;
 			sourceTree = "<group>";
 		};
 		3D267ED41D4EDB3E001E732B = {
@@ -548,6 +577,7 @@
 		3D267F241D4EDD4F001E732B /* ActionImage */ = {
 			isa = PBXGroup;
 			children = (
+				3D0B0CE21D74085500DBCD6E /* actionjilu */,
 				3D9452931D69EBB900B6D4B7 /* AddAction */,
 				3DCF1FF51D6547150007FF80 /* Action */,
 			);
@@ -749,6 +779,7 @@
 		3D267F701D4EEC10001E732B /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				3DDB58661D6FF1B300CB50C5 /* ActionDetailModel */,
 				3DD34D071D6D2D780087836E /* AddActionModel */,
 				3DD34CFD1D6AE89A0087836E /* ActionModel */,
 			);
@@ -896,6 +927,7 @@
 		3D267F8E1D4F0108001E732B /* Category */ = {
 			isa = PBXGroup;
 			children = (
+				3DDB586A1D731D5A00CB50C5 /* NSDate */,
 				3D2680211D4F549F001E732B /* UIColor */,
 				3D267F8F1D4F0108001E732B /* 弹出框提示 */,
 			);
@@ -1190,10 +1222,10 @@
 		3D9452871D69DADE00B6D4B7 /* ActionView */ = {
 			isa = PBXGroup;
 			children = (
+				3DDB58631D6EFCBA00CB50C5 /* ActionTopView.h */,
+				3DDB58641D6EFCBA00CB50C5 /* ActionTopView.m */,
 				3D9452881D69DADE00B6D4B7 /* ActionTableViewCell.h */,
 				3D9452891D69DADE00B6D4B7 /* ActionTableViewCell.m */,
-				3D94528A1D69DADE00B6D4B7 /* ActionTopView.h */,
-				3D94528B1D69DADE00B6D4B7 /* ActionTopView.m */,
 			);
 			path = ActionView;
 			sourceTree = "<group>";
@@ -1223,6 +1255,8 @@
 		3D9452931D69EBB900B6D4B7 /* AddAction */ = {
 			isa = PBXGroup;
 			children = (
+				3DDB585F1D6E8D1F00CB50C5 /* arrow_down_grey.png */,
+				3DDB58601D6E8D1F00CB50C5 /* arrow_right_grey.png */,
 				3DD34D0E1D6D3F7A0087836E /* noSelected.png */,
 				3DD34D0F1D6D3F7A0087836E /* selected.png */,
 				3D9452941D69EBB900B6D4B7 /* 0.png */,
@@ -1324,6 +1358,25 @@
 			);
 			name = AddActionModel;
 			path = AddAction;
+			sourceTree = "<group>";
+		};
+		3DDB58661D6FF1B300CB50C5 /* ActionDetailModel */ = {
+			isa = PBXGroup;
+			children = (
+				3DDB58671D6FF20000CB50C5 /* ActionDetailModel.h */,
+				3DDB58681D6FF20000CB50C5 /* ActionDetailModel.m */,
+			);
+			name = ActionDetailModel;
+			path = ActionIncomeModel;
+			sourceTree = "<group>";
+		};
+		3DDB586A1D731D5A00CB50C5 /* NSDate */ = {
+			isa = PBXGroup;
+			children = (
+				3DDB586B1D731D5A00CB50C5 /* NSDate+Helper.h */,
+				3DDB586C1D731D5A00CB50C5 /* NSDate+Helper.m */,
+			);
+			path = NSDate;
 			sourceTree = "<group>";
 		};
 		88A65B09D2B0C4128C7FF695 /* Pods */ = {
@@ -1448,9 +1501,13 @@
 				3DD34CFC1D6AE0F70087836E /* reportIncomeShare.png in Resources */,
 				3D8828591D65654200242B6A /* add.png in Resources */,
 				3D3B3FA01D5C6FD500096AC7 /* delete.png in Resources */,
+				3DDB58611D6E8D1F00CB50C5 /* arrow_down_grey.png in Resources */,
 				3DD244231D5323C3006F40BA /* back.png in Resources */,
 				3DD34D101D6D3F7A0087836E /* noSelected.png in Resources */,
 				3DD34CFB1D6AE0F70087836E /* reportIncomesearch.png in Resources */,
+				3DDB58621D6E8D1F00CB50C5 /* arrow_right_grey.png in Resources */,
+				3D0B0CEA1D74085500DBCD6E /* user.png in Resources */,
+				3D0B0CE81D74085500DBCD6E /* text.png in Resources */,
 				3D72D3341D59ED8000EDD71A /* report_normal.png in Resources */,
 				3D26801D1D4F4D11001E732B /* date.txt in Resources */,
 				3DF9058E1D5AD01A0009DBA6 /* header.png in Resources */,
@@ -1469,6 +1526,7 @@
 				3D26804F1D4FAD20001E732B /* mic_4.png in Resources */,
 				3D3B3FA21D5C75AE00096AC7 /* wenBenDelete.png in Resources */,
 				3D3B3F7E1D5B051B00096AC7 /* style_normal.png in Resources */,
+				3D0B0CE71D74085500DBCD6E /* image.png in Resources */,
 				3D72D3331D59ED8000EDD71A /* report_highlight.png in Resources */,
 				3D94529A1D69EBB900B6D4B7 /* 0.png in Resources */,
 				3D26804E1D4FAD20001E732B /* mic_3.png in Resources */,
@@ -1499,6 +1557,7 @@
 				3DD244251D532C1C006F40BA /* date.png in Resources */,
 				3D72D3321D59ED8000EDD71A /* dash_normal.png in Resources */,
 				3D267EEB1D4EDB3F001E732B /* Main.storyboard in Resources */,
+				3D0B0CE91D74085500DBCD6E /* type.png in Resources */,
 				3D94529E1D69EBB900B6D4B7 /* 4.png in Resources */,
 				3DD244211D532364006F40BA /* share.png in Resources */,
 			);
@@ -1586,6 +1645,7 @@
 				3D267F681D4EEA1F001E732B /* RealReachability.m in Sources */,
 				3D9452861D69D5DF00B6D4B7 /* AddActionViewController.m in Sources */,
 				3D3B3F931D5B395E00096AC7 /* ReportTableViewCell.m in Sources */,
+				3DDB586D1D731D5A00CB50C5 /* NSDate+Helper.m in Sources */,
 				3D267F5E1D4EEA1F001E732B /* FSMEngine.m in Sources */,
 				3D26800F1D4F40FB001E732B /* DashBoardModel.m in Sources */,
 				3D26805A1D4FAE0E001E732B /* SDHeaderCollectionReusableView.m in Sources */,
@@ -1601,11 +1661,11 @@
 				3D267F981D4F0108001E732B /* UIViewController+HUD.m in Sources */,
 				3D94528E1D69DADE00B6D4B7 /* ActionTableViewCell.m in Sources */,
 				3D267F3E1D4EE5E2001E732B /* CYLTabBarController.m in Sources */,
-				3D94528F1D69DADE00B6D4B7 /* ActionTopView.m in Sources */,
 				3D267F3C1D4EE5E2001E732B /* CYLPlusButton.m in Sources */,
 				3D9452921D69DB0600B6D4B7 /* AddActionTableViewCell.m in Sources */,
 				3D9EE8931D59C5CB0062DB1F /* IncomeTableViewTopCell.m in Sources */,
 				3D267F3D1D4EE5E2001E732B /* CYLTabBar.m in Sources */,
+				3DDB58691D6FF20000CB50C5 /* ActionDetailModel.m in Sources */,
 				3DCAD79D1D61AB2B00BE758F /* DashBoardViewController.m in Sources */,
 				3D7012331D65990200C3648D /* IncomeDashModel.m in Sources */,
 				3D2680341D4FAC31001E732B /* AddViewController.m in Sources */,
@@ -1632,6 +1692,7 @@
 				3D7261271D62AB9B0006945E /* DashBoardCollectionViewCell.m in Sources */,
 				3D955B701D50A0D00070A586 /* DataView.m in Sources */,
 				3D267F621D4EEA1F001E732B /* ReachStateUnloaded.m in Sources */,
+				3DDB58651D6EFCBA00CB50C5 /* ActionTopView.m in Sources */,
 				3D955B731D50A11E0070A586 /* DataSearchView.m in Sources */,
 				3D26800C1D4F3EB3001E732B /* SDUserTableViewCell.m in Sources */,
 				3D2680081D4F3EA7001E732B /* SDInfoViewController.m in Sources */,

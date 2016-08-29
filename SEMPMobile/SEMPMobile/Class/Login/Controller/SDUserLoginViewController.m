@@ -106,7 +106,7 @@
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
-        NSLog(@"-----%@",responseObject);
+        NSLog(@"---用户登录的responseObject--%@",responseObject);
         
         if (responseObject != nil) {
             

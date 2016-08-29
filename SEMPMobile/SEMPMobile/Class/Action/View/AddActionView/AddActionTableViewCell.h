@@ -18,4 +18,7 @@
 
 @property (nonatomic , strong)UIView * actionAddView;
 
+@property  (nonatomic , strong)UILabel * line;
+
+
 @end
