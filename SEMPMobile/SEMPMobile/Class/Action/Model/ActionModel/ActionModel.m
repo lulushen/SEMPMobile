@@ -28,6 +28,7 @@
     [aCoder encodeObject:_task_title forKey:@"task_title"];
     [aCoder encodeObject:_create_user forKey:@"create_user"];
     [aCoder encodeObject:_loginUser forKey:@"loginUser"];
+    [aCoder encodeObject:_responsible_person forKey:@"responsible_person"];
 
 }
 
@@ -45,7 +46,8 @@
         _create_user = [aDecoder decodeObjectForKey:@"create_user"];
         _loginUser = [aDecoder decodeObjectForKey:@"loginUser"];
 
-        
+        _responsible_person = [aDecoder decodeObjectForKey:@"responsible_person"];
+
     }
     
     

@@ -22,12 +22,11 @@
 // 组织下的用户
 @property (nonatomic , copy) NSMutableArray * user;
 
-//@property (nonatomic , assign) BOOL expand;//该节点是否处于展开状态
-
+@property (nonatomic , assign) BOOL expand;//该节点是否处于展开状态
+@property (nonatomic , assign) int res_level;//该节点的深度
 /**
  *快速实例化该对象模型
  */
-
-- (instancetype)initWithParentId : (int)parentId nodeId : (int)nodeId name : (NSString *)name expand : (BOOL)expand;
+- (instancetype)initWithParentId : (NSString *)parentId nodeId : (NSString*)nodeId name : (NSString *)name  res_level : (int)res_level expand : (BOOL)expand user: (NSMutableArray *)user;
 
 @end

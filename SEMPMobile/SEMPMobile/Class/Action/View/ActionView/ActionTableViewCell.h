@@ -20,4 +20,6 @@
 @property (nonatomic , strong) UIImageView * actionPersonImage;
 //分割线label
 @property (nonatomic , strong)UILabel * lineLabel;
+//责任人
+@property (nonatomic , strong)UIImageView *responsiblePersonImageView;
 @end

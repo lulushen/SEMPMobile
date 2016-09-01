@@ -102,21 +102,33 @@
 // 任务添加界面的负责人和协助人接口
 #define GetDefaultDimUserInfoHttp @"http://192.168.2.33:9111/DAP/app_getDefaultDimUserInfo.action?"
 // 下达人新建任务发布接口
-#define NewActionHttp @"http://192.168.2.33:9111/DAP/app_operationTask.action?key=new&taskid=""&dateline=%@&tasktitle=%@&priority=%@&tasktype=N&user=%@&index=%@&taskinfo=%@"
+#define NewActionHttp @"http://192.168.2.33:9111/DAP/app_operationTask.action?"
+#define NewActionBody @"key=%@&taskid=""&dateline=%@&tasktitle=%@&priority=%@&tasktype=%@&user=%@&index=%@&taskinfo=%@"
 // 下达人编辑任务接口
 #define EditActionHttp @"http://192.168.2.33:9111/DAP/app_operationTask.action?key=edit&taskid=%@dateline=%@&tasktitle=%@&priority=%@&tasktype=N&user=%@&index=%@&taskinfo=%@"
 // 负责人接受任务接口
-#define AcceptActionHttp @"http://192.168.2.33:9111/DAP/app_operationTask.action?key=accept&taskid=%@dateline=%@&tasktitle=%@&priority=%@&tasktype=N&user=%@&index=%@&taskinfo=%@"
+#define AcceptActionHttp @"http://192.168.2.33:9111/DAP/app_operationTask.action?key=accept&taskid=%@&dateline=""&tasktitle=""&priority=""&tasktype=""&user=""&index=""&taskinfo="""
 // 负责人拒绝任务
-#define RefuseActionHttp @"http://192.168.2.33:9111/DAP/app_operationTask.action?key=refuse&taskid=%@dateline=%@&tasktitle=%@&priority=%@&tasktype=N&user=%@&index=%@&taskinfo=%@"
+#define RefuseActionHttp @"http://192.168.2.33:9111/DAP/app_operationTask.action?key=refuse&taskid=%@&dateline=""&tasktitle=""&priority=""&tasktype=""&user=""&index=""&taskinfo=%@"
 // 负责人确认任务完成（任务待审核)
-#define ReviewActionHttp @"http://192.168.2.33:9111/DAP/app_operationTask.action?key=review&taskid=%@dateline=%@&tasktitle=%@&priority=%@&tasktype=N&user=%@&index=%@&taskinfo=%@"
+#define ReviewActionHttp @"http://192.168.2.33:9111/DAP/app_operationTask.action?key=review&taskid=%@&dateline=""&tasktitle=""&priority=""&tasktype=""&user=""&index=""&taskinfo=%@"
 // 下达人确认任务完成
-#define FinishActionHttp @"http://192.168.2.33:9111/DAP/app_operationTask.action?key=finish&taskid=%@dateline=%@&tasktitle=%@&priority=%@&tasktype=N&user=%@&index=%@&taskinfo=%@"
+#define FinishActionHttp @"http://192.168.2.33:9111/DAP/app_operationTask.action?key=finish&taskid=%@&dateline=""&tasktitle=""&priority=""&tasktype=""&user=""&index=""&taskinfo=%@"
 // 下达人确认任务未完成
-#define UnfinishActionHttp @"http://192.168.2.33:9111/DAP/app_operationTask.action?key=unfinish&taskid=%@dateline=%@&tasktitle=%@&priority=%@&tasktype=N&user=%@&index=%@&taskinfo=%@"
+#define UnfinishActionHttp @"http://192.168.2.33:9111/DAP/app_operationTask.action?key=unfinish&taskid=%@&dateline=""&tasktitle=""&priority=""&tasktype=""&user=""&index=""&taskinfo=%@"
+// 下达人撤销任务
+#define CancalActionHttp @"http://192.168.2.33:9111/DAP/app_operationTask.action?key=cancel&taskid=%@&taskinfo=%@&dateline=""&tasktitle=""&priority=""&tasktype=""&user=""&index="""
 // 下达人删除任务
-#define DeleteActionHttp @"http://192.168.2.33:9111/DAP/app_operationTask.action?key=delete&taskid=%@dateline=%@&tasktitle=%@&priority=%@&tasktype=N&user=%@&index=%@&taskinfo=%@"
+#define DeleteActionHttp @"http://192.168.2.33:9111/DAP/app_operationTask.action?key=delete&taskid=%@&dateline=""&tasktitle=""&priority=""&tasktype=""&user=""&index=""&taskinfo=%@"
+
+//-------------------------------个人中心接口------------------------------------
+
+// 退出登录接口
+#define userLoginOutHttp  @"http://192.168.2.33:9111/DAP/app_userLoginOut.action"
+
+
+
+
 // Include any system framework and library headers here that should be included in all compilation units.
 // You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
 

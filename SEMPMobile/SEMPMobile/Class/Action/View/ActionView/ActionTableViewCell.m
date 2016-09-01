@@ -32,14 +32,14 @@
     _actionStatuLabel = [[UILabel alloc] init];
     _actionPersonImage = [[UIImageView alloc] init];
     _lineLabel = [[UILabel alloc] init];
-
+    _responsiblePersonImageView = [[UIImageView alloc] init];
     [self.contentView addSubview:_actionTitleLabel];
     [self.contentView addSubview:_actionDifficultyLabel];
     [self.contentView addSubview:_actionDateLabel];
     [self.contentView addSubview:_actionStatuLabel];
     [self.contentView addSubview:_actionPersonImage];
     [self.contentView addSubview:_lineLabel];
-
+    [self.contentView addSubview:_responsiblePersonImageView];
 
     
     _actionTitleLabel.font = [UIFont systemFontOfSize:15.0f];
@@ -62,23 +62,25 @@
 //    _actionStatuLabel.backgroundColor = [UIColor cyanColor];
 //    _actionPersonImage.backgroundColor = [UIColor orangeColor];
     _lineLabel.backgroundColor = DEFAULT_BGCOLOR;
-
+//    _responsiblePersonImageView.backgroundColor = [UIColor ];
   
     
 }
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    CGRect rectTitle = [_actionTitleLabel.text boundingRectWithSize:CGSizeMake(CGRectGetWidth(self.contentView.frame)-60, 30) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:_actionTitleLabel.font} context:nil];
-    CGRect rectTime = [_actionDateLabel.text boundingRectWithSize:CGSizeMake(CGRectGetWidth(self.contentView.frame)-60, 30) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:_actionDateLabel.font} context:nil];
+    CGRect rectTitle = [_actionTitleLabel.text boundingRectWithSize:CGSizeMake(CGRectGetWidth(self.contentView.frame)-60, 60) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:_actionTitleLabel.font} context:nil];
+    CGRect rectTime = [_actionDateLabel.text boundingRectWithSize:CGSizeMake(CGRectGetWidth(self.contentView.frame)-60, 60) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:_actionDateLabel.font} context:nil];
 
-    _actionTitleLabel.frame = CGRectMake(20*KWidth6scale, CGRectGetHeight(self.contentView.frame)/3.0, rectTitle.size.width, CGRectGetHeight(self.contentView.frame)/4.0);
+    _actionTitleLabel.frame = CGRectMake(20*KWidth6scale, CGRectGetHeight(self.contentView.frame)/4.0, rectTitle.size.width, CGRectGetHeight(self.contentView.frame)/4.0);
     _actionDifficultyLabel.frame = CGRectMake(CGRectGetMinX(_actionTitleLabel.frame), CGRectGetMaxY(_actionTitleLabel.frame) + 5*KHeight6scale, 20*KWidth6scale, 20*KHeight6scale);
     _actionDateLabel.frame = CGRectMake(CGRectGetMaxX(_actionDifficultyLabel.frame) + 10*KWidth6scale, CGRectGetMinY(_actionDifficultyLabel.frame), rectTime.size.width, CGRectGetHeight(_actionDifficultyLabel.frame));
     
     _actionPersonImage.frame = CGRectMake(CGRectGetWidth(self.contentView.frame)-40*KWidth6scale, 0, 20*KWidth6scale, 20*KHeight6scale);
     _actionStatuLabel.frame = CGRectMake(CGRectGetWidth(self.contentView.frame) -(CGRectGetWidth(self.contentView.frame)-40*KWidth6scale)/4.0 -20*KWidth6scale, CGRectGetMaxY(_actionPersonImage.frame) + 10*KHeight6scale, (CGRectGetWidth(self.contentView.frame)-40*KWidth6scale)/4.0, CGRectGetHeight(self.contentView.frame) - CGRectGetMaxY(_actionPersonImage.frame) -20*KWidth6scale);
      _lineLabel.frame = CGRectMake(CGRectGetMinX(self.contentView.frame)+10*KWidth6scale, CGRectGetMaxY(self.contentView.frame)-1*KHeight6scale, CGRectGetWidth(self.contentView.frame)-20*KWidth6scale, 1*KHeight6scale);
+    _responsiblePersonImageView.frame = CGRectMake(CGRectGetMaxX(self.contentView.frame)-30*KWidth6scale, 0, 20*KWidth6scale, 20*KWidth6scale);
+    
 }
 - (void)awakeFromNib {
     [super awakeFromNib];

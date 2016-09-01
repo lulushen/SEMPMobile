@@ -72,18 +72,37 @@
     }
     return _daiJieShouActionArray;
 }
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+   
+    [_allActionArray removeAllObjects];
+    [_yiXiaActionArray removeAllObjects];
+    [_yiJieShouActionArray removeAllObjects];
+    [_daiJieShouActionArray removeAllObjects];
+    [_allActionTableView removeFromSuperview];
+    [_yiXiaTableView removeFromSuperview];
+    [_yiJieShouTableView removeFromSuperview];
+    [_daiJieShouTableView removeFromSuperview];
+
+    // 数据
+    [self makeDataTableView];
+    
+    [_allActionTableView reloadData];
+    [_yiXiaTableView reloadData];
+
+    [_yiJieShouTableView reloadData];
+
+    [_daiJieShouTableView reloadData];
+
+    
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // 数据
-    [self makeDataTableView];
     // nav
     [self makeNavigationView];
     // 头部视图
     [self makeActionTopView];
-    
-   
-  
 //
     // Do any additional setup after loading the view.
 }
@@ -105,7 +124,7 @@
         //这里可以用来显示下载进度
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
     
-//        NSLog(@"------任务界面的responseObject ：%@",responseObject);
+        NSLog(@"------任务界面的responseObject ：%@",responseObject);
         if (responseObject != nil) {
             
             NSMutableArray * array = responseObject[@"resdata"];
@@ -133,13 +152,13 @@
                     
                     [self.daiJieShouActionArray addObject:actionModel];
                     
-                }else if ((actionModel.loginUser == actionModel.create_user)&&([actionModel.task_state isEqualToString:@"1"] | [actionModel.task_state isEqualToString:@"4"] | [actionModel.task_state isEqualToString:@"2"]|[actionModel.task_state isEqualToString:@"3"] | [actionModel.task_state isEqualToString:@"5"] | [actionModel.task_state isEqualToString:@"6"] | [actionModel.task_state isEqualToString:@"9"])) {
+                }else if ((actionModel.loginUser == actionModel.create_user)&&([actionModel.task_state isEqualToString:@"1"] | [actionModel.task_state isEqualToString:@"4"] | [actionModel.task_state isEqualToString:@"2"]|[actionModel.task_state isEqualToString:@"3"] | [actionModel.task_state isEqualToString:@"5"] | [actionModel.task_state isEqualToString:@"6"] | [actionModel.task_state isEqualToString:@"7"] |[actionModel.task_state isEqualToString:@"8"] | [actionModel.task_state isEqualToString:@"9"])) {
                 
                     
                     [self.yiXiaActionArray addObject:actionModel];
                     
                     
-                }else if ((actionModel.loginUser != actionModel.create_user)&&([actionModel.task_state isEqualToString:@"4"] | [actionModel.task_state isEqualToString:@"2"]|[actionModel.task_state isEqualToString:@"3"] | [actionModel.task_state isEqualToString:@"5"] | [actionModel.task_state isEqualToString:@"6"] | [actionModel.task_state isEqualToString:@"9"])) {
+                }else if ((actionModel.loginUser != actionModel.create_user)&&([actionModel.task_state isEqualToString:@"4"] | [actionModel.task_state isEqualToString:@"2"]|[actionModel.task_state isEqualToString:@"3"] | [actionModel.task_state isEqualToString:@"5"] | [actionModel.task_state isEqualToString:@"6"] | [actionModel.task_state isEqualToString:@"7"] |[actionModel.task_state isEqualToString:@"8"] | [actionModel.task_state isEqualToString:@"9"])) {
                     
                     [self.yiJieShouActionArray addObject:actionModel];
                 }
@@ -160,6 +179,10 @@
         
         //待接收任务tableView
         [self makeDaiJieShouTableView];
+        
+        // 发送通知改变待接收数据个数
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"DaiJieShouShuLiangChange" object:nil];
+
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         //失败
@@ -189,11 +212,11 @@
 }
 - (void)makeActionTopView
 {
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(DaiJieShouShuLiangChange) name:@"DaiJieShouShuLiangChange" object:nil];
     _actionTopView = [[ActionTopView alloc] init];
     _actionTopView.backgroundColor = DEFAULT_BGCOLOR;
     _actionTopView.frame = CGRectMake(0, 0, Main_Screen_Width, 40*KHeight6scale);
-    [_actionTopView.daiJieShouButton setTitle:[NSString stringWithFormat:@"待接收(%@)",@"0"] forState:UIControlStateNormal];
+   [_actionTopView.daiJieShouButton setTitle:[NSString stringWithFormat:@"待接收"] forState:UIControlStateNormal];
     [_actionTopView.yiXiaButton addTarget:self action:@selector(yiXiaButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     [_actionTopView.daiJieShouButton addTarget:self action:@selector(daiJieShouButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     [_actionTopView.yiJieShouButton addTarget:self action:@selector(yiJieShouButtonClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -201,6 +224,10 @@
     _actionTopView.allActionButton.selected = YES;
     [self.view addSubview:_actionTopView];
     
+}
+- (void)DaiJieShouShuLiangChange
+{
+      [_actionTopView.daiJieShouButton setTitle:[NSString stringWithFormat:@"待接收(%ld)",_daiJieShouActionArray.count] forState:UIControlStateNormal];
 }
 // 全部任务点击事件
 - (void)allActionButtonClick:(UIButton *)button
@@ -379,6 +406,12 @@
     if (tableView.tag == 0) {
         
         actionModel = _allActionArray[indexPath.row];
+#warning ======= 判断此任务的负责人是否是本用户
+        if (actionModel.loginUser == actionModel.responsible_person) {
+            cell.responsiblePersonImageView.backgroundColor = [UIColor redColor];
+        }else{
+            cell.responsiblePersonImageView.backgroundColor = [UIColor whiteColor];
+        }
         
         [self makeCell:cell actionModel:actionModel];
 
@@ -397,7 +430,6 @@
             }
             
         }
-        NSLog(@"actionModel.task_type---%@",actionModel.task_type);
       if ([actionModel.task_state isEqualToString:@"3"]) {
             
             cell.actionStatuLabel.text = @"处理中";
@@ -463,6 +495,13 @@
         }else if ([actionModel.task_state isEqualToString:@"6"]){
             
             cell.actionStatuLabel.text = @"待审核";
+        }else if ([actionModel.task_state isEqualToString:@"7"]){
+            
+            cell.actionStatuLabel.text = @"已完成";
+            
+        }else if ([actionModel.task_state isEqualToString:@"8"]){
+            cell.actionStatuLabel.text = @"延迟完成";
+            
         }
         return cell;
         
@@ -492,6 +531,13 @@
         }else if ([actionModel.task_state isEqualToString:@"6"]){
             
             cell.actionStatuLabel.text = @"待审核";
+        }else if ([actionModel.task_state isEqualToString:@"7"]){
+            
+            cell.actionStatuLabel.text = @"已完成";
+            
+        }else if ([actionModel.task_state isEqualToString:@"8"]){
+            cell.actionStatuLabel.text = @"延迟完成";
+            
         }
 
         return cell;

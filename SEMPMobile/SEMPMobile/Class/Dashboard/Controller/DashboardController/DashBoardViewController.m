@@ -310,7 +310,7 @@ static  BOOL Btnstatu = YES;
         [manager GET:urlStr parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
             //这里可以用来显示下载进度
         } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-//            NSLog(@"-----%@",responseObject);
+//            NSLog(@"---指标界面的responseObject--%@",responseObject);
             //成功
             if (responseObject != nil) {
                 
@@ -432,7 +432,7 @@ static  BOOL Btnstatu = YES;
                     
                 }else{
                     
-                    NSLog(@"什么都不做");
+//                    NSLog(@"什么都不做");
                 }
                 
             }
@@ -461,7 +461,6 @@ static  BOOL Btnstatu = YES;
     
     NSString *CellIdentifier = [NSString stringWithFormat:@"cell%ld",indexPath.row];
     DashBoardCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CellIdentifier forIndexPath:indexPath];
-    //    if (!cell) {
     
     DashBoardModel * m = [[DashBoardModel alloc] init];
     
@@ -586,6 +585,7 @@ static  BOOL Btnstatu = YES;
             [cell addSubview:cell.labelBottomval];
             [cell addSubview:cell.label];
             [cell addSubview:cell.labelunit];
+      
             
         }else if([m.chart_type isEqualToString:@"long_text"]){
             
@@ -709,10 +709,8 @@ static  BOOL Btnstatu = YES;
 //        NSString * time = [NSString stringWithFormat:@"%@",dict[@"defaulttime"]];
 //        
 //        _Time = time ;
-        // 指标界面的接口
+        // 指标详情界面的接口
         NSString * urlStr = [NSString stringWithFormat:IncomeHttp,_dashModel.Did,Time];
-        
-        NSLog(@"url       ----   %@",urlStr);
         
         AFHTTPSessionManager * manager = [AFHTTPSessionManager manager];
         
@@ -721,7 +719,7 @@ static  BOOL Btnstatu = YES;
             //这里可以用来显示下载进度
         } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
             //成功
-//            NSLog(@"responseObjectresponseObjectresponseObject--%@",responseObject);
+//            NSLog(@"---指标详情界面的responseObject--%@",responseObject);
             
           
             if (responseObject != nil) {
@@ -883,7 +881,7 @@ static  BOOL Btnstatu = YES;
             
             //这里可以用来显示下载进度
         } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-//            NSLog(@"[-----------responseObject---%@",responseObject);
+//            NSLog(@"[----------添加指标的responseObject---%@",responseObject);
             //成功
             NSMutableDictionary * dict = [NSMutableDictionary dictionary];
             dict = responseObject[@"resdata"];

@@ -359,14 +359,37 @@
         if (_model  == nil) {
             
             [MBProgressHUD showError:@"用户还未登录，请登录"];
-            
+            [self performSelector:@selector(GoToMainView) withObject:self afterDelay:0.8f];
+
         }else{
             
-        
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"userExit" object:self];
+            NSString * urlStr = [NSString stringWithFormat:userLoginOutHttp];
+            
+            AFHTTPSessionManager * manager = [AFHTTPSessionManager manager];
+            
+            [manager GET:urlStr parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
+                
+                //这里可以用来显示下载进度
+            } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                
+                if (responseObject != nil) {
+                                        
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"userExit" object:self];
+
+                    [self performSelector:@selector(GoToMainView) withObject:self afterDelay:0.8f];
+
+                }
+                
+                
+                
+            } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                //失败
+                NSLog(@"failure  error ： %@",error);
+                
+            }];
+
     
         }
-         [self performSelector:@selector(GoToMainView) withObject:self afterDelay:0.8f];
         
         
         

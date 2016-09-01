@@ -14,7 +14,7 @@
 #import "DefaultD_resModel.h"
 #import "MBProgressHUD+MJ.h"
 #import "NSDate+Helper.h"
-
+#import "TreeTableView.h"
 
 #define DIC_EXPANDED @"expanded" //是否是展开 0收缩 1展开
 
@@ -22,7 +22,7 @@
 
 #define DIC_TITILESTRING @"title"
 
-@interface AddActionViewController ()<UITableViewDelegate,UITableViewDataSource>
+@interface AddActionViewController ()<UITableViewDelegate,UITableViewDataSource,TreeTableCellDelegate>
 // 新建任务界面tableView
 @property (nonatomic , strong) UITableView * addActionTableView;
 // 添加相关指标界面
@@ -31,7 +31,6 @@
 @property (nonatomic , strong) UIView * addPersonView;
 @property (nonatomic , strong) UITableView * defaultPersonTabelView;
 @property (nonatomic , strong) userModel * userModel;
-@property (nonatomic , strong) NSMutableArray * DataArray;
 
 // 全部相关指标数组
 @property (nonatomic , strong) NSMutableArray * defaultIndexInfoModelArray;
@@ -51,21 +50,34 @@
 @property (nonatomic , strong) NSMutableArray * butArray;
 // 全局变量 （判断点击的那个添加按钮，相应按钮出现相应界面并且在touchBegan时做出相应的事件）
 @property (nonatomic , strong) NSString * addString;
-// 任务标题
+// 参数任务标题信息
 @property (nonatomic , strong) UITextField * actionTitleField;
-// 日期年月日
+// 参数截止日期年月日
 @property (nonatomic , strong) UIButton * yearButton;
-//@property (nonatomic , strong) UIButton * mouthButton;
-//@property (nonatomic , strong) UIButton * dayButton;
-//@property (nonatomic ,strong)  UILabel * dateLabel;
+// 参数任务类型
+@property (nonatomic , strong) NSString * tasktype;
+// 参数优先级类型
+@property (nonatomic , assign) NSInteger priorityIntType;
+// 参数任务详情信息
+@property (nonatomic , strong) UITextView * actionXiangQingTextView;
+// 参数关联的指标数组
+@property (nonatomic , strong) NSMutableArray * indexArray;
+// 参数关联user的数组
+@property (nonatomic , strong) NSMutableArray * userArray;
 // 任务优先级按钮
 @property (nonatomic , strong) UIButton * gaoButton;
 @property (nonatomic , strong) UIButton * midButton;
 @property (nonatomic , strong) UIButton * diButton;
-//优先级数字
-@property (nonatomic , assign) NSInteger priorityInt;
-//任务详情
-@property (nonatomic , strong) UITextView * actionXiangQingTextView;
+// 任务类型button
+@property (nonatomic , strong) UIButton * puTongTaskButton;
+@property (nonatomic , strong) UIButton * zhuanXiangTaskButton;
+// 选择组织的按钮
+@property (nonatomic , strong)UIButton * chooseZuZhiButton;
+// 选择的ZuZhimodel
+@property (nonatomic , strong)DefaultD_resModel * chooseZuZhiModel;
+// 组织树tableView
+@property (nonatomic , strong)TreeTableView *tableview;
+
 @end
 
 @implementation AddActionViewController
@@ -115,13 +127,7 @@
     }
     return _selectedUserArray;
 }
--(NSMutableArray *)DataArray
-{
-    if (_DataArray == nil) {
-        _DataArray = [NSMutableArray array];
-    }
-    return _DataArray;
-}
+
 -(NSMutableArray *)butArray
 {
     if (_butArray == nil) {
@@ -136,9 +142,23 @@
     }
     return _MeiGeZhuZhiDeUserCountArray;
 }
+-(NSMutableArray *)indexArray
+{
+    if (_indexArray == nil) {
+        _indexArray = [NSMutableArray array];
+    }
+    return _indexArray;
+}
+-(NSMutableArray *)userArray
+{
+    if (_userArray == nil) {
+        _userArray = [NSMutableArray array];
+    }
+    return _userArray;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    _chooseZuZhiModel = [[DefaultD_resModel alloc] init];
     self.view.backgroundColor =  [UIColor grayColor];
     
     self.navigationItem.title = @"新建任务";
@@ -154,14 +174,11 @@
     [self makeDefaultIndexInfoData];
     // 解析协助人和负责任接口数据
     [self makeAddActionPersonData];
-  
+    
     
     // Do any additional setup after loading the view.
 }
-- (void)taskID{
-    
-    
-}
+
 // 自定义返回按钮LeftButtonItme
 - (void)makeLeftButtonItme
 {
@@ -254,11 +271,9 @@
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         if (responseObject != nil) {
-            NSLog(@"---相关人员responseObject-%@",responseObject);
             NSMutableArray * array = responseObject[@"resdata"];
-
             for (int i = 0 ;i < array.count ; i++) {
-               
+                
                 NSMutableDictionary * dict = [NSMutableDictionary dictionary];
                 
                 dict = array[i];
@@ -266,37 +281,36 @@
                 DefaultD_resModel * defaultD_resModel = [[DefaultD_resModel alloc] init];
                 
                 [defaultD_resModel setValuesForKeysWithDictionary:dict];
+                if ([defaultD_resModel.d_res_parentid isEqualToString:@"0"]) {
+                    DefaultD_resModel * model = [[DefaultD_resModel alloc] initWithParentId:defaultD_resModel.d_res_parentid nodeId:defaultD_resModel.d_res_id name:defaultD_resModel.d_res_clname res_level:defaultD_resModel.res_level expand:YES user: defaultD_resModel.user];
+                    [self.defaultD_resModelArray addObject:model];
+                    
+                }else{
+                    
+                    DefaultD_resModel * model = [[DefaultD_resModel alloc] initWithParentId:defaultD_resModel.d_res_parentid nodeId:defaultD_resModel.d_res_id name:defaultD_resModel.d_res_clname res_level:defaultD_resModel.res_level expand:NO user: defaultD_resModel.user];
+                    [self.defaultD_resModelArray addObject:model];
+                    
+                }
                 
                 
-               // 组织数组
-                [self.defaultD_resModelArray addObject:defaultD_resModel];
-
                 NSMutableArray * userArray = dict[@"user"];
-                
-                // 每个组织内人员数组
-                NSMutableArray * MeiGeZhuZhiDePersonArray = [NSMutableArray array];
+                NSNumber * number = [NSNumber numberWithInteger:userArray.count];
+                [self.MeiGeZhuZhiDeUserCountArray addObject:number];
                 
                 for (int j = 0; j< userArray.count;j++) {
                     
                     NSMutableDictionary * userDict = [NSMutableDictionary dictionary];
                     userDict = userArray[j];
-                    [MeiGeZhuZhiDePersonArray addObject:userDict[@"user_clname"]];
                     
                     [self.defaultUserArray addObject:userDict];
                 }
                 
-                NSNumber *aNumber = [NSNumber numberWithUnsignedInteger:MeiGeZhuZhiDePersonArray.count];
                 
-                NSString *countString = [aNumber stringValue];
-                
-                [self.MeiGeZhuZhiDeUserCountArray addObject:countString];
-                
-     
             }
             
         }
-        NSLog(@"--qq-----%ld",_defaultD_resModelArray.count);
-
+        
+        
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         //失败
         NSLog(@"failure  error ： %@",error);
@@ -311,37 +325,94 @@
     
     [self.navigationController popViewControllerAnimated:YES];
     
-    
 }
 // 发布按钮点击事件
 -(void)faBuButtonClick:(UIButton*)button
 {
-    
+    NSString * priString = [NSString stringWithFormat:@"%ld",_priorityIntType];
+
     NSLog(@"biaoti---%@",_actionTitleField.text);
-    NSLog(@"youxianji---%ld",_priorityInt);
+    NSLog(@"youxianji---%ld",_priorityIntType);
     NSLog(@"---renwuxiangqing---%@",_actionXiangQingTextView.text);
     NSLog(@"----date----%@",_yearButton.titleLabel.text);
-//        if (_actionTitleField.text.length > 16) {
-//    
-//            [MBProgressHUD showError:@"任务标题不能超过16个字"];
-//        }else if (_actionTitleField.text.length == 0){
-    //
-    //        [MBProgressHUD showError:@"任务标题不能为空"];
-    //
-    //    }else if (){
-    //        [MBProgressHUD showError:@"截止日期不能为空"];
-    //
-    //    }else if(){
-    //
-    //        [MBProgressHUD showError:@"任务负责人不能为空"];
-    //
-    //    }else if (){
-    //        [MBProgressHUD showError:@"任务相关指标不能为空"];
-    //
-    //    }else if (){
-    //        [MBProgressHUD showError:@"任务详情不能为空"];
-    //
-    //    }
+    NSLog(@"---indexArray--%@",_indexArray);
+    NSLog(@"---userArray---%@",_userArray);
+    NSLog(@"-----taskType--%@",_tasktype);
+            if (_actionTitleField.text.length > 16) {
+    
+                [MBProgressHUD showError:@"任务标题不能超过16个字"];
+            }else if (_actionTitleField.text.length == 0){
+    
+            [MBProgressHUD showError:@"任务标题不能为空"];
+    
+        }else if (_yearButton.titleLabel.text.length == 0){
+            [MBProgressHUD showError:@"截止日期不能为空"];
+    
+        }else if(_userArray.count == 0){
+    
+            [MBProgressHUD showError:@"任务负责人不能为空"];
+    
+        }else if (_indexArray.count == 0){
+            [MBProgressHUD showError:@"任务相关指标不能为空"];
+    
+        }else if (_actionXiangQingTextView.text.length == 0){
+            [MBProgressHUD showError:@"任务详情不能为空"];
+    
+        }else{
+           
+        
+            NSMutableDictionary * requestDic = @{
+                                                 
+                                                 @"key":@"new",
+                                                 @"taskid":@"",
+                                                 @"dateline":_yearButton.titleLabel.text,
+                                                 @"tasktitle":_actionTitleField.text,
+                                                 @"priority":priString,
+                                                 @"tasktype":_tasktype,
+                                                 @"user":_userArray,
+                                                 @"index":_indexArray,
+                                                 @"taskinfo":_actionXiangQingTextView.text
+      
+                                                 }.mutableCopy;
+            
+            AFHTTPSessionManager * manager = [AFHTTPSessionManager manager];
+            
+            [manager POST:NewActionHttp parameters:requestDic progress:^(NSProgress * _Nonnull downloadProgress) {
+                
+                //这里可以用来显示下载进度
+            } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                
+                NSLog(@"--newActionresponseObject---%@",responseObject);
+                if (responseObject != nil) {
+                    
+                    [MBProgressHUD showSuccess:@"发布成功"];
+                    
+                    [self performSelector:@selector(BackView) withObject:self afterDelay:1.0f];
+                    
+                    [_indexArray removeAllObjects];
+                    [_userArray removeAllObjects];
+                }
+                
+                
+                
+            } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                //失败
+                NSLog(@"failure  error ： %@",error);
+                
+            }];
+            
+            
+        }
+    
+    
+
+}
+- (void)BackView
+{
+    
+    [[self navigationController] popViewControllerAnimated:YES];
+    
+    
 }
 #pragma ========tableView代理方法
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -355,8 +426,7 @@
         
     }else{
         
-        return _DataArray.count;
-        
+        return 1;
     }
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -369,8 +439,9 @@
         return _defaultIndexInfoModelArray.count;
         
     }else if(tableView.tag == 2){
-
-        return 10;
+        
+        
+        return self.chooseZuZhiModel.user.count;
         
     }else{
         return 0;
@@ -448,52 +519,45 @@
         return cell;
         
     }else if(tableView.tag == 2){
+        // 选中的当前组织
+        NSInteger  dangqizhizi = 0;
+        for (int i = 0;i< _defaultD_resModelArray.count;i++ ) {
+            
+            DefaultD_resModel * model = _defaultD_resModelArray[i];
+            
+            if (_chooseZuZhiModel.d_res_id == model.d_res_id) {
+                
+                dangqizhizi = i;
+                
+            }
+        }
+        // 当前组织前面所有组织中所包含组织人员的总数量
+        NSInteger count = 0;
+        for (int i = 0; i < _MeiGeZhuZhiDeUserCountArray.count; i++) {
+            if (i == dangqizhizi) {
+                
+                
+                break;
+            }else{
+                
+                count = count + [_MeiGeZhuZhiDeUserCountArray[i] integerValue];
+                
+            }
+            
+        }
         
-        NSString *CellIdentifier = [NSString stringWithFormat:@"SelectCell%ld%ld", (long)[indexPath section], [indexPath row]];//以indexPath来唯一确定cell
+        NSString *CellIdentifier = [NSString stringWithFormat:@"SelectCell%ld",count + indexPath.row];//以indexPath+count来唯一确定cell
         AddActionSelectTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier]; //列出可重用的cell
         if (cell == nil) {
             cell = [[AddActionSelectTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         }
+        cell.titleLabel.text = [self.chooseZuZhiModel.user[indexPath.row] valueForKey:@"user_clname"];
         
-        NSArray *array =[[_DataArray objectAtIndex:indexPath.section] objectForKey:DIC_ARARRY];
+        cell.selectButton.tag = count + indexPath.row;
         
-        if (array.count == 0) {
-            
-            return nil;
-            
-        }else{
-            NSString * string = [NSString stringWithFormat:@"%@",array[indexPath.row]];
-            cell.titleLabel.text = string;
-            
-            
-            int sum = 0;
-            for (int i = 0; i <= indexPath.section ; i++) {
-                
-                int count = [_MeiGeZhuZhiDeUserCountArray[i] intValue];
-                
-                
-                if (count == 0) {
-                    
-                    
-                }else{
-                    sum+=count;
-                    
-                    int DangQianSectionCount = [_MeiGeZhuZhiDeUserCountArray[indexPath.section] intValue];
-                    
-                    cell.selectButton.tag = sum - DangQianSectionCount + indexPath.row;
-                    
-                    
-                    
-                    
-                }
-            }
-            
-            [cell.selectButton addTarget:self action:@selector(selectDefaultIndexInfoButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-            
-            return cell;
-            
-        }
+        [cell.selectButton addTarget:self action:@selector(selectDefaultIndexInfoButtonClick:) forControlEvents:UIControlEventTouchUpInside];
         
+        return cell;
         
     }else{
         
@@ -528,6 +592,8 @@
 }
 - (void)makeIndexPathFirstCell:(UITableViewCell *)cell indexPath:(NSIndexPath*)indexPath
 {
+    
+    
     _yearButton= [UIButton buttonWithType:UIButtonTypeRoundedRect];
     _yearButton.frame = CGRectMake(CGRectGetMidX(self.view.frame) + 20*KWidth6scale, 15*KHeight6scale, CGRectGetMidX(self.view.frame) - 80*KWidth6scale, 20*KWidth6scale);
     _yearButton.backgroundColor = DEFAULT_BGCOLOR;
@@ -539,7 +605,7 @@
     yearLabel.textAlignment = NSTextAlignmentCenter;
     [cell addSubview:yearLabel];
     
- 
+    
     _actionTitleField = [[UITextField alloc] initWithFrame:CGRectMake(20*KWidth6scale, 50*KHeight6scale, Main_Screen_Width-40*KWidth6scale, 50*KHeight6scale)];
     _actionTitleField.layer.borderWidth = 1;
     _actionTitleField.layer.borderColor  = [UIColor grayColor].CGColor;
@@ -562,7 +628,7 @@
     
     [_gaoButton setTitle:@"高" forState:UIControlStateNormal];
     _gaoButton.selected = YES;
-    _priorityInt = 1;
+    _priorityIntType = 1;
     _gaoButton.backgroundColor = [UIColor redColor];
     [_gaoButton addTarget:self action:@selector(youXianJiButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     
@@ -589,7 +655,33 @@
     _diButton.selected = NO;
     _diButton.backgroundColor = DEFAULT_BGCOLOR;
     [_diButton addTarget:self action:@selector(youXianJiButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+    
+    
+    UILabel * actionLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(_actionTitleField.frame), CGRectGetMinY(youXianJiLabel.frame), CGRectGetWidth(youXianJiLabel.frame)-20*KWidth6scale, CGRectGetHeight(youXianJiLabel.frame))];
+    actionLabel.text = @"任务";
+    actionLabel.font = [UIFont systemFontOfSize:14.0f];
 
+    [cell addSubview:actionLabel];
+    
+    _puTongTaskButton = [[UIButton alloc] init];
+    _puTongTaskButton.frame = CGRectMake(CGRectGetMaxX(actionLabel.frame), CGRectGetMinY(actionLabel.frame) , 40*KWidth6scale, CGRectGetHeight(actionLabel.frame));
+    [_puTongTaskButton setTitle:@"普通" forState:UIControlStateNormal];
+    _puTongTaskButton.layer.cornerRadius = 3;
+    
+    _tasktype = @"N";
+    _puTongTaskButton.backgroundColor = [UIColor grayColor];
+    [_puTongTaskButton addTarget:self action:@selector(taskTypeClick:) forControlEvents:UIControlEventTouchUpInside];
+    _zhuanXiangTaskButton = [[UIButton alloc] init];
+    _zhuanXiangTaskButton.frame = CGRectMake(CGRectGetMaxX(_puTongTaskButton.frame)+10*KWidth6scale, CGRectGetMinY(_puTongTaskButton.frame) , CGRectGetWidth(_puTongTaskButton.frame), CGRectGetHeight(_puTongTaskButton.frame));
+    _zhuanXiangTaskButton.layer.cornerRadius = 3;
+    
+    [_zhuanXiangTaskButton setTitle:@"专项" forState:UIControlStateNormal];
+    _zhuanXiangTaskButton.backgroundColor = DEFAULT_BGCOLOR;
+    [_zhuanXiangTaskButton addTarget:self action:@selector(taskTypeClick:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [cell addSubview:_puTongTaskButton];
+    [cell addSubview:_zhuanXiangTaskButton];
+    
     [cell addSubview:_gaoButton];
     
     [cell addSubview:_midButton];
@@ -597,12 +689,12 @@
     [cell addSubview:_diButton];
     
 }
-// 优先级的按钮
+// 优先级选择
 - (void)youXianJiButtonClick:(UIButton *)button
 {
     
     if (button.selected == YES) {
-    
+        
     }else{
         _midButton.selected = NO;
         _midButton.backgroundColor = DEFAULT_BGCOLOR;
@@ -615,13 +707,36 @@
     }
     
     if (_gaoButton.selected == YES) {
-        _priorityInt = 1;
+        _priorityIntType = 1;
     }else if(_midButton.selected == YES){
-        _priorityInt = 2;
+        _priorityIntType = 2;
     }else if(_diButton.selected == YES){
-        _priorityInt = 3;
+        _priorityIntType = 3;
     }
 }
+// 任务类型选择
+- (void)taskTypeClick:(UIButton *)button
+{
+    
+    if (button.selected == YES) {
+        
+    }else{
+        _puTongTaskButton.selected = NO;
+        _puTongTaskButton.backgroundColor = DEFAULT_BGCOLOR;
+        _zhuanXiangTaskButton.selected = NO;
+        _zhuanXiangTaskButton.backgroundColor = DEFAULT_BGCOLOR;
+        
+        button.selected = YES;
+        button.backgroundColor = [UIColor grayColor];
+    }
+    
+    if (_puTongTaskButton.selected == YES) {
+        _tasktype = @"N";
+    }else if(_zhuanXiangTaskButton.selected == YES){
+        _tasktype = @"S";
+    }
+}
+
 // 年月日
 - (void)yearButtonClick:(UIButton *)button
 {
@@ -644,6 +759,20 @@
 // 添加负责人
 - (void)addResponsiblePersonButtonClick:(UIButton *)button
 {
+    [_selectedUserArray removeAllObjects];
+    if (_userArray.count == 0) {
+        
+    }else{
+        for (int i = 0;i< _userArray.count  ;i++    ) {
+            NSMutableDictionary * dic = _userArray[i];
+            
+            if ([[dic objectForKey:@"type"] isEqualToString:@"2"]) {
+   
+                [_userArray removeObject:dic];
+            }
+        }
+    }
+
     _addString = @"AddResponsiblePerson";
     [self makeAddPersonView];
     
@@ -652,6 +781,21 @@
 - (void)addAssistPeopleButtonClick:(UIButton *)button
 {
     _addString = @"AddAssistPeople";
+    [_selectedDefaultUserArray removeAllObjects];
+
+    if (_userArray.count == 0) {
+        
+    }else{
+        for (int i = 0;i< _userArray.count  ;i++    ) {
+            NSMutableDictionary * dic = _userArray[i];
+            
+            NSLog(@"---%@",[dic objectForKey:@"type"]);
+            if ([[dic objectForKey:@"type"] isEqualToString:@"3"]) {
+              
+                [_userArray removeObject:dic];
+            }
+        }
+    }
     
     [self makeAddPersonView];
     
@@ -663,15 +807,22 @@
     _addString = @"AddDefaultIndex";
     [_selectedDefaultIndexModelArray removeAllObjects];
     
-    _defaultIndexInfoView = [[UIView alloc] initWithFrame:CGRectMake(60*KWidth6scale, 120*KHeight6scale, Main_Screen_Width-120*KWidth6scale, KViewHeight-260*KHeight6scale)];
+    
+    
+    _defaultIndexInfoView = [[UIView alloc] initWithFrame:CGRectMake(60*KWidth6scale, 120*KHeight6scale, Main_Screen_Width-120*KWidth6scale, KViewHeight-280*KHeight6scale)];
     _defaultIndexInfoView.backgroundColor = [UIColor whiteColor];
     _defaultIndexInfoView.alpha = 1.0f;
+    _defaultIndexInfoView.layer.masksToBounds = YES;
+    _defaultIndexInfoView.layer.cornerRadius = 10;
+    _defaultIndexInfoView.backgroundColor = [UIColor whiteColor];
     
     [self.view addSubview:_defaultIndexInfoView];
-    UILabel * labelTitle = [[UILabel alloc] initWithFrame:CGRectMake(20*KWidth6scale, 0, CGRectGetWidth(_defaultIndexInfoView.frame), 30*KHeight6scale)];
-    labelTitle.text = @"相关指标";
+    UILabel * labelTitle = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(_defaultIndexInfoView.frame), 40*KHeight6scale)];
+    labelTitle.backgroundColor = RGBCOLOR(229, 234, 235);
+    labelTitle.text = @"  相关指标";
     
     [_defaultIndexInfoView addSubview:labelTitle];
+    
     UITableView * defaultIndexInfoTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(labelTitle.frame),CGRectGetWidth(_defaultIndexInfoView.frame),CGRectGetHeight(_defaultIndexInfoView.frame)-CGRectGetHeight(labelTitle.frame)) style:UITableViewStylePlain];
     
     defaultIndexInfoTableView.tag = 1;
@@ -691,30 +842,48 @@
     defaultIndexInfoTableView.dataSource = self;
     defaultIndexInfoTableView.delegate = self;
     
-    //    [defaultIndexInfoTableView registerClass:[AddActionSelectTableViewCell class] forCellReuseIdentifier:@"SelectCell"];
-    
     
 }
 - (void)makeAddPersonView
 {
     
-    _addPersonView = [[UIView alloc] initWithFrame:CGRectMake(60*KWidth6scale, 120*KHeight6scale, Main_Screen_Width-120*KWidth6scale, KViewHeight-260*KHeight6scale)];
+    _addPersonView = [[UIView alloc] initWithFrame:CGRectMake(60*KWidth6scale, 120*KHeight6scale, Main_Screen_Width-120*KWidth6scale, KViewHeight-280*KHeight6scale)];
+    _addPersonView.layer.masksToBounds = YES;
+    _addPersonView.layer.cornerRadius = 10;
     _addPersonView.backgroundColor = [UIColor whiteColor];
     _addPersonView.alpha = 1.0f;
     
     [self.view addSubview:_addPersonView];
-    
-    UILabel * labelTitle = [[UILabel alloc] initWithFrame:CGRectMake(20*KWidth6scale, 0, CGRectGetWidth(_addPersonView.frame), 30*KHeight6scale)];
+    UILabel * labelTitle = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(_addPersonView.frame), 40*KHeight6scale)];
+    labelTitle.backgroundColor = RGBCOLOR(229, 234, 235);
     if ([_addString isEqualToString:@"AddAssistPeople"]){
-        labelTitle.text = @"协助人";
         
-    }else{
-        labelTitle.text = @"负责人";
+        labelTitle.text = @"  协助人";
+        
+    }else {
+        
+        labelTitle.text = @"  负责人";
     }
+    _chooseZuZhiButton = [[UIButton alloc] init];
+    _chooseZuZhiButton.frame = CGRectMake(20*KWidth6scale, CGRectGetMaxY(labelTitle.frame)+5*KHeight6scale, CGRectGetWidth(labelTitle.frame)-40*KWidth6scale, CGRectGetHeight(labelTitle.frame)-10*KHeight6scale);
+    _chooseZuZhiButton.layer.borderWidth = 1;
+    _chooseZuZhiButton.layer.masksToBounds = YES;
+    _chooseZuZhiButton.layer.cornerRadius = 10;
+    _chooseZuZhiButton.layer.borderColor = [UIColor grayColor].CGColor;
+    [_chooseZuZhiButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     
+    _chooseZuZhiModel = _defaultD_resModelArray[0];
+    [_chooseZuZhiButton setTitle:_chooseZuZhiModel.d_res_clname forState:UIControlStateNormal];
+    
+    // 添加观察者（_chooseModel发生改变时）
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(chooseModelChange) name:@"chooseModelChange" object:nil];
+    [_addPersonView addSubview:_chooseZuZhiButton];
+    [_chooseZuZhiButton addTarget:self action:@selector(chooseZuZhiButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     [_addPersonView addSubview:labelTitle];
     
-    _defaultPersonTabelView = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(labelTitle.frame),CGRectGetWidth(_addPersonView.frame),CGRectGetHeight(_addPersonView.frame)-CGRectGetHeight(labelTitle.frame)) style:UITableViewStylePlain];
+    [_addPersonView addSubview:_chooseZuZhiButton];
+    
+    _defaultPersonTabelView = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_chooseZuZhiButton.frame),CGRectGetWidth(_addPersonView.frame),CGRectGetHeight(_addPersonView.frame)-CGRectGetHeight(labelTitle.frame)*2) style:UITableViewStylePlain];
     
     _defaultPersonTabelView.backgroundColor = [UIColor whiteColor];
     
@@ -737,10 +906,55 @@
     } completion:nil];
     
     
-    //      [_defaultPersonTabelView registerClass:[AddActionSelectTableViewCell class] forCellReuseIdentifier:@"SelectCell"];
     
 }
-// 相关指标的选择事件
+- (void)chooseZuZhiButtonClick:(UIButton *)button
+{
+    
+    [_tableview removeFromSuperview];
+    
+    // 每次点击组织button的时候都是默认不展开的
+    for (int i = 0; i < _defaultD_resModelArray.count; i++) {
+        DefaultD_resModel * d_resModel = [[DefaultD_resModel alloc] init];
+        d_resModel =_defaultD_resModelArray[i];
+        
+        if ([d_resModel.d_res_parentid isEqualToString:@"0"]) {
+            d_resModel.expand = YES;
+            
+        }else{
+            
+            d_resModel.expand = NO;
+            
+        }
+        
+        
+    }
+    _tableview = [[TreeTableView alloc] initWithFrame:CGRectMake(CGRectGetMinX(_chooseZuZhiButton.frame), CGRectGetMaxY(_chooseZuZhiButton.frame),CGRectGetWidth(_chooseZuZhiButton.frame),CGRectGetHeight(_addPersonView.frame)-CGRectGetMaxY(_chooseZuZhiButton.frame)-5*KHeight6scale) withData:_defaultD_resModelArray];
+    _tableview.treeTableCellDelegate = self;
+    _tableview.layer.cornerRadius = 10;
+    _tableview.backgroundColor = [UIColor whiteColor];
+    _tableview.layer.borderColor = [UIColor grayColor].CGColor;
+    _tableview.layer.borderWidth =1;
+    [_addPersonView addSubview:_tableview];
+    
+    
+}
+// chooseModel观察者方法
+- (void)chooseModelChange
+{
+    if (_tableview.model == NULL) {
+        _chooseZuZhiModel = _defaultD_resModelArray[0];
+    }else{
+        _chooseZuZhiModel =   _tableview.model;
+        
+    }
+    [_chooseZuZhiButton setTitle:_chooseZuZhiModel.d_res_clname forState:UIControlStateNormal];
+    [_tableview removeFromSuperview];
+    
+    [_defaultPersonTabelView reloadData];
+    
+}
+// 选择事件
 -(void)selectDefaultIndexInfoButtonClick:(UIButton *)button
 {
     
@@ -755,13 +969,14 @@
         }else if ([_addString isEqualToString:@"AddAssistPeople"]){
             button.selected = NO;
             [button setImage:[UIImage imageNamed:@"noSelected.png"] forState:UIControlStateNormal];
+            
             [self.selectedDefaultUserArray removeObject:_defaultUserArray[button.tag]];
             
         }else{
             button.selected = NO;
             
             [button setImage:[UIImage imageNamed:@"noSelected.png"] forState:UIControlStateNormal];
-            
+            [_butArray removeAllObjects];
             [self.selectedUserArray removeObject:_defaultUserArray[button.tag]];
         }
     }else{
@@ -773,7 +988,9 @@
             
         }else if ([_addString isEqualToString:@"AddAssistPeople"]){
             button.selected = YES;
+            
             [button setImage:[UIImage imageNamed:@"selected.png"] forState:UIControlStateNormal];
+            
             [self.selectedDefaultUserArray addObject:_defaultUserArray[button.tag]];
             
         }else{
@@ -793,9 +1010,10 @@
                     
                     
                     [_butArray[i] setImage:[UIImage imageNamed:@"noSelected.png"] forState:UIControlStateNormal];
+                    [_butArray[i] setSelected:NO];
+                    [_butArray removeObjectAtIndex:i];
                 }
                 
-                [self.selectedUserArray addObject:_defaultUserArray[button.tag]];
                 
             }
             
@@ -803,9 +1021,6 @@
         
         
     }
-    
-    
-    
     
 }
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
@@ -832,15 +1047,16 @@
             DefaultIndexInfoModel * model = [[DefaultIndexInfoModel alloc] init];
             if (_selectedDefaultIndexModelArray.count == 0) {
                 
-                [_addActionTableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath,nil] withRowAnimation:UITableViewRowAnimationNone];
-                
                 
             }else{
                 
                 
                 for (int i = 0; i <= _selectedDefaultIndexModelArray.count-1; i++ ){
-                    
+                    NSMutableDictionary * indexDict = [NSMutableDictionary dictionary];
                     model = _selectedDefaultIndexModelArray[i];
+                    [indexDict setValue:model.index_id forKey:@"id"];
+                    [indexDict setValue:model.index_root_id forKey:@"rootid"];
+                    [self.indexArray addObject:indexDict];
                     
                     UILabel * indexLabel = [[UILabel alloc] init];
                     
@@ -922,7 +1138,6 @@
             NSIndexPath *indexPath = [NSIndexPath indexPathForRow:2 inSection:0];
             
             AddActionTableViewCell * cell = [_addActionTableView cellForRowAtIndexPath:indexPath ];
-            NSLog(@"====cell---xiezhu---%@",cell);
             [cell.actionAddView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
             
             NSMutableDictionary * dict = [NSMutableDictionary dictionary];
@@ -931,11 +1146,15 @@
                 
             }else{
                 
-                
                 for (int i = 0; i <= _selectedDefaultUserArray.count-1; i++ ){
+                    NSMutableDictionary * userDict = [NSMutableDictionary dictionary];
                     
                     dict = _selectedDefaultUserArray[i];
                     
+                    [userDict setValue:dict[@"user_id"] forKey:@"id"];
+                    [userDict setValue:@"3" forKey:@"type"];
+                    
+                    [self.userArray addObject:userDict];
                     UILabel * indexLabel = [[UILabel alloc] init];
                     
                     
@@ -989,7 +1208,6 @@
                     
                     AddActionTableViewCell * celltwo = [_addActionTableView cellForRowAtIndexPath:xiaYigeIndexPathtwo];
                     
-                    NSLog(@"-=-=-=cell -----xiage--%@",celltwo);
                     CGRect rectcelltwo = celltwo.frame;
                     
                     rectcelltwo.origin.y = CGRectGetMaxY(cell.frame);
@@ -1037,7 +1255,10 @@
                 
                 
                 dict = _selectedUserArray[0];
-                
+                NSMutableDictionary * userFuZeDict = [NSMutableDictionary dictionary];
+                [userFuZeDict setObject:dict[@"user_id"] forKey:@"id"];
+                [userFuZeDict setObject:@"2" forKey:@"type"];
+                [self.userArray addObject:userFuZeDict];
                 UILabel * indexLabel = [[UILabel alloc] init];
                 
                 indexLabel.backgroundColor = DEFAULT_BGCOLOR;

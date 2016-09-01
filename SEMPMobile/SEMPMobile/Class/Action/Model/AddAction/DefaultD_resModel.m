@@ -9,8 +9,25 @@
 #import "DefaultD_resModel.h"
 
 @implementation DefaultD_resModel
+- (instancetype)initWithParentId : (NSString *)parentId nodeId : (NSString*)nodeId name : (NSString *)name  res_level : (int)res_level expand : (BOOL)expand user: (NSMutableArray *)user{
+    
+    self = [self init];
+    if (self) {
+        self.d_res_parentid = parentId;
+        self.d_res_id = nodeId;
+        self.d_res_clname = name;
+        self.expand = expand;
+        self.res_level = res_level;
+        self.user = user;
+    }
+    return self;
+}
 -(void)setValue:(id)value forUndefinedKey:(NSString *)key
 {
+//    if ([key isEqualToString:@"res_level"]) {
+//        
+//        self.depth = value;
+//    }
     
 }
 - (void)encodeWithCoder:(NSCoder *)aCoder{
@@ -36,16 +53,6 @@
         _d_res_clname = [aDecoder decodeObjectForKey:@"d_res_clname"];
         _user = [aDecoder decodeObjectForKey:@"user"];
 
-    }
-    return self;
-}
-- (instancetype)initWithParentId : (NSString*)parentId nodeId : (NSString*)nodeId name : (NSString *)name  expand : (BOOL)expand{
-    self = [self init];
-    if (self) {
-        self.d_res_parentid = parentId;
-        self.d_res_id = nodeId;
-        self.d_res_clname = name;
-//        self.expand = expand;
     }
     return self;
 }

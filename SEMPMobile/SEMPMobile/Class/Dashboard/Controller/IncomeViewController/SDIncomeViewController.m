@@ -208,7 +208,7 @@ static  BOOL Btnstatu = YES;
         } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
             //成功
             
-            
+            NSLog(@"----index--%@",responseObject);
             if (responseObject != nil) {
                 
                 NSMutableDictionary * dict = [NSMutableDictionary dictionary];
