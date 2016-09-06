@@ -13,4 +13,8 @@
 @property (nonatomic , strong) UIButton * selectButton;
 // 相关指标的title或者带选中的相关协助人和负责人
 @property (nonatomic , strong) UILabel * titleLabel;
+
+@property (nonatomic , strong)NSString * userID;
+
+@property (nonatomic , strong)NSString * indexID;
 @end

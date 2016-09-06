@@ -198,17 +198,16 @@ static  BOOL Btnstatu = YES;
         // 指标界面的接口
         NSString * urlStr = [NSString stringWithFormat:IncomeHttp,_IndexID,_Time];
         
-        NSLog(@"--------urlstr---%@",urlStr);
         
         AFHTTPSessionManager * manager = [AFHTTPSessionManager manager];
-//
+
         [manager GET:urlStr parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
             
             //这里可以用来显示下载进度
         } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
             //成功
             
-            NSLog(@"----index--%@",responseObject);
+//            NSLog(@"----index--%@",responseObject);
             if (responseObject != nil) {
                 
                 NSMutableDictionary * dict = [NSMutableDictionary dictionary];
@@ -248,6 +247,7 @@ static  BOOL Btnstatu = YES;
     });
     
 }
+// 画笔按钮
 - (void)buttonClick:(UIButton *)button
 {
     [_luyinImageView removeFromSuperview];
@@ -291,7 +291,7 @@ static  BOOL Btnstatu = YES;
     [self.wenBenView removeFromSuperview];
     
     
-    
+    NSLog(@"----%d",_zhuangtai);
     if (button.selected == self.zhuangtai) {
         
         _luyinImageView = [[UIImageView alloc] initWithFrame:CGRectMake(Main_Screen_Width/4.0  , KViewHeight  - 50, Main_Screen_Width/4.0, 50)];
@@ -300,7 +300,8 @@ static  BOOL Btnstatu = YES;
         _luyinButtontwo = [D3RecordButton buttonWithType:UIButtonTypeCustom];
         
         _luyinButtontwo.frame = CGRectMake(0, 0, Main_Screen_Width/8.0, CGRectGetHeight(_luyinImageView.frame)-10);
-        
+        _zhuangtai = YES;
+//        [_luyinButtontwo addTarget:self action:@selector(luyinButtontwoClick:) forControlEvents:UIControlEventTouchUpInside];
         [_luyinButtontwo setImage:[UIImage imageNamed:@"luyin.png"] forState:UIControlStateNormal];
         
         [_luyinImageView addSubview:_luyinButtontwo];
@@ -318,9 +319,8 @@ static  BOOL Btnstatu = YES;
         [_pofangButtontwo addTarget:self action:@selector(pofangButtontwoClick:) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:_luyinImageView];
         
-        _zhuangtai = YES;
-        
-        [_luyinButtontwo initRecord:self maxtime:60 title:@"按住录音"];
+        [_luyinButtontwo initRecord:self maxtime:120 title:@"按住录音"];
+
         
     }else{
         
@@ -334,15 +334,23 @@ static  BOOL Btnstatu = YES;
     
     
 }
+//- (void)luyinButtontwoClick:(UIButton *)button
+//{
+//
+//}
 - (void)pofangButtontwoClick:(UIButton *)button
 {
     play.volume = 1.0f;
+    NSLog(@"开始播放");
     [play play];
 }
 
 -(void)endRecord:(NSData *)voiceData{
     NSError *error;
-    play = [[AVAudioPlayer alloc]initWithData:voiceData error:&error];
+    NSLog(@"error=-----%@",error);
+    
+    play = [[AVAudioPlayer alloc] initWithData:voiceData error:&error];
+
     
 }
 

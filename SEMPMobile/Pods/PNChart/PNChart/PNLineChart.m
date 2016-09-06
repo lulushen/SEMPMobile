@@ -57,8 +57,9 @@
 
 
 #pragma mark instance methods
-
+// y labels
 - (void)setYLabels {
+    
     CGFloat yStep = (_yValueMax - _yValueMin) / _yLabelNum;
     CGFloat yStepHeight = _chartCavanHeight / _yLabelNum;
 
@@ -192,6 +193,7 @@
     NSString *labelText;
 
     if (_showLabel) {
+       
         for (int index = 0; index < xLabels.count; index++) {
             labelText = xLabels[index];
 

@@ -613,6 +613,7 @@
     ActionIncomeVC.titleString = model.task_title;
     ActionIncomeVC.task_stateString = model.task_state;
     ActionIncomeVC.loginUserString = model.loginUser;
+    ActionIncomeVC.creat_userString = model.create_user;
     [self.navigationController pushViewController:ActionIncomeVC animated:YES];
     
 }

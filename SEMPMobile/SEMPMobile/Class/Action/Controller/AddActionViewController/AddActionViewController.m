@@ -7,7 +7,6 @@
 //
 
 #import "AddActionViewController.h"
-#import "AddActionTableViewCell.h"
 #import "userModel.h"
 #import "DefaultIndexInfoModel.h"
 #import "AddActionSelectTableViewCell.h"
@@ -15,6 +14,7 @@
 #import "MBProgressHUD+MJ.h"
 #import "NSDate+Helper.h"
 #import "TreeTableView.h"
+#import "AddActionSubView.h"
 
 #define DIC_EXPANDED @"expanded" //是否是展开 0收缩 1展开
 
@@ -23,8 +23,8 @@
 #define DIC_TITILESTRING @"title"
 
 @interface AddActionViewController ()<UITableViewDelegate,UITableViewDataSource,TreeTableCellDelegate>
-// 新建任务界面tableView
-@property (nonatomic , strong) UITableView * addActionTableView;
+// 新建任务界面UIScrollView
+@property (nonatomic , strong) UIScrollView * addActionScrollView;
 // 添加相关指标界面
 @property (nonatomic , strong) UIView * defaultIndexInfoView;
 // 添加协助人，负责人界面
@@ -53,7 +53,7 @@
 // 参数任务标题信息
 @property (nonatomic , strong) UITextField * actionTitleField;
 // 参数截止日期年月日
-@property (nonatomic , strong) UIButton * yearButton;
+@property (nonatomic , strong) UIButton * dateButton;
 // 参数任务类型
 @property (nonatomic , strong) NSString * tasktype;
 // 参数优先级类型
@@ -77,6 +77,19 @@
 @property (nonatomic , strong)DefaultD_resModel * chooseZuZhiModel;
 // 组织树tableView
 @property (nonatomic , strong)TreeTableView *tableview;
+
+// 添加指标后指标cell的高
+@property (nonatomic , assign)CGFloat indexCellHeight;
+// 添加协助人之后协助人cell的高
+@property (nonatomic , assign)CGFloat  AssistPeopleCellHeight;
+
+
+@property (nonatomic , strong)AddActionSubView * firstView;
+@property (nonatomic , strong)AddActionSubView * fuzePeopleView;
+@property (nonatomic , strong)AddActionSubView * xieZhuPeopleView;
+@property (nonatomic , strong)AddActionSubView * indexView;
+@property (nonatomic , strong)AddActionSubView * taskDetailView;
+
 
 @end
 
@@ -165,7 +178,7 @@
     
     [self makeLeftButtonItme];
     [self makeRightButtonItme];
-    [self makeAddActionTableView];
+    [self makeAddActionScorllView];
     
     NSData * data = [[NSUserDefaults standardUserDefaults] objectForKey:@"userModel"];
     _userModel = [[userModel alloc] init];
@@ -205,24 +218,27 @@
     //   [self.navigationController.navigationBar addSubview:faBuButton];
 }
 
-- (void)makeAddActionTableView
+- (void)makeAddActionScorllView
 {
     
-    _addActionTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, KViewHeight) style:UITableViewStylePlain];
-    
-    _addActionTableView.backgroundColor = [UIColor  whiteColor];
-    _addActionTableView.tag = 0;
-    [self.view addSubview:_addActionTableView];
-    _addActionTableView.rowHeight = UITableViewAutomaticDimension;
-    // 去除分割线
-    _addActionTableView.separatorStyle = UITableViewCellSelectionStyleNone;
-    
-    _addActionTableView.dataSource = self;
-    _addActionTableView.delegate = self;
-    
-    [_addActionTableView registerClass:[AddActionTableViewCell class] forCellReuseIdentifier:@"ADDCELL"];
+    _addActionScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, KViewHeight)];
+    _addActionScrollView.backgroundColor = [UIColor  whiteColor];
+    [self.view addSubview:_addActionScrollView];
+    _addActionScrollView.userInteractionEnabled = YES;
+//    _addActionScrollView.contentSize = CGSizeMake(Main_Screen_Width, KHeight6scale*2);
+    //添加的第一个视图
+    [self makeIndexPathFirstView];
+    //负责人视图
+    [self makeFuZePeopleView];
+    //协助人视图
+    [self makeXieZhuPeopleView];
+    //相关指标视图
+    [self makeIndexView];
+    //任务详情视图
+    [self makeTaskDetailView];
     
 }
+
 // 相关指标数据
 - (void)makeDefaultIndexInfoData
 {
@@ -329,52 +345,61 @@
 // 发布按钮点击事件
 -(void)faBuButtonClick:(UIButton*)button
 {
-    NSString * priString = [NSString stringWithFormat:@"%ld",_priorityIntType];
-
-    NSLog(@"biaoti---%@",_actionTitleField.text);
-    NSLog(@"youxianji---%ld",_priorityIntType);
-    NSLog(@"---renwuxiangqing---%@",_actionXiangQingTextView.text);
-    NSLog(@"----date----%@",_yearButton.titleLabel.text);
-    NSLog(@"---indexArray--%@",_indexArray);
-    NSLog(@"---userArray---%@",_userArray);
-    NSLog(@"-----taskType--%@",_tasktype);
-            if (_actionTitleField.text.length > 16) {
     
-                [MBProgressHUD showError:@"任务标题不能超过16个字"];
-            }else if (_actionTitleField.text.length == 0){
     
-            [MBProgressHUD showError:@"任务标题不能为空"];
     
-        }else if (_yearButton.titleLabel.text.length == 0){
-            [MBProgressHUD showError:@"截止日期不能为空"];
-    
-        }else if(_userArray.count == 0){
-    
-            [MBProgressHUD showError:@"任务负责人不能为空"];
-    
-        }else if (_indexArray.count == 0){
-            [MBProgressHUD showError:@"任务相关指标不能为空"];
-    
-        }else if (_actionXiangQingTextView.text.length == 0){
-            [MBProgressHUD showError:@"任务详情不能为空"];
-    
-        }else{
-           
+    if (_actionTitleField.text.length > 16) {
         
-            NSMutableDictionary * requestDic = @{
-                                                 
-                                                 @"key":@"new",
-                                                 @"taskid":@"",
-                                                 @"dateline":_yearButton.titleLabel.text,
-                                                 @"tasktitle":_actionTitleField.text,
-                                                 @"priority":priString,
-                                                 @"tasktype":_tasktype,
-                                                 @"user":_userArray,
-                                                 @"index":_indexArray,
-                                                 @"taskinfo":_actionXiangQingTextView.text
-      
-                                                 }.mutableCopy;
+        [MBProgressHUD showError:@"任务标题不能超过16个字"];
+    }else if (_actionTitleField.text.length == 0){
+        
+        [MBProgressHUD showError:@"任务标题不能为空"];
+        
+    }else if (_dateButton.titleLabel.text.length == 0){
+        [MBProgressHUD showError:@"截止日期不能为空"];
+        
+    }else if(_userArray.count == 0){
+        
+        [MBProgressHUD showError:@"任务负责人不能为空"];
+        
+    }else if (_indexArray.count == 0){
+        [MBProgressHUD showError:@"任务相关指标不能为空"];
+        
+    }else if (_actionXiangQingTextView.text.length == 0){
+        [MBProgressHUD showError:@"任务详情不能为空"];
+        
+    }else{
+        
+        NSString *priorityIntType = [NSString stringWithFormat:@"%ld",_priorityIntType];
+        
+        NSData *userdata=[NSJSONSerialization dataWithJSONObject:_userArray options:NSJSONWritingPrettyPrinted error:nil];
+        NSString *userdataStr=[[NSString alloc]initWithData:userdata encoding:NSUTF8StringEncoding];
+        
+        NSData *indexData =[NSJSONSerialization dataWithJSONObject:_indexArray options:NSJSONWritingPrettyPrinted error:nil];
+        NSString *indexDataStr=[[NSString alloc]initWithData:indexData encoding:NSUTF8StringEncoding];
+        
+        
+        
+        
+        NSMutableDictionary * requestDic = @{
+                                             
+                                             @"key":@"new",
+                                             @"taskid":@"",
+                                             @"dateline":_dateButton.titleLabel.text,
+                                             @"tasktitle":_actionTitleField.text,
+                                             @"priority":priorityIntType,
+                                             @"tasktype":_tasktype,
+                                             @"user":  userdataStr,
+                                             @"index": indexDataStr,
+                                             @"taskinfo":_actionXiangQingTextView.text
+                                             
+                                             }.mutableCopy;
+        
+        
+        if (requestDic==nil) {
             
+            NSLog(@"请求参数为空");
+        }else{
             AFHTTPSessionManager * manager = [AFHTTPSessionManager manager];
             
             [manager POST:NewActionHttp parameters:requestDic progress:^(NSProgress * _Nonnull downloadProgress) {
@@ -382,7 +407,6 @@
                 //这里可以用来显示下载进度
             } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                 
-                NSLog(@"--newActionresponseObject---%@",responseObject);
                 if (responseObject != nil) {
                     
                     [MBProgressHUD showSuccess:@"发布成功"];
@@ -401,11 +425,12 @@
                 
             }];
             
-            
         }
+        
+        
+        
+    }
     
-    
-
 }
 - (void)BackView
 {
@@ -417,10 +442,7 @@
 #pragma ========tableView代理方法
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    if (tableView.tag == 0) {
-        return 1;
-        
-    }else if(tableView.tag == 1){
+   if(tableView.tag == 1){
         
         return 1;
         
@@ -431,10 +453,7 @@
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (tableView.tag == 0) {
-        return 5;
-        
-    }else if(tableView.tag == 1){
+    if(tableView.tag == 1){
         
         return _defaultIndexInfoModelArray.count;
         
@@ -450,60 +469,7 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (tableView.tag == 0) {
-        
-        AddActionTableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"ADDCELL" forIndexPath:indexPath];
-        
-        if (indexPath.row == 0) {
-            
-            cell.actionAddView.hidden = YES;
-            cell.addButton.hidden = YES;
-            cell.actionTitleLabel.text = @"截止日期";
-            cell.imageActionView.image  = [UIImage imageNamed:@"0.png"];
-            [self makeIndexPathFirstCell:cell indexPath:indexPath];
-            return cell;
-        }else if (indexPath.row == 1){
-            
-            cell.imageActionView.image  = [UIImage imageNamed:@"1.png"];
-            
-            cell.actionTitleLabel.text = @"负责人";
-            [cell.addButton addTarget:self action:@selector(addResponsiblePersonButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-            return cell;
-            
-        }else if (indexPath.row == 2){
-            cell.imageActionView.image  = [UIImage imageNamed:@"2.png"];
-            
-            cell.actionTitleLabel.text = @"协助人";
-            
-            [cell.addButton addTarget:self action:@selector(addAssistPeopleButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-            
-            return cell;
-            
-        }else if (indexPath.row == 3){
-            cell.imageActionView.image  = [UIImage imageNamed:@"3.png"];
-            
-            cell.actionTitleLabel.text = @"相关指标";
-            [cell.addButton addTarget:self action:@selector(addDefaultIndexInfoButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-            return cell;
-            
-        }else{
-            
-            cell.imageActionView.image  = [UIImage imageNamed:@"4.png"];
-            
-            cell.actionTitleLabel.text = @"任务详情";
-            cell.actionAddView.hidden = YES;
-            cell.addButton.hidden = YES;
-            _actionXiangQingTextView =[[UITextView alloc] initWithFrame:CGRectMake(30*KWidth6scale, 50*KWidth6scale, Main_Screen_Width-60*KWidth6scale, 100*KHeight6scale)] ;
-            _actionXiangQingTextView.layer.borderWidth = 1;
-            _actionXiangQingTextView.layer.masksToBounds = YES;
-            _actionXiangQingTextView.layer.borderColor = [UIColor grayColor].CGColor;
-            [cell.contentView addSubview:_actionXiangQingTextView];
-            return cell;
-            
-        }
-        
-        
-    }else if(tableView.tag == 1){
+        if(tableView.tag == 1){
         
         NSString *CellIdentifier = [NSString stringWithFormat:@"SelectCell%ld%ld", (long)[indexPath section], [indexPath row]];//以indexPath来唯一确定cell
         AddActionSelectTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier]; //列出可重用的cell
@@ -513,9 +479,31 @@
         DefaultIndexInfoModel * defaultIndexInfoModel = [[DefaultIndexInfoModel alloc] init];
         defaultIndexInfoModel = _defaultIndexInfoModelArray[indexPath.row];
         cell.titleLabel.text = defaultIndexInfoModel.title;
-        cell.selectButton .tag = indexPath.row;
+        cell.selectButton.tag = indexPath.row;
+            cell.indexID = defaultIndexInfoModel.indexId;
+            
         [cell.selectButton addTarget:self action:@selector(selectDefaultIndexInfoButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-        
+            
+            if (_selectedDefaultIndexModelArray.count == 0) {
+                
+            }else{
+                
+                for (int i = 0; i< _selectedDefaultIndexModelArray.count;i++) {
+                    
+                    DefaultIndexInfoModel * model = _selectedDefaultIndexModelArray[i];
+                    
+                    if ([cell.indexID isEqualToString:model.indexId]) {
+                      
+                        cell.selectButton.selected = YES;
+                        [cell.selectButton setImage:[UIImage imageNamed:@"selected.png"] forState:UIControlStateNormal];
+                        [self.butArray addObject:cell.selectButton];
+
+                    }
+                    
+                    
+                }
+                
+            }
         return cell;
         
     }else if(tableView.tag == 2){
@@ -552,10 +540,66 @@
             cell = [[AddActionSelectTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         }
         cell.titleLabel.text = [self.chooseZuZhiModel.user[indexPath.row] valueForKey:@"user_clname"];
-        
+        cell.userID = [self.chooseZuZhiModel.user[indexPath.row] valueForKey:@"user_id"];
         cell.selectButton.tag = count + indexPath.row;
-        
         [cell.selectButton addTarget:self action:@selector(selectDefaultIndexInfoButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+        //判断是否已经选择负责人
+        if ([_addString isEqualToString:@"AddAssistPeople"]) {
+            NSLog(@"----%@",_selectedUserArray);
+
+            if (_selectedUserArray.count == 0) {
+                
+            }else{
+                
+                if ([cell.userID isEqualToString:[_selectedUserArray[0] valueForKey:@"user_id"]]) {
+                    cell.selectButton.userInteractionEnabled = NO;
+                    cell.contentView.alpha = 0.5;
+                }
+                
+            }
+            for (int i = 0; i< _selectedDefaultUserArray.count;i++) {
+                
+                if ([cell.userID isEqualToString:[_selectedDefaultUserArray[i] valueForKey:@"user_id"]]) {
+                    cell.selectButton.selected = YES;
+                    [cell.selectButton setImage:[UIImage imageNamed:@"selected.png"] forState:UIControlStateNormal];
+                    
+                }
+                
+                
+            }
+            
+        }else{
+            NSLog(@"----%@",_selectedDefaultUserArray);
+
+            if (_selectedDefaultUserArray.count == 0) {
+                
+                
+                
+            }else{
+               
+                for (int i = 0; i< _selectedDefaultUserArray.count;i++) {
+                   
+                    if ([cell.userID isEqualToString:[_selectedDefaultUserArray[i] valueForKey:@"user_id"]]) {
+                        cell.selectButton.userInteractionEnabled = NO;
+                        cell.contentView.alpha = 0.5;
+                    }
+                    
+                }
+    
+            }
+            if ([cell.userID isEqualToString:[_selectedUserArray[0] valueForKey:@"user_id"]]) {
+
+                 cell.selectButton.selected = YES;
+                [cell.selectButton setImage:[UIImage imageNamed:@"selected.png"] forState:UIControlStateNormal];
+                 [self.butArray addObject:cell.selectButton];
+                NSLog(@"---select--%@",_selectedUserArray);
+            }
+
+        }
+        
+        
+      
+        
         
         return cell;
         
@@ -565,22 +609,10 @@
     }
     
 }
+
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (tableView.tag == 0) {
-        
-        if (indexPath.row == 0) {
-            
-            return 150*KHeight6scale;
-            
-        }else if (indexPath.row == 4){
-            
-            return 170*KHeight6scale;
-        }else{
-            
-            return (KViewHeight - 320*KHeight6scale)/3.0;
-        }
-    }else if (tableView.tag == 1){
+    if (tableView.tag == 1){
         
         return 30*KHeight6scale;
     }else{
@@ -590,34 +622,42 @@
     }
     
 }
-- (void)makeIndexPathFirstCell:(UITableViewCell *)cell indexPath:(NSIndexPath*)indexPath
+- (void)makeIndexPathFirstView
 {
-    
-    
-    _yearButton= [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    _yearButton.frame = CGRectMake(CGRectGetMidX(self.view.frame) + 20*KWidth6scale, 15*KHeight6scale, CGRectGetMidX(self.view.frame) - 80*KWidth6scale, 20*KWidth6scale);
-    _yearButton.backgroundColor = DEFAULT_BGCOLOR;
-    [cell addSubview:_yearButton];
-    [_yearButton addTarget:self action:@selector(yearButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-    UILabel * yearLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(cell.contentView.frame) - 60*KWidth6scale, CGRectGetMinY(_yearButton.frame), 40*KWidth6scale, CGRectGetHeight(_yearButton.frame))];
+    _firstView = [[AddActionSubView alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, 150*KHeight6scale)];
+    [_addActionScrollView addSubview:_firstView];
+    _firstView.actionAddView.hidden = YES;
+    _firstView.addButton.hidden = YES;
+    _firstView.actionTitleLabel.text = @"截止日期";
+    _firstView.imageActionView.image  = [UIImage imageNamed:@"0.png"];
+    _dateButton= [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    _dateButton.frame = CGRectMake(CGRectGetMidX(self.view.frame) + 20*KWidth6scale, 15*KHeight6scale, CGRectGetMidX(self.view.frame) - 80*KWidth6scale, 20*KWidth6scale);
+    _dateButton.backgroundColor = DEFAULT_BGCOLOR;
+    [_firstView addSubview:_dateButton];
+    [_dateButton addTarget:self action:@selector(dateButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+    UILabel * yearLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_dateButton.frame), CGRectGetMinY(_dateButton.frame), 40*KWidth6scale, CGRectGetHeight(_dateButton.frame))];
     yearLabel.text = @"日期";
     yearLabel.font = [UIFont systemFontOfSize:14.0f];
     yearLabel.textAlignment = NSTextAlignmentCenter;
-    [cell addSubview:yearLabel];
+    [_firstView addSubview:yearLabel];
     
     
     _actionTitleField = [[UITextField alloc] initWithFrame:CGRectMake(20*KWidth6scale, 50*KHeight6scale, Main_Screen_Width-40*KWidth6scale, 50*KHeight6scale)];
     _actionTitleField.layer.borderWidth = 1;
     _actionTitleField.layer.borderColor  = [UIColor grayColor].CGColor;
     _actionTitleField.textAlignment = NSTextAlignmentCenter ;
+    _actionTitleField.text = _actionTitleField.text;
     _actionTitleField.font = [UIFont systemFontOfSize:16.0f];
-    _actionTitleField.placeholder = @"点击编辑任务标题(限16个字)";
-    [cell addSubview:_actionTitleField];
+    if (_actionTitleField.text.length == 0) {
+        _actionTitleField.placeholder = @"点击编辑任务标题(限16个字)";
+        
+    }
+    [_firstView addSubview:_actionTitleField];
     
     UILabel * youXianJiLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMidX(_actionTitleField.frame), CGRectGetMaxY(_actionTitleField.frame)+15*KHeight6scale, 60*KWidth6scale, 25*KHeight6scale)];
     youXianJiLabel.text = @"优先级";
     youXianJiLabel.font = [UIFont systemFontOfSize:14.0f];
-    [cell addSubview:youXianJiLabel];
+    [_firstView addSubview:youXianJiLabel];
     
     
     _gaoButton= [[UIButton alloc] init];
@@ -660,8 +700,8 @@
     UILabel * actionLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(_actionTitleField.frame), CGRectGetMinY(youXianJiLabel.frame), CGRectGetWidth(youXianJiLabel.frame)-20*KWidth6scale, CGRectGetHeight(youXianJiLabel.frame))];
     actionLabel.text = @"任务";
     actionLabel.font = [UIFont systemFontOfSize:14.0f];
-
-    [cell addSubview:actionLabel];
+    
+    [_firstView addSubview:actionLabel];
     
     _puTongTaskButton = [[UIButton alloc] init];
     _puTongTaskButton.frame = CGRectMake(CGRectGetMaxX(actionLabel.frame), CGRectGetMinY(actionLabel.frame) , 40*KWidth6scale, CGRectGetHeight(actionLabel.frame));
@@ -679,15 +719,56 @@
     _zhuanXiangTaskButton.backgroundColor = DEFAULT_BGCOLOR;
     [_zhuanXiangTaskButton addTarget:self action:@selector(taskTypeClick:) forControlEvents:UIControlEventTouchUpInside];
     
-    [cell addSubview:_puTongTaskButton];
-    [cell addSubview:_zhuanXiangTaskButton];
+    [_firstView addSubview:_puTongTaskButton];
+    [_firstView addSubview:_zhuanXiangTaskButton];
     
-    [cell addSubview:_gaoButton];
+    [_firstView addSubview:_gaoButton];
     
-    [cell addSubview:_midButton];
+    [_firstView addSubview:_midButton];
     
-    [cell addSubview:_diButton];
+    [_firstView addSubview:_diButton];
     
+}
+- (void)makeFuZePeopleView
+{
+   _fuzePeopleView = [[AddActionSubView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_firstView.frame), Main_Screen_Width,80*KHeight6scale)];
+    [_addActionScrollView addSubview:_fuzePeopleView];
+    _fuzePeopleView.imageActionView.image  = [UIImage imageNamed:@"1.png"];
+    _fuzePeopleView.actionTitleLabel.text = @"负责人";
+    [_fuzePeopleView.addButton addTarget:self action:@selector(addResponsiblePersonClick:) forControlEvents:UIControlEventTouchUpInside];
+
+}
+- (void)makeXieZhuPeopleView
+{
+    _xieZhuPeopleView = [[AddActionSubView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_fuzePeopleView.frame), Main_Screen_Width,CGRectGetHeight(_fuzePeopleView.frame))];
+    [_addActionScrollView addSubview:_xieZhuPeopleView];
+    _xieZhuPeopleView.imageActionView.image  = [UIImage imageNamed:@"2.png"];
+    _xieZhuPeopleView.actionTitleLabel.text = @"协助人";
+    _xieZhuPeopleView.addButton.hidden = NO;
+   [_xieZhuPeopleView.addButton addTarget:self action:@selector(addAssistPeopleButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+}
+- (void)makeIndexView
+{
+    _indexView = [[AddActionSubView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_xieZhuPeopleView.frame), Main_Screen_Width,CGRectGetHeight(_xieZhuPeopleView.frame))];
+    [_addActionScrollView addSubview:_indexView];
+    _indexView.imageActionView.image  = [UIImage imageNamed:@"3.png"];
+     _indexView.actionTitleLabel.text = @"相关指标";
+     [_indexView.addButton addTarget:self action:@selector(addDefaultIndexInfoButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+}
+- (void)makeTaskDetailView
+{
+    _taskDetailView = [[AddActionSubView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_indexView.frame), Main_Screen_Width,200*KWidth6scale)];
+    [_addActionScrollView addSubview:_taskDetailView];
+    _taskDetailView.imageActionView.image  = [UIImage imageNamed:@"4.png"];
+
+                _taskDetailView.actionTitleLabel.text = @"任务详情";
+                _taskDetailView.actionAddView.hidden = YES;
+                _taskDetailView.addButton.hidden = YES;
+                _actionXiangQingTextView =[[UITextView alloc] initWithFrame:CGRectMake(30*KWidth6scale, 50*KWidth6scale, Main_Screen_Width-60*KWidth6scale, 100*KHeight6scale)] ;
+                _actionXiangQingTextView.layer.borderWidth = 1;
+                _actionXiangQingTextView.layer.masksToBounds = YES;
+                _actionXiangQingTextView.layer.borderColor = [UIColor grayColor].CGColor;
+                [_taskDetailView addSubview:_actionXiangQingTextView];
 }
 // 优先级选择
 - (void)youXianJiButtonClick:(UIButton *)button
@@ -738,7 +819,7 @@
 }
 
 // 年月日
-- (void)yearButtonClick:(UIButton *)button
+- (void)dateButtonClick:(UIButton *)button
 {
     UIDatePicker *picker = [[UIDatePicker alloc]init];
     picker.datePickerMode = UIDatePickerModeDate;
@@ -749,7 +830,7 @@
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
         NSDate *date = picker.date;
         NSString * dateString = [date stringWithFormat:@"yyyy-MM-dd"];
-        [_yearButton setTitle:dateString forState:UIControlStateNormal];
+        [_dateButton setTitle:dateString forState:UIControlStateNormal];
         
     }];
     [alertController.view addSubview:picker];
@@ -757,47 +838,56 @@
     [self presentViewController:alertController animated:YES completion:nil];
 }
 // 添加负责人
-- (void)addResponsiblePersonButtonClick:(UIButton *)button
+- (void)addResponsiblePersonClick:(UIButton *)button
 {
-    [_selectedUserArray removeAllObjects];
+    NSMutableArray * tempArray = [NSMutableArray arrayWithArray:_userArray];
+
     if (_userArray.count == 0) {
         
     }else{
-        for (int i = 0;i< _userArray.count  ;i++    ) {
+        for (int i = 0 ;i < _userArray.count ; i++) {
             NSMutableDictionary * dic = _userArray[i];
-            
+            NSLog(@"---dic--%@",dic);
             if ([[dic objectForKey:@"type"] isEqualToString:@"2"]) {
-   
-                [_userArray removeObject:dic];
+                
+                [tempArray removeObject:dic];
+                
             }
         }
+
     }
+    _userArray = [NSMutableArray arrayWithArray:tempArray];
 
     _addString = @"AddResponsiblePerson";
-    [self makeAddPersonView];
+    
+    [self makeAddDefalutPersonView];
     
 }
 // 添加协助人
 - (void)addAssistPeopleButtonClick:(UIButton *)button
 {
     _addString = @"AddAssistPeople";
-    [_selectedDefaultUserArray removeAllObjects];
+    // 用来交换的数组（要不然再删除的时候有bug）
+    NSMutableArray * tempArray = [NSMutableArray arrayWithArray:_userArray];
 
     if (_userArray.count == 0) {
         
     }else{
-        for (int i = 0;i< _userArray.count  ;i++    ) {
+
+        for (int i = 0 ;i < _userArray.count ; i++) {
             NSMutableDictionary * dic = _userArray[i];
-            
-            NSLog(@"---%@",[dic objectForKey:@"type"]);
+            NSLog(@"---dic--%@",dic);
             if ([[dic objectForKey:@"type"] isEqualToString:@"3"]) {
-              
-                [_userArray removeObject:dic];
+                
+                [tempArray removeObject:dic];
+                
             }
         }
+        
     }
-    
-    [self makeAddPersonView];
+    _userArray = [NSMutableArray arrayWithArray:tempArray];
+    NSLog(@"----%@",_userArray);
+    [self makeAddDefalutPersonView];
     
     
 }
@@ -805,9 +895,8 @@
 - (void)addDefaultIndexInfoButtonClick:(UIButton *)button
 {
     _addString = @"AddDefaultIndex";
-    [_selectedDefaultIndexModelArray removeAllObjects];
-    
-    
+
+    [_indexArray removeAllObjects];
     
     _defaultIndexInfoView = [[UIView alloc] initWithFrame:CGRectMake(60*KWidth6scale, 120*KHeight6scale, Main_Screen_Width-120*KWidth6scale, KViewHeight-280*KHeight6scale)];
     _defaultIndexInfoView.backgroundColor = [UIColor whiteColor];
@@ -831,9 +920,9 @@
     [_defaultIndexInfoView addSubview:defaultIndexInfoTableView];
     
     [UIView animateWithDuration:0.5 animations:^{
-        _addActionTableView.backgroundColor = [UIColor grayColor];
-        _addActionTableView.userInteractionEnabled = NO;
-        _addActionTableView.alpha = 0.5;
+        _addActionScrollView.backgroundColor = [UIColor grayColor];
+        _addActionScrollView.userInteractionEnabled = NO;
+        _addActionScrollView.alpha = 0.5;
         _defaultIndexInfoView.alpha = 1.0f;
         
     } completion:nil];
@@ -844,7 +933,7 @@
     
     
 }
-- (void)makeAddPersonView
+- (void)makeAddDefalutPersonView
 {
     
     _addPersonView = [[UIView alloc] initWithFrame:CGRectMake(60*KWidth6scale, 120*KHeight6scale, Main_Screen_Width-120*KWidth6scale, KViewHeight-280*KHeight6scale)];
@@ -898,9 +987,9 @@
     
     
     [UIView animateWithDuration:0.5 animations:^{
-        _addActionTableView.backgroundColor = [UIColor grayColor];
-        _addActionTableView.userInteractionEnabled = NO;
-        _addActionTableView.alpha = 0.5;
+        _addActionScrollView.backgroundColor = [UIColor grayColor];
+        _addActionScrollView.userInteractionEnabled = NO;
+        _addActionScrollView.alpha = 0.5f;
         _addPersonView.alpha = 1.0f;
         
     } completion:nil];
@@ -1002,7 +1091,7 @@
             [self.selectedUserArray addObject:_defaultUserArray[button.tag]];
             
             [self.butArray addObject:button];
-            
+            NSLog(@"---%@",_selectedUserArray);
             if (_selectedUserArray.count >= 1) {
                 
                 
@@ -1025,261 +1114,265 @@
 }
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
-    
+
+
     if ([_addString isEqualToString:@"AddDefaultIndex"]) {
-        
+
         [UIView animateWithDuration:0.5 animations:^{
-            
+
             _defaultIndexInfoView.userInteractionEnabled = NO;
-            _addActionTableView.userInteractionEnabled = YES;
-            _addActionTableView.backgroundColor = [UIColor whiteColor];
-            _addActionTableView.alpha = 1;
+            _addActionScrollView.userInteractionEnabled = YES;
+            _addActionScrollView.backgroundColor = [UIColor whiteColor];
+            _addActionScrollView.alpha = 1;
             _defaultIndexInfoView.alpha = 0;
-            
+
         } completion:^(BOOL finished) {
-            
-            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:3 inSection:0];
-            
-            AddActionTableViewCell * cell = [_addActionTableView cellForRowAtIndexPath:indexPath ];
-            
-            [cell.actionAddView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-            
+
+
+            [_indexView.actionAddView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+
             DefaultIndexInfoModel * model = [[DefaultIndexInfoModel alloc] init];
             if (_selectedDefaultIndexModelArray.count == 0) {
-                
-                
+
+                _indexView.frame =  CGRectMake(0, CGRectGetMaxY(_xieZhuPeopleView.frame), Main_Screen_Width,80*KHeight6scale);
+                // 更新contentSize
+                _addActionScrollView.contentSize = CGSizeMake(Main_Screen_Width, CGRectGetMaxY(_taskDetailView.frame)); //至关重要
             }else{
-                
-                
+
                 for (int i = 0; i <= _selectedDefaultIndexModelArray.count-1; i++ ){
                     NSMutableDictionary * indexDict = [NSMutableDictionary dictionary];
                     model = _selectedDefaultIndexModelArray[i];
                     [indexDict setValue:model.index_id forKey:@"id"];
                     [indexDict setValue:model.index_root_id forKey:@"rootid"];
                     [self.indexArray addObject:indexDict];
-                    
+
                     UILabel * indexLabel = [[UILabel alloc] init];
-                    
+
                     static UILabel *recordLab = nil;
-                    
+
                     indexLabel.backgroundColor = DEFAULT_BGCOLOR;
                     indexLabel.layer.masksToBounds = YES;
                     indexLabel.layer.cornerRadius = 5;
                     indexLabel.textAlignment = NSTextAlignmentCenter;
-                    
+
                     NSString * indexString =[NSString stringWithFormat:@"%@",model.title] ;
                     indexLabel.text = indexString;
                     indexLabel.font = [UIFont systemFontOfSize:14.0f];
-                    CGRect rect = [indexString boundingRectWithSize:CGSizeMake(CGRectGetWidth(cell.actionAddView.frame)-20, 30) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:indexLabel.font} context:nil];
-                    
+                    CGRect rect = [indexString boundingRectWithSize:CGSizeMake(CGRectGetWidth(_indexView.actionAddView.frame)-20, 30) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:indexLabel.font} context:nil];
+
                     if (i == 0) {
-                        
+
                         indexLabel.frame = CGRectMake(0, 0, rect.size.width+5*KWidth6scale, rect.size.height+5*KHeight6scale);
-                        
+
                     }else{
-                        
-                        
-                        CGFloat yuWidth = CGRectGetWidth(cell.actionAddView.frame) -recordLab.frame.origin.x -recordLab.frame.size.width - 50*KWidth6scale;
-                        
+
+
+                        CGFloat yuWidth = CGRectGetWidth(_indexView.actionAddView.frame) -recordLab.frame.origin.x -recordLab.frame.size.width - 50*KWidth6scale;
+
                         if (yuWidth >= rect.size.width) {
-                            
+
                             indexLabel.frame =CGRectMake(recordLab.frame.origin.x +recordLab.frame.size.width + 10*KWidth6scale, recordLab.frame.origin.y, rect.size.width + 5*KWidth6scale, rect.size.height +5*KHeight6scale);
-                            
+
                         }else{
-                            
+
                             indexLabel.frame =CGRectMake(0, recordLab.frame.origin.y+recordLab.frame.size.height+10, rect.size.width + 5*KWidth6scale, rect.size.height + 5*KHeight6scale);
                         }
-                        
+
                     }
                     recordLab = indexLabel;
-                    
-                    CGRect rectCellActionAddView = cell.actionAddView.frame;
-                    
+
+                    CGRect rectCellActionAddView = _indexView.actionAddView.frame;
+
                     rectCellActionAddView.size.height = CGRectGetMaxY(indexLabel.frame);
+
+                    _indexView.actionAddView.frame = rectCellActionAddView;
                     
-                    cell.actionAddView.frame = rectCellActionAddView;
-                    CGRect rectcell = cell.frame;
-                    
+                    CGRect rectcell = _indexView.frame;
+
                     rectcell.size.height = CGRectGetMaxY(indexLabel.frame)+(KViewHeight - 320*KHeight6scale)/3.0 - 20*KHeight6scale;
-                    
-                    cell.frame = rectcell;
-                    
-                    [cell.actionAddView  addSubview:indexLabel];
-                    
-                    NSIndexPath *xiaYigeIndexPathtwo = [NSIndexPath indexPathForRow:4 inSection:0];
-                    
-                    AddActionTableViewCell * celltwo = [_addActionTableView cellForRowAtIndexPath:xiaYigeIndexPathtwo];
-                    CGRect rectcelltwo = celltwo.frame;
-                    
-                    rectcelltwo.origin.y = CGRectGetMaxY(cell.frame);
-                    
-                    celltwo.frame = rectcelltwo;
-#warning ==============获取标签字典，数组，
-                    
-                    
+                    _indexCellHeight = rectcell.size.height;
+
+                    _indexView.frame = rectcell;
+
+                    [_indexView.actionAddView  addSubview:indexLabel];
+
+
+                    CGRect rectcelltwo = _taskDetailView.frame;
+
+                    rectcelltwo.origin.y = CGRectGetMaxY(_indexView.frame);
+
+                    _taskDetailView.frame = rectcelltwo;
+                    // 更新contentSize
+                    _addActionScrollView.contentSize = CGSizeMake(Main_Screen_Width, CGRectGetMaxY(_taskDetailView.frame)); //至关重要
+
                 }
-                
+
             }
-            
+
         }];
-        
+
+
     }else if ([_addString isEqualToString:@"AddAssistPeople"]){
-        
+
         [UIView animateWithDuration:0.5 animations:^{
-            
+
             _addPersonView.userInteractionEnabled = NO;
-            _addActionTableView.userInteractionEnabled = YES;
-            _addActionTableView.backgroundColor = [UIColor whiteColor];
-            _addActionTableView.alpha = 1;
+            _addActionScrollView.userInteractionEnabled = YES;
+            _addActionScrollView.backgroundColor = [UIColor whiteColor];
+            _addActionScrollView.alpha = 1;
             _addPersonView.alpha = 0;
-            
+
         } completion:^(BOOL finished) {
-            
-            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:2 inSection:0];
-            
-            AddActionTableViewCell * cell = [_addActionTableView cellForRowAtIndexPath:indexPath ];
-            [cell.actionAddView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-            
+
+
+            [_xieZhuPeopleView.actionAddView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+
             NSMutableDictionary * dict = [NSMutableDictionary dictionary];
+            
             if (_selectedDefaultUserArray.count == 0) {
-                
-                
+
+               _xieZhuPeopleView.frame =  CGRectMake(0, CGRectGetMaxY(_fuzePeopleView.frame), Main_Screen_Width,80*KHeight6scale);
+                // 更新contentSize
+                _addActionScrollView.contentSize = CGSizeMake(Main_Screen_Width, CGRectGetMaxY(_taskDetailView.frame)); //至关重要
             }else{
+                
                 
                 for (int i = 0; i <= _selectedDefaultUserArray.count-1; i++ ){
                     NSMutableDictionary * userDict = [NSMutableDictionary dictionary];
-                    
+
                     dict = _selectedDefaultUserArray[i];
-                    
+
                     [userDict setValue:dict[@"user_id"] forKey:@"id"];
                     [userDict setValue:@"3" forKey:@"type"];
-                    
+
                     [self.userArray addObject:userDict];
+                    
                     UILabel * indexLabel = [[UILabel alloc] init];
-                    
-                    
+
+
                     static UILabel *recordLab = nil;
-                    
+
                     indexLabel.backgroundColor = DEFAULT_BGCOLOR;
                     indexLabel.layer.masksToBounds = YES;
                     indexLabel.layer.cornerRadius = 5;
                     indexLabel.textAlignment = NSTextAlignmentCenter;
-                    
+
                     NSString * userNameString =[NSString stringWithFormat:@"%@",dict[@"user_clname"]] ;
-                    
+
                     indexLabel.text = userNameString;
                     indexLabel.font = [UIFont systemFontOfSize:14.0f];
-                    CGRect rect = [userNameString boundingRectWithSize:CGSizeMake(CGRectGetWidth(cell.actionAddView.frame)-20, 30) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:indexLabel.font} context:nil];
-                    
+                    CGRect rect = [userNameString boundingRectWithSize:CGSizeMake(CGRectGetWidth(_xieZhuPeopleView.actionAddView.frame)-20, 30) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:indexLabel.font} context:nil];
+
                     if (i == 0) {
-                        
+
                         indexLabel.frame = CGRectMake(0, 0, rect.size.width+5*KWidth6scale, rect.size.height+5*KHeight6scale);
-                        
+
                     }else{
-                        
-                        CGFloat yuWidth = CGRectGetWidth(cell.actionAddView.frame) -recordLab.frame.origin.x -recordLab.frame.size.width - 30*KWidth6scale;
-                        
+
+                        CGFloat yuWidth = CGRectGetWidth(_xieZhuPeopleView.actionAddView.frame) -recordLab.frame.origin.x -recordLab.frame.size.width - 30*KWidth6scale;
+
                         if (yuWidth >= rect.size.width) {
-                            
+
                             indexLabel.frame =CGRectMake(recordLab.frame.origin.x +recordLab.frame.size.width + 10*KWidth6scale, recordLab.frame.origin.y, rect.size.width + 5*KWidth6scale, rect.size.height +5*KHeight6scale);
-                            
+
                         }else{
-                            
+
                             indexLabel.frame =CGRectMake(0, recordLab.frame.origin.y+recordLab.frame.size.height+10, rect.size.width + 5*KWidth6scale, rect.size.height + 5*KHeight6scale);
                         }
-                        
+
                     }
                     recordLab = indexLabel;
-                    
-                    CGRect rectCellActionAddView = cell.actionAddView.frame;
-                    
+
+                    CGRect rectCellActionAddView = _xieZhuPeopleView.actionAddView.frame;
+
                     rectCellActionAddView.size.height = CGRectGetMaxY(indexLabel.frame);
+
+                    _xieZhuPeopleView.actionAddView.frame = rectCellActionAddView;
+
+                    [_xieZhuPeopleView.actionAddView  addSubview:indexLabel];
+
+                    CGRect rectXieZhuRen = _xieZhuPeopleView.frame;
+
+                    rectXieZhuRen.size.height = CGRectGetMaxY(indexLabel.frame)+(KViewHeight - 320*KHeight6scale)/3.0 - 20*KHeight6scale;
+
+                    _AssistPeopleCellHeight = rectXieZhuRen.size.height;
+                    _xieZhuPeopleView.frame = rectXieZhuRen;
+
+                    CGRect recttwo = _indexView.frame;
+
+                    recttwo.origin.y = CGRectGetMaxY(_xieZhuPeopleView.frame);
+
+                    _indexView.frame = recttwo;
+
+                   
+                    CGRect rectthree = _taskDetailView.frame;
+
+                    rectthree.origin.y = CGRectGetMaxY(_indexView.frame);
+
+                    _taskDetailView.frame = rectthree;
                     
-                    cell.actionAddView.frame = rectCellActionAddView;
-                    CGRect rectcell = cell.frame;
-                    
-                    rectcell.size.height = CGRectGetMaxY(indexLabel.frame)+(KViewHeight - 320*KHeight6scale)/3.0 - 20*KHeight6scale;
-                    
-                    cell.frame = rectcell;
-                    
-                    [cell.actionAddView  addSubview:indexLabel];
-                    
-                    NSIndexPath *xiaYigeIndexPathtwo = [NSIndexPath indexPathForRow:3 inSection:0];
-                    
-                    AddActionTableViewCell * celltwo = [_addActionTableView cellForRowAtIndexPath:xiaYigeIndexPathtwo];
-                    
-                    CGRect rectcelltwo = celltwo.frame;
-                    
-                    rectcelltwo.origin.y = CGRectGetMaxY(cell.frame);
-                    
-                    celltwo.frame = rectcelltwo;
-                    
-                    NSIndexPath *xiaYigeIndexPaththree = [NSIndexPath indexPathForRow:4 inSection:0];
-                    
-                    AddActionTableViewCell * cellthree = [_addActionTableView cellForRowAtIndexPath:xiaYigeIndexPaththree];
-                    CGRect rectcellthree = cellthree.frame;
-                    
-                    rectcellthree.origin.y = CGRectGetMaxY(celltwo.frame);
-                    
-                    cellthree.frame = rectcellthree;
-                    
+                    // 更新contentSize
+                    _addActionScrollView.contentSize = CGSizeMake(Main_Screen_Width, CGRectGetMaxY(_taskDetailView.frame)); //至关重要
+
+
                 }
-                
+
             }
-            
+
         }];
+
+
     }else if ([_addString isEqualToString:@"AddResponsiblePerson"]){
         // 删除所有button
         [_butArray removeAllObjects];
         [UIView animateWithDuration:0.5 animations:^{
-            
+
             _addPersonView.userInteractionEnabled = NO;
-            _addActionTableView.userInteractionEnabled = YES;
-            _addActionTableView.backgroundColor = [UIColor whiteColor];
-            _addActionTableView.alpha = 1;
+            _addActionScrollView.userInteractionEnabled = YES;
+            _addActionScrollView.backgroundColor = [UIColor whiteColor];
+            _addActionScrollView.alpha = 1;
             _addPersonView.alpha = 0;
-            
+
         } completion:^(BOOL finished) {
-            
-            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:1 inSection:0];
-            
-            AddActionTableViewCell * cell = [_addActionTableView cellForRowAtIndexPath:indexPath ];
-            
-            [cell.actionAddView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-            
+
+            [_fuzePeopleView.actionAddView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+
             NSMutableDictionary * dict = [NSMutableDictionary dictionary];
             if (_selectedUserArray.count == 0) {
-                
-                
+
+
             }else{
-                
-                
+
+
                 dict = _selectedUserArray[0];
                 NSMutableDictionary * userFuZeDict = [NSMutableDictionary dictionary];
                 [userFuZeDict setObject:dict[@"user_id"] forKey:@"id"];
                 [userFuZeDict setObject:@"2" forKey:@"type"];
                 [self.userArray addObject:userFuZeDict];
                 UILabel * indexLabel = [[UILabel alloc] init];
-                
+
                 indexLabel.backgroundColor = DEFAULT_BGCOLOR;
                 indexLabel.layer.masksToBounds = YES;
                 indexLabel.layer.cornerRadius = 5;
                 indexLabel.textAlignment = NSTextAlignmentCenter;
-                
+
                 NSString * userNameString =[NSString stringWithFormat:@"%@",dict[@"user_clname"]] ;
-                
+
                 indexLabel.text = userNameString;
                 indexLabel.font = [UIFont systemFontOfSize:14.0f];
-                
-                CGRect rect = [userNameString boundingRectWithSize:CGSizeMake(CGRectGetWidth(cell.actionAddView.frame)-20, 30) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:indexLabel.font} context:nil];
+
+                CGRect rect = [userNameString boundingRectWithSize:CGSizeMake(CGRectGetWidth(_fuzePeopleView.actionAddView.frame)-20, 30) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:indexLabel.font} context:nil];
                 indexLabel.frame = CGRectMake(0, 0, rect.size.width+5*KWidth6scale, rect.size.height+5*KHeight6scale);
-                [cell.actionAddView  addSubview:indexLabel];
                 
+                [_fuzePeopleView.actionAddView  addSubview:indexLabel];
+
             }
             
         }];
         
     }
+    
+
     
 }
 

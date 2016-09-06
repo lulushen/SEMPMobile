@@ -16,8 +16,6 @@
 
 @property (nonatomic,copy) NSString * unit;
 
-@property (nonatomic,copy) NSString * midval;
-
 @property (nonatomic,copy) NSString * bgcolor;
 
 @property (nonatomic,copy) NSString * color;
@@ -28,28 +26,29 @@
 
 @property (nonatomic,copy) NSString * chart_type;
 
-@property (nonatomic,copy) NSString * bottomtitle;
-
-@property (nonatomic,copy) NSString * bottomval;
-
-@property (nonatomic,copy) NSString * bottomunit;
-
 @property (nonatomic,copy) NSData * data;
-
-@property (nonatomic,copy) NSString * threshold_flag;
-
-@property (nonatomic,copy) NSString * analysis_dimension;
 
 @property (nonatomic,assign) NSInteger  chart_end_time;
 
 @property (nonatomic,assign) NSInteger  chart_range;
 
-@property (nonatomic,copy) NSString * chart_top_title;
-
 @property (nonatomic,copy) NSString * defaulttype;
+
+@property (nonatomic,copy) NSString * defaultval;
+
+@property (nonatomic,copy) NSString * defaultname;
+
+@property (nonatomic , copy)NSString *contrastval;
 
 @property (nonatomic , copy)NSString *contrasttype;
 
-@property (nonatomic,copy)NSString * dim_val;
+@property (nonatomic , copy)NSString *contrastname;
+
+@property (nonatomic , copy)NSString * defaultunit;
+
+@property (nonatomic , copy)NSString * contrastunit;
+
+@property (nonatomic , copy)NSString * analysis_dimension;
+
 
 @end

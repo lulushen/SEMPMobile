@@ -97,6 +97,8 @@
     self.passWordTextField.text = @"111111";
     // 1.设置请求路径
     NSString * urlStr = [NSString stringWithFormat:LoginHttp];
+   
+    NSLog(@"=-----%@",LoginHttp);
     AFHTTPSessionManager * manager = [AFHTTPSessionManager manager];
     
     NSDictionary *parameters = @{@"loginname":self.userTextField.text,@"password":self.passWordTextField.text};

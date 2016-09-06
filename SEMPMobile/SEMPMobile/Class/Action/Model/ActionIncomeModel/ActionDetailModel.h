@@ -11,12 +11,15 @@
 @interface ActionDetailModel : NSObject
 @property (nonatomic , copy) NSString *  createtime;
 @property (nonatomic , copy) NSMutableArray * deatil;
-@property (nonatomic , copy) NSString * responsiblePerson;
+@property (nonatomic , copy) NSMutableArray * responsiblePerson;
 @property (nonatomic , copy) NSMutableArray * index;
+@property (nonatomic , copy) NSString * tasktype;
 @property (nonatomic , copy) NSString * createuser;
 @property (nonatomic , copy) NSString * taskinfo;
 @property (nonatomic , copy) NSMutableArray * assistPeople;
 @property (nonatomic , copy) NSString * priority;
+@property (nonatomic , copy) NSMutableArray * createPerson;
+
 @property (nonatomic , copy) NSString * deadtime;
 
 @end

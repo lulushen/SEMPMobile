@@ -260,9 +260,47 @@
     [self.headerImageButton setBackgroundImage:image forState:UIControlStateNormal];
     
 //    [self saveImage:image withName:@"currentImage.png"];
+    //照片上传
+
+    [self upDateHeadIcon:image];
 }
-
-
+//照片上传
+- (void)upDateHeadIcon:(UIImage *)photo
+{
+    //两种方式上传头像
+       /*方式二：使用Base64字符串传图片*/
+    NSData *data =UIImageJPEGRepresentation(photo,1.0);
+    
+    NSString *pictureDataString=[data base64Encoding];
+    NSLog(@"pictureDataString--%@",pictureDataString);
+    
+    NSDictionary * dic  =@{@"verbId":@"modifyUserInfo",@"deviceType":@"ios",@"userId":@"",@"photo":pictureDataString,@"mobileTel":@""};
+   
+    AFHTTPSessionManager * manager = [AFHTTPSessionManager manager];
+    
+    [manager POST:@"" parameters:dic progress:^(NSProgress * _Nonnull downloadProgress) {
+        
+        //这里可以用来显示下载进度
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        if (responseObject != nil) {
+            
+            
+            [MBProgressHUD showSuccess:@"已经审核，确认完成"];
+            
+//            [self performSelector:@selector(BackView) withObject:self afterDelay:1.0f];
+            
+            
+        }
+        
+        
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        //失败
+        NSLog(@"failure  error ： %@",error);
+        
+    }];
+}
 #pragma mark - 保存图片至本地沙盒
 
 //- (void)saveImage:(UIImage *)currentImage withName:(NSString *)imageName

@@ -15,6 +15,7 @@
 @property (nonatomic , strong) NSString * task_stateString;
 //loginUser
 @property (nonatomic , strong) NSString * loginUserString;
+@property (nonatomic , strong) NSString * creat_userString;
 
 @property (nonatomic , strong) NSString * titleString;
 @end
