@@ -65,7 +65,11 @@
 
 @property (nonatomic, strong) NSString *xUnit;
 @property (nonatomic, strong) NSString *yUnit;
+//新添加的单位颜色
+@property (nonatomic, strong) UIColor *xUnitColor;
+@property (nonatomic, strong) UIColor *yUnitColor;
 
+@property (nonatomic, assign) CGAffineTransform xLabelTransform;
 /**
  * String formatter for float values in y-axis labels. If not set, defaults to @"%1.f"
  */
@@ -75,7 +79,6 @@
  * Block formatter for custom string in y-axis labels. If not set, defaults to yLabelFormat
  */
 @property (nonatomic, copy) NSString* (^yLabelBlockFormatter)(CGFloat);
-
 
 /**
  * Controls whether to curve the line chart or not

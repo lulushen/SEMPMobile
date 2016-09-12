@@ -27,4 +27,6 @@
 //被点击的指标id
 @property (nonatomic , strong) NSString * IndexID;
 
+@property (nonatomic , strong) NSMutableArray * pieColorArray;
+
 @end

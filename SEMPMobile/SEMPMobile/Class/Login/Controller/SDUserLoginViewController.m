@@ -120,10 +120,24 @@
             
             if (status == 1) {
                 
-                NSMutableDictionary * dic = [NSMutableDictionary dictionary];
+//                NSMutableDictionary * dic = [NSMutableDictionary dictionary];
+//                
+//                [dic setObject:_userTextField.text forKey:@"userName"];
+//                [dic setObject:_passWordTextField.text forKey:@"passWord"];
                 
-                [dic setObject:_userTextField.text forKey:@"userName"];
-                [dic setObject:_passWordTextField.text forKey:@"passWord"];
+                if ([[NSUserDefaults standardUserDefaults] objectForKey:@"userModel"] != nil) {
+                    
+                    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"userModel"];
+                    
+                }
+                
+                NSData * userModelData = [NSData data];
+                // 用户model归档
+                userModelData = [NSKeyedArchiver archivedDataWithRootObject:model];
+                
+                [[NSUserDefaults standardUserDefaults] setObject:userModelData forKey:@"userModel"];
+                
+                [[NSUserDefaults standardUserDefaults] synchronize];
                 
                 //[[NSUserDefaults standardUserDefaults] setObject:dic forKey:@"userLogin"];
                 [MBProgressHUD showSuccess:model.message];
@@ -155,18 +169,6 @@
 }
 - (void)GoToMainView
 {
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"userModel"] != nil) {
-        
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"userModel"];
-        
-    }
-    
-    NSData * userModelData = [NSData data];
-    // 用户model归档
-    userModelData = [NSKeyedArchiver archivedDataWithRootObject:model];
-    
-    [[NSUserDefaults standardUserDefaults] setObject:userModelData forKey:@"userModel"];
-    
     TabBarControllerConfig *tabBarConfig = [[TabBarControllerConfig alloc]init];
     
     [self presentViewController:tabBarConfig.tabBarController animated:YES completion:nil];

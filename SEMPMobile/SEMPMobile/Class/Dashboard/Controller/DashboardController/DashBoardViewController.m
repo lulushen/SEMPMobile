@@ -62,6 +62,8 @@
 @property (nonatomic , strong) NSString * Time;
 @property (nonatomic , strong) NSString * token;
 
+@property (nonatomic , strong) NSMutableArray * pieColorArray;
+
 @end
 
 @implementation DashBoardViewController
@@ -79,8 +81,10 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-
+    _pieColorArray = [NSMutableArray array];
+    for (int i = 0; i < 10; i++) {
+        [_pieColorArray addObject:PNArc4randomColor];
+    }
     // 获得持久化的用户model
     NSData * data = [[NSUserDefaults standardUserDefaults] objectForKey:@"userModel"];
     
@@ -91,14 +95,14 @@
     NSMutableDictionary * dict = model.resdata;
     
     _Time = [NSString stringWithFormat:@"%@",dict[@"defaulttime"]];
-        
-   _topView = [[DashCollectionReusableView alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, 30*KHeight6scale)];
+    
+    _topView = [[DashCollectionReusableView alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, 30*KHeight6scale)];
     
     
     [_topView.moreButton addTarget:self action:@selector(moreButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     
     [self.view addSubview:_topView];
-
+    
     // 解析dashBoardHttp数据
     [self makeDate:_Time];
     // 添加观察者 观察日期变化
@@ -107,7 +111,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ADDDashLabelArrayChange) name:@"ADDDashLabelArrayChange" object:nil];
     
     [self  makeNavigation];
-
+    
     // Do any additional setup after loading the view.
 }
 
@@ -247,7 +251,7 @@ static  BOOL Btnstatu = YES;
     [_dataSearchView removeFromSuperview];
     
     NSString * date = [[NSUserDefaults standardUserDefaults] objectForKey:@"DateChange"];
-
+    
     _dataView.dateLabel.text = date;
     
     _dataSearchView.defaultDateString = _dataView.dateLabel.text;
@@ -256,14 +260,14 @@ static  BOOL Btnstatu = YES;
     _Time = [_Time stringByReplacingOccurrencesOfString:@"月" withString:@""];
     
     _Time = [_Time stringByReplacingOccurrencesOfString:@"日" withString:@""];
-//    _Time = _dataSearchView.timeString;
+    //    _Time = _dataSearchView.timeString;
     NSLog(@"---=================================---%@",_Time);
 #warning 刷新 ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
-
+    
     // 刷新数据
     [self makeDate:_Time];
     
-
+    
     
 }
 
@@ -286,7 +290,7 @@ static  BOOL Btnstatu = YES;
 - (void)makeDate:(NSString *)time
 {
     _DashModelArray = [NSMutableArray array];
-
+    
     //1.获取一个全局串行队列
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     //2.把任务添加到队列中执行
@@ -316,7 +320,7 @@ static  BOOL Btnstatu = YES;
                 
                 NSMutableArray * array = [NSMutableArray array];
                 
-                array = responseObject[@"resdata"];
+                array = [responseObject[@"resdata"] mutableCopy];
                 
                 // 如果array不为空
                 if (array.count != 0) {
@@ -330,7 +334,6 @@ static  BOOL Btnstatu = YES;
                         
                         [_DashModelArray addObject:m];
                     }
-                    NSLog(@"---%@",_DashModelArray);
                     // 指标重新排序
                     [self  makeNewDashModelArray];
                     
@@ -432,7 +435,7 @@ static  BOOL Btnstatu = YES;
                     
                 }else{
                     
-//                    NSLog(@"什么都不做");
+                    //                    NSLog(@"什么都不做");
                 }
                 
             }
@@ -459,168 +462,156 @@ static  BOOL Btnstatu = YES;
 
 - (DashBoardCollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
+    
+    
     NSString *CellIdentifier = [NSString stringWithFormat:@"cell%ld",indexPath.row];
     DashBoardCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CellIdentifier forIndexPath:indexPath];
     
     DashBoardModel * m = [[DashBoardModel alloc] init];
+    m = _DashModelArray[indexPath.row];
     
-    for (int i = 0;i < _DashModelArray.count ; i++) {
-        
-        m = _DashModelArray[indexPath.row];
-        
-        
-        cell.backgroundColor = [UIColor colorWithString:m.bgcolor];
-        [cell.labelTitle setTextColor:[UIColor colorWithString:m.color]];
-        [cell.labelMidval setTextColor:[UIColor colorWithString:m.color]];
-        [cell.labelBottomval setTextColor:[UIColor colorWithString:m.color]];
-        [cell.labelBottomtilte setTextColor:[UIColor colorWithString:m.color]];
-        [cell.labelunit setTextColor:[UIColor colorWithString:m.color]];
-        cell.labelTitle.text = m.title;
-        
+    cell.backgroundColor = [UIColor colorWithString:m.bgcolor];
+    [cell.labelTitle setTextColor:[UIColor colorWithString:m.color]];
+    [cell.labelMidval setTextColor:[UIColor colorWithString:m.color]];
+    [cell.labelBottomval setTextColor:[UIColor colorWithString:m.color]];
+    [cell.labelBottomtilte setTextColor:[UIColor colorWithString:m.color]];
+    [cell.labelunit setTextColor:[UIColor colorWithString:m.color]];
+    cell.labelTitle.text = m.title;
+    if ([m.chart_type isEqualToString:@"line_chart"]|[m.chart_type isEqualToString:@"bar_chart"]|[m.chart_type isEqualToString:@"pie_chart"]) {
         NSMutableArray * XValueArray = [NSMutableArray arrayWithArray:[m.data valueForKey:@"x"]];
         NSMutableArray * YValueArray = [NSMutableArray arrayWithArray:[m.data valueForKey:@"y"]];
+        if ((XValueArray.count == 0) && (YValueArray.count == 0)) {
             
-       
+            [XValueArray addObject:@""];
+            [YValueArray addObject:@""];
+            
+        }else if ((XValueArray.count == 0) && (YValueArray.count != 0)){
+            [XValueArray addObject:@""];
+            
+        }else if ((XValueArray.count != 0) && (YValueArray.count == 0)){
+            [YValueArray addObject:@""];
+            
+        }
+        
         _lineChart = [[PNLineChart alloc] initWithFrame:CGRectMake(10, 20,Main_Screen_Width-50,CGRectGetHeight(cell.frame)-60)];
         _barChart = [[PNBarChart alloc] initWithFrame:CGRectMake(CGRectGetMinX(_lineChart.frame), CGRectGetMinY(_lineChart.frame), CGRectGetWidth(_lineChart.frame), CGRectGetHeight(_lineChart.frame))];
         
-        cell.contentView.userInteractionEnabled = YES;
-         _lineChart.userInteractionEnabled = YES;
-        cell.midvalView.userInteractionEnabled = NO;
-       
-       
+        
+        [cell.contentView addSubview:cell.midvalView];
+        if (cell.midvalView.subviews.count !=0) {
+            [cell.midvalView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+        }
+        
         if ([m.chart_type isEqualToString:@"line_chart"]) {
-            
-            [cell.contentView addSubview:cell.midvalView];
+ 
             [self makeLine];
             
             _lineChart.yUnit = m.unit;
-
-            if (m.data==nil) {
+            _lineChart.yUnitColor = [UIColor whiteColor];
+            [_lineChart setXLabels:XValueArray];
+            _lineChart.showYGridLines = YES;
+            _lineChart.displayAnimated = NO;
+            
+            _lineChart.yGridLinesColor = [UIColor whiteColor];
+            PNLineChartData * data01 = [PNLineChartData new];
+            data01.color = [UIColor whiteColor];
+            data01.itemCount = self.lineChart.xLabels.count;
+            data01.inflexionPointWidth = 4;
+            data01.lineWidth = 1.5f;
+            data01.alpha = 1;
+            data01.inflexionPointStyle = PNLineChartPointStyleCircle;
+            data01.getData = ^(NSUInteger index){
                 
-            }else{
-                [_lineChart setXLabels:XValueArray];
-                PNLineChartData * data01 = [PNLineChartData new];
-                data01.color = [UIColor whiteColor];
-                data01.itemCount = self.lineChart.xLabels.count;
-                data01.inflexionPointWidth = 4;
-                data01.lineWidth = 1.5f;
+                CGFloat yValue = [YValueArray[index] floatValue];
                 
-                data01.alpha = 0.5;
-                data01.inflexionPointStyle = PNLineChartPointStyleCircle;
-                data01.getData = ^(NSUInteger index){
-                    
-                    CGFloat yValue = [YValueArray[index] floatValue];
-                    
-                    return [PNLineChartDataItem dataItemWithY:yValue andRawY:yValue];
-                    
-                };
-                self.lineChart.chartData = @[data01];
-                [_lineChart strokeChart];
-                [cell.midvalView addSubview:_lineChart];
-            }
+                return [PNLineChartDataItem dataItemWithY:yValue andRawY:yValue];
+                
+            };
+            self.lineChart.chartData = @[data01];
+            [_lineChart strokeChart];
+            [cell.midvalView addSubview:_lineChart];
+            
             
             
         }else if([m.chart_type isEqualToString:@"bar_chart"]){
-            [cell.contentView addSubview:cell.midvalView];
-            if (m.data == nil) {
-                
-            }else{
-                static NSNumberFormatter *barChartFormatter;
-                if (!barChartFormatter){
-                    barChartFormatter = [[NSNumberFormatter alloc] init];
-                    // 数值类型
-                    barChartFormatter.numberStyle = kCFNumberFormatterNoStyle;
-                    barChartFormatter.allowsFloats = NO;
-                    barChartFormatter.maximumFractionDigits = 0;
-                }
-                self.barChart.yLabelFormatter = ^(CGFloat yValue){
-                    
-                    return [barChartFormatter stringFromNumber:[NSNumber numberWithFloat:yValue]];
-                    
-                };
-                [self makeBar];
-                [_barChart setXLabels:XValueArray];
-                [_barChart setYValues:YValueArray];
-                _barChart.isGradientShow = NO;
-                _barChart.isShowNumbers = NO;
-                [_barChart strokeChart];
-                [cell.midvalView addSubview:_barChart];
+            [self makeBar];
+          
+            _barChart.yLabelSuffix = m.unit;
 
+            static NSNumberFormatter *barChartFormatter;
+            if (!barChartFormatter){
+                barChartFormatter = [[NSNumberFormatter alloc] init];
+                // 数值类型
+                barChartFormatter.numberStyle = kCFNumberFormatterNoStyle;
+                barChartFormatter.allowsFloats = NO;
+                barChartFormatter.maximumFractionDigits = 0;
             }
+            self.barChart.yLabelFormatter = ^(CGFloat yValue){
+                
+                return [barChartFormatter stringFromNumber:[NSNumber numberWithFloat:yValue]];
+                
+            };
+            //                 _barChart.yUnit = m.unit;
+            [_barChart setXLabels:XValueArray];
+            [_barChart setYValues:YValueArray];
+            _barChart.showYGridLines = YES;
+            _barChart.yGridLinesColor = [UIColor whiteColor];
+            _barChart.isGradientShow = YES;
+            _barChart.isShowNumbers = NO;
+            _barChart.showLevelLine = NO;
+            _barChart.displayAnimated = NO;
+            [_barChart strokeChart];
+            [cell.midvalView addSubview:_barChart];
             
-        
+            
+            
         }else if([m.chart_type isEqualToString:@"pie_chart"]){
+       
+            NSMutableArray *items  = [NSMutableArray array];
             
-            [cell.contentView addSubview:cell.midvalView];
-           
-            if (m.data == nil) {
-                
-            }else{
-                NSMutableArray *items  = [NSMutableArray array];
-                
-                int i = 0;
-                
-                for (NSString * value in YValueArray) {
-                    
-                    PNPieChartDataItem * item = [PNPieChartDataItem dataItemWithValue:[value floatValue] color:PNArc4randomColor description:XValueArray[i]];
-                    [items addObject:item];
-                    i++;
-                }
-                
-                _pieChart = [[PNPieChart alloc] initWithFrame:CGRectMake(CGRectGetMidX(_lineChart.frame)- 150, CGRectGetMinY(_lineChart.frame), CGRectGetHeight(_lineChart.frame), CGRectGetHeight(_lineChart.frame)) items:items];
-                _pieChart.descriptionTextColor = [UIColor whiteColor];
-                _pieChart.descriptionTextFont  = [UIFont fontWithName:@"Avenir-Medium" size:11.0];
-                _pieChart.descriptionTextShadowColor = [UIColor clearColor];
-                _pieChart.showAbsoluteValues = NO;
-                _pieChart.showOnlyValues = YES;
-                [_pieChart strokeChart];
-                _pieChart.legendStyle = PNLegendItemStyleStacked;
-                _pieChart.legendFont = [UIFont systemFontOfSize:12.0f];
-                _pieChart.legendFontColor = [UIColor whiteColor];
-                
-                
-                UIView *legend = [self.pieChart getLegendWithMaxWidth:100];
-                
-                [legend setFrame:CGRectMake(CGRectGetMaxX(_pieChart.frame)+20, CGRectGetMidY(_pieChart.frame)- 80, legend.frame.size.width, legend.frame.size.height)];
-                
-                [cell.midvalView addSubview:legend];
-                
-                [cell.midvalView addSubview:self.pieChart];
-                
-                
- 
+            int i = 0;
+            for (NSString * value in YValueArray) {
+                PNPieChartDataItem * item = [PNPieChartDataItem dataItemWithValue:[value floatValue] color:_pieColorArray[i] description:XValueArray[i]];
+                [items addObject:item];
+                i++;
             }
-         }else if([m.chart_type isEqualToString:@"text"]){
             
-            cell.labelMidval.text = m.defaultval;
-            cell.labelunit.text = m.unit;
-            cell.labelBottomval.text = m.contrastval;
-            cell.labelBottomtilte.text = m.contrastname;
+            _pieChart = [[PNPieChart alloc] initWithFrame:CGRectMake(CGRectGetMidX(_lineChart.frame)- 150, CGRectGetMinY(_lineChart.frame), CGRectGetHeight(_lineChart.frame), CGRectGetHeight(_lineChart.frame)) items:items];
+            _pieChart.descriptionTextColor = [UIColor whiteColor];
+            _pieChart.descriptionTextFont  = [UIFont fontWithName:@"Avenir-Medium" size:11.0];
+            _pieChart.descriptionTextShadowColor = [UIColor clearColor];
+            _pieChart.showAbsoluteValues = NO;
+            _pieChart.showOnlyValues = YES;
+            _pieChart.displayAnimated = NO;
+            [_pieChart strokeChart];
+            _pieChart.legendStyle = PNLegendItemStyleStacked;
+            _pieChart.legendFont = [UIFont systemFontOfSize:12.0f];
+            _pieChart.legendFontColor = [UIColor whiteColor];
             
-            [cell addSubview:cell.labelMidval];
-            [cell addSubview:cell.labelBottomtilte];
-            [cell addSubview:cell.labelBottomval];
-            [cell addSubview:cell.label];
-            [cell addSubview:cell.labelunit];
-      
             
-        }else if([m.chart_type isEqualToString:@"long_text"]){
+            UIView *legend = [self.pieChart getLegendWithMaxWidth:100];
             
-            cell.labelMidval.text = m.defaultval;
-            cell.labelunit.text = m.unit;
-            cell.labelBottomval.text = m.contrastval;
-            cell.labelBottomtilte.text = m.contrastname;
-            [cell addSubview:cell.labelMidval];
-            [cell addSubview:cell.labelBottomtilte];
-            [cell addSubview:cell.labelBottomval];
-            [cell addSubview:cell.label];
-            [cell addSubview:cell.labelunit];
+            [legend setFrame:CGRectMake(CGRectGetMaxX(_pieChart.frame)+20, CGRectGetMidY(_pieChart.frame)- 80, legend.frame.size.width, legend.frame.size.height)];
             
+            [cell.midvalView addSubview:legend];
+            
+            [cell.midvalView addSubview:self.pieChart];
             
         }
+    }else{
+        [cell.midvalView removeFromSuperview];
+        [cell.contentView addSubview:cell.labelBottomval];
+        [cell.contentView addSubview:cell.labelBottomtilte];
+        [cell.contentView addSubview:cell.labelMidval];
+        [cell.contentView addSubview:cell.labelunit];
+        [cell.contentView addSubview:cell.label];
+        cell.labelMidval.text = m.defaultval;
+        cell.labelunit.text = m.unit;
+        cell.labelBottomval.text = m.contrastval;
+        cell.labelBottomtilte.text = m.contrastname;
     }
-
+    
+    
     _cellDeleteButton = [[UIButton alloc] init];
     _cellDeleteButton.tag = indexPath.row;
     
@@ -639,19 +630,19 @@ static  BOOL Btnstatu = YES;
     _dashModel = [[DashBoardModel alloc] init];
     
     _dashModel = _DashModelArray[indexPath.row];
-
+    
     [self makeIncomeDate:_Time];
     
     
-   //    incomeVC.IncomeDateBlockValue = ^(NSString * IncomeDateString,NSString *DefaultDateString){
-//        // 传日期
-//        _DataString = IncomeDateString;
-//        
-//        _dataSearchView.defaultDateString = DefaultDateString;
-//        
-//        _dataView.dateLabel.text = _DataString;
-//        
-//    };
+    //    incomeVC.IncomeDateBlockValue = ^(NSString * IncomeDateString,NSString *DefaultDateString){
+    //        // 传日期
+    //        _DataString = IncomeDateString;
+    //
+    //        _dataSearchView.defaultDateString = DefaultDateString;
+    //
+    //        _dataView.dateLabel.text = _DataString;
+    //
+    //    };
     
 }
 
@@ -665,13 +656,13 @@ static  BOOL Btnstatu = YES;
     _lineChart.showCoordinateAxis = YES;
     _lineChart.showGenYLabels = YES;
     _lineChart.showLabel = YES;
-    
-    
+    _lineChart.axisWidth = 2;
+    _lineChart.axisColor = [UIColor whiteColor];
     self.lineChart.yLabelColor =[UIColor whiteColor];
     self.lineChart.xLabelColor = [UIColor whiteColor];
     
     // 小数点
-//    _lineChart.thousandsSeparator = YES;
+    //    _lineChart.thousandsSeparator = YES;
     
 }
 // 柱状图
@@ -703,7 +694,7 @@ static  BOOL Btnstatu = YES;
         button.selected = YES;
         // 添加界面的数据
         [self makeADDDate];
-
+        
     }else{
         
     }
@@ -722,11 +713,11 @@ static  BOOL Btnstatu = YES;
         _token = [NSString stringWithFormat:@"%@",_userModel.user_token];
         
         
-//        NSMutableDictionary * dict = _userModel.resdata;
-//        // 进入指标界面的默认时间
-//        NSString * time = [NSString stringWithFormat:@"%@",dict[@"defaulttime"]];
-//        
-//        _Time = time ;
+        //        NSMutableDictionary * dict = _userModel.resdata;
+        //        // 进入指标界面的默认时间
+        //        NSString * time = [NSString stringWithFormat:@"%@",dict[@"defaulttime"]];
+        //
+        //        _Time = time ;
         // 指标详情界面的接口
         NSString * urlStr = [NSString stringWithFormat:IncomeHttp,_dashModel.Did,Time];
         
@@ -737,9 +728,9 @@ static  BOOL Btnstatu = YES;
             //这里可以用来显示下载进度
         } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
             //成功
-//            NSLog(@"---指标详情界面的responseObject--%@",responseObject);
+            NSLog(@"---指标详情界面的responseObject--%@",responseObject);
             
-          
+            
             if (responseObject != nil) {
                 
                 NSMutableDictionary * dict = [NSMutableDictionary dictionary];
@@ -766,6 +757,8 @@ static  BOOL Btnstatu = YES;
                     
                     incomeVC.incomeDashModel = model;
                     
+                    incomeVC.pieColorArray = _pieColorArray;
+                    
                     // tabbar的显示和隐藏
                     self.hidesBottomBarWhenPushed=YES;
                     
@@ -773,9 +766,9 @@ static  BOOL Btnstatu = YES;
                     
                     self.hidesBottomBarWhenPushed=NO;
                     
-
+                    
                 }
-          
+                
             }else{
                 
                 NSLog(@"数据为空");
@@ -828,11 +821,11 @@ static  BOOL Btnstatu = YES;
     
     if (button.selected == YES) {
         
-       
+        
         
     }else{
         button.selected = YES;
-
+        
         
         [_DashModelArray removeObjectAtIndex:_cellIndexPath.row];
         
@@ -899,7 +892,7 @@ static  BOOL Btnstatu = YES;
             
             //这里可以用来显示下载进度
         } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-//            NSLog(@"[----------添加指标的responseObject---%@",responseObject);
+            //            NSLog(@"[----------添加指标的responseObject---%@",responseObject);
             //成功
             NSMutableDictionary * dict = [NSMutableDictionary dictionary];
             dict = responseObject[@"resdata"];
@@ -948,11 +941,11 @@ static  BOOL Btnstatu = YES;
                     
                     
                     [self.navigationController pushViewController:addVC animated:YES];
-
+                    
                 }
             }
-          
-
+            
+            
             
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
             //失败

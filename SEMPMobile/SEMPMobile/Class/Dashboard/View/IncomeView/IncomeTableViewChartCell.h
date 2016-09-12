@@ -12,13 +12,13 @@
 // 分割线
 @property (nonatomic , strong)UILabel * label;
 // 颜色
-@property (nonatomic , strong)UILabel * midvalColorLabel;
+@property (nonatomic , strong)UILabel * defaultvalColorLabel;
 // 对比颜色
-@property (nonatomic , strong)UILabel * bottomvalColorLabel;
-// 实际值title
-@property (nonatomic , strong)UILabel * midvalTitleLabel;
-// 对比值title
-@property (nonatomic , strong)UILabel * bottomTitleLabel;
+@property (nonatomic , strong)UILabel * contrastvalColorLabel;
+// 实际值button
+@property (nonatomic , strong)UIButton * defaultvalButton;
+// 对比值button
+@property (nonatomic , strong)UIButton * contrastvalButton;
 // 图view
 @property (nonatomic , strong)UIView * chartView;
 

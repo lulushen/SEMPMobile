@@ -36,7 +36,7 @@
     [_labelunit setTextAlignment:NSTextAlignmentRight];
     
     _labelMidval.adjustsFontSizeToFitWidth = YES;
-    [self addSubview:_labelTitle];
+    [self.contentView addSubview:_labelTitle];
     
     _labelMidval.font = [UIFont systemFontOfSize:30];
     _labelBottomtilte.font = [UIFont systemFontOfSize:13];

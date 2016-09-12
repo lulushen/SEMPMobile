@@ -59,9 +59,10 @@
 #pragma mark instance methods
 // y labels
 - (void)setYLabels {
-    
     CGFloat yStep = (_yValueMax - _yValueMin) / _yLabelNum;
-    CGFloat yStepHeight = _chartCavanHeight / _yLabelNum;
+#warning ====有改动 原来是    CGFloat yStepHeight = _chartCavanHeight / _yLabelNum;
+
+    CGFloat yStepHeight = (_chartCavanHeight-10) / _yLabelNum;
 
     if (_yChartLabels) {
         for (PNChartLabel *label in _yChartLabels) {
@@ -72,6 +73,7 @@
     }
 
     if (yStep == 0.0) {
+        
         PNChartLabel *minLabel = [[PNChartLabel alloc] initWithFrame:CGRectMake(0.0, (NSInteger) _chartCavanHeight, (NSInteger) _chartMarginBottom, (NSInteger) _yLabelHeight)];
         minLabel.text = [self formatYLabel:0.0];
         [self setCustomStyleForYLabel:minLabel];
@@ -106,63 +108,63 @@
         }
     }
 }
+//没用
+//- (void)setYLabels:(NSArray *)yLabels {
+//    NSLog(@"---%ld",yLabels.count);
+//    _showGenYLabels = NO;
+//    _yLabelNum = yLabels.count - 1;
+//
+//    CGFloat yLabelHeight;
+//    if (_showLabel) {
+//        yLabelHeight = _chartCavanHeight / [yLabels count];
+//    } else {
+//        yLabelHeight = (self.frame.size.height) / [yLabels count];
+//    }
+//
+//    return [self setYLabels:yLabels withHeight:yLabelHeight];
+//}
 
-- (void)setYLabels:(NSArray *)yLabels {
-    _showGenYLabels = NO;
-    _yLabelNum = yLabels.count - 1;
+//- (void)setYLabels:(NSArray *)yLabels withHeight:(CGFloat)height {
+//    _yLabels = yLabels;
+//    _yLabelHeight = height;
+//    if (_yChartLabels) {
+//        for (PNChartLabel *label in _yChartLabels) {
+//            [label removeFromSuperview];
+//        }
+//    } else {
+//        _yChartLabels = [NSMutableArray new];
+//    }
+//
+//    NSString *labelText;
+//
+//    if (_showLabel) {
+//        CGFloat yStepHeight = _chartCavanHeight / _yLabelNum;
+//
+//        for (int index = 0; index < yLabels.count; index++) {
+//            labelText = yLabels[index];
+//
+//            NSInteger y = (NSInteger) (_chartCavanHeight - index * yStepHeight);
+//
+//            PNChartLabel *label = [[PNChartLabel alloc] initWithFrame:CGRectMake(0.0, y, (NSInteger) _chartMarginLeft * 0.9, (NSInteger) _yLabelHeight)];
+//            [label setTextAlignment:NSTextAlignmentRight];
+//            label.text = labelText;
+//            [self setCustomStyleForYLabel:label];
+//            [self addSubview:label];
+//            [_yChartLabels addObject:label];
+//        }
+//    }
+//}
 
-    CGFloat yLabelHeight;
-    if (_showLabel) {
-        yLabelHeight = _chartCavanHeight / [yLabels count];
-    } else {
-        yLabelHeight = (self.frame.size.height) / [yLabels count];
-    }
-
-    return [self setYLabels:yLabels withHeight:yLabelHeight];
-}
-
-- (void)setYLabels:(NSArray *)yLabels withHeight:(CGFloat)height {
-    _yLabels = yLabels;
-    _yLabelHeight = height;
-    if (_yChartLabels) {
-        for (PNChartLabel *label in _yChartLabels) {
-            [label removeFromSuperview];
-        }
-    } else {
-        _yChartLabels = [NSMutableArray new];
-    }
-
-    NSString *labelText;
-
-    if (_showLabel) {
-        CGFloat yStepHeight = _chartCavanHeight / _yLabelNum;
-
-        for (int index = 0; index < yLabels.count; index++) {
-            labelText = yLabels[index];
-
-            NSInteger y = (NSInteger) (_chartCavanHeight - index * yStepHeight);
-
-            PNChartLabel *label = [[PNChartLabel alloc] initWithFrame:CGRectMake(0.0, y, (NSInteger) _chartMarginLeft * 0.9, (NSInteger) _yLabelHeight)];
-            [label setTextAlignment:NSTextAlignmentRight];
-            label.text = labelText;
-            [self setCustomStyleForYLabel:label];
-            [self addSubview:label];
-            [_yChartLabels addObject:label];
-        }
-    }
-}
-
-- (CGFloat)computeEqualWidthForXLabels:(NSArray *)xLabels {
-    CGFloat xLabelWidth;
-
-    if (_showLabel) {
-        xLabelWidth = _chartCavanWidth / [xLabels count];
-    } else {
-        xLabelWidth = (self.frame.size.width) / [xLabels count];
-    }
-
-    return xLabelWidth;
-}
+//- (CGFloat)computeEqualWidthForXLabels:(NSArray *)xLabels {
+//    CGFloat xLabelWidth;
+//
+//    if (_showLabel) {
+//        xLabelWidth = _chartCavanWidth / [xLabels count];
+//    } else {
+//        xLabelWidth = (self.frame.size.width) / [xLabels count];
+//    }
+//    return xLabelWidth;
+//}
 
 
 - (void)setXLabels:(NSArray *)xLabels {
@@ -175,7 +177,6 @@
         
         xLabelWidth = (self.frame.size.width - _chartMarginLeft - _chartMarginRight) / [xLabels count]*2.0;
     }
-
     return [self setXLabels:xLabels withWidth:xLabelWidth];
 }
 
@@ -191,19 +192,23 @@
     }
 
     NSString *labelText;
-
     if (_showLabel) {
        
         for (int index = 0; index < xLabels.count; index++) {
             labelText = xLabels[index];
 
             NSInteger x = (index * _xLabelWidth + _chartMarginLeft + _xLabelWidth / 2.0);
-            NSInteger y = _chartMarginBottom + _chartCavanHeight ;
-
+            //没有倾斜的时候y值
+            NSInteger y = _chartMarginTop + _chartCavanHeight;
             PNChartLabel *label = [[PNChartLabel alloc] initWithFrame:CGRectMake(x, y, (NSInteger) _xLabelWidth, (NSInteger) _chartMarginBottom)];
             [label setTextAlignment:NSTextAlignmentCenter];
             // label的倾斜角度
-            label.transform = CGAffineTransformMakeRotation(0.4);
+            label.transform = CGAffineTransformMakeRotation(0.2);
+            //因为角度发生改变所以xy也发生改变，为了不使label位置变化，所以在旋转后重新赋值label的位置
+            CGRect rect = label.frame;
+            rect.origin.y = y;
+            label.frame = rect;
+        
             label.text = labelText;
             label.textAlignment = NSTextAlignmentLeft;
 //            label.backgroundColor = [UIColor orangeColor];
@@ -254,27 +259,65 @@
 
     for (NSInteger p = _pathPoints.count - 1; p >= 0; p--) {
         NSArray *linePointsArray = _endPointsOfPath[p];
-
-        for (int i = 0; i < (int) linePointsArray.count - 1; i += 2) {
+// 原来的i < (int) linePointsArray.count - 1，改后的i <＝ (int) linePointsArray.count - 1
+        for (int i = 0; i <= (int) linePointsArray.count - 1; i += 2) {
+            //原来的
+//            CGPoint p1 = [linePointsArray[i] CGPointValue];
+//            CGPoint p2 = [linePointsArray[i + 1] CGPointValue];
+//
+//            // Closest distance from point to line
+//            float distance = fabs(((p2.x - p1.x) * (touchPoint.y - p1.y)) - ((p1.x - touchPoint.x) * (p1.y - p2.y)));
+//            distance /= hypot(p2.x - p1.x, p1.y - p2.y);
+//
+//            if (distance <= 5.0) {
+//                // Conform to delegate parameters, figure out what bezier path this CGPoint belongs to.
+//                for (UIBezierPath *path in _chartPath) {
+//                    BOOL pointContainsPath = CGPathContainsPoint(path.CGPath, NULL, p1, NO);
+//
+//                    if (pointContainsPath) {
+//                        [_delegate userClickedOnLinePoint:touchPoint lineIndex:[_chartPath indexOfObject:path]];
+//
+//                        return;
+//                    }
+//                }
+//            }
+            
+            
+            // 改后的
             CGPoint p1 = [linePointsArray[i] CGPointValue];
-            CGPoint p2 = [linePointsArray[i + 1] CGPointValue];
+            if (i < (linePointsArray.count - 1)) {
+                CGPoint p2 = [linePointsArray[i + 1] CGPointValue];
+                
+                // Closest distance from point to line
+                float distance = fabs(((p2.x - p1.x) * (touchPoint.y - p1.y)) - ((p1.x - touchPoint.x) * (p1.y - p2.y)));
+                distance /= hypot(p2.x - p1.x, p1.y - p2.y);
+                
+                if (distance <= 5.0) {
+                    // Conform to delegate parameters, figure out what bezier path this CGPoint belongs to.
+                    for (UIBezierPath *path in _chartPath) {
+                        BOOL pointContainsPath = CGPathContainsPoint(path.CGPath, NULL, p1, NO);
+                        
+                        if (pointContainsPath) {
+                            [_delegate userClickedOnLinePoint:touchPoint lineIndex:[_chartPath indexOfObject:path]];
+                            
+                            return;
+                        }
+                    }
+                }
 
-            // Closest distance from point to line
-            float distance = fabs(((p2.x - p1.x) * (touchPoint.y - p1.y)) - ((p1.x - touchPoint.x) * (p1.y - p2.y)));
-            distance /= hypot(p2.x - p1.x, p1.y - p2.y);
-
-            if (distance <= 5.0) {
-                // Conform to delegate parameters, figure out what bezier path this CGPoint belongs to.
+            }else{
                 for (UIBezierPath *path in _chartPath) {
                     BOOL pointContainsPath = CGPathContainsPoint(path.CGPath, NULL, p1, NO);
-
+                    
                     if (pointContainsPath) {
                         [_delegate userClickedOnLinePoint:touchPoint lineIndex:[_chartPath indexOfObject:path]];
-
+                        
                         return;
                     }
                 }
+                
             }
+           
         }
     }
 }
@@ -284,26 +327,65 @@
     UITouch *touch = [touches anyObject];
     CGPoint touchPoint = [touch locationInView:self];
 
-    for (NSInteger p = _pathPoints.count - 1; p >= 0; p--) {
+    for (NSInteger p = _pathPoints.count-1; p >= 0; p--) {
         NSArray *linePointsArray = _pathPoints[p];
+        // 原来的i < (int) linePointsArray.count - 1，改后的i <＝ (int) linePointsArray.count - 1
+        for (int i = 0; i <= (int) linePointsArray.count - 1; i +=1) {
 
-        for (int i = 0; i < (int) linePointsArray.count - 1; i += 1) {
+//            //原来的
+//            CGPoint p1 = [linePointsArray[i] CGPointValue];
+//            CGPoint p2 = [linePointsArray[i + 1] CGPointValue];
+//            NSLog(@"-------%f",p2.x);
+//
+//            float distanceToP1 = fabs(hypot(touchPoint.x - p1.x, touchPoint.y - p1.y));
+//            float distanceToP2 = hypot(touchPoint.x - p2.x, touchPoint.y - p2.y);
+//
+//            float distance = MIN(distanceToP1, distanceToP2);
+//
+//            if (distance <= 10.0) {
+//                
+//                [_delegate userClickedOnLineKeyPoint:touchPoint
+//                                           lineIndex:p
+//                                          pointIndex:(distance == distanceToP2 ? i + 1 : i)];
+//
+//                return;
+//            }
+            //改后的
             CGPoint p1 = [linePointsArray[i] CGPointValue];
-            CGPoint p2 = [linePointsArray[i + 1] CGPointValue];
-
-            float distanceToP1 = fabs(hypot(touchPoint.x - p1.x, touchPoint.y - p1.y));
-            float distanceToP2 = hypot(touchPoint.x - p2.x, touchPoint.y - p2.y);
-
-            float distance = MIN(distanceToP1, distanceToP2);
-
-            if (distance <= 10.0) {
+            
+            if (i < (linePointsArray.count - 1)) {
+                CGPoint p2 = [linePointsArray[i+1] CGPointValue];
+                float distanceToP1 = fabs(hypot(touchPoint.x - p1.x, touchPoint.y - p1.y));
+                float distanceToP2 = hypot(touchPoint.x - p2.x, touchPoint.y - p2.y);
                 
-                [_delegate userClickedOnLineKeyPoint:touchPoint
-                                           lineIndex:p
-                                          pointIndex:(distance == distanceToP2 ? i + 1 : i)];
+                float distance = MIN(distanceToP1, distanceToP2);
+                
+                if (distance <= 10.0) {
+                    
+                    [_delegate userClickedOnLineKeyPoint:touchPoint
+                                               lineIndex:p
+                                              pointIndex:(distance == distanceToP2 ? i + 1 : i)];
+                    
+                    return;
+                }
+ 
+            }else{
+                float distanceToP1 = fabs(hypot(touchPoint.x - p1.x, touchPoint.y - p1.y));
+                
+                float distance = distanceToP1;
+                
+                if (distance <= 10.0) {
+                    
+                    [_delegate userClickedOnLineKeyPoint:touchPoint
+                                               lineIndex:p
+                                              pointIndex:(i)];
+                    
+                    return;
+                }
 
-                return;
+
             }
+        
         }
     }
 }
@@ -335,6 +417,7 @@
         }
 
         UIBezierPath *progressline = [_chartPath objectAtIndex:lineIndex];
+        
         UIBezierPath *pointPath = [_pointPath objectAtIndex:lineIndex];
 
         chartLine.path = progressline.CGPath;
@@ -360,6 +443,7 @@
 
         UIGraphicsEndImageContext();
     }
+    
 }
 
 
@@ -379,7 +463,7 @@
 
         [chartPath insertObject:progressline atIndex:lineIndex];
         [pointsPath insertObject:pointPath atIndex:lineIndex];
-
+      
 
         NSMutableArray *gradePathArray = [NSMutableArray array];
         [self.gradeStringPaths addObject:gradePathArray];
@@ -395,17 +479,26 @@
 
             yValue = chartData.getData(i).y;
 
+            
+           
+
             if (!(_yValueMax - _yValueMin)) {
                 innerGrade = 0.5;
             } else {
+                //比例
                 innerGrade = (yValue - _yValueMin) / (_yValueMax - _yValueMin);
+                
             }
-
             int x = i * _xLabelWidth + _chartMarginLeft + _xLabelWidth / 2.0;
 
-            int y = _chartCavanHeight - (innerGrade * _chartCavanHeight) + (_yLabelHeight / 2) + _chartMarginTop - _chartMarginBottom;
+            // 原来的
+//            int y = _chartCavanHeight - (innerGrade * _chartCavanHeight) + (_yLabelHeight / 2) + _chartMarginTop - _chartMarginBottom;
 
-            // Circular point
+            //有改动
+            int y = _chartCavanHeight - (innerGrade * (_chartCavanHeight-10)) + (_yLabelHeight / 2) + _chartMarginTop - _chartMarginBottom;
+
+        
+            // Circular point 圆圈
             if (chartData.inflexionPointStyle == PNLineChartPointStyleCircle) {
 
                 CGRect circleRect = CGRectMake(x - inflexionWidth / 2, y - inflexionWidth / 2, inflexionWidth, inflexionWidth);
@@ -416,6 +509,7 @@
 
                 //jet text display text
                 if (chartData.showPointLabel) {
+                    
                     [gradePathArray addObject:[self createPointLabelFor:chartData.getData(i).rawY pointCenter:circleCenter width:inflexionWidth withChartData:chartData]];
                 }
 
@@ -605,14 +699,18 @@
     }
 
 
-    // Min value for Y label
+//     Min value for Y label
     if (yMax < 5) {
         yMax = 5.0f;
     }
 
     _yValueMin = (_yFixedValueMin > -FLT_MAX) ? _yFixedValueMin : yMin;
-    _yValueMax = (_yFixedValueMax > -FLT_MAX) ? _yFixedValueMax : yMax + yMax / 10.0;
+    //有改动－－－－    _yValueMax = (_yFixedValueMax > -FLT_MAX) ? _yFixedValueMax : yMax + yMax / 10.0;
 
+    _yValueMax = (_yFixedValueMax > -FLT_MAX) ? _yFixedValueMax : yMax + yMax/10.0;
+    // 有改动－－原来没有NSString * string = [self formatYLabel:_yValueMax]；_yValueMax = [string integerValue];
+    NSString * string = [self formatYLabel:_yValueMax];
+    _yValueMax = [string integerValue];
     if (_showGenYLabels) {
         [self setYLabels];
     }
@@ -664,7 +762,7 @@
 }
 
 #define IOS7_OR_LATER [[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0
-
+// 画图
 - (void)drawRect:(CGRect)rect {
     if (self.isShowCoordinateAxis) {
         CGFloat yAxisOffset = 10.f;
@@ -677,19 +775,19 @@
         CGFloat xAxisWidth = CGRectGetWidth(rect) - (_chartMarginLeft + _chartMarginRight) / 2;
         CGFloat yAxisHeight = _chartMarginBottom + _chartCavanHeight;
 
-        // draw coordinate axis
+        // draw coordinate axis  x.y轴
         CGContextMoveToPoint(ctx, _chartMarginBottom + yAxisOffset, 0);
         CGContextAddLineToPoint(ctx, _chartMarginBottom + yAxisOffset, yAxisHeight);
         CGContextAddLineToPoint(ctx, xAxisWidth, yAxisHeight);
         CGContextStrokePath(ctx);
 
-        // draw y axis arrow
+        // draw y axis arrow y尖头
         CGContextMoveToPoint(ctx, _chartMarginBottom + yAxisOffset - 3, 6);
         CGContextAddLineToPoint(ctx, _chartMarginBottom + yAxisOffset, 0);
         CGContextAddLineToPoint(ctx, _chartMarginBottom + yAxisOffset + 3, 6);
         CGContextStrokePath(ctx);
 
-        // draw x axis arrow
+        // draw x axis arrow x尖头
         CGContextMoveToPoint(ctx, xAxisWidth - 6, yAxisHeight - 3);
         CGContextAddLineToPoint(ctx, xAxisWidth, yAxisHeight);
         CGContextAddLineToPoint(ctx, xAxisWidth - 6, yAxisHeight + 3);
@@ -700,14 +798,18 @@
             // draw x axis separator
             CGPoint point;
             for (NSUInteger i = 0; i < [self.xLabels count]; i++) {
-                point = CGPointMake(2 * _chartMarginLeft + (i * _xLabelWidth), _chartMarginBottom + _chartCavanHeight);
+                // 有改动pointx
+                point = CGPointMake(i * _xLabelWidth + _chartMarginLeft + _xLabelWidth / 2.0, _chartMarginTop + _chartCavanHeight);
                 CGContextMoveToPoint(ctx, point.x, point.y - 2);
                 CGContextAddLineToPoint(ctx, point.x, point.y);
                 CGContextStrokePath(ctx);
             }
 
             // draw y axis separator
-            CGFloat yStepHeight = _chartCavanHeight / _yLabelNum;
+//#warning ===有改动 原来的是            CGFloat yStepHeight = _chartCavanHeight / _yLabelNum;
+
+            CGFloat yStepHeight = (_chartCavanHeight-10) / _yLabelNum;
+           
             for (NSUInteger i = 0; i < [self.xLabels count]; i++) {
                 point = CGPointMake(_chartMarginBottom + yAxisOffset, (_chartCavanHeight - i * yStepHeight + _yLabelHeight / 2));
                 CGContextMoveToPoint(ctx, point.x, point.y);
@@ -722,33 +824,43 @@
         if ([self.yUnit length]) {
             CGFloat height = [PNLineChart sizeOfString:self.yUnit withWidth:30.f font:font].height;
             CGRect drawRect = CGRectMake(_chartMarginLeft + 10 + 5, 0, 30.f, height);
-            [self drawTextInContext:ctx text:self.yUnit inRect:drawRect font:font];
+            //原来的[self drawTextInContext:ctx text:self.yUnit inRect:drawRect font:font];
+            //改变的
+            [self drawTextInContext:ctx text:self.yUnit inRect:drawRect font:font color:_yUnitColor];
+
         }
 
         // draw x unit
         if ([self.xUnit length]) {
             CGFloat height = [PNLineChart sizeOfString:self.xUnit withWidth:30.f font:font].height;
             CGRect drawRect = CGRectMake(CGRectGetWidth(rect) - _chartMarginLeft + 5, _chartMarginBottom + _chartCavanHeight - height / 2, 25.f, height);
-            [self drawTextInContext:ctx text:self.xUnit inRect:drawRect font:font];
+           //原来的 [self drawTextInContext:ctx text:self.xUnit inRect:drawRect font:font];
+            // 改变的
+            [self drawTextInContext:ctx text:self.xUnit inRect:drawRect font:font color:_xUnitColor];
         }
     }
     if (self.showYGridLines) {
+        
         CGContextRef ctx = UIGraphicsGetCurrentContext();
         CGFloat yAxisOffset = _showLabel ? 10.f : 0.0f;
         CGPoint point;
-        CGFloat yStepHeight = _chartCavanHeight / _yLabelNum;
+        // 有改动－－原来的是         CGFloat yStepHeight = _chartCavanHeight / _yLabelNum;
+
+        CGFloat yStepHeight = (_chartCavanHeight-10) / _yLabelNum;
         if (self.yGridLinesColor) {
             CGContextSetStrokeColorWithColor(ctx, self.yGridLinesColor.CGColor);
         } else {
             CGContextSetStrokeColorWithColor(ctx, [UIColor lightGrayColor].CGColor);
         }
-        for (NSUInteger i = 0; i < _yLabelNum; i++) {
+// 有改动－－原来是 i < _yLabelNum
+        for (NSUInteger i = 0; i < _yLabelNum + 1; i++) {
             point = CGPointMake(_chartMarginLeft + yAxisOffset, (_chartCavanHeight - i * yStepHeight + _yLabelHeight / 2));
             CGContextMoveToPoint(ctx, point.x, point.y);
             // add dotted style grid
             CGFloat dash[] = {6, 5};
             // dot diameter is 20 points
-            CGContextSetLineWidth(ctx, 0.5);
+            // 原来是            CGContextSetLineWidth(ctx, 0.5);
+            CGContextSetLineWidth(ctx, 1);
             CGContextSetLineCap(ctx, kCGLineCapRound);
             CGContextSetLineDash(ctx, 0.0, dash, 2);
             CGContextAddLineToPoint(ctx, CGRectGetWidth(rect) - _chartMarginLeft + 5, point.y);
@@ -772,8 +884,9 @@
     _pathPoints = [[NSMutableArray alloc] init];
     _endPointsOfPath = [[NSMutableArray alloc] init];
     self.userInteractionEnabled = YES;
+#warning -===有改动 原来的是    _yFixedValueMin = -FLT_MAX;
 
-    _yFixedValueMin = -FLT_MAX;
+    _yFixedValueMin = 0;
     _yFixedValueMax = -FLT_MAX;
     _yLabelNum = 5.0;
     _yLabelHeight = [[[[PNChartLabel alloc] init] font] pointSize];
@@ -806,7 +919,7 @@
     CGSize size = CGSizeMake(width, MAXFLOAT);
 
     if ([text respondsToSelector:@selector(boundingRectWithSize:options:attributes:context:)]) {
-        NSDictionary *tdic = [NSDictionary dictionaryWithObjectsAndKeys:font, NSFontAttributeName, nil];
+        NSDictionary *tdic = [NSDictionary dictionaryWithObjectsAndKeys:font, NSFontAttributeName,nil];
         size = [text boundingRectWithSize:size
                                   options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
                                attributes:tdic
@@ -834,15 +947,35 @@
         controlPoint.y -= diffY;
     return controlPoint;
 }
-
-- (void)drawTextInContext:(CGContextRef)ctx text:(NSString *)text inRect:(CGRect)rect font:(UIFont *)font {
+//原来的
+//- (void)drawTextInContext:(CGContextRef)ctx text:(NSString *)text inRect:(CGRect)rect font:(UIFont *)font {
+//    if (IOS7_OR_LATER) {
+//        NSMutableParagraphStyle *priceParagraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+//        priceParagraphStyle.lineBreakMode = NSLineBreakByTruncatingTail;
+//        priceParagraphStyle.alignment = NSTextAlignmentLeft;
+//    
+//        [text drawInRect:rect
+//          withAttributes:@{NSParagraphStyleAttributeName : priceParagraphStyle, NSFontAttributeName : font}];
+//    } else {
+//#pragma clang diagnostic push
+//#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+//        [text drawInRect:rect
+//                withFont:font
+//           lineBreakMode:NSLineBreakByTruncatingTail
+//               alignment:NSTextAlignmentLeft];
+//#pragma clang diagnostic pop
+//    }
+//   
+//}
+// 改变的
+- (void)drawTextInContext:(CGContextRef)ctx text:(NSString *)text inRect:(CGRect)rect font:(UIFont *)font color : (UIColor*)color{
     if (IOS7_OR_LATER) {
         NSMutableParagraphStyle *priceParagraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
         priceParagraphStyle.lineBreakMode = NSLineBreakByTruncatingTail;
         priceParagraphStyle.alignment = NSTextAlignmentLeft;
-
+        
         [text drawInRect:rect
-          withAttributes:@{NSParagraphStyleAttributeName : priceParagraphStyle, NSFontAttributeName : font}];
+          withAttributes:@{NSParagraphStyleAttributeName : priceParagraphStyle, NSForegroundColorAttributeName: color, NSFontAttributeName : font}];
     } else {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -852,8 +985,8 @@
                alignment:NSTextAlignmentLeft];
 #pragma clang diagnostic pop
     }
+    
 }
-
 - (NSString *)formatYLabel:(double)value {
 
     if (self.yLabelBlockFormatter) {

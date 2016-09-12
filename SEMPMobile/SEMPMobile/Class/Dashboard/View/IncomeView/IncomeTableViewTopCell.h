@@ -11,11 +11,14 @@
 @interface IncomeTableViewTopCell : UITableViewCell
 
 @property (nonatomic , strong) UIImageView * titleImage;
-@property (nonatomic , strong) UILabel * titleLabel;
-@property (nonatomic , strong) UILabel * bottomtitleLabel;
-@property (nonatomic , strong) UILabel * bottomvalLabel;
-@property (nonatomic , strong) UILabel * bottomunitLable;
-@property (nonatomic , strong) UILabel * bottomtitleTwoLabel;
-@property (nonatomic , strong) UILabel * bottomvalTwoLabel;
+@property (nonatomic , strong) UILabel * defaultvalLabel;
+@property (nonatomic , strong) UILabel * defaultunitLabel;
+@property (nonatomic , strong) UILabel * contrastnameLabel;
+@property (nonatomic , strong) UILabel * contrastvalLabel;
+@property (nonatomic , strong) UILabel * contrastunitLable;
+@property (nonatomic , strong) UILabel * othernameLabel;
+@property (nonatomic , strong) UILabel * otherval;
+@property (nonatomic , strong) UILabel * otherunitLabel;
 @property (nonatomic , strong) UILabel * label;
+
 @end

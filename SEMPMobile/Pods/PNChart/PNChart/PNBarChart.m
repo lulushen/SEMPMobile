@@ -48,6 +48,7 @@
     self.backgroundColor = [UIColor whiteColor];
     self.clipsToBounds   = YES;
     _showLabel           = YES;
+    _showYGridLines      = YES;
     _barBackgroundColor  = PNLightGrey;
     _labelTextColor      = [UIColor grayColor];
     _labelFont           = [UIFont systemFontOfSize:11.0f];
@@ -55,7 +56,8 @@
     _yChartLabels        = [NSMutableArray array];
     _bars                = [NSMutableArray array];
     _xLabelSkip          = 1;
-    _yLabelSum           = 4;
+    // 原来4 改成5
+    _yLabelSum           = 5;
     _labelMarginTop      = 0;
     _chartMarginLeft     = 25.0;
     _chartMarginRight    = 25.0;
@@ -90,47 +92,59 @@
 
 - (void)processYMaxValue {
     NSArray *yAxisValues = _yLabels ? _yLabels : _yValues;
+    
     _yLabelSum = _yLabels ? _yLabels.count - 1 :_yLabelSum;
+    
     if (_yMaxValue) {
         _yValueMax = _yMaxValue;
     } else {
         [self getYValueMax:yAxisValues];
     }
-
-    if (_yLabelSum==4) {
-        _yLabelSum = yAxisValues.count;
-        (_yLabelSum % 2 == 0) ? _yLabelSum : _yLabelSum++;
-    }
+    
+  // 原来的
+//    if (_yLabelSum==4) {
+//        _yLabelSum = yAxisValues.count;
+//        NSLog(@"-====_yLabelSum--%ld",_yLabelSum);
+//
+//        (_yLabelSum % 2 == 0) ? _yLabelSum : _yLabelSum++;
+//        
+//        NSLog(@"-===fff=_yLabelSum--%ld",_yLabelSum);
+//
+//    }
+    // ylabel始终都是5个
 }
 
 #pragma mark - Private Method
 #pragma mark - Add Y Label
 - (void)__addYCoordinateLabelsValues{
+    
 
   [self viewCleanupForCollection:_yChartLabels];
 
   [self processYMaxValue];
 
   float sectionHeight = (self.frame.size.height - _chartMarginTop - _chartMarginBottom - kXLabelHeight) / _yLabelSum;
-    
+    NSLog(@"---sectionHeight--%f",sectionHeight);
+
   for (int i = 0; i <= _yLabelSum; i++) {
     NSString *labelText;
+
     if (_yLabels) {
       float yAsixValue = [_yLabels[_yLabels.count - i - 1] floatValue];
       labelText= _yLabelFormatter(yAsixValue);
     } else {
-      labelText = _yLabelFormatter((float)_yValueMax * ( (_yLabelSum - i) / (float)_yLabelSum ));
+      labelText = _yLabelFormatter((float)_yValueMax *  (_yLabelSum - i) / (float)_yLabelSum );
     }
 
     PNChartLabel *label = [[PNChartLabel alloc] initWithFrame:CGRectZero];
     label.font = _labelFont;
     label.textColor = _labelTextColor;
     [label setTextAlignment:NSTextAlignmentRight];
+   
     label.text = [NSString stringWithFormat:@"%@%@%@", _yLabelPrefix, labelText, _yLabelSuffix];
-      
     [self addSubview:label];
       
-    label.frame = (CGRect){0, sectionHeight * i + _chartMarginTop - kYLabelHeight/2.0, _yChartLabelWidth, kYLabelHeight};
+    label.frame = (CGRect){0, sectionHeight * i + _chartMarginTop - kYLabelHeight/2.0, _yChartLabelWidth , kYLabelHeight};
 
     [_yChartLabels addObject:label];
   }
@@ -147,9 +161,17 @@
 
     //ensure max is even
    _yValueMax = max ;
-
-    if (_yValueMax == 0) {
+// 原来的
+//    if (_yValueMax == 0) {
+//        _yValueMax = _yMinValue;
+//    }
+    // 改动的
+    if (_yValueMax < 5) {
+        _yValueMax = 5.0f;
+        if (_yValueMax == 0) {
         _yValueMax = _yMinValue;
+            
+        }
     }
 }
 
@@ -190,6 +212,15 @@
                 label.center = CGPointMake(labelXPosition,
                                            self.frame.size.height - kXLabelHeight - _chartMarginTop + label.frame.size.height /2.0 + _labelMarginTop);
                 labelAddCount = 0;
+                
+                //label的倾斜角度 原来没有倾斜
+                label.transform = CGAffineTransformMakeRotation(0.2);
+                //  因为角度发生改变所以xy也发生改变，为了不使label位置变化，所以在旋转后重新赋值label的位置
+                CGPoint rect = label.center;
+                rect.x = label.center.x;
+                label.center = rect;
+                
+                
 
                 [_xChartLabels addObject:label];
                 [self addSubview:label];
@@ -263,6 +294,7 @@
             // Add gradient
             if (self.isGradientShow) {
              bar.barColorGradientStart = bar.barColor;
+            
             }
 
             //For Click Index
@@ -314,18 +346,20 @@
         _chartBottomLine = [CAShapeLayer layer];
         _chartBottomLine.lineCap      = kCALineCapButt;
         _chartBottomLine.fillColor    = [[UIColor whiteColor] CGColor];
-        _chartBottomLine.lineWidth    = 1.0;
+        //原来是1
+        _chartBottomLine.lineWidth    = 2.0;
         _chartBottomLine.strokeEnd    = 0.0;
 
         UIBezierPath *progressline = [UIBezierPath bezierPath];
 
         [progressline moveToPoint:CGPointMake(_chartMarginLeft, self.frame.size.height - kXLabelHeight - _chartMarginBottom + _chartMarginTop)];
         [progressline addLineToPoint:CGPointMake(self.frame.size.width - _chartMarginRight,  self.frame.size.height - kXLabelHeight - _chartMarginBottom + _chartMarginTop)];
-
-        [progressline setLineWidth:1.0];
+//原来是1
+        [progressline setLineWidth:2.0];
         [progressline setLineCapStyle:kCGLineCapSquare];
         _chartBottomLine.path = progressline.CGPath;
-        _chartBottomLine.strokeColor = [_chartBorderColor CGColor];;
+        _chartBottomLine.strokeColor = [_chartBorderColor CGColor];
+        // 原来1
         _chartBottomLine.strokeEnd = 1.0;
 
         [self.layer addSublayer:_chartBottomLine];
@@ -335,7 +369,8 @@
         _chartLeftLine = [CAShapeLayer layer];
         _chartLeftLine.lineCap      = kCALineCapButt;
         _chartLeftLine.fillColor    = [[UIColor whiteColor] CGColor];
-        _chartLeftLine.lineWidth    = 1.0;
+        //原来1
+        _chartLeftLine.lineWidth    = 2.0;
         _chartLeftLine.strokeEnd    = 0.0;
 
         UIBezierPath *progressLeftline = [UIBezierPath bezierPath];
@@ -351,6 +386,7 @@
 
         [self addBorderAnimationIfNeeded];
         [self.layer addSublayer:_chartLeftLine];
+     
     }
 
   // Add Level Separator Line
@@ -440,8 +476,9 @@
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    [self touchPoint:touches withEvent:event];
     [super touchesBegan:touches withEvent:event];
+
+    [self touchPoint:touches withEvent:event];
 }
 
 - (void)touchPoint:(NSSet *)touches withEvent:(UIEvent *)event
@@ -455,7 +492,111 @@
         [self.delegate userClickedOnBarAtIndex:subview.tag];
     }
 }
+#warning ======添加的方法
+#define IOS7_OR_LATER [[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0
+-(void)drawRect:(CGRect)rect
+{
+    
+    CGFloat yAxisOffset = 10.f;
+    
+    CGContextRef ctx = UIGraphicsGetCurrentContext();
+    UIGraphicsPushContext(ctx);
+    
+    
+    UIFont *font = [UIFont systemFontOfSize:11];
+   
+    // draw y unit
+//    if ([self.yUnit length]) {
+//        CGFloat height = [PNBarChart sizeOfString:self.yUnit withWidth:30.f font:font].height;
+//        
+//        CGRect drawRect = CGRectMake(_chartMarginLeft + 10 + 5, 0, 30.f, height);
+//        //原来的[self drawTextInContext:ctx text:self.yUnit inRect:drawRect font:font];
+//        //改变的
+//        [self drawTextInContext:ctx text:self.yUnit inRect:drawRect font:font color:_yUnitColor];
+//        
+//    }
+//    
+    // draw x unit
+//    if ([self.xUnit length]) {
+//        CGFloat height = [PNBarChart sizeOfString:self.xUnit withWidth:30.f font:font].height;
+//        CGRect drawRect = CGRectMake(CGRectGetWidth(rect) - _chartMarginLeft + 5, _chartMarginBottom + _chartCavanHeight - height / 2, 25.f, height);
+//        //原来的 [self drawTextInContext:ctx text:self.xUnit inRect:drawRect font:font];
+//        // 改变的
+//        [self drawTextInContext:ctx text:self.xUnit inRect:drawRect font:font color:_xUnitColor];
+//    }
+    CGFloat chartCavanHeight = self.frame.size.height - _chartMarginTop - _chartMarginBottom - kXLabelHeight;
+    if (self.showYGridLines) {
+        
+        CGContextRef ctx = UIGraphicsGetCurrentContext();
+//        CGFloat yAxisOffset = _showLabel ? 10.f : 0.0f;
+        CGPoint point;
+        // 有改动－－原来的是         CGFloat yStepHeight = _chartCavanHeight / _yLabelNum;
+        
+        CGFloat yStepHeight = (chartCavanHeight) / _yLabelSum;
+        if (self.yGridLinesColor) {
+            CGContextSetStrokeColorWithColor(ctx, self.yGridLinesColor.CGColor);
+        } else {
+            CGContextSetStrokeColorWithColor(ctx, [UIColor lightGrayColor].CGColor);
+        }
+        // 有改动－－原来是 i < _yLabelNum
+        for (NSUInteger i = 0; i < _yLabelSum + 1; i++) {
+            if (i!=0) {
+                point = CGPointMake(_chartMarginLeft, (chartCavanHeight - i * yStepHeight) + kYLabelHeight/2.0);
+                CGContextMoveToPoint(ctx, point.x, point.y);
+                // add dotted style grid
+                CGFloat dash[] = {6, 5};
+                // dot diameter is 20 points
+                CGContextSetLineWidth(ctx, 1);
+                CGContextSetLineCap(ctx, kCGLineCapRound);
+                CGContextSetLineDash(ctx, 0.0, dash, 2);
+                CGContextAddLineToPoint(ctx,self.frame.size.width - _chartMarginRight , point.y);
+                CGContextStrokePath(ctx);
+            }
+ 
+            }
+        }
+    
 
+}
+#pragma mark - tools
+
++ (CGSize)sizeOfString:(NSString *)text withWidth:(float)width font:(UIFont *)font {
+    CGSize size = CGSizeMake(width, MAXFLOAT);
+    
+    if ([text respondsToSelector:@selector(boundingRectWithSize:options:attributes:context:)]) {
+        NSDictionary *tdic = [NSDictionary dictionaryWithObjectsAndKeys:font, NSFontAttributeName,nil];
+        size = [text boundingRectWithSize:size
+                                  options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
+                               attributes:tdic
+                                  context:nil].size;
+    } else {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        size = [text sizeWithFont:font constrainedToSize:size lineBreakMode:NSLineBreakByCharWrapping];
+#pragma clang diagnostic pop
+    }
+    
+    return size;
+}
+- (void)drawTextInContext:(CGContextRef)ctx text:(NSString *)text inRect:(CGRect)rect font:(UIFont *)font color : (UIColor*)color{
+    if (IOS7_OR_LATER) {
+        NSMutableParagraphStyle *priceParagraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+        priceParagraphStyle.lineBreakMode = NSLineBreakByTruncatingTail;
+        priceParagraphStyle.alignment = NSTextAlignmentLeft;
+        
+        [text drawInRect:rect
+          withAttributes:@{NSParagraphStyleAttributeName : priceParagraphStyle, NSForegroundColorAttributeName: color, NSFontAttributeName : font}];
+    } else {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        [text drawInRect:rect
+                withFont:font
+           lineBreakMode:NSLineBreakByTruncatingTail
+               alignment:NSTextAlignmentLeft];
+#pragma clang diagnostic pop
+    }
+    
+}
 
 
 @end

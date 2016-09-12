@@ -34,6 +34,7 @@
     _moreButton = [[UIButton alloc] init];
     
     _labelTitle.text = @"指标看板";
+   
     
     [self addSubview:_labelimage];
     

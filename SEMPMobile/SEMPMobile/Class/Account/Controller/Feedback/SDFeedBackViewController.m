@@ -37,7 +37,7 @@
     _feedBackInfoTextView.layer.cornerRadius = 5;
 //    _feedBackInfoTextField.placeholder = @"在此输入反馈内容";
     [self.view addSubview:_feedBackInfoTextView];
-       _feedBackButton = [[UIButton alloc] init];
+       _feedBackButton =[UIButton buttonWithType:UIButtonTypeRoundedRect];
     _feedBackInfoTextView.delegate = self;
 //   _placeholderLabel = [[UILabel alloc] init];
 //    _placeholderLabel.frame =CGRectMake(10, 10, CGRectGetWidth(_feedBackInfoTextView.frame), 20);
@@ -95,22 +95,23 @@
     if ([_feedBackInfoTextView.text isEqualToString:@"请在此处输入反馈内容"] | ([[_feedBackInfoTextView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] length]==0)) {
         
         
+            [MBProgressHUD showSuccess:@"意见不能为空"];
+        
         
     }else{
         
-        NSData * data = [[NSUserDefaults standardUserDefaults] objectForKey:@"userModel"];
-        _userModel = [[userModel alloc] init];
-        _userModel = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+//        NSData * data = [[NSUserDefaults standardUserDefaults] objectForKey:@"userModel"];
+//        _userModel = [[userModel alloc] init];
+//        _userModel = [NSKeyedUnarchiver unarchiveObjectWithData:data];
         //  转化成字符串
         NSString *   token = [NSString stringWithFormat:@"%@",_userModel.user_token];
         
-        NSLog(@"-------%@------%@",_userModel.user_token,_feedBackInfoTextView.text);
+        NSLog(@"----%@",token);
         
         NSString * inf = [NSString stringWithFormat:@"%@",_feedBackInfoTextView.text];
         
         NSString * urlStr = [NSString stringWithFormat:FeedbackHttp,inf,token];
         
-        NSLog(@"----%@",urlStr);
         
         AFHTTPSessionManager * manager = [AFHTTPSessionManager manager];
         
@@ -124,6 +125,7 @@
             _feedBackInfoTextView.text = @"";
 
             [MBProgressHUD showSuccess:@"提交成功"];
+            
             NSLog(@"responseObject------%@",responseObject);
             
             

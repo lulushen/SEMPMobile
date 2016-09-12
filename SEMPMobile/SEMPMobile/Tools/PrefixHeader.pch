@@ -129,7 +129,10 @@
 
 // 退出登录接口
 #define userLoginOutHttp  server@"/app_userLoginOut.action"
-
+// 获取用户消息接口
+#define userInfoHttp server"/app_getMsg.action"
+// 阅读消息接口
+#define userReadInfoHttp server"/app_readMsg.action?msgId=%@"
 
 
 

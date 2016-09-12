@@ -32,9 +32,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"Account";
+    // 获得持久化的用户model
     NSData * data = [[NSUserDefaults standardUserDefaults] objectForKey:@"userModel"];
-    //反归档
+    
+    _model = [[userModel alloc] init];
+    // 用户model反归档
     _model = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    
+
     [self makeTableView];
     // Do any additional setup after loading the view.
 }
@@ -100,7 +105,8 @@
 
     [self.userTableHeaderView addSubview:userNameTitle];
     
-    _userLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(userNameTitle.frame)+5*KWidth6scale, CGRectGetMinY(userNameTitle.frame), 150*KWidth6scale, CGRectGetHeight(userNameTitle.frame))];
+    
+    _userLabel = [[UILabel alloc] init];
     
     
     [_userLabel setTextAlignment:NSTextAlignmentLeft];
@@ -114,7 +120,7 @@
 
     [self.userTableHeaderView addSubview:orgTitleLabel];
     
-    _orgLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(_userLabel.frame), CGRectGetMinY(orgTitleLabel.frame), CGRectGetWidth(_userLabel.frame), CGRectGetHeight(_userLabel.frame) + 20 * KHeight6scale)];
+    _orgLabel = [[UILabel alloc] init];
     if (_model == nil) {
         
         _userLabel.text =@"";
@@ -126,9 +132,20 @@
 
     }
     _orgLabel.numberOfLines = 0;
+    _userLabel.numberOfLines = 0;
+    CGRect userLabelRect = [_userLabel.text boundingRectWithSize:CGSizeMake(CGRectGetWidth(self.view.frame)/2.0, 60) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:_userLabel.font} context:nil];
+    
+    CGRect orgLabelRect = [_orgLabel.text boundingRectWithSize:CGSizeMake(CGRectGetWidth(self.view.frame)/2.0, 60) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:_orgLabel.font} context:nil];
+    
+    _userLabel.frame = CGRectMake(CGRectGetMaxX(userNameTitle.frame)+5*KWidth6scale, CGRectGetMinY(userNameTitle.frame), userLabelRect.size.width, CGRectGetHeight(userNameTitle.frame));
+    _orgLabel.frame = CGRectMake(CGRectGetMinX(_userLabel.frame), CGRectGetMinY(orgTitleLabel.frame), orgLabelRect.size.width, CGRectGetHeight(orgTitleLabel.frame));
     
     [_orgLabel setTextAlignment:NSTextAlignmentLeft];
-    
+    userNameTitle.font = [UIFont systemFontOfSize:15.0f];
+    orgTitleLabel.font = [UIFont systemFontOfSize:15.0f];
+    _userLabel.font = [UIFont systemFontOfSize:15.0f];
+    _orgLabel.font = [UIFont systemFontOfSize:15.0f];
+
     [self.userTableHeaderView addSubview:_orgLabel];
     
     self.userTableView.tableHeaderView = self.userTableHeaderView;
@@ -144,7 +161,7 @@
 // 用户退出时观察者方法
 - (void)callBack
 {
-   [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"userModel"];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"userModel"];
     
     _userLabel.text =[NSString stringWithFormat:@""];
     _orgLabel.text = @"";
@@ -272,6 +289,7 @@
     NSData *data =UIImageJPEGRepresentation(photo,1.0);
     
     NSString *pictureDataString=[data base64Encoding];
+    
     NSLog(@"pictureDataString--%@",pictureDataString);
     
     NSDictionary * dic  =@{@"verbId":@"modifyUserInfo",@"deviceType":@"ios",@"userId":@"",@"photo":pictureDataString,@"mobileTel":@""};
@@ -379,17 +397,22 @@
     if (indexPath.section == 0) {
         
         SDInfoViewController * infoVC = [[SDInfoViewController alloc] init];
+        self.hidesBottomBarWhenPushed=YES;
         [self.navigationController pushViewController:infoVC animated:YES];
+        self.hidesBottomBarWhenPushed=NO;
         
     }else if (indexPath.section == 1){
         
         SDSetViewController * setVC = [[SDSetViewController alloc] init];
+        self.hidesBottomBarWhenPushed=YES;
         [self.navigationController pushViewController:setVC animated:YES];
-
+        self.hidesBottomBarWhenPushed=NO;
     }else if (indexPath.section == 2){
         
         SDFeedBackViewController * feedBackVC = [[SDFeedBackViewController alloc] init];
+        self.hidesBottomBarWhenPushed=YES;
         [self.navigationController pushViewController:feedBackVC animated:YES];
+        self.hidesBottomBarWhenPushed=NO;
         
         
     }else if(indexPath.section == 3){

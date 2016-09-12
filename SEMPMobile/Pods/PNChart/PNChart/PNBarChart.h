@@ -121,4 +121,14 @@ typedef NSString *(^PNYLabelFormatter)(CGFloat yLabelValue);
 /** whether show numbers*/
 @property (nonatomic, assign) BOOL isShowNumbers;
 
+
+//新加单位
+@property (nonatomic, strong) NSString * xUnit;
+@property (nonatomic, strong) NSString * yUnit;
+@property (nonatomic, strong) UIColor * xUnitColor;
+@property (nonatomic, strong) UIColor * yUnitColor;
+// 是否现实虚线及虚线颜色
+@property (nonatomic) BOOL showYGridLines;
+@property (nonatomic) UIColor *yGridLinesColor;
+
 @end
