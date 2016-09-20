@@ -54,8 +54,6 @@
 //扇形图
 @property (nonatomic , strong) PNPieChart *defaultPieChart;
 @property (nonatomic , strong) PNPieChart *contrastPieChart;
-
-#warning 实验
 // tableView
 @property (nonatomic , strong) UITableView * IncomeTableView;
 
@@ -131,9 +129,7 @@
     
     _Time = [_Time stringByReplacingOccurrencesOfString:@"日" withString:@""];
     
-    
-    NSLog(@"------_time---%@",_Time);
-    
+
     [_dataSearchView removeFromSuperview];
     [self makeIncomeDate:_Time];
     
@@ -154,7 +150,6 @@
 - (void)backButtonClick:(UIButton *)sender
 {
     
-    //    NSString * date = [[NSUserDefaults standardUserDefaults] objectForKey:@"dateChange"];
     _dataSearchView.defaultDateString = _dataView.dateLabel.text;
     
     _dataSearchView.dateString =  _dataSearchView.defaultDateString;
@@ -218,7 +213,6 @@ static  BOOL Btnstatu = YES;
         } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
             //成功
             
-            NSLog(@"--income--index--%@",responseObject);
             if (responseObject != nil) {
                 
                 NSMutableDictionary * dict = [NSMutableDictionary dictionary];
@@ -230,6 +224,7 @@ static  BOOL Btnstatu = YES;
                     IncomeDashModel * model = [[IncomeDashModel alloc] init];
                     
                     [model setValuesForKeysWithDictionary:dict];
+                    
                     
                     
                     self.incomeDashModel = model;
@@ -345,10 +340,7 @@ static  BOOL Btnstatu = YES;
     
     
 }
-//- (void)luyinButtontwoClick:(UIButton *)button
-//{
-//
-//}
+
 - (void)pofangButtontwoClick:(UIButton *)button
 {
     // volume不能等于0，volume的值范围是0～1，设置音量大小
@@ -612,7 +604,7 @@ static int ScreenshotIndex = 0;
 
 // 图表代理方法PNChartDelegate
 - (void)userClickedOnLineKeyPoint:(CGPoint)point lineIndex:(NSInteger)lineIndex pointIndex:(NSInteger)pointIndex{
-    NSLog(@"----Click Key on line %f, %f line index is %d and point index is %d",point.x, point.y,(int)lineIndex, (int)pointIndex);
+  
     _pointIndexPath = (int)pointIndex;
     NSIndexPath * indexPath = [NSIndexPath indexPathForRow:1 inSection:0];
     IncomeTableViewChartCell * cell = [_IncomeTableView cellForRowAtIndexPath:indexPath];
@@ -682,9 +674,6 @@ static int ScreenshotIndex = 0;
     NSIndexPath * indexPath = [NSIndexPath indexPathForRow:1 inSection:0];
     IncomeTableViewChartCell * cell = [_IncomeTableView cellForRowAtIndexPath:indexPath];
     
-    
-
-
     if ((cell.scrollView.contentOffset.x >= 0)&&(cell.scrollView.contentOffset.x <= cell.scrollView.contentSize.width/6.0)) {
         [_IncomeTableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath1,indexPath2,indexPath3,nil] withRowAnimation:UITableViewRowAnimationNone];
     }else if((cell.scrollView.contentOffset.x >= cell.scrollView.contentSize.width/2.0)){
@@ -695,47 +684,75 @@ static int ScreenshotIndex = 0;
     // 扇形中间的圆形
 }
 //
+- (void)userClickedOnBarAtIndex:(NSInteger)barIndex
+{
+    _defaultBarChart.XGridLinesColor = [UIColor blackColor];
+    _defaultBarChart.showXGridLines = YES;
+    _pointIndexPath = (int)barIndex;
+    
+    NSIndexPath *indexPath1=[NSIndexPath indexPathForRow:2 inSection:0];
+    NSIndexPath *indexPath2=[NSIndexPath indexPathForRow:3 inSection:0];
+    NSIndexPath *indexPath3=[NSIndexPath indexPathForRow:4 inSection:0];
+    NSIndexPath * indexPath = [NSIndexPath indexPathForRow:1 inSection:0];
+    IncomeTableViewChartCell * cell = [_IncomeTableView cellForRowAtIndexPath:indexPath];
+    
+    if ((cell.scrollView.contentOffset.x >= 0)&&(cell.scrollView.contentOffset.x <= cell.scrollView.contentSize.width/6.0)) {
+        [_IncomeTableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath1,indexPath2,indexPath3,nil] withRowAnimation:UITableViewRowAnimationNone];
+    }else if((cell.scrollView.contentOffset.x >= cell.scrollView.contentSize.width/2.0)){
+    }
+
+}
 
 - (void)incomeTableViewChartCell:(IncomeTableViewChartCell *)cell indexPath:(NSIndexPath *)indexPath{
     
     [cell.defaultvalButton setTitle:_incomeDashModel.defaultVal[@"valuename"] forState:UIControlStateNormal];
     [cell.contrastvalButton setTitle:_incomeDashModel.contrastVal[@"valuename"] forState:UIControlStateNormal];
-    if (_incomeDashModel.defaultVal != nil) {
-        cell.defaultvalColorLabel.backgroundColor = [UIColor orangeColor];
-    }
-    if (_incomeDashModel.contrastVal[@"valuename"] != nil) {
-        
-        cell.contrastvalColorLabel.backgroundColor = MoreButtonColor;
-        
-    }
     _XdefaultValValueArray = [NSMutableArray arrayWithArray:[_incomeDashModel.defaultVal valueForKey:@"x"]];
     _YdefaultValValueArray = [NSMutableArray arrayWithArray:[_incomeDashModel.defaultVal valueForKey:@"y"]];
     _XcontrastValValueArray = [NSMutableArray arrayWithArray:[_incomeDashModel.contrastVal valueForKey:@"x"]];
     _YcontrastValValueArray = [NSMutableArray arrayWithArray:[_incomeDashModel.contrastVal valueForKey:@"y"]];
-    
+    // 判断是否添加实际值按钮或对比值按钮
+    if ((_XdefaultValValueArray.count == 0) && (_YdefaultValValueArray.count == 0)&& !((_XcontrastValValueArray.count == 0) && (_YcontrastValValueArray.count == 0))) {
+        //对比按钮
+        [cell.contrastvalButton addTarget:self action:@selector(contrastvalButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+        cell.contrastvalColorLabel.backgroundColor = MoreButtonColor;
+    }else if(!((_XdefaultValValueArray.count == 0) && (_YdefaultValValueArray.count == 0))&& ((_XcontrastValValueArray.count == 0) && (_YcontrastValValueArray.count == 0))){
+        //实际按钮
+        [cell.defaultvalButton addTarget:self action:@selector(defaultvalButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+        cell.defaultvalButton.selected = YES;
+        cell.defaultvalColorLabel.backgroundColor = [UIColor orangeColor];
+    }else if (!((_XdefaultValValueArray.count == 0) && (_YdefaultValValueArray.count == 0))&&!((_XcontrastValValueArray.count == 0) && (_YcontrastValValueArray.count == 0)) ){
+        //实际按钮
+        [cell.defaultvalButton addTarget:self action:@selector(defaultvalButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+        cell.defaultvalButton.selected = YES;
+        //对比按钮
+        [cell.contrastvalButton addTarget:self action:@selector(contrastvalButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+        cell.defaultvalColorLabel.backgroundColor = [UIColor orangeColor];
+        cell.contrastvalColorLabel.backgroundColor = MoreButtonColor;
+    }else{
+       
+        
+    }
+ //判断数据是否为空
     if ((_XdefaultValValueArray.count == 0) && (_YdefaultValValueArray.count == 0)) {
-        
-        [_XdefaultValValueArray addObject:@"0"];
+        [_XdefaultValValueArray addObject:@""];
         [_YdefaultValValueArray addObject:@""];
-        
     }else if ((_XdefaultValValueArray.count == 0) && (_YdefaultValValueArray.count != 0)){
         [_XdefaultValValueArray addObject:@""];
-        
     }else if ((_XdefaultValValueArray.count != 0) && (_YdefaultValValueArray.count == 0)){
         [_YdefaultValValueArray addObject:@""];
     }
-    
     if ((_XcontrastValValueArray.count == 0) && (_YcontrastValValueArray.count == 0)) {
-        
-        [_XcontrastValValueArray addObject:@"0"];
+        [_XcontrastValValueArray addObject:@""];
         [_YcontrastValValueArray addObject:@""];
-        
     }else if ((_XcontrastValValueArray.count == 0) && (_YcontrastValValueArray.count != 0)){
         [_XcontrastValValueArray addObject:@""];
-        
     }else if ((_XcontrastValValueArray.count != 0) && (_YcontrastValValueArray.count == 0)){
         [_YcontrastValValueArray addObject:@""];
     }
+    
+ 
+
 //    if (_incomeDashModel.defaultunit == _incomeDashModel.contrastunit) {
     
         //        if ((XdefaultValValueArray.count == 0) && (YdefaultValValueArray.count == 0) && (XcontrastValValueArray.count ==0) && (YcontrastValValueArray.count == 0)) {
@@ -1009,31 +1026,17 @@ static int ScreenshotIndex = 0;
             _contrastLineChart = [[PNLineChart alloc] initWithFrame:CGRectMake(Main_Screen_Width-40*KWidth6scale, CGRectGetMinY(_defaultLineChart.frame),CGRectGetWidth(_defaultLineChart.frame),CGRectGetHeight(_defaultLineChart.frame))];
             _defaultBarChart = [[PNBarChart alloc] initWithFrame:CGRectMake(CGRectGetMinX(_defaultLineChart.frame), CGRectGetMinY(_defaultLineChart.frame),CGRectGetWidth(_defaultLineChart.frame),CGRectGetHeight(_defaultLineChart.frame))];
             _contrastBarChart = [[PNBarChart alloc] initWithFrame:CGRectMake(CGRectGetMinX(_contrastLineChart.frame), CGRectGetMinY(_defaultBarChart.frame),CGRectGetWidth(_defaultBarChart.frame),CGRectGetHeight(_defaultBarChart.frame))];
-            
+            [cell.chartView addSubview:cell.scrollView];
             if ([_incomeDashModel.charttype isEqualToString:@"line_chart"] | [_incomeDashModel.charttype isEqualToString:@"text"] | [_incomeDashModel.charttype isEqualToString:@"long_text"]) {
-                //实际按钮
-                [cell.defaultvalButton addTarget:self action:@selector(defaultvalButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-                cell.defaultvalButton.selected = YES;
-                //对比按钮
-                [cell.contrastvalButton addTarget:self action:@selector(contrastvalButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-                
-                [cell.chartView addSubview:cell.scrollView];
                 [self makeLine];
                 [cell.scrollView addSubview:_defaultLineChart];
                 [cell.scrollView addSubview:_contrastLineChart];
                
-                
-                
             }else if ([_incomeDashModel.charttype isEqualToString:@"pie_chart"]){
-                
-#warning ====存不存在实际值为空，对比值不为空的情况＝＝＝＝
-                [cell.chartView addSubview:cell.scrollView];
-                //实际按钮
-                [cell.defaultvalButton addTarget:self action:@selector(defaultvalButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-                cell.defaultvalButton.selected = YES;
-                //对比按钮
-                [cell.contrastvalButton addTarget:self action:@selector(contrastvalButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-                
+                cell.defaultvalButton.hidden = YES;
+                cell.contrastvalButton.hidden = YES;
+                cell.defaultvalColorLabel.hidden = YES;
+                cell.contrastvalColorLabel.hidden = YES;
                 [self makePieChart];
                 UIView *legend = [self.defaultPieChart getLegendWithMaxWidth:10];
                 
@@ -1042,10 +1045,7 @@ static int ScreenshotIndex = 0;
                 [cell.scrollView addSubview:legend];
                 
                 [cell.scrollView addSubview:self.defaultPieChart];
-                
-                //            cell.scrollView.directionalLockEnabled=YES;//定向锁定
-                
-                
+
                 UIView *legend2 = [self.contrastPieChart getLegendWithMaxWidth:60*KWidth6scale];
                 
                 [legend2 setFrame:CGRectMake(CGRectGetMaxX(_contrastPieChart.frame)+10*KWidth6scale, CGRectGetMinY(_contrastPieChart.frame), legend.frame.size.width, legend.frame.size.height)];
@@ -1055,27 +1055,12 @@ static int ScreenshotIndex = 0;
                 [cell.scrollView addSubview:self.contrastPieChart];
                 
             }else if ([_incomeDashModel.charttype isEqualToString:@"bar_chart"]){
-                [cell.chartView addSubview:cell.scrollView];
-                //实际按钮
-                [cell.defaultvalButton addTarget:self action:@selector(defaultvalButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-                cell.defaultvalButton.selected = YES;
-                //对比按钮
-                [cell.contrastvalButton addTarget:self action:@selector(contrastvalButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-                if (_incomeDashModel.defaultVal == nil) {
-                    
-                }else{
-                   
-                     [self makeBar];
+               
+               
+                    [self makeBar];
                     [cell.scrollView addSubview:_defaultBarChart];
-                
-                }
-                
-                if (_incomeDashModel.contrastVal != nil) {
-                     [self makeBar];
                     [cell.scrollView addSubview:_contrastBarChart];
 
-                }
-                
             }
        }
 
@@ -1185,13 +1170,11 @@ static int ScreenshotIndex = 0;
         _defaultLineChart.showYGridLines = YES;
         _defaultLineChart.yUnit = _incomeDashModel.defaultunit;
         _defaultLineChart.yUnitColor = [UIColor blackColor];
-
         [_defaultLineChart setXLabels:_XdefaultValValueArray];
         PNLineChartData * defaultData = [PNLineChartData new];
         defaultData.color = [UIColor orangeColor];
         defaultData.itemCount = self.defaultLineChart.xLabels.count;
-        defaultData.alpha = 0.8f;
-        defaultData.lineWidth = 2.f;
+        defaultData.lineWidth = 2.0f;
         defaultData.inflexionPointWidth = 4;
         defaultData.inflexionPointStyle = PNLineChartPointStyleCircle;
         defaultData.getData = ^(NSUInteger index){
@@ -1217,7 +1200,7 @@ static int ScreenshotIndex = 0;
         _contrastLineChart.showGenYLabels = YES;
         _contrastLineChart.showLabel = YES;
         _contrastLineChart.showYGridLines = YES;
-
+      
         _contrastLineChart.yUnit = _incomeDashModel.contrastunit;
         _contrastLineChart.yUnitColor = [UIColor blackColor];
 
@@ -1225,7 +1208,6 @@ static int ScreenshotIndex = 0;
         PNLineChartData * contrastData = [PNLineChartData new];
         contrastData.color = MoreButtonColor;
         contrastData.itemCount = self.contrastLineChart.xLabels.count;
-        contrastData.alpha = 0.8f;
         contrastData.lineWidth = 2.f;
         contrastData.inflexionPointWidth = 4;
         contrastData.inflexionPointStyle = PNLineChartPointStyleCircle;
@@ -1253,8 +1235,6 @@ static int ScreenshotIndex = 0;
 {
     NSMutableArray *items  = [NSMutableArray array];
     int i = 0;
-    NSMutableArray * color = [NSMutableArray array];
-
     for (NSString * value in _YdefaultValValueArray) {
         
         PNPieChartDataItem * item = [PNPieChartDataItem dataItemWithValue:[value floatValue] color:_pieColorArray[i] description:_XdefaultValValueArray[i]];
@@ -1323,16 +1303,14 @@ static int ScreenshotIndex = 0;
        
         
     }else{
-        _defaultBarChart.backgroundColor = [UIColor clearColor];
         _defaultBarChart.yChartLabelWidth = 20.0;
-        //    _barChart.chartBorderColor = [UIColor whiteColor];
-        //    _barChart.strokeColor = [UIColor whiteColor];
         _defaultBarChart.chartMarginLeft = 30.0;
         _defaultBarChart.chartMarginRight = 10.0;
         _defaultBarChart.chartMarginTop = 5.0;
         _defaultBarChart.chartMarginBottom = 10.0;
         _defaultBarChart.barBackgroundColor = [UIColor clearColor];
-        //    _barChart.labelTextColor = [UIColor whiteColor];
+        _defaultBarChart.chartBorderColor = DEFAULT_BGCOLOR;
+        _defaultBarChart.strokeColor = [UIColor orangeColor];
         _defaultBarChart.labelFont = [UIFont systemFontOfSize:12];
         _defaultBarChart.labelMarginTop = 5.0;
         _defaultBarChart.showChartBorder = YES;
@@ -1349,17 +1327,15 @@ static int ScreenshotIndex = 0;
         
     }else{
         
-        _contrastBarChart.backgroundColor = [UIColor clearColor];
         _contrastBarChart.yChartLabelWidth = 20.0;
-        //    _barChart.chartBorderColor = [UIColor whiteColor];
-        //    _barChart.strokeColor = [UIColor whiteColor];
+        _contrastBarChart.strokeColor = MoreButtonColor;
+        _contrastBarChart.chartBorderColor = DEFAULT_BGCOLOR;
+        _contrastBarChart.barBackgroundColor = [UIColor clearColor];
         _contrastBarChart.chartMarginLeft = 30.0;
         _contrastBarChart.chartMarginRight = 10.0;
         _contrastBarChart.chartMarginTop = 5.0;
         _contrastBarChart.chartMarginBottom = 10.0;
-        _contrastBarChart.barBackgroundColor = [UIColor clearColor];
         _contrastBarChart.delegate = self;
-        //    _barChart.labelTextColor = [UIColor whiteColor];
         _contrastBarChart.labelFont = [UIFont systemFontOfSize:12];
         _contrastBarChart.labelMarginTop = 5.0;
         _contrastBarChart.showChartBorder = YES;

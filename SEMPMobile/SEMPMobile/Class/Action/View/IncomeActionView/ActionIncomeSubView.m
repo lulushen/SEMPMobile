@@ -28,7 +28,7 @@
     _actionFuBuPersonLabel = [[UILabel alloc] init];
     _chuangJianDataTitleLabel = [[UILabel alloc] init];
     _jieZhiDataTitleLabel = [[UILabel alloc] init];
-    _chuangJianDataStringLabel = [[UILabel alloc] init];
+    _chuangJianDataStringButton = [UIButton buttonWithType:UIButtonTypeCustom];
     _jieZhiDataStringButton = [UIButton buttonWithType:UIButtonTypeCustom];
     _actionStatuLabel = [[UILabel alloc] init];
     
@@ -57,7 +57,7 @@
     [self addSubview:_actionFuBuPersonLabel];
     [self addSubview:_chuangJianDataTitleLabel];
     [self addSubview:_jieZhiDataTitleLabel];
-    [self addSubview:_chuangJianDataStringLabel];
+    [self addSubview:_chuangJianDataStringButton];
     [self addSubview:_jieZhiDataStringButton];
     [self addSubview:_oneButton];
     [self addSubview:_twoButton];
@@ -76,20 +76,21 @@
     _chuangJianDataTitleLabel.text = @"创建日期 ：" ;
     _chuangJianDataTitleLabel.textColor = [UIColor grayColor];
     _chuangJianDataTitleLabel.font = [UIFont systemFontOfSize:12.0f];
-    //    _chuangJianDataStringLabel.text = @"2016-07-01" ;
-    _chuangJianDataStringLabel.textAlignment = NSTextAlignmentLeft;
-    _chuangJianDataStringLabel.textColor = [UIColor grayColor];
-    _chuangJianDataStringLabel.font = [UIFont systemFontOfSize:12.0f];
+
     _jieZhiDataTitleLabel.text = @"截止日期 ：" ;
     _jieZhiDataTitleLabel.textColor = [UIColor grayColor];
     _jieZhiDataTitleLabel.font = [UIFont systemFontOfSize:12.0f];
-  
+    [_chuangJianDataStringButton.titleLabel setTextAlignment:NSTextAlignmentLeft];
+    [_chuangJianDataStringButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    [_chuangJianDataStringButton.titleLabel setFont:[UIFont systemFontOfSize:12.0]];
     [_jieZhiDataStringButton.titleLabel setTextAlignment:NSTextAlignmentLeft];
     [_jieZhiDataStringButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     [_jieZhiDataStringButton.titleLabel setFont:[UIFont systemFontOfSize:12.0]];
     [_oneButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [_twoButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    
+    [_oneButton setTitleColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.5 ] forState:UIControlStateHighlighted];
+    [_twoButton setTitleColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.5 ] forState:UIControlStateHighlighted];
+
     _oneButton.layer.masksToBounds = YES;
     _oneButton.layer.borderWidth = 1;
     _oneButton.layer.cornerRadius = 3;
@@ -101,6 +102,8 @@
     _lineLabel.backgroundColor = DEFAULT_BGCOLOR;
 //    _jieZhiDataStringButton.layer.borderWidth = 1;
     _jieZhiDataStringButton.layer.cornerRadius = 3;
+    _chuangJianDataStringButton.layer.cornerRadius = 3;
+
 }
 
 - (void)layoutSubviews{
@@ -120,11 +123,11 @@
     
     _chuangJianDataTitleLabel.frame = CGRectMake(CGRectGetMinX(_actionFuBuTitleLabel.frame), CGRectGetMaxY(_actionFuBuTitleLabel.frame) + 10*KHeight6scale, CGRectGetWidth(_actionFuBuTitleLabel.frame)-10*KWidth6scale, CGRectGetHeight(_actionFuBuTitleLabel.frame));
     
-    _chuangJianDataStringLabel.frame = CGRectMake(CGRectGetMaxX(_chuangJianDataTitleLabel.frame), CGRectGetMinY(_chuangJianDataTitleLabel.frame), CGRectGetWidth(_chuangJianDataTitleLabel.frame), CGRectGetHeight(_chuangJianDataTitleLabel.frame));
+    _chuangJianDataStringButton.frame = CGRectMake(CGRectGetMaxX(_chuangJianDataTitleLabel.frame), CGRectGetMinY(_chuangJianDataTitleLabel.frame), CGRectGetWidth(_chuangJianDataTitleLabel.frame), CGRectGetHeight(_chuangJianDataTitleLabel.frame));
     
     _jieZhiDataTitleLabel.frame = CGRectMake(CGRectGetMinX(_chuangJianDataTitleLabel.frame), CGRectGetMaxY(_chuangJianDataTitleLabel.frame), CGRectGetWidth(_chuangJianDataTitleLabel.frame), CGRectGetHeight(_chuangJianDataTitleLabel.frame));
     
-    _jieZhiDataStringButton.frame = CGRectMake(CGRectGetMinX(_chuangJianDataStringLabel.frame), CGRectGetMaxY(_chuangJianDataStringLabel.frame), CGRectGetWidth(_chuangJianDataStringLabel.frame)+10*KWidth6scale, CGRectGetHeight(_chuangJianDataStringLabel.frame));
+    _jieZhiDataStringButton.frame = CGRectMake(CGRectGetMinX(_chuangJianDataStringButton.frame), CGRectGetMaxY(_chuangJianDataStringButton.frame), CGRectGetWidth(_chuangJianDataStringButton.frame), CGRectGetHeight(_chuangJianDataStringButton.frame));
     
     _twoButton.frame = CGRectMake(Main_Screen_Width-rectTwoButton.size.width -20*KWidth6scale, 10*KHeight6scale, rectTwoButton.size.width+10*KWidth6scale, 25*KHeight6scale);
     

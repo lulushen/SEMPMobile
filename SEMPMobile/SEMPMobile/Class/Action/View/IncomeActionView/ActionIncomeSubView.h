@@ -17,7 +17,7 @@
 @property (nonatomic , strong) UILabel * chuangJianDataTitleLabel;
 @property (nonatomic , strong) UILabel * jieZhiDataTitleLabel;
 
-@property (nonatomic , strong) UILabel * chuangJianDataStringLabel;
+@property (nonatomic , strong) UIButton * chuangJianDataStringButton;
 @property (nonatomic , strong) UIButton * jieZhiDataStringButton;
 
 @property (nonatomic , strong) UIButton * oneButton;

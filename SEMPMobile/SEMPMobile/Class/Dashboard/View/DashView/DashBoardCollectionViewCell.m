@@ -38,11 +38,11 @@
     _labelMidval.adjustsFontSizeToFitWidth = YES;
     [self.contentView addSubview:_labelTitle];
     
-    _labelMidval.font = [UIFont systemFontOfSize:30];
-    _labelBottomtilte.font = [UIFont systemFontOfSize:13];
-    _labelBottomval.font = [UIFont systemFontOfSize:13];
-    _labelTitle.font = [UIFont systemFontOfSize:15];
-    
+    _labelMidval.font = [UIFont boldSystemFontOfSize:30];
+    _labelBottomtilte.font = [UIFont boldSystemFontOfSize:12];
+    _labelBottomval.font = [UIFont boldSystemFontOfSize:12];
+    _labelTitle.font = [UIFont boldSystemFontOfSize:15];
+   
 //    _labelunit.backgroundColor = [UIColor redColor];
 //    _labelBottomval.backgroundColor = [UIColor  blackColor];
 //    _labelBottomtilte.backgroundColor = [UIColor blueColor];
@@ -64,5 +64,14 @@
     _labelMidval.frame = CGRectMake(10*KWidth6scale, CGRectGetMaxY(_labelTitle.frame), CGRectGetWidth(_labelTitle.frame), CGRectGetHeight(self.frame)-CGRectGetHeight(_labelTitle.frame) - CGRectGetHeight(_labelBottomtilte.frame) - CGRectGetHeight(_labelunit.frame));
      _midvalView.frame = CGRectMake(10*KWidth6scale, CGRectGetMaxY(_labelTitle.frame), CGRectGetWidth(_labelTitle.frame), CGRectGetHeight(self.frame)-CGRectGetHeight(_labelTitle.frame) - CGRectGetHeight(_labelBottomtilte.frame));
     
+}
+
+- (void)setTextColor:(UIColor *)color
+{
+    [_labelTitle setTextColor:color];
+    [_labelMidval setTextColor:color];
+    [_labelBottomval setTextColor:color];
+    [_labelBottomtilte setTextColor:color];
+    [_labelunit setTextColor:color];
 }
 @end

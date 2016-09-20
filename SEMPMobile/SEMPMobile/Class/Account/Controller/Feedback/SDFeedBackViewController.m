@@ -7,12 +7,10 @@
 //
 
 #import "SDFeedBackViewController.h"
-#import "userModel.h"
 #import "MBProgressHUD+MJ.h"
 
 @interface SDFeedBackViewController ()<UITextViewDelegate>
 
-@property (nonatomic , strong)userModel * userModel;
 @property (nonatomic , strong)UILabel * placeholderLabel;
 @end
 
@@ -100,11 +98,8 @@
         
     }else{
         
-//        NSData * data = [[NSUserDefaults standardUserDefaults] objectForKey:@"userModel"];
-//        _userModel = [[userModel alloc] init];
-//        _userModel = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-        //  转化成字符串
-        NSString *   token = [NSString stringWithFormat:@"%@",_userModel.user_token];
+      
+        NSString *   token = [[NSUserDefaults standardUserDefaults] objectForKey:@"userModel_token"];
         
         NSLog(@"----%@",token);
         

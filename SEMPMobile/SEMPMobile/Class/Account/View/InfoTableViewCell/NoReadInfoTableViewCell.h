@@ -20,4 +20,10 @@
 
 @property (nonatomic , strong)UILabel * lineLabel;
 
+@property (nonatomic , assign)CGRect rectTitle;
+
+@property (nonatomic , assign)CGRect rectDate;
+
+
+
 @end

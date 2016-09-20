@@ -10,7 +10,6 @@
 #import "AddCollectionViewCell.h"
 #import "DashBoardViewController.h"
 #import "DashBoardModel.h"
-#import "userModel.h"
 #import "AddDashModel.h"
 
 
@@ -26,8 +25,6 @@
 
 @property (nonatomic , strong)NSData * AllDashLabeldata;
 
-@property (nonatomic , strong)userModel * userModel;
-
 @property (nonatomic , strong)NSString * token;
 
 @end
@@ -41,15 +38,7 @@
     }
     return _dashLabelArray;
 }
-//- (NSMutableArray *)firstDashArray
-//{
-//    if (_firstDashArray == nil) {
-//        
-//               _firstDashArray = [NSMutableArray array];
-//        
-//    }
-//    return _firstDashArray;
-//}
+
 - (NSMutableArray *)dashAllArray
 {
     if (_dashAllArray == nil) {
@@ -70,11 +59,11 @@
 
     
     self.navigationItem.title = @"ADD";
-    
+   
     
     [self makeCollectionView];
     
-    
+  
     
     // 自定义返回按钮LeftButtonItme
     [self makeLeftButtonItme];
@@ -94,9 +83,7 @@
     
 }
 - (void)backButtonClick:(UIButton *)button {
-    
-    
-    
+
     NSString * indexCheckedString = [NSString string];
    
     if (_dashLabelArray.count > 0) {
@@ -122,12 +109,12 @@
         
         indexCheckedString = [NSString stringWithFormat:@""];
     }
-    NSData * data = [[NSUserDefaults standardUserDefaults] objectForKey:@"userModel"];
-    _userModel = [[userModel alloc] init];
-    _userModel = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-    //  转化成字符串
-    _token = [NSString stringWithFormat:@"%@",_userModel.user_token];
+    NSMutableDictionary * userDict = [[NSUserDefaults standardUserDefaults] valueForKey:@"userResponseObject"];
+    
+    _token =  [userDict valueForKey:@"user_token"];
+    
 
+    
     NSString * urlStr = [NSString stringWithFormat:indexCheckedHttp,_token,indexCheckedString];
     
     AFHTTPSessionManager * manager = [AFHTTPSessionManager manager];
@@ -160,8 +147,6 @@
         NSLog(@"failure  error ： %@",error);
         
     }];
-    
-    
     
     
 }
@@ -360,7 +345,10 @@
 //
 //
 //}
-
+-(void)dealloc
+{
+    
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

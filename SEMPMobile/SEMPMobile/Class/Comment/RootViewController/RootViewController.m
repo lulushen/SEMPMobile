@@ -67,7 +67,6 @@
 #pragma mark - 网络改变 处理事件
 - (void)networkChanged:(NSNotification *)notification
 {
-    NSLog(@"hehe");
     RealReachability *reachability =(RealReachability *) notification.object;
     ReachabilityStatus status = [reachability currentReachabilityStatus];
     ReachabilityStatus previousStatus = [reachability previousReachabilityStatus];
@@ -104,9 +103,7 @@
         NSLog(@"不需要再显示");
         return ;
     }
-    NSLog(@"走了 显示的代码");
     for (UIView *v in [self.tabBarController.view subviews]) {
-        NSLog(@"--sub  class--:%@",NSStringFromClass([v class]));
         if ([v isKindOfClass:[UITabBar class]]) {
             [UIView animateWithDuration:0.4 delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^(){
                 
@@ -124,7 +121,6 @@
             } completion:nil];
         }
     }
-    NSLog(@"--current H hsow--:%f",self.view.frame.size.height);
     return;
 }
 

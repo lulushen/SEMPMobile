@@ -16,7 +16,4 @@
 // 指标model的数组
 @property (nonatomic , strong) NSMutableArray * DashModelArray;
 
-//用户登录时获取的model
-@property (nonatomic , strong) userModel * userModel;
-
 @end

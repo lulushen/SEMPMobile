@@ -12,6 +12,7 @@
 #import "userModel.h"
 #import "AFNetworking.h"
 #import "DashBoardModel.h"
+#import "DashBoardViewController.h"
 
 
 @interface SDUserLoginViewController ()<UITextFieldDelegate>
@@ -21,6 +22,7 @@
     UIAlertController * _alertDidRegiest;
     NSMutableDictionary *_temDic;
     userModel * model;
+    NSMutableArray    * _dashDictArray;
 }
 @property (nonatomic , strong)NSString * info;
 
@@ -47,6 +49,7 @@
 - (void)viewWillAppear:(BOOL)animated{
     
     [super viewWillAppear:animated];
+
 }
 
 - (void)viewDidLoad {
@@ -93,85 +96,93 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 - (void)LoginButtonClick:(UIButton *)button{
-    self.userTextField.text = @"mobile";
-    self.passWordTextField.text = @"111111";
-    // 1.设置请求路径
-    NSString * urlStr = [NSString stringWithFormat:LoginHttp];
-   
-    NSLog(@"=-----%@",LoginHttp);
-    AFHTTPSessionManager * manager = [AFHTTPSessionManager manager];
-    
-    NSDictionary *parameters = @{@"loginname":self.userTextField.text,@"password":self.passWordTextField.text};
-    
-    [manager POST:urlStr parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
+
+    //1.获取一个全局串行队列
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    //2.把任务添加到队列中执行
+    dispatch_async(queue, ^{
         
+
+        self.userTextField.text = @"mobile";
+        self.passWordTextField.text = @"111111";
+        // 1.设置请求路径
+        NSString * urlStr = [NSString stringWithFormat:LoginHttp];
         
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        AFHTTPSessionManager * manager = [AFHTTPSessionManager manager];
         
-        NSLog(@"---用户登录的responseObject--%@",responseObject);
+        NSDictionary *parameters = @{@"loginname":self.userTextField.text,@"password":self.passWordTextField.text};
         
-        if (responseObject != nil) {
+        [manager POST:urlStr parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
             
-            model = [[userModel alloc] init];
             
-            [model setValuesForKeysWithDictionary:responseObject];
+        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
             
-            NSInteger status = model.status;
+            NSLog(@"---用户登录的responseObject--%@",responseObject);
+            NSMutableDictionary * dict = [NSMutableDictionary dictionary];
+            dict = responseObject;
             
-            if (status == 1) {
+            if (responseObject != nil) {
                 
-//                NSMutableDictionary * dic = [NSMutableDictionary dictionary];
-//                
-//                [dic setObject:_userTextField.text forKey:@"userName"];
-//                [dic setObject:_passWordTextField.text forKey:@"passWord"];
+                model = [[userModel alloc] init];
                 
-                if ([[NSUserDefaults standardUserDefaults] objectForKey:@"userModel"] != nil) {
+                [model setValuesForKeysWithDictionary:responseObject];
+                
+                NSInteger status = model.status;
+                
+                if (status == 1) {
+
+                                       // 数据持久化
+                    NSUserDefaults * userDefault = [NSUserDefaults standardUserDefaults];
+                   
+                    [userDefault setObject:dict forKey:@"userResponseObject"];
+                    [userDefault synchronize];
+
+                    NSString *path = [NSHomeDirectory() stringByAppendingString:@"/Documents"];
+                    NSLog(@"APP_Path = %@", path);
                     
-                    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"userModel"];
+
                     
+
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                       
+                        
+                        [self makeDashBoardData];
+
+                        [MBProgressHUD showSuccess:model.message];
+                        
+                        //  AppDelegate * app = [[AppDelegate alloc] init];
+                        //  [app mainTab];
+
+                        });
+
+                    
+                } else {
+                    
+                    [MBProgressHUD showSuccess:model.message];
                 }
                 
-                NSData * userModelData = [NSData data];
-                // 用户model归档
-                userModelData = [NSKeyedArchiver archivedDataWithRootObject:model];
+            }else{
                 
-                [[NSUserDefaults standardUserDefaults] setObject:userModelData forKey:@"userModel"];
-                
-                [[NSUserDefaults standardUserDefaults] synchronize];
-                
-                //[[NSUserDefaults standardUserDefaults] setObject:dic forKey:@"userLogin"];
-                [MBProgressHUD showSuccess:model.message];
-                
-                // 延迟0.5秒跳转页面
-                [self performSelector:@selector(GoToMainView) withObject:self afterDelay:0.5f];
-                // [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:@"login"];
-                
-                //  AppDelegate * app = [[AppDelegate alloc] init];
-                //  [app mainTab];
-                
-            } else {
-                
-                [MBProgressHUD showSuccess:model.message];
+                [MBProgressHUD showSuccess:@"请求数据为空，登录失败"];
             }
             
-        }else{
-
-            [MBProgressHUD showSuccess:@"请求数据为空，登录失败"];
-        }
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-        [MBProgressHUD showSuccess:@"可能服务器停止，解析失败，登录失败"];
-        
-    }];
-
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            
+            [MBProgressHUD showSuccess:@"可能服务器停止或断网，解析登录失败"];
+            
+        }];
     
+     });
 }
-- (void)GoToMainView
+- (void)GoToDashView
 {
-    TabBarControllerConfig *tabBarConfig = [[TabBarControllerConfig alloc]init];
+    [[NSUserDefaults standardUserDefaults] setObject:_dashDictArray forKey:@"array"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
     
+    TabBarControllerConfig *tabBarConfig = [[TabBarControllerConfig alloc]init];
+        
     [self presentViewController:tabBarConfig.tabBarController animated:YES completion:nil];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -183,7 +194,63 @@
     [self.userTextField resignFirstResponder];
     [self.passWordTextField resignFirstResponder];
 }
+#pragma == 指标
+- (void)makeDashBoardData
+{
+    
+        //1.获取一个全局串行队列
+        dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+        //2.把任务添加到队列中执行
+        dispatch_async(queue, ^{
+            
+           
+            NSMutableDictionary * userDict = [[NSUserDefaults standardUserDefaults] valueForKey:@"userResponseObject"];
+            NSString * token = [userDict valueForKey:@"user_token"];
+            
+            NSMutableDictionary * dict = [userDict valueForKey:@"resdata"];
+            
+            NSString * time = [NSString stringWithFormat:@"%@",dict[@"defaulttime"]];
+            
+            // 指标界面的接口
+            NSString * urlStr = [NSString stringWithFormat:DashBoardHttp,token,time];
+            AFHTTPSessionManager * manager = [AFHTTPSessionManager manager];
+            
+            [manager GET:urlStr parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
+                //这里可以用来显示下载进度
+            } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                
+                _dashDictArray = [NSMutableArray array];
+                //成功
+                if (responseObject != nil) {
+                                        
+                    NSMutableArray * array = [NSMutableArray array];
+                    
+                    array = [responseObject valueForKey:@"resdata"];
+                    
+                        for (NSDictionary * dict in array) {
+                            
+                            [_dashDictArray addObject:dict];
+                            
+                        }
 
+                        //    // 延迟0.5秒跳转页面
+                        [self performSelector:@selector(GoToDashView) withObject:self afterDelay:0.2f];
+
+                    
+                }
+                
+            } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                //失败
+                NSLog(@"failure  error ： %@",error);
+                [MBProgressHUD showSuccess:@"请检查网略"];
+
+            }];
+            
+        });
+        
+    
+
+}
 /*
  #pragma mark - Navigation
  

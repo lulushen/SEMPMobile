@@ -822,8 +822,9 @@
 
         // draw y unit
         if ([self.yUnit length]) {
-            CGFloat height = [PNLineChart sizeOfString:self.yUnit withWidth:30.f font:font].height;
-            CGRect drawRect = CGRectMake(_chartMarginLeft + 10 + 5, 0, 30.f, height);
+            //原来是30.f 改为200.f
+            CGFloat height = [PNLineChart sizeOfString:self.yUnit withWidth:200.f font:font].height;
+            CGRect drawRect = CGRectMake(_chartMarginLeft + 10 + 5, 0, 200.f, height);
             //原来的[self drawTextInContext:ctx text:self.yUnit inRect:drawRect font:font];
             //改变的
             [self drawTextInContext:ctx text:self.yUnit inRect:drawRect font:font color:_yUnitColor];
@@ -863,7 +864,7 @@
             CGContextSetLineWidth(ctx, 1);
             CGContextSetLineCap(ctx, kCGLineCapRound);
             CGContextSetLineDash(ctx, 0.0, dash, 2);
-            CGContextAddLineToPoint(ctx, CGRectGetWidth(rect) - _chartMarginLeft + 5, point.y);
+            CGContextAddLineToPoint(ctx, CGRectGetWidth(rect) - _chartMarginLeft+3 , point.y);
             CGContextStrokePath(ctx);
         }
     }

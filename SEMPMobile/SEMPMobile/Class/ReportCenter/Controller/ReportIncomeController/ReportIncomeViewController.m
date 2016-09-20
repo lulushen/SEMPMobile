@@ -28,7 +28,6 @@
     
     _reportWebView = [[UIWebView alloc]initWithFrame:CGRectMake(0, 0, Main_Screen_Width, KViewHeight)];
     
-    NSLog(@"------------------%@",_webViewHttpString);
     
     [_reportWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:_webViewHttpString]]];
     

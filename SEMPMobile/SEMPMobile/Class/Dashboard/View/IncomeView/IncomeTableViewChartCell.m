@@ -43,6 +43,9 @@
     
     [_defaultvalButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     [_contrastvalButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    [_defaultvalButton setTitleColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.3 ] forState:UIControlStateHighlighted];
+    [_contrastvalButton setTitleColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.3 ] forState:UIControlStateHighlighted];
+
     [_defaultvalButton.titleLabel setFont:[UIFont systemFontOfSize:14.0f]];
     [_contrastvalButton.titleLabel setFont:[UIFont systemFontOfSize:14.0f]];
 
@@ -71,9 +74,6 @@
     
     _scrollView.contentSize = CGSizeMake(CGRectGetWidth(_chartView.frame)*2.0, CGRectGetHeight(_chartView.frame));
 
-    
-//    _scrollView.backgroundColor = [UIColor grayColor];
-    
 }
 
 - (void)awakeFromNib {

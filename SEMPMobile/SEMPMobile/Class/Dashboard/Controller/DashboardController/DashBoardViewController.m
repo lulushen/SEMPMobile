@@ -20,18 +20,10 @@
 #import "IncomeDashModel.h"
 
 
-
-
-#define PNArc4randomColor [UIColor colorWithRed:arc4random_uniform(255)/255.0 green:arc4random_uniform(255)/255.0 blue:arc4random_uniform(255)/255.0 alpha:1]
-// 判断1X1的前后都不是1X1的情况
-#define TiaojianOne  ((!(modelqian.size_x == 1 && modelqian.size_y == 1)) && (!(modelhou.size_x == 1 && modelhou.size_y == 1)))
-// 判断1X1前面是1X1 后面不是1X1 并且前面的1X1数量的不是偶数的情况
-#define TiaojianTwo ((modelqian.size_x == 1 && modelqian.size_y == 1)&&(!(modelhou.size_x == 1 && modelhou.size_y == 1)) && ((i + 1) % 2 != 0))
-// 判断第一个指标是1x1 后面不是1X1的情况
-#define TiaojianThree ((xiabiao == 0)&& !(modelhou.size_x == 1 && modelhou.size_y == 1))
-
 @interface DashBoardViewController ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,PNChartDelegate>
-
+{
+    DashCollectionViewFlowLayout * layout;
+}
 //分享按钮
 @property (nonatomic , strong) UIButton * shareButton;
 //nav上的日期视图
@@ -68,43 +60,44 @@
 
 @implementation DashBoardViewController
 
-
+- (NSMutableArray *)DashModelArray
+{
+    if (_DashModelArray == nil) {
+        _DashModelArray = [NSMutableArray array];
+    }
+    return _DashModelArray;
+}
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
+
     _topView.moreButton.selected = NO;
+   
     //显示tabbar
     [self showTabBar];
-    
     
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
+    //获取持久化数据
+    NSMutableDictionary * userDict = [[NSUserDefaults standardUserDefaults] valueForKey:@"userResponseObject"];
+    NSMutableDictionary * dict = [userDict valueForKey:@"resdata"];
+    _Time = [NSString stringWithFormat:@"%@",dict[@"defaulttime"]];
+    _token =  [userDict valueForKey:@"user_token"];
+
     _pieColorArray = [NSMutableArray array];
+    
     for (int i = 0; i < 10; i++) {
+        
         [_pieColorArray addObject:PNArc4randomColor];
     }
-    // 获得持久化的用户model
-    NSData * data = [[NSUserDefaults standardUserDefaults] objectForKey:@"userModel"];
-    
-    userModel * model = [[userModel alloc] init];
-    // 用户model反归档
-    model = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-    
-    NSMutableDictionary * dict = model.resdata;
-    
-    _Time = [NSString stringWithFormat:@"%@",dict[@"defaulttime"]];
-    
+
     _topView = [[DashCollectionReusableView alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, 30*KHeight6scale)];
-    
     
     [_topView.moreButton addTarget:self action:@selector(moreButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     
     [self.view addSubview:_topView];
-    
-    // 解析dashBoardHttp数据
-    [self makeDate:_Time];
+    [self makeView];
     // 添加观察者 观察日期变化
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(DateChange) name:@"DateChange" object:nil];
     // 添加观察者
@@ -114,20 +107,33 @@
     
     // Do any additional setup after loading the view.
 }
+- (void)makeView
+{
+    _DashModelArray = [NSMutableArray array];
+    //获取持久化数据
+    NSMutableArray * array = [[NSUserDefaults standardUserDefaults] objectForKey:@"array"];
+    for (NSDictionary * dict in array) {
+        DashBoardModel * model = [[DashBoardModel alloc] init];
+        [model setValuesForKeysWithDictionary:dict];
+        [_DashModelArray addObject:model];
+    }
+    // model重新排序
+    [self makeNewDashModelArray];
+    // 创建collectionView
+    [self makeCollectionView];
 
+}
 - (void)makeCollectionView
 {
-    [self.collectionView removeFromSuperview];
     
-    DashCollectionViewFlowLayout * layout = [[DashCollectionViewFlowLayout alloc] init];
+    layout = [[DashCollectionViewFlowLayout alloc] init];
     
     layout.DashModelArray = [NSMutableArray array];
     
     layout.DashModelArray = [_DashModelArray mutableCopy];
-    
+
     self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_topView.frame), Main_Screen_Width, KViewHeight-CGRectGetHeight(_topView.frame)) collectionViewLayout:layout];
-    
-    
+
     self.collectionView.backgroundColor = [UIColor whiteColor];
     
     [self.view addSubview:_collectionView];
@@ -136,12 +142,9 @@
     
     _collectionView.delegate = self;
     
-    for (int i = 0; i < _DashModelArray.count; i++) {
+    NSString *CellIdentifier = [NSString stringWithFormat:@"cell"];
         
-        NSString *CellIdentifier = [NSString stringWithFormat:@"cell%d",i];
-        
-        [_collectionView registerClass:[DashBoardCollectionViewCell class] forCellWithReuseIdentifier:CellIdentifier];
-    }
+    [_collectionView registerClass:[DashBoardCollectionViewCell class] forCellWithReuseIdentifier:CellIdentifier];
     
     //创建长按手势监听
     UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc]
@@ -261,7 +264,6 @@ static  BOOL Btnstatu = YES;
     
     _Time = [_Time stringByReplacingOccurrencesOfString:@"日" withString:@""];
     //    _Time = _dataSearchView.timeString;
-    NSLog(@"---=================================---%@",_Time);
 #warning 刷新 ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
     
     // 刷新数据
@@ -275,6 +277,9 @@ static  BOOL Btnstatu = YES;
 - (void)ADDDashLabelArrayChange
 {
 #warning 刷新 ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+    NSMutableDictionary * userDict = [[NSUserDefaults standardUserDefaults] valueForKey:@"userResponseObject"];
+    _token =  [userDict valueForKey:@"user_token"];
+    _Time = [[NSUserDefaults standardUserDefaults] objectForKey:@"ADDBackTime"];
     // 刷新数据
     [self makeDate:_Time];
     
@@ -289,32 +294,22 @@ static  BOOL Btnstatu = YES;
 
 - (void)makeDate:(NSString *)time
 {
-    _DashModelArray = [NSMutableArray array];
     
     //1.获取一个全局串行队列
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     //2.把任务添加到队列中执行
     dispatch_async(queue, ^{
-        
-        // 获得持久化的用户model
-        NSData * data = [[NSUserDefaults standardUserDefaults] objectForKey:@"userModel"];
-        
-        _userModel = [[userModel alloc] init];
-        // 用户model反归档
-        _userModel = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-        
-        // 转化成字符串
-        _token = [NSString stringWithFormat:@"%@",_userModel.user_token];
-        
         // 指标界面的接口
         NSString * urlStr = [NSString stringWithFormat:DashBoardHttp,_token,time];
-        NSLog(@"---urlStr--%@",urlStr);
+        
         AFHTTPSessionManager * manager = [AFHTTPSessionManager manager];
         
         [manager GET:urlStr parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
             //这里可以用来显示下载进度
         } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-            NSLog(@"---指标界面的responseObject--%@",responseObject);
+            _DashModelArray = [NSMutableArray array];
+            [_DashModelArray removeAllObjects];
+
             //成功
             if (responseObject != nil) {
                 
@@ -338,21 +333,21 @@ static  BOOL Btnstatu = YES;
                     [self  makeNewDashModelArray];
                     
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        // 回到主线程,执⾏UI刷新操作
-                        [self makeCollectionView];
+                        
+                       // 返回主线程刷新ui
+                        [_collectionView reloadData];
+                        layout.DashModelArray = [_DashModelArray mutableCopy];
+
                         
                     });
                 }else{
                     
                     NSLog(@"解析出的数组为空");
-                    
-                    [self makeCollectionView];
                     UILabel * label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, Main_Screen_Height)];
                     label.text = @"没有关注指标or网略连接错误～";
                     [_collectionView addSubview:label];
                     
                 }
-                
             }
             
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -423,11 +418,11 @@ static  BOOL Btnstatu = YES;
                 
                 if (TiaojianOne | TiaojianTwo | TiaojianThree){
                     // 删除指标
-                    DashBoardModel * biandongModel = _DashModelArray[[sizeoneindexArray[i+1] integerValue]];
+                    DashBoardModel * changeModel = _DashModelArray[[sizeoneindexArray[i+1] integerValue]];
                     
-                    [_DashModelArray removeObject:biandongModel];
+                    [_DashModelArray removeObject:changeModel];
                     // 插入指标
-                    [_DashModelArray insertObject:biandongModel atIndex:xiabiao+1];
+                    [_DashModelArray insertObject:changeModel atIndex:xiabiao+1];
                     
                     NSNumber * insertNumber = [NSNumber numberWithInteger:(xiabiao + 1)];
                     
@@ -460,23 +455,32 @@ static  BOOL Btnstatu = YES;
     return _DashModelArray.count;
 }
 
-- (DashBoardCollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     
     
-    NSString *CellIdentifier = [NSString stringWithFormat:@"cell%ld",indexPath.row];
+    NSString *CellIdentifier = [NSString stringWithFormat:@"cell"];
+    
     DashBoardCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CellIdentifier forIndexPath:indexPath];
+    
+//    if (!cell) {
+//        cell = [[DashBoardCollectionViewCell alloc] init];
+//    }
     
     DashBoardModel * m = [[DashBoardModel alloc] init];
     m = _DashModelArray[indexPath.row];
-    
     cell.backgroundColor = [UIColor colorWithString:m.bgcolor];
-    [cell.labelTitle setTextColor:[UIColor colorWithString:m.color]];
-    [cell.labelMidval setTextColor:[UIColor colorWithString:m.color]];
-    [cell.labelBottomval setTextColor:[UIColor colorWithString:m.color]];
-    [cell.labelBottomtilte setTextColor:[UIColor colorWithString:m.color]];
-    [cell.labelunit setTextColor:[UIColor colorWithString:m.color]];
+    [cell setTextColor:[UIColor colorWithString:m.color]];
+    
     cell.labelTitle.text = m.title;
+
+    [cell.label removeFromSuperview];
+    [cell.labelBottomval removeFromSuperview];
+    [cell.labelBottomtilte removeFromSuperview];
+    [cell.labelunit removeFromSuperview];
+    [cell.labelMidval removeFromSuperview];
+    [_cellDeleteButton removeFromSuperview];
+    
     if ([m.chart_type isEqualToString:@"line_chart"]|[m.chart_type isEqualToString:@"bar_chart"]|[m.chart_type isEqualToString:@"pie_chart"]) {
         NSMutableArray * XValueArray = [NSMutableArray arrayWithArray:[m.data valueForKey:@"x"]];
         NSMutableArray * YValueArray = [NSMutableArray arrayWithArray:[m.data valueForKey:@"y"]];
@@ -495,9 +499,9 @@ static  BOOL Btnstatu = YES;
         
         _lineChart = [[PNLineChart alloc] initWithFrame:CGRectMake(10, 20,Main_Screen_Width-50,CGRectGetHeight(cell.frame)-60)];
         _barChart = [[PNBarChart alloc] initWithFrame:CGRectMake(CGRectGetMinX(_lineChart.frame), CGRectGetMinY(_lineChart.frame), CGRectGetWidth(_lineChart.frame), CGRectGetHeight(_lineChart.frame))];
-        
-        
+    
         [cell.contentView addSubview:cell.midvalView];
+        cell.midvalView.userInteractionEnabled = NO;
         if (cell.midvalView.subviews.count !=0) {
             [cell.midvalView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
         }
@@ -518,7 +522,6 @@ static  BOOL Btnstatu = YES;
             data01.itemCount = self.lineChart.xLabels.count;
             data01.inflexionPointWidth = 4;
             data01.lineWidth = 1.5f;
-            data01.alpha = 1;
             data01.inflexionPointStyle = PNLineChartPointStyleCircle;
             data01.getData = ^(NSUInteger index){
                 
@@ -612,11 +615,10 @@ static  BOOL Btnstatu = YES;
     }
     
     
-    _cellDeleteButton = [[UIButton alloc] init];
+    _cellDeleteButton = [UIButton buttonWithType:UIButtonTypeCustom];
     _cellDeleteButton.tag = indexPath.row;
     
-    
-    return cell;
+       return cell;
     
 }
 // 选中cell
@@ -657,6 +659,9 @@ static  BOOL Btnstatu = YES;
     _lineChart.showGenYLabels = YES;
     _lineChart.showLabel = YES;
     _lineChart.axisWidth = 2;
+    _lineChart.yLabelFont = [UIFont boldSystemFontOfSize:14.0f];
+    _lineChart.xLabelFont = [UIFont boldSystemFontOfSize:12.0f];
+
     _lineChart.axisColor = [UIColor whiteColor];
     self.lineChart.yLabelColor =[UIColor whiteColor];
     self.lineChart.xLabelColor = [UIColor whiteColor];
@@ -678,7 +683,7 @@ static  BOOL Btnstatu = YES;
     _barChart.chartMarginBottom = 10.0;
     _barChart.barBackgroundColor = [UIColor clearColor];
     _barChart.labelTextColor = [UIColor whiteColor];
-    _barChart.labelFont = [UIFont systemFontOfSize:12];
+    _barChart.labelFont = [UIFont boldSystemFontOfSize:12.0f];
     _barChart.labelMarginTop = 5.0;
     _barChart.showChartBorder = YES;
     _barChart.delegate = self;
@@ -709,15 +714,6 @@ static  BOOL Btnstatu = YES;
     //2.把任务添加到队列中执行
     dispatch_async(queue, ^{
         
-        // 转化成字符串
-        _token = [NSString stringWithFormat:@"%@",_userModel.user_token];
-        
-        
-        //        NSMutableDictionary * dict = _userModel.resdata;
-        //        // 进入指标界面的默认时间
-        //        NSString * time = [NSString stringWithFormat:@"%@",dict[@"defaulttime"]];
-        //
-        //        _Time = time ;
         // 指标详情界面的接口
         NSString * urlStr = [NSString stringWithFormat:IncomeHttp,_dashModel.Did,Time];
         
@@ -728,8 +724,6 @@ static  BOOL Btnstatu = YES;
             //这里可以用来显示下载进度
         } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
             //成功
-            NSLog(@"---指标详情界面的responseObject--%@",responseObject);
-            
             
             if (responseObject != nil) {
                 
@@ -790,7 +784,6 @@ static  BOOL Btnstatu = YES;
     
     if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
         
-        NSLog(@"UIGestureRecognizerStateBegan");
         NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:pointTouch];
         
         if (indexPath == nil) {
@@ -819,16 +812,18 @@ static  BOOL Btnstatu = YES;
 - (void)cellDeleteButtonClick:(UIButton *)button
 {
     
-    if (button.selected == YES) {
+    if (button.selected) {
         
         
         
     }else{
+        
         button.selected = YES;
-        
-        
         [_DashModelArray removeObjectAtIndex:_cellIndexPath.row];
-        
+        [self makeNewDashModelArray];
+        layout.DashModelArray = [_DashModelArray mutableCopy];
+
+        NSLog(@"---%ld",_DashModelArray.count);
         
         NSString * indexCheckedString = [NSString string];
         
@@ -865,18 +860,36 @@ static  BOOL Btnstatu = YES;
             
             //这里可以用来显示下载进度
         } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-            //指标重新排序
-            [self makeNewDashModelArray];
-            //加载collectionView
-            [self makeCollectionView];
+        //指标重新排序
+
+        [UIView animateWithDuration:0.3 // 动画时长
+                                 animations:^{
+                                     // 返回主线程刷新ui
+                                      button.superview.frame = CGRectMake(button.superview.center.x, button.superview.center.y, 0, 0);
+                                     
+                                 }
+                                 completion:^(BOOL finished) {
+                                     // 动画完成后执行
+                                     
+//                                     [_collectionView removeFromSuperview];
+//                                     [self makeCollectionView];
+//                                     NSString *CellIdentifier = [NSString stringWithFormat:@"cell"];
+                                     
+//                                     [_collectionView registerClass:[DashBoardCollectionViewCell class] forCellWithReuseIdentifier:CellIdentifier];
+                                    // 直接刷新的时候会出现bug
+                                   [_collectionView reloadData];
+                                 }];
+                
+            
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
             //失败
             NSLog(@"failure  error ： %@",error);
+            [self makeDate:_Time];
         }];
+    
+    
     }
-    
-    
-    
+
 }
 
 
@@ -892,7 +905,6 @@ static  BOOL Btnstatu = YES;
             
             //这里可以用来显示下载进度
         } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-            //            NSLog(@"[----------添加指标的responseObject---%@",responseObject);
             //成功
             NSMutableDictionary * dict = [NSMutableDictionary dictionary];
             dict = responseObject[@"resdata"];
@@ -939,6 +951,8 @@ static  BOOL Btnstatu = YES;
                     
                     Btnstatu = YES;
                     
+                    [[NSUserDefaults standardUserDefaults] setObject:_Time forKey:@"ADDBackTime"];
+                    [[NSUserDefaults standardUserDefaults] synchronize];
                     
                     [self.navigationController pushViewController:addVC animated:YES];
                     

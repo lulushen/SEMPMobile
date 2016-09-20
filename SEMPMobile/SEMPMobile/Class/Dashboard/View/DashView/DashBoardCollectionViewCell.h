@@ -17,4 +17,6 @@
 @property (nonatomic , strong) UILabel * labelBottomval;
 @property (nonatomic , strong) UILabel * label;
 @property (nonatomic , strong) UILabel * labelunit;
+
+- (void)setTextColor:(UIColor *)color;
 @end

@@ -32,7 +32,7 @@
         _status = [aDecoder decodeIntegerForKey:@"status"];
         
     }
-    
+
     
     return self;
 }

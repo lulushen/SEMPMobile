@@ -7,7 +7,6 @@
 //
 
 #import "AddActionViewController.h"
-#import "userModel.h"
 #import "DefaultIndexInfoModel.h"
 #import "AddActionSelectTableViewCell.h"
 #import "DefaultD_resModel.h"
@@ -30,8 +29,6 @@
 // 添加协助人，负责人界面
 @property (nonatomic , strong) UIView * addPersonView;
 @property (nonatomic , strong) UITableView * defaultPersonTabelView;
-@property (nonatomic , strong) userModel * userModel;
-
 // 全部相关指标数组
 @property (nonatomic , strong) NSMutableArray * defaultIndexInfoModelArray;
 // 被选中的相关指标数组
@@ -179,10 +176,7 @@
     [self makeLeftButtonItme];
     [self makeRightButtonItme];
     [self makeAddActionScorllView];
-    
-    NSData * data = [[NSUserDefaults standardUserDefaults] objectForKey:@"userModel"];
-    _userModel = [[userModel alloc] init];
-    _userModel = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+
     // 解析相关指标接口数据
     [self makeDefaultIndexInfoData];
     // 解析协助人和负责任接口数据

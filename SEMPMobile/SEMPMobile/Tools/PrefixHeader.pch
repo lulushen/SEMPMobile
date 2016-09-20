@@ -28,6 +28,18 @@
  *
  *  @return <#return value description#>
  */
+
+#define PNArc4randomColor [UIColor colorWithRed:arc4random_uniform(255)/255.0 green:arc4random_uniform(255)/255.0 blue:arc4random_uniform(255)/255.0 alpha:1]
+// 判断1X1的前后都不是1X1的情况
+#define TiaojianOne  ((!(modelqian.size_x == 1 && modelqian.size_y == 1)) && (!(modelhou.size_x == 1 && modelhou.size_y == 1)))
+// 判断1X1前面是1X1 后面不是1X1 并且前面的1X1数量的不是偶数的情况
+#define TiaojianTwo ((modelqian.size_x == 1 && modelqian.size_y == 1)&&(!(modelhou.size_x == 1 && modelhou.size_y == 1)) && ((i + 1) % 2 != 0))
+// 判断第一个指标是1x1 后面不是1X1的情况
+#define TiaojianThree ((xiabiao == 0)&& !(modelhou.size_x == 1 && modelhou.size_y == 1))
+
+
+
+
 #define iPhone6p ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1242, 2208), [[UIScreen mainScreen] currentMode].size) : NO)
 
 #define iPhone6 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(750, 1334), [[UIScreen mainScreen] currentMode].size) : NO)
@@ -134,7 +146,11 @@
 // 阅读消息接口
 #define userReadInfoHttp server"/app_readMsg.action?msgId=%@"
 
+// 加载头像接口
+#define headImageHttp server"/app_readHeadImg.action"
 
+// 上传头像
+#define upLoadHeadImageHttp server"/app_uploadheadimg.action.do?"
 
 // Include any system framework and library headers here that should be included in all compilation units.
 // You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.

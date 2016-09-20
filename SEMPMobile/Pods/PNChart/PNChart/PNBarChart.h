@@ -130,5 +130,7 @@ typedef NSString *(^PNYLabelFormatter)(CGFloat yLabelValue);
 // 是否现实虚线及虚线颜色
 @property (nonatomic) BOOL showYGridLines;
 @property (nonatomic) UIColor *yGridLinesColor;
+@property (nonatomic) BOOL showXGridLines;
+@property (nonatomic) UIColor *XGridLinesColor;
 
 @end

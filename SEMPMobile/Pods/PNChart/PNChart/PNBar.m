@@ -149,6 +149,7 @@
 
     CGContextSetFillColorWithColor(context, self.backgroundColor.CGColor);
     CGContextFillRect(context, rect);
+ 
 }
 
 

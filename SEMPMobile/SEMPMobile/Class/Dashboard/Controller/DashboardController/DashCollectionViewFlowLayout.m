@@ -35,8 +35,6 @@
     [super prepareLayout];
    
     
-    NSLog(@"_DashModelArray -- %ld",_DashModelArray.count);
-
     _tempAtt = [NSMutableArray array];
     _viewDashArray = [NSMutableArray array];
     

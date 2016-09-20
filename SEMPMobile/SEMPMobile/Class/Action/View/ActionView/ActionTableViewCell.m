@@ -41,7 +41,7 @@
     [self.contentView addSubview:_lineLabel];
     [self.contentView addSubview:_responsiblePersonImageView];
 
-    
+    _responsiblePersonImageView.layer.cornerRadius = 5*KWidth6scale;
     _actionTitleLabel.font = [UIFont systemFontOfSize:15.0f];
     _actionDateLabel.font = [UIFont systemFontOfSize:11.0f];
     _actionStatuLabel.font = [UIFont systemFontOfSize:14.0f];
@@ -79,7 +79,7 @@
     _actionPersonImage.frame = CGRectMake(CGRectGetWidth(self.contentView.frame)-40*KWidth6scale, 0, 20*KWidth6scale, 20*KHeight6scale);
     _actionStatuLabel.frame = CGRectMake(CGRectGetWidth(self.contentView.frame) -(CGRectGetWidth(self.contentView.frame)-40*KWidth6scale)/4.0 -20*KWidth6scale, CGRectGetMaxY(_actionPersonImage.frame) + 10*KHeight6scale, (CGRectGetWidth(self.contentView.frame)-40*KWidth6scale)/4.0, CGRectGetHeight(self.contentView.frame) - CGRectGetMaxY(_actionPersonImage.frame) -20*KWidth6scale);
      _lineLabel.frame = CGRectMake(CGRectGetMinX(self.contentView.frame)+10*KWidth6scale, CGRectGetMaxY(self.contentView.frame)-1*KHeight6scale, CGRectGetWidth(self.contentView.frame)-20*KWidth6scale, 1*KHeight6scale);
-    _responsiblePersonImageView.frame = CGRectMake(CGRectGetMaxX(self.contentView.frame)-30*KWidth6scale, 0, 20*KWidth6scale, 20*KWidth6scale);
+    _responsiblePersonImageView.frame = CGRectMake(CGRectGetMaxX(self.contentView.frame)-30*KWidth6scale, 0, 10*KWidth6scale, 10*KWidth6scale);
     
 }
 - (void)awakeFromNib {

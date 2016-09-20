@@ -40,26 +40,29 @@
     
     _infoLabel.layer.masksToBounds = YES;
     _infoLabel.backgroundColor = DEFAULT_BGCOLOR;
-    _infoLabel.layer.cornerRadius = 15;
+    _infoLabel.layer.cornerRadius = 5;
     _infoLabel.numberOfLines = 0;
     _infoTitleLabel.numberOfLines = 0;
     _infoDateLabel.numberOfLines = 0;
-    
+    _infoDateLabel.font = [UIFont systemFontOfSize:15.0f];
+    _infoTitleLabel.font = [UIFont systemFontOfSize:13.0f];
     
 }
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    CGRect rectTitle = [_infoTitleLabel.text boundingRectWithSize:CGSizeMake(Main_Screen_Width-80, KHeight6scale) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:_infoTitleLabel.font} context:nil];
-    CGRect rectDate = [_infoDateLabel.text boundingRectWithSize:CGSizeMake(Main_Screen_Width, 100) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:_infoDateLabel.font} context:nil];
-    _infoImageView.frame = CGRectMake(10*KWidth6scale, 10*KHeight6scale, 20*KWidth6scale, 15*KHeight6scale);
+    _rectTitle = [_infoTitleLabel.text boundingRectWithSize:CGSizeMake(Main_Screen_Width-80*KWidth6scale, KViewHeight) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:_infoTitleLabel.font} context:nil];
+    _rectDate = [_infoDateLabel.text boundingRectWithSize:CGSizeMake(Main_Screen_Width-80*KWidth6scale, KViewHeight) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:_infoDateLabel.font} context:nil];
     
-    _infoLabel.frame = CGRectMake(CGRectGetMaxX(_infoImageView.frame)+5*KWidth6scale, 10*KHeight6scale, Main_Screen_Width - (CGRectGetMaxX(_infoImageView.frame)+20*KWidth6scale), rectTitle.size.height + rectDate.size.height+ 30*KHeight6scale);
+    _infoImageView.frame = CGRectMake(10*KWidth6scale, self.contentView.frame.size.height/2.0 - 15*KHeight6scale, 30*KWidth6scale, 30*KHeight6scale);
+
+    _infoLabel.frame = CGRectMake(CGRectGetMaxX(_infoImageView.frame)+5*KWidth6scale, 10*KHeight6scale, Main_Screen_Width - (CGRectGetMaxX(_infoImageView.frame)+20*KWidth6scale), _rectTitle.size.height + _rectDate.size.height+ 30*KHeight6scale);
     
-    _infoTitleLabel.frame = CGRectMake(5*KWidth6scale, 10*KHeight6scale, rectTitle.size.width, rectTitle.size.height);
-    _infoDateLabel.frame = CGRectMake(CGRectGetMinX(_infoTitleLabel.frame), CGRectGetMaxY(_infoTitleLabel.frame)+10*KHeight6scale, rectDate.size.width, rectDate.size.height);
-   
-//    _lineLabel.frame
+
+    _infoTitleLabel.frame = CGRectMake(5*KWidth6scale, 10*KHeight6scale, _rectTitle.size.width, _rectTitle.size.height);
+    _infoDateLabel.frame = CGRectMake(CGRectGetMinX(_infoTitleLabel.frame), CGRectGetMaxY(_infoTitleLabel.frame)+10*KHeight6scale, _rectDate.size.width, _rectDate.size.height);
+    
+    
 }
 
 - (void)awakeFromNib {

@@ -10,19 +10,15 @@
 
 @interface InfoModel : NSObject
 
-@property (nonatomic , strong)NSString * update_user;
-@property (nonatomic , strong)NSString *message_pkid;
-@property (nonatomic , strong)NSString *send_user_id;
-@property (nonatomic , strong)NSString *message_text;
-@property (nonatomic , strong)NSString *message_time;
+
+@property (nonatomic , strong)NSString *text;
+@property (nonatomic , strong)NSString *title;
+@property (nonatomic , strong)NSString *time;
+@property (nonatomic , strong)NSString *send_user;
+@property (nonatomic , strong)NSString *help_user;
+@property (nonatomic , strong)NSString *create_user;
+@property (nonatomic , strong)NSString *receive_user;
 @property (nonatomic , strong)NSString *message_id;
-@property (nonatomic , strong)NSString *primary_id;
-@property (nonatomic , strong)NSString *read_flag;
-@property (nonatomic , strong)NSString *message_title;
-@property (nonatomic , strong)NSString *read_time;
-@property (nonatomic , strong)NSString *receive_user_id;
-@property (nonatomic , strong)NSString *update_time;
-@property (nonatomic , strong)NSString *module_id;
-@property (nonatomic , strong)NSString *app_read_flag;
+@property (nonatomic , assign)Boolean readflag;
 
 @end

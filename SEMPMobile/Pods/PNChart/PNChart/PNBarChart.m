@@ -17,6 +17,7 @@
 
 - (UIColor *)barColorAtIndex:(NSUInteger)index;
 
+@property (nonatomic , strong)UIImageView * lineImage;
 @end
 
 @implementation PNBarChart
@@ -73,6 +74,7 @@
     _isShowNumbers       = YES;
     _yLabelPrefix        = @"";
     _yLabelSuffix        = @"";
+    _lineImage           = [[UIImageView alloc] init];
 	_yLabelFormatter = ^(CGFloat yValue){
 		return [NSString stringWithFormat:@"%1.f",yValue];
 	};
@@ -124,7 +126,6 @@
   [self processYMaxValue];
 
   float sectionHeight = (self.frame.size.height - _chartMarginTop - _chartMarginBottom - kXLabelHeight) / _yLabelSum;
-    NSLog(@"---sectionHeight--%f",sectionHeight);
 
   for (int i = 0; i <= _yLabelSum; i++) {
     NSString *labelText;
@@ -354,7 +355,7 @@
 
         [progressline moveToPoint:CGPointMake(_chartMarginLeft, self.frame.size.height - kXLabelHeight - _chartMarginBottom + _chartMarginTop)];
         [progressline addLineToPoint:CGPointMake(self.frame.size.width - _chartMarginRight,  self.frame.size.height - kXLabelHeight - _chartMarginBottom + _chartMarginTop)];
-//原来是1
+       //原来是1
         [progressline setLineWidth:2.0];
         [progressline setLineCapStyle:kCGLineCapSquare];
         _chartBottomLine.path = progressline.CGPath;
@@ -488,15 +489,26 @@
     CGPoint touchPoint = [touch locationInView:self];
     UIView *subview = [self hitTest:touchPoint withEvent:nil];
 
+
     if ([subview isKindOfClass:[PNBar class]] && [self.delegate respondsToSelector:@selector(userClickedOnBarAtIndex:)]) {
         [self.delegate userClickedOnBarAtIndex:subview.tag];
+        CGFloat chartCavanHeight = self.frame.size.height - _chartMarginTop - _chartMarginBottom;
+        PNBar * bar = _bars[subview.tag];
+        
+        
+        _lineImage.frame = CGRectMake(bar.frame.origin.x + bar.frame.size.width/2.0, _chartMarginTop, 2, chartCavanHeight - _chartMarginBottom - kYLabelHeight/2.0);
+        
+        _lineImage.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"yline.png"]];
+        [self addSubview:_lineImage];
+        
+    
     }
 }
 #warning ======添加的方法
 #define IOS7_OR_LATER [[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0
 -(void)drawRect:(CGRect)rect
 {
-    
+    [super drawRect:rect];
     CGFloat yAxisOffset = 10.f;
     
     CGContextRef ctx = UIGraphicsGetCurrentContext();
@@ -553,11 +565,12 @@
                 CGContextStrokePath(ctx);
             }
  
-            }
         }
-    
-
+        
+    }
+   
 }
+
 #pragma mark - tools
 
 + (CGSize)sizeOfString:(NSString *)text withWidth:(float)width font:(UIFont *)font {

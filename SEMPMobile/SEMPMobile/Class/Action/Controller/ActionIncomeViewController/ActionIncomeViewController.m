@@ -10,7 +10,6 @@
 #import "ActionDetailModel.h"
 #import "MBProgressHUD+MJ.h"
 #import "NSDate+Helper.h"
-#import "userModel.h"
 #import "DefaultD_resModel.h"
 #import "TreeTableView.h"
 #import "AddActionSelectTableViewCell.h"
@@ -29,7 +28,7 @@
 @property (nonatomic ,assign)    CGRect rectJiLuCell;
 
 // 截止日期label
-//@property (nonatomic , strong) UILabel * 
+//@property (nonatomic , strong) UILabel *
 // 任务详情信息
 @property (nonatomic , strong) UILabel * taskDetaileLabel;
 //确认审核弹框
@@ -64,7 +63,6 @@
 // 添加协助人，负责人界面
 @property (nonatomic , strong) UIView * addPersonView;
 @property (nonatomic , strong) UITableView * defaultPersonTabelView;
-@property (nonatomic , strong) userModel * userModel;
 
 // 全部相关指标数组
 @property (nonatomic , strong) NSMutableArray * defaultIndexInfoModelArray;
@@ -198,7 +196,7 @@
     [self makeDefaultIndexInfoData];
     
     [self makeActionIncomeData];
-   
+    
     // Do any additional setup after loading the view.
 }
 // 自定义返回按钮LeftButtonItme
@@ -215,9 +213,12 @@
 }
 // 返回按钮点击事件
 - (void)backButtonClick:(UIButton *)button {
-    
-    [self.navigationController popViewControllerAnimated:YES];
-    
+    if (button.selected == YES) {
+        
+    }else{
+        button.selected = YES;
+        [self.navigationController popViewControllerAnimated:YES];
+    }
     
 }
 //
@@ -227,7 +228,7 @@
     _actionIncomeScrollView = [[UIScrollView alloc] init];
     _actionIncomeScrollView.frame = CGRectMake(0, 0, Main_Screen_Width, KViewHeight);
     [self.view addSubview:_actionIncomeScrollView];
-
+    
     _actionIncomeScrollView.backgroundColor = [UIColor whiteColor];
     [self makeFirstSbView];
     [self makeFuZePeopleView];
@@ -235,7 +236,7 @@
     [self makeIncomeIndexView];
     [self makeIncomeTaskDetailView];
     [self makeIncomeTaskJiLuView] ;
-
+    
 }
 - (void)makeActionIncomeData
 {
@@ -265,21 +266,21 @@
             [responsiblePersonDict setValue:[_detailModel.responsiblePerson[0] valueForKey:@"type"] forKey:@"type"];
             [self.userArray addObject:responsiblePersonDict];
             
-          
+            
             NSLog(@"--userArray--%@",_userArray);
             
             for (NSMutableDictionary * assistPeopleDict in _detailModel.assistPeople) {
                 
                 NSMutableDictionary * dict = [NSMutableDictionary dictionary];
                 [dict setValue:assistPeopleDict[@"userid"] forKey:@"id"];
-                 
+                
                 [dict setValue:assistPeopleDict[@"type"]   forKey:@"type"];
                 [self.userArray addObject:dict];
                 
-    
+                
             }
             NSLog(@"userArray-------%@",_userArray);
-
+            
             
             for (NSMutableDictionary * indexDict in _detailModel.index) {
                 
@@ -290,14 +291,14 @@
                 [dict setValue:indexDict[@"indexrootid"]   forKey:@"rootid"];
                 
                 [self.indexArray addObject:dict];
-
+                
             }
             NSLog(@"indexArray---%@",_indexArray);
             
             self.dateString =[NSString stringWithFormat:@"%@",_detailModel.deadtime];
             
         }
-   
+        
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         //失败
         NSLog(@"failure  error ： %@",error);
@@ -313,7 +314,7 @@
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-     if (tableView.tag == 1){
+    if (tableView.tag == 1){
         
         return _defaultIndexInfoModelArray.count; ;
     }else if (tableView.tag == 2){
@@ -328,8 +329,8 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-
-if(tableView.tag == 1){
+    
+    if(tableView.tag == 1){
         
         NSString *CellIdentifier = [NSString stringWithFormat:@"SelectCell%ld%ld", (long)[indexPath section], [indexPath row]];//以indexPath来唯一确定cell
         AddActionSelectTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier]; //列出可重用的cell
@@ -339,33 +340,33 @@ if(tableView.tag == 1){
         DefaultIndexInfoModel * defaultIndexInfoModel = [[DefaultIndexInfoModel alloc] init];
         defaultIndexInfoModel = _defaultIndexInfoModelArray[indexPath.row];
         cell.titleLabel.text = defaultIndexInfoModel.title;
-        cell.selectButton .tag = indexPath.row;
-       cell.indexID = defaultIndexInfoModel.indexId;
-
+        cell.selectButton.tag = indexPath.row;
+        cell.indexID = defaultIndexInfoModel.indexId;
+        
         [cell.selectButton addTarget:self action:@selector(selectDefaultIndexInfoButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-    
-    if (_selectedDefaultIndexModelArray.count == 0) {
         
-    }else{
-        
-        for (int i = 0; i< _selectedDefaultIndexModelArray.count;i++) {
+        if (_selectedDefaultIndexModelArray.count == 0) {
             
-            DefaultIndexInfoModel * model = _selectedDefaultIndexModelArray[i];
+        }else{
             
-            if ([cell.indexID isEqualToString:model.indexId]) {
+            for (int i = 0; i< _selectedDefaultIndexModelArray.count;i++) {
                 
-                cell.selectButton.selected = YES;
-                [cell.selectButton setImage:[UIImage imageNamed:@"selected.png"] forState:UIControlStateNormal];
-                [self.butArray addObject:cell.selectButton];
+                DefaultIndexInfoModel * model = _selectedDefaultIndexModelArray[i];
+                
+                if ([cell.indexID isEqualToString:model.indexId]) {
+                    
+                    cell.selectButton.selected = YES;
+                    [cell.selectButton setImage:[UIImage imageNamed:@"selected.png"] forState:UIControlStateNormal];
+                    [self.butArray addObject:cell.selectButton];
+                    
+                }
+                
                 
             }
             
-            
         }
-        
-    }
         return cell;
-    
+        
     }else if(tableView.tag == 2){
         // 选中的当前组织
         NSInteger  dangqizhizi = 0;
@@ -401,7 +402,7 @@ if(tableView.tag == 1){
         }
         cell.titleLabel.text = [self.chooseZuZhiModel.user[indexPath.row] valueForKey:@"user_clname"];
         cell.userID = [self.chooseZuZhiModel.user[indexPath.row] valueForKey:@"user_id"];
-
+        
         cell.selectButton.tag = count + indexPath.row;
         
         [cell.selectButton addTarget:self action:@selector(selectDefaultIndexInfoButtonClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -432,7 +433,6 @@ if(tableView.tag == 1){
             }
             
         }else{
-            NSLog(@"----%@",_selectedDefaultUserArray);
             
             if (_selectedDefaultUserArray.count == 0) {
                 
@@ -455,7 +455,6 @@ if(tableView.tag == 1){
                 cell.selectButton.selected = YES;
                 [cell.selectButton setImage:[UIImage imageNamed:@"selected.png"] forState:UIControlStateNormal];
                 [self.butArray addObject:cell.selectButton];
-                NSLog(@"---select--%@",_selectedUserArray);
             }
             
         }
@@ -538,7 +537,7 @@ if(tableView.tag == 1){
             return (KViewHeight- 270*KHeight6scale)/4.0;
             
         }
-
+        
     }else if (tableView.tag == 1){
         
         return 30*KHeight6scale;
@@ -554,8 +553,7 @@ if(tableView.tag == 1){
 {
     _firstView = [[ActionIncomeSubView alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, 120*KWidth6scale)];
     [_actionIncomeScrollView addSubview:_firstView];
-    
-    _firstView.chuangJianDataStringLabel.text = _detailModel.createtime ;
+    [_firstView.chuangJianDataStringButton setTitle:_detailModel.createtime forState:UIControlStateNormal];
     [_firstView.jieZhiDataStringButton setTitle:_detailModel.deadtime forState:UIControlStateNormal];
     _firstView.actionFuBuPersonLabel.text = _detailModel.createuser;
     _firstView.imageIncomeActionView.image  = [UIImage imageNamed:@"1.png"];
@@ -757,7 +755,7 @@ if(tableView.tag == 1){
     _incomeIndexView = [[AddActionSubView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_incomeXieZhuPeopleView.frame), Main_Screen_Width, CGRectGetHeight(_incomeXieZhuPeopleView.frame))];
     [_actionIncomeScrollView addSubview:_incomeIndexView];
     
-//    [_incomeIndexView.actionAddView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    //    [_incomeIndexView.actionAddView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     
     
     if (_detailModel.index.count == 0) {
@@ -779,7 +777,7 @@ if(tableView.tag == 1){
             indexLabel.textAlignment = NSTextAlignmentCenter;
             indexLabel.text = [_detailModel.index[i] valueForKey:@"indexname"];
             
-
+            
             indexLabel.font = [UIFont systemFontOfSize:14.0f];
             CGRect rect = [indexLabel.text boundingRectWithSize:CGSizeMake(CGRectGetWidth(_incomeIndexView.actionAddView.frame)-20, 30) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:indexLabel.font} context:nil];
             
@@ -835,36 +833,36 @@ if(tableView.tag == 1){
     [_actionIncomeScrollView addSubview:_incomeTaskDetailView];
     
     _incomeTaskDetailView.imageActionView.image  = [UIImage imageNamed:@"4.png"];
-                _incomeTaskDetailView.actionTitleLabel.text = @"任务详情";
-                _incomeTaskDetailView.addButton.hidden = YES;
-                _taskDetaileLabel = [[UILabel alloc] init];
+    _incomeTaskDetailView.actionTitleLabel.text = @"任务详情";
+    _incomeTaskDetailView.addButton.hidden = YES;
+    _taskDetaileLabel = [[UILabel alloc] init];
     
-                _taskDetaileLabel.text = _detailModel.taskinfo;
-                _taskDetaileLabel.numberOfLines = 0;
+    _taskDetaileLabel.text = _detailModel.taskinfo;
+    _taskDetaileLabel.numberOfLines = 0;
     
-                _taskDetaileLabel.font = [UIFont systemFontOfSize:14.0f];
+    _taskDetaileLabel.font = [UIFont systemFontOfSize:14.0f];
     
-                CGRect rect = [_taskDetaileLabel.text boundingRectWithSize:CGSizeMake(CGRectGetWidth(_incomeTaskDetailView.actionAddView.frame)-20, 1000) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:_taskDetaileLabel.font} context:nil];
+    CGRect rect = [_taskDetaileLabel.text boundingRectWithSize:CGSizeMake(CGRectGetWidth(_incomeTaskDetailView.actionAddView.frame)-20, 1000) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:_taskDetaileLabel.font} context:nil];
     
-                _taskDetaileLabel.frame = CGRectMake(0, 0, rect.size.width, rect.size.height);
+    _taskDetaileLabel.frame = CGRectMake(0, 0, rect.size.width, rect.size.height);
     
-                CGRect rectCellActionAddView = _incomeTaskDetailView.actionAddView.frame;
+    CGRect rectCellActionAddView = _incomeTaskDetailView.actionAddView.frame;
     
-                rectCellActionAddView.size.height = CGRectGetMaxY(_taskDetaileLabel.frame);
+    rectCellActionAddView.size.height = CGRectGetMaxY(_taskDetaileLabel.frame);
     
-                _incomeTaskDetailView.actionAddView.frame = rectCellActionAddView;
+    _incomeTaskDetailView.actionAddView.frame = rectCellActionAddView;
     
-                CGRect rectcell = _incomeTaskDetailView.frame;
+    CGRect rectcell = _incomeTaskDetailView.frame;
     
-                rectcell.size.height = CGRectGetMaxY(_taskDetaileLabel.frame)+(KViewHeight - 270*KHeight6scale)/4.0 - 20*KHeight6scale;
-                _incomeTaskDetailView.frame = rectcell;
+    rectcell.size.height = CGRectGetMaxY(_taskDetaileLabel.frame)+(KViewHeight - 270*KHeight6scale)/4.0 - 20*KHeight6scale;
+    _incomeTaskDetailView.frame = rectcell;
     
-                [_incomeTaskDetailView.actionAddView  addSubview:_taskDetaileLabel];
+    [_incomeTaskDetailView.actionAddView  addSubview:_taskDetaileLabel];
     
     
-                
-                
-
+    
+    
+    
 }
 - (void)makeIncomeTaskJiLuView
 {
@@ -874,7 +872,7 @@ if(tableView.tag == 1){
     _incomeTaskJiLuView.addButton.hidden  = YES;
     [_actionIncomeScrollView addSubview:_incomeTaskJiLuView];
     
-//    [_incomeTaskJiLuPeopleView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    //    [_incomeTaskJiLuPeopleView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     
     UILabel * titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(20*KWidth6scale, 10*KWidth6scale, _incomeIndexView.frame.size.width - 40*KWidth6scale, 40*KWidth6scale)];
     titleLabel.text = @"任务状态记录";
@@ -962,13 +960,14 @@ if(tableView.tag == 1){
         
         [_incomeTaskJiLuView  addSubview:recordView];
         _actionIncomeScrollView.contentSize = CGSizeMake(Main_Screen_Width, CGRectGetMaxY(_incomeTaskJiLuView.frame));
-  
+        
     }
-  
+    
 }
 // 公共弹框视图
 - (void)makePopupViewTitleString:(NSString *)titleString
 {
+    [_pupopView removeFromSuperview];
     _pupopView = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetMidX(self.view.frame)-125*KWidth6scale, CGRectGetMidY(self.view.frame) - 150*KHeight6scale, 250*KWidth6scale, 150*KHeight6scale)];
     _pupopView.layer.masksToBounds = YES;
     
@@ -998,20 +997,23 @@ if(tableView.tag == 1){
     _shuoMingTextView.layer.borderWidth = 1;
     [_pupopView addSubview:_shuoMingTextView];
     
-    _OKButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    _OKButton = [UIButton buttonWithType:UIButtonTypeCustom];
     _OKButton.frame = CGRectMake(CGRectGetWidth(_pupopView.frame)/2.0-80*KWidth6scale, CGRectGetHeight(_pupopView.frame)-CGRectGetHeight(label.frame)-5*KHeight6scale, 70*KWidth6scale, CGRectGetHeight(label.frame));
     _OKButton.backgroundColor = [UIColor grayColor];
     [_OKButton setTitle:@"确定" forState:UIControlStateNormal];
+    [_OKButton setTitleColor:[UIColor colorWithRed:1 green:1 blue:1 alpha:0.5] forState:UIControlStateHighlighted];
+
     [_OKButton setTintColor:[UIColor whiteColor]];
     _OKButton.layer.masksToBounds = YES;
     _OKButton.layer.cornerRadius = 5;
     
     
     [_pupopView addSubview:_OKButton];
-    _cancelButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    _cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
     _cancelButton.frame = CGRectMake(CGRectGetMaxX(_OKButton.frame) + 20*KWidth6scale, CGRectGetMinY(_OKButton.frame), CGRectGetWidth(_OKButton.frame), CGRectGetHeight(_OKButton.frame));
     _cancelButton.backgroundColor = [UIColor grayColor];
     [_cancelButton setTitle:@"取消" forState:UIControlStateNormal];
+    [_OKButton setTitleColor:[UIColor colorWithRed:1 green:1 blue:1 alpha:0.5] forState:UIControlStateHighlighted];
     [_cancelButton setTintColor:[UIColor whiteColor]];
     _cancelButton.layer.masksToBounds = YES;
     _cancelButton.layer.cornerRadius = 5;
@@ -1026,7 +1028,7 @@ if(tableView.tag == 1){
     [self makePopupViewTitleString:@"  完成任务" ];
     [_OKButton addTarget:self action:@selector(reviewOKButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     [_cancelButton addTarget:self action:@selector(cancelButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-   
+    
 }
 //完成待审核
 - (void)reviewOKButtonClick:(UIButton *)button
@@ -1035,38 +1037,45 @@ if(tableView.tag == 1){
         [MBProgressHUD showSuccess:@"说明不能为空"];
         
     }else{
-    NSString * urlStr = [NSString stringWithFormat:ReviewActionHttp,_taskIDString,_shuoMingTextView.text];
-    
-    
-    AFHTTPSessionManager * manager = [AFHTTPSessionManager manager];
-    
-    [manager GET:urlStr parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
-        
-        //这里可以用来显示下载进度
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        if (responseObject != nil) {
+        if (button.selected == YES) {
             
-            [MBProgressHUD showSuccess:@"任务完成申请"];
+        }else{
+            button.selected = YES;
+            NSString * urlStr = [NSString stringWithFormat:ReviewActionHttp,_taskIDString,_shuoMingTextView.text];
             
-            [self performSelector:@selector(BackView) withObject:self afterDelay:1.0f];
             
+            AFHTTPSessionManager * manager = [AFHTTPSessionManager manager];
+            
+            [manager GET:urlStr parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
+                
+                //这里可以用来显示下载进度
+            } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                
+                if (responseObject != nil) {
+                    
+                    [MBProgressHUD showSuccess:@"任务完成申请"];
+                    
+                    [self performSelector:@selector(BackView) withObject:self afterDelay:1.0f];
+                    
+                    
+                }
+                
+                
+                
+            } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                //失败
+                NSLog(@"failure  error ： %@",error);
+                
+            }];
             
         }
-        
-        
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        //失败
-        NSLog(@"failure  error ： %@",error);
-        
-    }];
     }
 }
 //负责人接受任务
 - (void)acceptActionButtonClick:(UIButton *)button
 {
-   
+    [_acceptView removeFromSuperview];
+    
     _acceptView = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetMidX(self.view.frame)-125*KWidth6scale, CGRectGetMidY(self.view.frame) - 120*KHeight6scale, 250*KWidth6scale, 120*KHeight6scale)];
     _acceptView.layer.masksToBounds = YES;
     
@@ -1091,193 +1100,53 @@ if(tableView.tag == 1){
     labeltwo.text = @"  确定接收任务？";
     [_acceptView addSubview:labeltwo];
     
-
     
-    UIButton * OKButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    
+    UIButton * OKButton = [UIButton buttonWithType:UIButtonTypeCustom];
     OKButton.frame = CGRectMake(CGRectGetWidth(_acceptView.frame)/2.0-80*KWidth6scale, CGRectGetHeight(_acceptView.frame)-CGRectGetHeight(label.frame)-5*KHeight6scale, 70*KWidth6scale, CGRectGetHeight(label.frame));
     OKButton.backgroundColor = [UIColor grayColor];
     [OKButton setTitle:@"确定" forState:UIControlStateNormal];
+    [OKButton setTitleColor:[UIColor colorWithRed:1 green:1 blue:1 alpha:0.5] forState:UIControlStateHighlighted];
     [OKButton setTintColor:[UIColor whiteColor]];
     OKButton.layer.masksToBounds = YES;
     OKButton.layer.cornerRadius = 5;
     [OKButton addTarget:self action:@selector(acceptOKButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     
     [_acceptView addSubview:OKButton];
-    UIButton * cancelButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    UIButton * cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
     cancelButton.frame = CGRectMake(CGRectGetMaxX(OKButton.frame) + 20*KWidth6scale, CGRectGetMinY(OKButton.frame), CGRectGetWidth(OKButton.frame), CGRectGetHeight(OKButton.frame));
     cancelButton.backgroundColor = [UIColor grayColor];
     [cancelButton setTitle:@"取消" forState:UIControlStateNormal];
+    [cancelButton setTitleColor:[UIColor colorWithRed:1 green:1 blue:1 alpha:0.5] forState:UIControlStateHighlighted];
     [cancelButton setTintColor:[UIColor whiteColor]];
     cancelButton.layer.masksToBounds = YES;
     cancelButton.layer.cornerRadius = 5;
     [_acceptView addSubview:cancelButton];
     [cancelButton addTarget:self action:@selector(cancelButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     
-   
 }
 - (void)acceptOKButtonClick:(UIButton *)button
 {
-    
-    NSString * urlStr = [NSString stringWithFormat:AcceptActionHttp,_taskIDString];
-    
-    
-    AFHTTPSessionManager * manager = [AFHTTPSessionManager manager];
-    
-    [manager GET:urlStr parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
-        
-        //这里可以用来显示下载进度
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        if (responseObject != nil) {
-            
-            [MBProgressHUD showSuccess:@"接收成功"];
-            
-            [self performSelector:@selector(BackView) withObject:self afterDelay:1.0f];
-            
-            
-        }
-        
-        
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        //失败
-        NSLog(@"failure  error ： %@",error);
-        
-    }];
-}
-
-
-//下达人确认任务完成，下达人确认任务未完成
-- (void)reviewButtonClick:(UIButton *)button{
-    
-    
-    _ShenHeView = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetMidX(self.view.frame)-125*KWidth6scale, CGRectGetMidY(self.view.frame) - 200*KHeight6scale, 250*KWidth6scale, 200*KHeight6scale)];
-    _ShenHeView.backgroundColor = [UIColor whiteColor];
-    _ShenHeView.layer.masksToBounds = YES;
-    _ShenHeView.layer.cornerRadius = 10;
-    _ShenHeView.alpha = 0.0f;
-
-    [self.view addSubview:_ShenHeView];
-    [UIView animateWithDuration:0.3 animations:^{
-        self.view.backgroundColor = [UIColor grayColor];
-        _actionIncomeScrollView.userInteractionEnabled = NO;
-        _actionIncomeScrollView.alpha = 0.5;
-        _ShenHeView.alpha = 1.0f;
-        
-    } completion:nil];
-    UILabel * label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(_ShenHeView.frame), CGRectGetHeight(_ShenHeView.frame)/5.0)];
-    label.text = @"  审核任务";
-    label.backgroundColor = RGBCOLOR(229, 234, 235);
-
-    [_ShenHeView addSubview:label];
-    
-    UILabel * labelStatu = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(label.frame)+10*KWidth6scale, CGRectGetMaxY(label.frame), CGRectGetWidth(label.frame)/2.0, CGRectGetHeight(label.frame)-10*KHeight6scale)];
-    labelStatu.text = @"是否完成";
-    [_ShenHeView addSubview:labelStatu];
-    
-     _yesButton= [[UIButton alloc] init];
-    _yesButton.frame = CGRectMake(CGRectGetMaxX(labelStatu.frame), CGRectGetMinY(labelStatu.frame), CGRectGetWidth(labelStatu.frame)/6.0, CGRectGetHeight(labelStatu.frame));
-    [_yesButton setImage:[UIImage imageNamed:@"selected.png"] forState:UIControlStateNormal];
-    [_ShenHeView addSubview:_yesButton];
-    _yesButton.selected = YES;
-    [_yesButton addTarget:self action:@selector(yesOrNoButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-
-    UILabel * yeslabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_yesButton.frame), CGRectGetMinY(_yesButton.frame), CGRectGetWidth(_yesButton.frame), CGRectGetHeight(_yesButton.frame))];
-    yeslabel.text = @"是";
-    [_ShenHeView addSubview:yeslabel];
-    
-    _noButton = [[UIButton alloc] init];
-    _noButton.frame = CGRectMake(CGRectGetMaxX(yeslabel.frame), CGRectGetMinY(yeslabel.frame), CGRectGetWidth(yeslabel.frame), CGRectGetHeight(yeslabel.frame));
-    [_noButton setImage:[UIImage imageNamed:@"noSelected.png"] forState:UIControlStateNormal];
-    [_ShenHeView addSubview:_noButton];
-    _noButton.selected = NO;
-    UILabel * nolabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_noButton.frame), CGRectGetMinY(_noButton.frame), CGRectGetWidth(_noButton.frame), CGRectGetHeight(_noButton.frame))];
-    nolabel.text = @"否";
-    [_ShenHeView addSubview:nolabel];
-    [_noButton addTarget:self action:@selector(yesOrNoButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-    UILabel * shuoMinglabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(labelStatu.frame), CGRectGetMaxY(labelStatu.frame), CGRectGetWidth(labelStatu.frame), CGRectGetHeight(labelStatu.frame))];
-    shuoMinglabel.text = @"任务说明";
-    [_ShenHeView addSubview:shuoMinglabel];
-    _textView = [[UITextView alloc] initWithFrame:CGRectMake(CGRectGetMinX(shuoMinglabel.frame), CGRectGetMaxY(shuoMinglabel.frame), CGRectGetWidth(_ShenHeView.frame) - 20*KWidth6scale, CGRectGetHeight(_ShenHeView.frame) - CGRectGetHeight(labelStatu.frame)*4 - 20*KHeight6scale)];
-    
-    _textView.layer.borderWidth = 1;
-    [_ShenHeView addSubview:_textView];
-    
-    UIButton * OKButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    OKButton.frame = CGRectMake(CGRectGetWidth(_ShenHeView.frame)/2.0-80*KWidth6scale, CGRectGetHeight(_ShenHeView.frame)-CGRectGetHeight(yeslabel.frame)-5*KHeight6scale, 70*KWidth6scale, CGRectGetHeight(yeslabel.frame));
-    OKButton.backgroundColor = [UIColor grayColor];
-    [OKButton setTintColor:[UIColor whiteColor]];
-    OKButton.layer.masksToBounds = YES;
-    OKButton.layer.cornerRadius = 5;
-    [OKButton setTitle:@"确定" forState:UIControlStateNormal];
-    [OKButton addTarget:self action:@selector(okButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-    
-    [_ShenHeView addSubview:OKButton];
-    UIButton * cancelButton =[UIButton buttonWithType:UIButtonTypeRoundedRect];
-    cancelButton.frame = CGRectMake(CGRectGetMaxX(OKButton.frame) + 20*KWidth6scale, CGRectGetMinY(OKButton.frame), CGRectGetWidth(OKButton.frame), CGRectGetHeight(OKButton.frame));
-    cancelButton.backgroundColor = [UIColor grayColor];
-    [cancelButton setTintColor:[UIColor whiteColor]];
-    cancelButton.layer.masksToBounds = YES;
-    cancelButton.layer.cornerRadius = 5;
-    [cancelButton setTitle:@"取消" forState:UIControlStateNormal];
-    [_ShenHeView addSubview:cancelButton];
-    [cancelButton addTarget:self action:@selector(cancelButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-    
-  
-    
-}
-// 确认任务是否完成的按钮
-- (void)yesOrNoButtonClick:(UIButton *)button
-{
     if (button.selected == YES) {
-       
         
-        _yesButton.selected = NO;
-        _noButton.selected = NO;
-        [_yesButton setImage:[UIImage imageNamed:@"noSelected.png"] forState:UIControlStateNormal];
-        [_noButton setImage:[UIImage imageNamed:@"noSelected.png"] forState:UIControlStateNormal];
-        
-        button.selected = NO;
-        [button setImage:[UIImage imageNamed:@"noSelected.png"] forState:UIControlStateNormal];
-       
     }else{
-        _yesButton.selected = NO;
-        _noButton.selected = NO;
-        [_yesButton setImage:[UIImage imageNamed:@"noSelected.png"] forState:UIControlStateNormal];
-        [_noButton setImage:[UIImage imageNamed:@"noSelected.png"] forState:UIControlStateNormal];
-        
-        [button setImage:[UIImage imageNamed:@"selected.png"] forState:UIControlStateNormal];
-        
         button.selected = YES;
-      
-    }
-    
-    
-}
-
-// 确认审核弹框的确认按钮
-- (void)okButtonClick:(UIButton *)button
-{
-    
-   
-    if ((_yesButton.selected == YES)&&(_noButton.selected == NO)) {
+        NSString * urlStr = [NSString stringWithFormat:AcceptActionHttp,_taskIDString];
         
-        NSString * urlStr = [NSString stringWithFormat:FinishActionHttp,_taskIDString,_textView.text];
-
+        
         AFHTTPSessionManager * manager = [AFHTTPSessionManager manager];
         
         [manager GET:urlStr parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
             
             //这里可以用来显示下载进度
         } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-
+            
             if (responseObject != nil) {
                 
-                
-                [MBProgressHUD showSuccess:@"已经审核，确认完成"];
+                [MBProgressHUD showSuccess:@"接收成功"];
                 
                 [self performSelector:@selector(BackView) withObject:self afterDelay:1.0f];
-
+                
                 
             }
             
@@ -1288,16 +1157,135 @@ if(tableView.tag == 1){
             NSLog(@"failure  error ： %@",error);
             
         }];
-        
+    }
+}
 
-        
-    }else if((_yesButton.selected == NO)&&(_noButton.selected == YES)){
-        
-        if (_textView.text.length == 0) {
-            [MBProgressHUD showError:@"任务说明不能为空"];
 
-        }else{
-            NSString * urlStr = [NSString stringWithFormat:UnfinishActionHttp,_taskIDString,_textView.text];
+//下达人确认任务完成，下达人确认任务未完成
+- (void)reviewButtonClick:(UIButton *)button{
+    
+    if (button.selected == YES) {
+        
+    }else{
+        button.selected = YES;
+        _ShenHeView = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetMidX(self.view.frame)-125*KWidth6scale, CGRectGetMidY(self.view.frame) - 200*KHeight6scale, 250*KWidth6scale, 200*KHeight6scale)];
+        _ShenHeView.backgroundColor = [UIColor whiteColor];
+        _ShenHeView.layer.masksToBounds = YES;
+        _ShenHeView.layer.cornerRadius = 10;
+        _ShenHeView.alpha = 0.0f;
+        
+        [self.view addSubview:_ShenHeView];
+        [UIView animateWithDuration:0.3 animations:^{
+            self.view.backgroundColor = [UIColor grayColor];
+            _actionIncomeScrollView.userInteractionEnabled = NO;
+            _actionIncomeScrollView.alpha = 0.5;
+            _ShenHeView.alpha = 1.0f;
+            
+        } completion:nil];
+        UILabel * label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(_ShenHeView.frame), CGRectGetHeight(_ShenHeView.frame)/5.0)];
+        label.text = @"  审核任务";
+        label.backgroundColor = RGBCOLOR(229, 234, 235);
+        
+        [_ShenHeView addSubview:label];
+        
+        UILabel * labelStatu = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(label.frame)+10*KWidth6scale, CGRectGetMaxY(label.frame), CGRectGetWidth(label.frame)/2.0, CGRectGetHeight(label.frame)-10*KHeight6scale)];
+        labelStatu.text = @"是否完成";
+        [_ShenHeView addSubview:labelStatu];
+        
+        _yesButton= [[UIButton alloc] init];
+        _yesButton.frame = CGRectMake(CGRectGetMaxX(labelStatu.frame), CGRectGetMinY(labelStatu.frame), CGRectGetWidth(labelStatu.frame)/6.0, CGRectGetHeight(labelStatu.frame));
+        [_yesButton setImage:[UIImage imageNamed:@"selected.png"] forState:UIControlStateNormal];
+        [_ShenHeView addSubview:_yesButton];
+        _yesButton.selected = YES;
+        [_yesButton addTarget:self action:@selector(yesOrNoButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+        
+        UILabel * yeslabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_yesButton.frame), CGRectGetMinY(_yesButton.frame), CGRectGetWidth(_yesButton.frame), CGRectGetHeight(_yesButton.frame))];
+        yeslabel.text = @"是";
+        [_ShenHeView addSubview:yeslabel];
+        
+        _noButton = [[UIButton alloc] init];
+        _noButton.frame = CGRectMake(CGRectGetMaxX(yeslabel.frame), CGRectGetMinY(yeslabel.frame), CGRectGetWidth(yeslabel.frame), CGRectGetHeight(yeslabel.frame));
+        [_noButton setImage:[UIImage imageNamed:@"noSelected.png"] forState:UIControlStateNormal];
+        [_ShenHeView addSubview:_noButton];
+        _noButton.selected = NO;
+        UILabel * nolabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_noButton.frame), CGRectGetMinY(_noButton.frame), CGRectGetWidth(_noButton.frame), CGRectGetHeight(_noButton.frame))];
+        nolabel.text = @"否";
+        [_ShenHeView addSubview:nolabel];
+        [_noButton addTarget:self action:@selector(yesOrNoButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+        UILabel * shuoMinglabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(labelStatu.frame), CGRectGetMaxY(labelStatu.frame), CGRectGetWidth(labelStatu.frame), CGRectGetHeight(labelStatu.frame))];
+        shuoMinglabel.text = @"任务说明";
+        [_ShenHeView addSubview:shuoMinglabel];
+        _textView = [[UITextView alloc] initWithFrame:CGRectMake(CGRectGetMinX(shuoMinglabel.frame), CGRectGetMaxY(shuoMinglabel.frame), CGRectGetWidth(_ShenHeView.frame) - 20*KWidth6scale, CGRectGetHeight(_ShenHeView.frame) - CGRectGetHeight(labelStatu.frame)*4 - 20*KHeight6scale)];
+        
+        _textView.layer.borderWidth = 1;
+        [_ShenHeView addSubview:_textView];
+        
+        UIButton * OKButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        OKButton.frame = CGRectMake(CGRectGetWidth(_ShenHeView.frame)/2.0-80*KWidth6scale, CGRectGetHeight(_ShenHeView.frame)-CGRectGetHeight(yeslabel.frame)-5*KHeight6scale, 70*KWidth6scale, CGRectGetHeight(yeslabel.frame));
+        OKButton.backgroundColor = [UIColor grayColor];
+        [OKButton setTintColor:[UIColor whiteColor]];
+        OKButton.layer.masksToBounds = YES;
+        OKButton.layer.cornerRadius = 5;
+        [OKButton setTitle:@"确定" forState:UIControlStateNormal];
+        [OKButton setTitleColor:[UIColor colorWithRed:1 green:1 blue:1 alpha:0.5] forState:UIControlStateHighlighted];
+        [OKButton addTarget:self action:@selector(okButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+        
+        [_ShenHeView addSubview:OKButton];
+        UIButton * cancelButton =[UIButton buttonWithType:UIButtonTypeRoundedRect];
+        cancelButton.frame = CGRectMake(CGRectGetMaxX(OKButton.frame) + 20*KWidth6scale, CGRectGetMinY(OKButton.frame), CGRectGetWidth(OKButton.frame), CGRectGetHeight(OKButton.frame));
+        cancelButton.backgroundColor = [UIColor grayColor];
+        [cancelButton setTintColor:[UIColor whiteColor]];
+        cancelButton.layer.masksToBounds = YES;
+        cancelButton.layer.cornerRadius = 5;
+        [cancelButton setTitle:@"取消" forState:UIControlStateNormal];
+          [cancelButton setTitleColor:[UIColor colorWithRed:1 green:1 blue:1 alpha:0.5] forState:UIControlStateHighlighted];
+        [_ShenHeView addSubview:cancelButton];
+        [cancelButton addTarget:self action:@selector(cancelButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+        
+        
+    }
+}
+// 确认任务是否完成的按钮
+- (void)yesOrNoButtonClick:(UIButton *)button
+{
+    if (button.selected == YES) {
+        
+        
+        _yesButton.selected = NO;
+        _noButton.selected = NO;
+        [_yesButton setImage:[UIImage imageNamed:@"noSelected.png"] forState:UIControlStateNormal];
+        [_noButton setImage:[UIImage imageNamed:@"noSelected.png"] forState:UIControlStateNormal];
+        
+        button.selected = NO;
+        [button setImage:[UIImage imageNamed:@"noSelected.png"] forState:UIControlStateNormal];
+        
+    }else{
+        _yesButton.selected = NO;
+        _noButton.selected = NO;
+        [_yesButton setImage:[UIImage imageNamed:@"noSelected.png"] forState:UIControlStateNormal];
+        [_noButton setImage:[UIImage imageNamed:@"noSelected.png"] forState:UIControlStateNormal];
+        
+        [button setImage:[UIImage imageNamed:@"selected.png"] forState:UIControlStateNormal];
+        
+        button.selected = YES;
+        
+    }
+    
+    
+}
+
+// 确认审核弹框的确认按钮
+- (void)okButtonClick:(UIButton *)button
+{
+    
+    if (button.selected == YES) {
+        
+    }else{
+        button.selected = YES;
+        if ((_yesButton.selected == YES)&&(_noButton.selected == NO)) {
+            
+            NSString * urlStr = [NSString stringWithFormat:FinishActionHttp,_taskIDString,_textView.text];
+            
             AFHTTPSessionManager * manager = [AFHTTPSessionManager manager];
             
             [manager GET:urlStr parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
@@ -1306,9 +1294,12 @@ if(tableView.tag == 1){
             } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                 
                 if (responseObject != nil) {
-                    [MBProgressHUD showSuccess:@"已经审核，任务未完成"];
+                    
+                    
+                    [MBProgressHUD showSuccess:@"已经审核，确认完成"];
+                    
                     [self performSelector:@selector(BackView) withObject:self afterDelay:1.0f];
-
+                    
                     
                 }
                 
@@ -1319,24 +1310,55 @@ if(tableView.tag == 1){
                 NSLog(@"failure  error ： %@",error);
                 
             }];
-
             
+            
+            
+        }else if((_yesButton.selected == NO)&&(_noButton.selected == YES)){
+            
+            if (_textView.text.length == 0) {
+                [MBProgressHUD showError:@"任务说明不能为空"];
+                
+            }else{
+                NSString * urlStr = [NSString stringWithFormat:UnfinishActionHttp,_taskIDString,_textView.text];
+                AFHTTPSessionManager * manager = [AFHTTPSessionManager manager];
+                
+                [manager GET:urlStr parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
+                    
+                    //这里可以用来显示下载进度
+                } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                    
+                    if (responseObject != nil) {
+                        [MBProgressHUD showSuccess:@"已经审核，任务未完成"];
+                        [self performSelector:@selector(BackView) withObject:self afterDelay:1.0f];
+                        
+                        
+                    }
+                    
+                    
+                    
+                } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                    //失败
+                    NSLog(@"failure  error ： %@",error);
+                    
+                }];
+                
+                
+            }
+            
+            
+        }else{
+            
+            [MBProgressHUD showMessage:@"请选择是否完成"];
         }
-       
         
-    }else{
-        
-        [MBProgressHUD showMessage:@"请选择是否完成"];
     }
-    
-    
 }
 - (void)BackView
 {
     
-        [[self navigationController] popViewControllerAnimated:YES];
-        
-
+    [[self navigationController] popViewControllerAnimated:YES];
+    
+    
 }
 // 负责人拒绝任务
 - (void)refuseActionButtonClick:(UIButton *)button
@@ -1353,33 +1375,37 @@ if(tableView.tag == 1){
 {
     if (_shuoMingTextView.text.length == 0) {
         [MBProgressHUD showSuccess:@"说明不能为空"];
-
+        
     }else{
         
-    
-    NSString * urlStr = [NSString stringWithFormat:RefuseActionHttp,_taskIDString,_shuoMingTextView.text];
-        
-    AFHTTPSessionManager * manager = [AFHTTPSessionManager manager];
-    
-    [manager GET:urlStr parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
-        
-        //这里可以用来显示下载进度
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        if (responseObject != nil) {
+        if (button.selected == YES) {
             
-            [MBProgressHUD showSuccess:@"拒绝任务成功"];
+        }else{
+            button.selected = YES;
+            NSString * urlStr = [NSString stringWithFormat:RefuseActionHttp,_taskIDString,_shuoMingTextView.text];
             
-            [self performSelector:@selector(BackView) withObject:self afterDelay:1.0f];
- 
+            AFHTTPSessionManager * manager = [AFHTTPSessionManager manager];
+            
+            [manager GET:urlStr parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
+                
+                //这里可以用来显示下载进度
+            } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                
+                if (responseObject != nil) {
+                    
+                    [MBProgressHUD showSuccess:@"拒绝任务成功"];
+                    
+                    [self performSelector:@selector(BackView) withObject:self afterDelay:1.0f];
+                    
+                }
+                
+            } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                //失败
+                NSLog(@"failure  error ： %@",error);
+                
+            }];
+            
         }
- 
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        //失败
-        NSLog(@"failure  error ： %@",error);
-        
-    }];
-    
     }
 }
 // 下达人撤销任务
@@ -1388,44 +1414,49 @@ if(tableView.tag == 1){
     
     [self makePopupViewTitleString:@"  撤销任务" ];
     
-   
+    
     [_OKButton addTarget:self action:@selector(cancelOKButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     [_cancelButton addTarget:self action:@selector(cancelButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-
-
+    
+    
 }
 // 确认撤销
 - (void)cancelOKButtonClick:(UIButton *)button
 {
-    if (_shuoMingTextView.text.length == 0) {
-        [MBProgressHUD showSuccess:@"说明不能为空"];
-        
-    }else{
-        
-        
-        NSString * urlStr = [NSString stringWithFormat:CancalActionHttp,_taskIDString,_shuoMingTextView.text];
-        
-        AFHTTPSessionManager * manager = [AFHTTPSessionManager manager];
-        
-        [manager GET:urlStr parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
+    
+    
+        if (_shuoMingTextView.text.length == 0) {
+            [MBProgressHUD showSuccess:@"说明不能为空"];
             
-            //这里可以用来显示下载进度
-        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-            
-            if (responseObject != nil) {
+        }else{
+            if (button.selected == YES) {
                 
-                [MBProgressHUD showSuccess:@"撤销任务成功"];
-                
-                [self performSelector:@selector(BackView) withObject:self afterDelay:1.0f];
-                
-            }
+            }else{
+                button.selected = YES;
+            NSString * urlStr = [NSString stringWithFormat:CancalActionHttp,_taskIDString,_shuoMingTextView.text];
             
-        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-            //失败
-            NSLog(@"failure  error ： %@",error);
+            AFHTTPSessionManager * manager = [AFHTTPSessionManager manager];
             
-        }];
-        
+            [manager GET:urlStr parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
+                
+                //这里可以用来显示下载进度
+            } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                
+                if (responseObject != nil) {
+                    
+                    [MBProgressHUD showSuccess:@"撤销任务成功"];
+                    
+                    [self performSelector:@selector(BackView) withObject:self afterDelay:1.0f];
+                    
+                }
+                
+            } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                //失败
+                NSLog(@"failure  error ： %@",error);
+                
+            }];
+            
+        }
     }
 }
 //下达人删除任务
@@ -1437,7 +1468,7 @@ if(tableView.tag == 1){
     
     [_OKButton addTarget:self action:@selector(deleteOKButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     [_cancelButton addTarget:self action:@selector(cancelButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-
+    
 }
 // 确认删除任务
 - (void)deleteOKButtonClick:(UIButton *)button
@@ -1446,39 +1477,42 @@ if(tableView.tag == 1){
         [MBProgressHUD showSuccess:@"说明不能为空"];
         
     }else{
-    NSString * urlStr = [NSString stringWithFormat:DeleteActionHttp,_taskIDString,_shuoMingTextView.text];
-    
-    
-    AFHTTPSessionManager * manager = [AFHTTPSessionManager manager];
-    
-    [manager GET:urlStr parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
-        
-        //这里可以用来显示下载进度
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        if (responseObject != nil) {
+        if (button.selected == YES) {
             
-            [MBProgressHUD showSuccess:@"任务删除成功"];
-            
-            [self performSelector:@selector(BackView) withObject:self afterDelay:1.0f];
+        }else{
+            button.selected = YES;
+            NSString * urlStr = [NSString stringWithFormat:DeleteActionHttp,_taskIDString,_shuoMingTextView.text];
             
             
+            AFHTTPSessionManager * manager = [AFHTTPSessionManager manager];
+            
+            [manager GET:urlStr parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
+                
+                //这里可以用来显示下载进度
+            } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                
+                if (responseObject != nil) {
+                    
+                    [MBProgressHUD showSuccess:@"任务删除成功"];
+                    
+                    [self performSelector:@selector(BackView) withObject:self afterDelay:1.0f];
+                    
+                    
+                }
+                
+                
+                
+            } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                //失败
+                NSLog(@"failure  error ： %@",error);
+                
+            }];
         }
-        
-        
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        //失败
-        NSLog(@"failure  error ： %@",error);
-        
-    }];
     }
 }
 // 确认审核弹框的取消按钮
 - (void)cancelButtonClick:(UIButton *)button
 {
-    
-    
     [UIView animateWithDuration:0.3 animations:^{
         _actionIncomeScrollView.alpha = 1.0f;
         _actionIncomeScrollView.userInteractionEnabled = YES;
@@ -1490,14 +1524,12 @@ if(tableView.tag == 1){
         
     } completion:nil];
     
-    
-    
 }
 // 编辑任务
 - (void)EidtActionButtonClick: (UIButton *)button
 {
-  // 可优化－－－－－－－－－
-
+    // 可优化－－－－－－－－－
+    
     
     if (button.selected) {
         
@@ -1506,15 +1538,15 @@ if(tableView.tag == 1){
         _incomeFuZePeopleView.addButton.hidden = YES;
         _incomeXieZhuPeopleView.addButton.hidden = YES;
         _incomeIndexView.addButton.hidden = YES;
-//        [MBProgressHUD showSuccess:@"保存"];
+        //        [MBProgressHUD showSuccess:@"保存"];
         _firstView.jieZhiDataStringButton.layer.borderWidth = 0;
         _firstView.jieZhiDataStringButton.backgroundColor = [UIColor whiteColor];
-
+        
         // 点击保存后的任务详情cell
         [ self makeSaveTaskDetailCell];
         
         [self makeSave];
-
+        
     }else{
         
         button.selected = YES;
@@ -1526,14 +1558,14 @@ if(tableView.tag == 1){
         _incomeIndexView.addButton.hidden = NO;
         // 点击编辑后的topCell
         [self makeEditTopCell];
-
+        
         // 点击编辑后的任务详情cell
         [self makeEditTaskDetailCell];
         [_incomeFuZePeopleView.addButton addTarget:self action:@selector(addResponsiblePersonButtonClick:) forControlEvents:UIControlEventTouchUpInside];
         [_incomeXieZhuPeopleView.addButton addTarget:self action:@selector(addAssistPeopleButtonClick:) forControlEvents:UIControlEventTouchUpInside];
         [_incomeIndexView.addButton addTarget:self action:@selector(addDefaultIndexInfoButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     }
-   
+    
 }
 // 点击编辑后的topCell
 
@@ -1565,7 +1597,7 @@ if(tableView.tag == 1){
     rectTaskJiLuCell.origin.y = CGRectGetMaxY(_incomeTaskDetailView.frame);
     _incomeTaskJiLuView.frame = rectTaskJiLuCell;
     
-
+    
     _actionIncomeScrollView.contentSize = CGSizeMake(Main_Screen_Width, CGRectGetMaxY(_incomeTaskJiLuView.frame));
     
     [_firstView   addSubview:_firstView.taskEditView];
@@ -1670,11 +1702,11 @@ if(tableView.tag == 1){
     if (_puTongTaskButton.selected == YES) {
         _tasktype = @"N";
         _puTongTaskButton.backgroundColor = [UIColor grayColor];
-
+        
     }else if(_zhuanXiangTaskButton.selected == YES){
         _tasktype = @"S";
         _zhuanXiangTaskButton.backgroundColor = [UIColor grayColor];
-
+        
     }
     [_firstView.taskEditView addSubview:_puTongTaskButton];
     [_firstView.taskEditView addSubview:_zhuanXiangTaskButton];
@@ -1688,27 +1720,27 @@ if(tableView.tag == 1){
 // 日期选择
 - (void)editDateButtonClick:(UIButton *)button
 {
-        UIDatePicker *picker = [[UIDatePicker alloc]init];
-        picker.datePickerMode = UIDatePickerModeDate;
-        
-        picker.frame = CGRectMake(0, 40, 320, 200);
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"请选择\n\n\n\n\n\n\n\n\n\n\n\n" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-        
-        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
-            NSDate *date = picker.date;
-         
-            NSString * dateString = [date stringWithFormat:@"yyyy-MM-dd"];
-           
-            [_firstView.jieZhiDataStringButton setTitle:dateString forState:UIControlStateNormal];
-            
-            _dateString = dateString;
-            
-        }];
-        [alertController.view addSubview:picker];
-        [alertController addAction:cancelAction];
-        [self presentViewController:alertController animated:YES completion:nil];
+    UIDatePicker *picker = [[UIDatePicker alloc]init];
+    picker.datePickerMode = UIDatePickerModeDate;
     
-
+    picker.frame = CGRectMake(0, 40, 320, 200);
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"请选择\n\n\n\n\n\n\n\n\n\n\n\n" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+        NSDate *date = picker.date;
+        
+        NSString * dateString = [date stringWithFormat:@"yyyy-MM-dd"];
+        
+        [_firstView.jieZhiDataStringButton setTitle:dateString forState:UIControlStateNormal];
+        
+        _dateString = dateString;
+        
+    }];
+    [alertController.view addSubview:picker];
+    [alertController addAction:cancelAction];
+    [self presentViewController:alertController animated:YES completion:nil];
+    
+    
 }
 // 优先级选择
 - (void)youXianJiButtonClick:(UIButton *)button
@@ -1762,7 +1794,7 @@ if(tableView.tag == 1){
 - (void)makeSave
 {
     
-     if(_userArray.count == 0){
+    if(_userArray.count == 0){
         
         [MBProgressHUD showError:@"任务负责人不能为空"];
         
@@ -1771,7 +1803,7 @@ if(tableView.tag == 1){
         
     }else{
         NSLog(@"----_taskInfoTextView--%@",_taskInfoTextView.text);
-       
+        
         NSLog(@"--_taskIDString-%@",_taskIDString);
         NSLog(@"-_detailModel.deadtime--%@",_dateString);
         NSLog(@"---%@",_tasktype);
@@ -1826,13 +1858,13 @@ if(tableView.tag == 1){
             //失败
             NSLog(@"failure  error ： %@",error);
             [MBProgressHUD showSuccess:@"保存失败"];
-
+            
             
         }];
         
         
     }
-
+    
 }
 #pragma ============== 编辑界面的所有添加事件等
 // 相关指标数据
@@ -1859,17 +1891,25 @@ if(tableView.tag == 1){
                 [self.defaultIndexInfoModelArray addObject:defaultIndexInfoModel];
                 
             }
+            
+            
+            // 编辑的时候默认已选择的指标
             for (NSMutableDictionary * dict in _indexArray) {
                 for (NSMutableDictionary * indeDit in array) {
                     if ([[dict valueForKey:@"id"] isEqualToString:[indeDit valueForKey:@"index_id"]]) {
                         DefaultIndexInfoModel * model = [[DefaultIndexInfoModel alloc] init];
                         [model setValuesForKeysWithDictionary:indeDit];
-                        [self.selectedDefaultIndexModelArray addObject:model];
-
+                        
+                        for (DefaultIndexInfoModel * m in _defaultIndexInfoModelArray) {
+                            if (model.index_id == m.index_id) {
+                                [self.selectedDefaultIndexModelArray addObject:m];
+                                
+                            }
+                        }
+                        
                     }
                 }
             }
-            NSLog(@"p---index---%@",_selectedDefaultIndexModelArray);
             
             
             
@@ -1922,13 +1962,12 @@ if(tableView.tag == 1){
                     
                     NSMutableDictionary * userDict = [NSMutableDictionary dictionary];
                     userDict = userArray[j];
-                    NSLog(@"--userDict--%@",userDict);
                     [self.defaultUserArray addObject:userDict];
                     
                 }
                 // 编辑的时候默认已经选择的user
                 for (NSMutableDictionary * dict in _userArray) {
-                   
+                    
                     for (NSMutableDictionary * userDict in userArray) {
                         if ([[dict valueForKey:@"id"]isEqualToString:[userDict valueForKey:@"user_id"]] &&[[dict valueForKey:@"type"] isEqualToString:@"2"]) {
                             [self.selectedUserArray addObject:userDict];
@@ -1937,19 +1976,15 @@ if(tableView.tag == 1){
                         }
                         
                     }
- 
+                    
                 }
-
+                
             }
             
         }
-        NSLog(@"selsuser----%@",_selectedUserArray);
         
         
         
-        NSLog(@"aspeople---%@",_selectedDefaultUserArray);
-        
-
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         //失败
         NSLog(@"failure  error ： %@",error);
@@ -1958,7 +1993,7 @@ if(tableView.tag == 1){
 // 添加负责人
 - (void)addResponsiblePersonButtonClick:(UIButton *)button
 {
-
+    
     NSMutableArray * tempArray = [NSMutableArray arrayWithArray:_userArray];
     
     if (_userArray.count == 0) {
@@ -1966,7 +2001,6 @@ if(tableView.tag == 1){
     }else{
         for (int i = 0 ;i < _userArray.count ; i++) {
             NSMutableDictionary * dic = _userArray[i];
-            NSLog(@"---dic--%@",dic);
             if ([[dic objectForKey:@"type"] isEqualToString:@"2"]) {
                 
                 [tempArray removeObject:dic];
@@ -2158,7 +2192,11 @@ if(tableView.tag == 1){
         if ([_addString isEqualToString:@"AddDefaultIndex"]) {
             button.selected = NO;
             [button setImage:[UIImage imageNamed:@"noSelected.png"] forState:UIControlStateNormal];
+            
+            NSLog(@"---%ld",button.tag);
             [self.selectedDefaultIndexModelArray removeObject:_defaultIndexInfoModelArray[button.tag]];
+            
+            NSLog(@"----%@",_selectedDefaultIndexModelArray);
             
         }else if ([_addString isEqualToString:@"AddAssistPeople"]){
             button.selected = NO;
@@ -2166,6 +2204,7 @@ if(tableView.tag == 1){
             
             [self.selectedDefaultUserArray removeObject:_defaultUserArray[button.tag]];
             
+            NSLog(@"-----------------%@",_defaultUserArray);
         }else{
             button.selected = NO;
             
@@ -2216,8 +2255,6 @@ if(tableView.tag == 1){
         
         
     }
-    
-    NSLog(@"----%@",_selectedDefaultIndexModelArray);
     
 }
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
@@ -2307,14 +2344,14 @@ if(tableView.tag == 1){
                     
                     _incomeTaskDetailView.frame = rectcelltwo;
                     
-            
+                    
                     
                     CGRect rectcellthree = _incomeTaskJiLuView.frame;
                     
                     rectcellthree.origin.y = CGRectGetMaxY(_incomeTaskDetailView.frame);
                     
                     _incomeTaskJiLuView.frame = rectcellthree;
-                 
+                    
                     _actionIncomeScrollView.contentSize = CGSizeMake(Main_Screen_Width, CGRectGetMaxY(_incomeTaskJiLuView.frame));
                     
                 }
@@ -2340,7 +2377,7 @@ if(tableView.tag == 1){
             
             NSMutableDictionary * dict = [NSMutableDictionary dictionary];
             if (_selectedDefaultUserArray.count == 0) {
-            
+                
             }else{
                 
                 for (int i = 0; i <= _selectedDefaultUserArray.count-1; i++ ){
@@ -2408,21 +2445,21 @@ if(tableView.tag == 1){
                     
                     _incomeIndexView.frame = rectcelltwo;
                     
-                
+                    
                     CGRect rectcellthree = _incomeTaskDetailView.frame;
                     
                     rectcellthree.origin.y = CGRectGetMaxY(_incomeIndexView.frame);
                     
                     _incomeTaskDetailView.frame = rectcellthree;
                     
-                   
+                    
                     CGRect rectcellfour = _incomeTaskJiLuView.frame;
                     
                     rectcellfour.origin.y = CGRectGetMaxY(_incomeTaskDetailView.frame);
                     
                     _incomeTaskJiLuView.frame = rectcellfour;
-                 
-                      _actionIncomeScrollView.contentSize = CGSizeMake(Main_Screen_Width, CGRectGetMaxY(_incomeTaskJiLuView.frame));
+                    
+                    _actionIncomeScrollView.contentSize = CGSizeMake(Main_Screen_Width, CGRectGetMaxY(_incomeTaskJiLuView.frame));
                     
                 }
                 
@@ -2442,7 +2479,7 @@ if(tableView.tag == 1){
             
         } completion:^(BOOL finished) {
             
-                      [_incomeFuZePeopleView.actionAddView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+            [_incomeFuZePeopleView.actionAddView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
             
             NSMutableDictionary * dict = [NSMutableDictionary dictionary];
             if (_selectedUserArray.count == 0) {
@@ -2500,14 +2537,14 @@ if(tableView.tag == 1){
     CGRect rectTaskDetail = _incomeTaskDetailView.frame;
     rectTaskDetail.size.height= 100*KWidth6scale;
     _incomeTaskDetailView.frame = rectTaskDetail;
-
+    
     
     CGRect rect = _incomeTaskJiLuView.frame;
     rect.origin.y = CGRectGetMaxY(_incomeTaskDetailView.frame);
     _incomeTaskJiLuView.frame = rect;
     
     _actionIncomeScrollView.contentSize = CGSizeMake(Main_Screen_Width, CGRectGetMaxY(_incomeTaskJiLuView.frame));
-
+    
 }
 // 点击保存后的任务详情cell
 - (void)makeSaveTaskDetailCell
@@ -2535,7 +2572,7 @@ if(tableView.tag == 1){
     [_taskInfoTextView removeFromSuperview];
     
     [_incomeTaskDetailView addSubview:_incomeTaskDetailView.actionAddView ];
-
+    
 }
 - (void)yanchiActionButtonClick: (UIButton *)button
 {

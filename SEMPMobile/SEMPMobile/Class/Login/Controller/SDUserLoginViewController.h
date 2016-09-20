@@ -20,6 +20,4 @@
 // 登录按钮
 @property (nonatomic , strong) UIButton * LoginButton;
 
-
-
 @end

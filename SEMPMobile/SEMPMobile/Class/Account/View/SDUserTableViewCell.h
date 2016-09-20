@@ -10,4 +10,8 @@
 
 @interface SDUserTableViewCell : UITableViewCell
 
+@property (nonatomic , strong)UIImageView * image;
+
+@property (nonatomic , strong)UILabel * titleLabel;
+
 @end
