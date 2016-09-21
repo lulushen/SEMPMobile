@@ -429,7 +429,9 @@
 
     NSString * token =  [userDict valueForKey:@"user_token"];
     
-    reportIncomeVC.webViewHttpString = [NSString stringWithFormat:ReportIncomeWebHttp,token];
+    reportIncomeVC.webViewHttpString = [NSString stringWithFormat:ReportIncomeWebHttp];
+    
+    NSLog(@"%@",reportIncomeVC.webViewHttpString);
     
     self.hidesBottomBarWhenPushed=YES;
 

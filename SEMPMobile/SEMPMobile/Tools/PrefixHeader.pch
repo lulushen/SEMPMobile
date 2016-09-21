@@ -103,10 +103,15 @@
 #define indexCheckedHttp server@"/app_indexChecked.do?user_token=%@&index_id=%@"
 // 指标详情界面
 #define IncomeHttp server@"/app_indexInfoByOne.do?indexId=%@&timeVal=%@"
-// 测试报表详情界面的webView接口
-#define ReportIncomeWebHttp @"http://192.168.2.184:9090/DAP/reportviewapp.do?model_id=147149934813446276&user_token=%@"
+
 // 测试用户反馈的接口
 #define FeedbackHttp  server@"/app_srvUserFeedback.action?feedback_content=%@&user_token=%@"
+//-------------------------------报表接口------------------------------------
+
+// 测试报表详情界面的webView接口
+#define ReportIncomeWebHttp @"http://192.168.2.240:9090/DAP/reportviewapp.do?model_id=147436357159587468"
+
+#define getReportParametersHttp @"http://192.168.2.240:9090/DAP/getReportParameters.do?model_id=147436357159587468"
 //-------------------------------任务接口------------------------------------
 // 任务首页接口
 #define ActionHttp server@"/app_getTasksByUserId.action"

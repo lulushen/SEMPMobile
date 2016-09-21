@@ -10,8 +10,8 @@
 #import "D3RecordButton.h"
 #import "IncomeDashModel.h"
 
-
-@interface SDIncomeViewController : RootViewController <D3RecordDelegate>{
+@interface SDIncomeViewController : RootViewController <D3RecordDelegate,UIActionSheetDelegate,UMSocialUIDelegate,UMSocialDataDelegate>
+{
     AVAudioPlayer *play;
 }
 //// block日期传值到DashBoardVC

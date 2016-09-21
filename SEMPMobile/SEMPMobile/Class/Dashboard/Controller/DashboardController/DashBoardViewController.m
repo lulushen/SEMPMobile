@@ -288,8 +288,7 @@ static  BOOL Btnstatu = YES;
 // 分享按钮
 - (void)shareButtonClick: (UIButton *)sender
 {
-    
-    NSLog(@"分享按钮");
+    [super ScreenShot];
 }
 
 - (void)makeDate:(NSString *)time
@@ -724,7 +723,8 @@ static  BOOL Btnstatu = YES;
             //这里可以用来显示下载进度
         } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
             //成功
-            
+            NSLog(@"--%@",responseObject);
+
             if (responseObject != nil) {
                 
                 NSMutableDictionary * dict = [NSMutableDictionary dictionary];

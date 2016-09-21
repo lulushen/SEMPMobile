@@ -9,18 +9,16 @@
 #import "RootViewController.h"
 #import "RealReachability.h"
 #import "UIViewController+HUD.h"
-#import "userModel.h"
-#import "DashBoardModel.h"
 
-@interface RootViewController ()
+@interface RootViewController ()<YXCustomActionSheetDelegate>
 
-@property (nonatomic , strong)userModel * userModel;
 
 @end
 
 @interface RootViewController ()
 {
     int _originY;
+    UIImage * shareImage;
 }
 @end
 
@@ -157,7 +155,92 @@
     NSLog(@"--current H hide--:%f",self.view.frame.size.height);
     return;
 }
+static int ScreenshotIndex = 0;
 
+-(void)ScreenShot{
+    
+    //这里因为我需要全屏接图所以直接改了，宏定义iPadWithd为1024，iPadHeight为768，
+    //    UIGraphicsBeginImageContextWithOptions(CGSizeMake(640, 960), YES, 0);     //设置截屏大小
+    UIGraphicsBeginImageContextWithOptions(CGSizeMake(Main_Screen_Width, KViewHeight), YES, 0);     //设置截屏大小
+    [[self.view layer] renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *viewImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    CGImageRef imageRef = viewImage.CGImage;
+    //    CGRect rect = CGRectMake(166, 211, 426, 320);//这里可以设置想要截图的区域
+    CGRect rect = CGRectMake(0, NavgationHeight, Main_Screen_Height * 2, (Main_Screen_Height)*2);//这里可以设置想要截图的区域
+    CGImageRef imageRefRect =CGImageCreateWithImageInRect(imageRef, rect);
+    shareImage = [[UIImage alloc] initWithCGImage:imageRefRect];
+    
+    //    UIImageWriteToSavedPhotosAlbum(sendImage, nil, nil, nil);//保存图片到照片库
+    
+    NSData *imageViewData = UIImagePNGRepresentation(shareImage);
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *pictureName= [NSString stringWithFormat:@"screenShow_%d.png",ScreenshotIndex];
+    NSString *savedImagePath = [documentsDirectory stringByAppendingPathComponent:pictureName];
+    NSLog(@"截屏路径打印: %@", savedImagePath);
+    //这里我将路径设置为一个全局String，这里做的不好，我自己是为了用而已，希望大家别这么写
+//    [self SetPickPath:savedImagePath];
+    
+    [imageViewData writeToFile:savedImagePath atomically:YES];//保存照片到沙盒目录
+    CGImageRelease(imageRefRect);
+    ScreenshotIndex++;
+    
+    
+    for (NSString *snsName in [UMSocialSnsPlatformManager sharedInstance].allSnsValuesArray) {
+        
+        UMSocialSnsPlatform *snsPlatform = [UMSocialSnsPlatformManager getSocialPlatformWithName:snsName];
+        NSLog(@"--%@",snsPlatform.displayName);
+    }
+    YXCustomActionSheet *cusSheet = [[YXCustomActionSheet alloc] init];
+    cusSheet.delegate = self;
+    NSArray *contentArray = @[@{@"name":@"微信",@"icon":@"wechat.png"},
+                              @{@"name":@"QQ",@"icon":@"qq.png"},
+                              @{@"name":@"短信",@"icon":@"message.png"},
+                              @{@"name":@"邮箱",@"icon":@"email.png"},
+                              //                              @{@"name":@"朋友圈",@"icon":@"sns_icon_8"},
+                              //                              @{@"name":@"QQ ",@"icon":@"sns_icon_4"},
+                              //                              @{@"name":@"微信",@"icon":@"sns_icon_7"},
+                              ];
+    
+    [cusSheet showInView:[UIApplication sharedApplication].keyWindow contentArray:contentArray];
+    
+
+    
+}
+#pragma mark - YXCustomActionSheetDelegate
+
+- (void) customActionSheetButtonClick:(YXActionSheetButton *)btn
+{
+    
+    NSLog(@"第%li个按钮被点击了",(long)btn.tag);
+    NSString * shareType ;
+    if (btn.tag == 0) {
+        
+        shareType = UMShareToWechatSession;
+    }else if (btn.tag == 1) {
+        
+        shareType = UMShareToQQ;
+    }else if (btn.tag == 2) {
+        
+        shareType = UMShareToSms;
+    }else if (btn.tag == 3) {
+        
+        shareType = UMShareToEmail;
+    }
+    [[UMSocialDataService defaultDataService]  postSNSWithTypes:@[shareType] content:@"" image:shareImage location:nil urlResource:nil presentedController:self completion:^(UMSocialResponseEntity *response){
+        if (response.responseCode == UMSResponseCodeSuccess) {
+            NSLog(@"分享成功！");
+            
+            [MBProgressHUD showSuccess:@"分享成功"];
+        }else{
+            [MBProgressHUD showSuccess:@"分享失败"];
+            
+        }
+    }];
+    
+    
+}
 
 /*
  #pragma mark - Navigation

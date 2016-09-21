@@ -7,7 +7,6 @@
 //
 
 #import "SDFeedBackViewController.h"
-#import "MBProgressHUD+MJ.h"
 
 @interface SDFeedBackViewController ()<UITextViewDelegate>
 

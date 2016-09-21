@@ -17,6 +17,7 @@
 #import "PNChart.h"
 #import "CFLineChartView.h"
 
+
 @interface SDIncomeViewController () <UITextViewDelegate,UITableViewDataSource,UITableViewDelegate,PNChartDelegate,UIAlertViewDelegate,UIScrollViewDelegate>
 //nav上的日期视图
 @property (nonatomic ,strong) DataView * dataView;
@@ -72,7 +73,6 @@
 
 //用来判断实际值折线图或是对比值折线图
 @property (nonatomic , strong)NSString * LineString;
-
 @end
 @implementation SDIncomeViewController
 
@@ -212,7 +212,7 @@ static  BOOL Btnstatu = YES;
             //这里可以用来显示下载进度
         } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
             //成功
-            
+            NSLog(@"%@",responseObject);
             if (responseObject != nil) {
                 
                 NSMutableDictionary * dict = [NSMutableDictionary dictionary];
@@ -420,40 +420,6 @@ static  BOOL Btnstatu = YES;
     [self.view endEditing:YES];
 }
 
-- (void)fenxiangbuttonClick:(UIButton *)button
-{
-    
-    [self ScreenShot];
-}
-static int ScreenshotIndex = 0;
-
--(void)ScreenShot{
-    
-    //这里因为我需要全屏接图所以直接改了，宏定义iPadWithd为1024，iPadHeight为768，
-    //    UIGraphicsBeginImageContextWithOptions(CGSizeMake(640, 960), YES, 0);     //设置截屏大小
-    UIGraphicsBeginImageContextWithOptions(CGSizeMake(Main_Screen_Width, KViewHeight), YES, 0);     //设置截屏大小
-    [[self.view layer] renderInContext:UIGraphicsGetCurrentContext()];
-    UIImage *viewImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    CGImageRef imageRef = viewImage.CGImage;
-    //    CGRect rect = CGRectMake(166, 211, 426, 320);//这里可以设置想要截图的区域
-    CGRect rect = CGRectMake(0, NavgationHeight, Main_Screen_Height * 2, (Main_Screen_Height)*2);//这里可以设置想要截图的区域
-    CGImageRef imageRefRect =CGImageCreateWithImageInRect(imageRef, rect);
-    UIImage *sendImage = [[UIImage alloc] initWithCGImage:imageRefRect];
-    UIImageWriteToSavedPhotosAlbum(sendImage, nil, nil, nil);//保存图片到照片库
-    NSData *imageViewData = UIImagePNGRepresentation(sendImage);
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *pictureName= [NSString stringWithFormat:@"screenShow_%d.png",ScreenshotIndex];
-    NSString *savedImagePath = [documentsDirectory stringByAppendingPathComponent:pictureName];
-    NSLog(@"截屏路径打印: %@", savedImagePath);
-    //这里我将路径设置为一个全局String，这里做的不好，我自己是为了用而已，希望大家别这么写
-    [self SetPickPath:savedImagePath];
-    
-    [imageViewData writeToFile:savedImagePath atomically:YES];//保存照片到沙盒目录
-    CGImageRelease(imageRefRect);
-    ScreenshotIndex++;
-}
 //设置路径
 - (void)SetPickPath:(NSString *)PickImage {
     _ScreenshotsPickPath = PickImage;
@@ -484,7 +450,7 @@ static int ScreenshotIndex = 0;
     shareButton.frame = CGRectMake(CGRectGetMaxX(textButton.frame), 0, Main_Screen_Width/4.0, BottomBarHeight);
     [shareButton setImage:[[UIImage imageNamed:@"IncomeShare.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] forState:UIControlStateNormal];
     
-    [shareButton addTarget:self action:@selector(fenxiangbuttonClick:) forControlEvents: UIControlEventTouchUpInside];
+    [shareButton addTarget:self action:@selector(sharebuttonClick:) forControlEvents: UIControlEventTouchUpInside];
     [view addSubview:shareButton];
     [self.view addSubview:view];
     _longPressGr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressToDo:)];
@@ -1382,6 +1348,14 @@ static int ScreenshotIndex = 0;
 //    
 //    
 //}
+
+- (void)sharebuttonClick:(UIButton *)sender
+{
+    
+     [super ScreenShot];
+}
+
+
 /*
  #pragma mark - Navigation
  

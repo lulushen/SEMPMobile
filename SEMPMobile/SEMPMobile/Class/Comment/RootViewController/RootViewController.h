@@ -11,6 +11,11 @@
 #import "FCXRefreshFooterView.h"
 #import "FCXRefreshHeaderView.h"
 #import "UIScrollView+FCXRefresh.h"
+#import "UMSocial.h"
+#import "UMSocialControllerService.h"
+#import "YXCustomActionSheet.h"
+#import "MBProgressHUD+MJ.h"
+
 @interface RootViewController : BaseViewController
 
 /**
@@ -23,6 +28,6 @@
 - (void)hideTabbar;
 
 
-
+- (void)ScreenShot;
 
 @end

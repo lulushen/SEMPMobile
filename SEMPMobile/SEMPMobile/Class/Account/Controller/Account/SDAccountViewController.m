@@ -11,7 +11,6 @@
 #import "SDSetViewController.h"
 #import "SDInfoViewController.h"
 #import "SDFeedBackViewController.h"
-#import "MBProgressHUD+MJ.h"
 #import "UIColor+NSString.h"
 #import "LoginViewController.h"
 #import "infoModel.h"
@@ -43,9 +42,9 @@
     
     self.navigationItem.title = @"Account";
     NSMutableDictionary * userDict = [[NSUserDefaults standardUserDefaults] valueForKey:@"userResponseObject"];
-
+    
     _token =  [userDict valueForKey:@"user_token"];
-
+    
     [self makeHeadImage];
     [self makeTableView];
     // Do any additional setup after loading the view.
@@ -67,28 +66,32 @@
             
             //这里可以用来显示下载进度
         } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-            NSLog(@"%@",responseObject);
-//            NSString * string = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableLeaves error:nil];
-//            
+            //            NSLog(@"%@",responseObject);
+            //            NSString * string = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableLeaves error:nil];
+            //
             if (responseObject != nil) {
-//                NSString *base64Decoded = [[NSString alloc]initWithData:responseObject encoding:NSUTF8StringEncoding];
-//                NSString * encodedImageStr = [responseObject base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
-//                NSLog(@"%@",encodedImageStr);
-//                NSData *decodedImageData = [[NSData alloc]initWithBase64EncodedString:encodedImageStr options:NSDataBase64DecodingIgnoreUnknownCharacters];
-
-            UIImage *headImage = [UIImage imageWithData:responseObject];
-            NSData * data = UIImageJPEGRepresentation(headImage, 1);
+                //                NSString *base64Decoded = [[NSString alloc]initWithData:responseObject encoding:NSUTF8StringEncoding];
+                //                NSString * encodedImageStr = [responseObject base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+                //                NSLog(@"%@",encodedImageStr);
+                //                NSData *decodedImageData = [[NSData alloc]initWithBase64EncodedString:encodedImageStr options:NSDataBase64DecodingIgnoreUnknownCharacters];
+                
+                UIImage *headImage = [UIImage imageWithData:responseObject];
+                NSData * data = UIImageJPEGRepresentation(headImage, 1);
                 NSLog(@"%f",(float)data.length/1024);
-                if (data.length/1024 == 0) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if (data.length/1024 == 0) {
+                        
+                    }else{
+                        
+                        [self.headerImageButton setBackgroundImage:headImage forState:UIControlStateNormal];
+                        
+                    }
                     
-                }else{
-                    
-                    [self.headerImageButton setBackgroundImage:headImage forState:UIControlStateNormal];
-
-                }
-
-
-            
+                });
+                
+                
+                
+                
             }
             
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -98,7 +101,7 @@
         }];
         
     });
-
+    
 }
 
 - (void)makeTableView{
@@ -120,12 +123,12 @@
 }
 - (void)makeTableHeaderView
 {
-
+    
     self.userTableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(1, 0, Main_Screen_Width, Main_Screen_Height/3.0)];
     
-//    self.userTableHeaderView.backgroundColor = [UIColor colorWithString:@"#bfbfbf"];
+    //    self.userTableHeaderView.backgroundColor = [UIColor colorWithString:@"#bfbfbf"];
     self.userTableHeaderView.backgroundColor = RGBCOLOR(240, 240, 240);
-
+    
     self.headerImageButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     
     self.headerImageButton.frame = CGRectMake(Main_Screen_Width/2 - Main_Screen_Width/8.0, 30*KHeight6scale, Main_Screen_Width/4.0, Main_Screen_Width/4.0);
@@ -137,30 +140,30 @@
     [self.userTableHeaderView addSubview:self.headerImageButton];
     
     [self.headerImageButton addTarget:self action:@selector(headerImageButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-
+    
     //加载首先访问本地沙盒是否存在相关图片
-//    NSString *fullPath = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"] stringByAppendingPathComponent:@"currentImage.png"];
-//    UIImage *savedImage = [UIImage imageWithContentsOfFile:fullPath];
+    //    NSString *fullPath = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"] stringByAppendingPathComponent:@"currentImage.png"];
+    //    UIImage *savedImage = [UIImage imageWithContentsOfFile:fullPath];
     
-//    if (!savedImage)
-//    {
-//        //默认头像
-//        [self.headerImageButton setBackgroundImage:[UIImage imageNamed:@"head"] forState:UIControlStateNormal];
-//    }
-//    else
-//    {
-//        [self.headerImageButton setBackgroundImage:[UIImage imageNamed:@"head"] forState:UIControlStateNormal];
-//    }
-   
-
+    //    if (!savedImage)
+    //    {
+    //        //默认头像
+    //        [self.headerImageButton setBackgroundImage:[UIImage imageNamed:@"head"] forState:UIControlStateNormal];
+    //    }
+    //    else
+    //    {
+    //        [self.headerImageButton setBackgroundImage:[UIImage imageNamed:@"head"] forState:UIControlStateNormal];
+    //    }
     
-
+    
+    
+    
     // 注册观察者
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(callBack) name:@"userExit" object:nil];
     UILabel * userNameTitle = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMidX(_headerImageButton.frame)-80*KWidth6scale, CGRectGetMaxY(self.headerImageButton.frame) + 10*KWidth6scale, 80*KWidth6scale, 30*KHeight6scale)];
     userNameTitle.text = @"用户名 :";
     [userNameTitle setTextAlignment:NSTextAlignmentRight];
-
+    
     [self.userTableHeaderView addSubview:userNameTitle];
     
     
@@ -175,14 +178,14 @@
     
     orgTitleLabel.text = @"职    位 :";
     [orgTitleLabel setTextAlignment:NSTextAlignmentRight];
-
+    
     [self.userTableHeaderView addSubview:orgTitleLabel];
     
     _orgLabel = [[UILabel alloc] init];
     NSMutableDictionary * userDict = [[NSUserDefaults standardUserDefaults] valueForKey:@"userResponseObject"];
     
     NSMutableDictionary * dict = [userDict valueForKey:@"resdata"];
-
+    
     if (_token == nil) {
         
         _userLabel.text =@"";
@@ -192,7 +195,7 @@
         
         _userLabel.text =[NSString stringWithFormat:@"%@",[dict objectForKey:@"userName"]];
         _orgLabel.text =[NSString stringWithFormat:@"%@",[dict objectForKey:@"orgName"]];
-
+        
     }
     _orgLabel.numberOfLines = 0;
     _userLabel.numberOfLines = 0;
@@ -208,7 +211,7 @@
     orgTitleLabel.font = [UIFont systemFontOfSize:15.0f];
     _userLabel.font = [UIFont systemFontOfSize:15.0f];
     _orgLabel.font = [UIFont systemFontOfSize:15.0f];
-
+    
     [self.userTableHeaderView addSubview:_orgLabel];
     
     self.userTableView.tableHeaderView = self.userTableHeaderView;
@@ -228,8 +231,8 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
     _userLabel.text =[NSString stringWithFormat:@""];
     _orgLabel.text = @"";
-//    [MBProgressHUD showSuccess:@"退出成功"];
-
+    //    [MBProgressHUD showSuccess:@"退出成功"];
+    
     
 }
 - (void)headerImageButtonClick: (UIButton * )button
@@ -338,7 +341,7 @@
      */
     
     
-//    [self saveImage:image withName:@"currentImage.png"];
+    //    [self saveImage:image withName:@"currentImage.png"];
     NSData * data = UIImageJPEGRepresentation(image, 1);
     // KB的计算方法
     NSLog(@"%f",(float)data.length/1024);
@@ -368,68 +371,69 @@
 {
     //两种方式上传头像
     /*方式二：使用Base64字符串传图片*/
-
+    
     NSData *data = UIImageJPEGRepresentation(photo,1);
     NSLog(@"%f",(float)data.length/1024);
     if ((data.length/1024) >= 500) {
         [MBProgressHUD showSuccess:@"图片大小超过500k,不能上传"];
     }else{
-    NSString *encodedImageStr = [data base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
-   
-//    NSData *decodedImageData = [[NSData alloc]
-//                                
-//                                initWithBase64EncodedString:encodedImageStr options:NSDataBase64DecodingIgnoreUnknownCharacters];
-//    
-//    UIImage *decodedImage = [UIImage imageWithData:decodedImageData];
-//    
-//    UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
-//    
-//    imgView.backgroundColor = [UIColor redColor];
-//    [imgView setImage:decodedImage];
-//    
-//    [self.view addSubview:imgView];
-    
-    
-    
-    
-    
-    
-    NSString * urlStr = [NSString stringWithFormat:upLoadHeadImageHttp];
-    
-
-    NSMutableDictionary * requestDic = @{
-                                         
-                                         @"image":encodedImageStr
-                                         
-                                         }.mutableCopy;
-    
-
-   
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        
+        NSString *encodedImageStr = [data base64EncodedStringWithOptions:0];
+        NSLog(@"%@",encodedImageStr);
+        
+        //    NSData *decodedImageData = [[NSData alloc]
+        //
+        //                                initWithBase64EncodedString:encodedImageStr options:NSDataBase64DecodingIgnoreUnknownCharacters];
+        //
+        //    UIImage *decodedImage = [UIImage imageWithData:decodedImageData];
+        //
+        //    UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
+        //
+        //    imgView.backgroundColor = [UIColor redColor];
+        //    [imgView setImage:decodedImage];
+        //
+        //    [self.view addSubview:imgView];
         
         
-        AFHTTPSessionManager * manager = [AFHTTPSessionManager manager];
         
-        [manager POST:urlStr parameters:requestDic progress:^(NSProgress * _Nonnull downloadProgress) {
+        NSString * urlStr = [NSString stringWithFormat:upLoadHeadImageHttp];
+        
+        
+        NSMutableDictionary * requestDic = @{
+                                             
+                                             @"image":encodedImageStr
+                                             
+                                             }.mutableCopy;
+        
+        
+        
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
             
-            //这里可以用来显示下载进度
-        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-           
-//            NSLog(@"--%@",responseObject);
             
-            if (responseObject != nil) {
-                [MBProgressHUD showSuccess:@"上传成功"];
-
+            AFHTTPSessionManager * manager = [AFHTTPSessionManager manager];
+            // 不加这句话上传的base64字符串换发生变化
+            manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+            
+            [manager POST:urlStr parameters:requestDic progress:^(NSProgress * _Nonnull downloadProgress) {
                 
-            }
+                //这里可以用来显示下载进度
+            } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                
+                //            NSLog(@"--%@",responseObject);
+                
+                if (responseObject != nil) {
+                    [MBProgressHUD showSuccess:@"上传成功"];
+                    
+                    
+                }
+                
+            } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                //失败
+                NSLog(@"failure  error ： %@",error);
+                
+            }];
             
-        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-            //失败
-            NSLog(@"failure  error ： %@",error);
-            
-        }];
-        
-    });
+        });
         
     }
 }
@@ -438,7 +442,7 @@
 //- (void)saveImage:(UIImage *)currentImage withName:(NSString *)imageName
 //{
 //    NSData *imageData = UIImageJPEGRepresentation(currentImage, 0.8);
-//    
+//
 //    // 获取沙盒目录
 //    NSString *fullPath = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"] stringByAppendingPathComponent:imageName];
 //    NSLog(@"------%@",fullPath);
@@ -470,14 +474,14 @@
         cell.titleLabel.text = @"消息中心";
         _noReadInfoCountLabel = [[UILabel alloc] init];
         _noReadInfoCountLabel.frame = CGRectMake(cell.frame.size.width/2,cell.frame.size.height/2-cell.frame.size.height/4.0, cell.frame.size.height/2.0,cell.frame.size.height/2.0);
-     
+        
         [_noReadInfoCountLabel setTextColor:[UIColor whiteColor]];
         [cell.contentView addSubview:_noReadInfoCountLabel];
         // 设置label的圆角
         _noReadInfoCountLabel.layer.cornerRadius = cell.frame.size.height/4.0;
         _noReadInfoCountLabel.clipsToBounds = YES;
         _noReadInfoCountLabel.font = [UIFont boldSystemFontOfSize:13.0f];
-       // 观察者 观察消息中心未读消息的数量
+        // 观察者 观察消息中心未读消息的数量
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(noReadInfoCount) name:@"noReadInfoCount" object:nil];
         
     }else if ( indexPath.section == 1) {
@@ -504,7 +508,7 @@
         _noReadInfoCountLabel.backgroundColor = [UIColor whiteColor];
         _noReadInfoCountLabel.text = @"";
         
-    
+        
     }
 }
 // heightforheaderinsection不起作用时 同时设置heightForFooterInSection即可（不能为0）
@@ -530,7 +534,7 @@
         self.hidesBottomBarWhenPushed=YES;
         [self.navigationController pushViewController:_infoVC animated:YES];
         self.hidesBottomBarWhenPushed=NO;
-
+        
     }else if (indexPath.section == 1){
         
         SDSetViewController * setVC = [[SDSetViewController alloc] init];
@@ -552,7 +556,7 @@
             [MBProgressHUD showError:@"用户还未登录，请登录"];
             
             [self performSelector:@selector(GoToMainView) withObject:self afterDelay:0.8f];
-
+            
         }else{
             
             NSString * urlStr = [NSString stringWithFormat:userLoginOutHttp];
@@ -565,12 +569,12 @@
             } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                 
                 if (responseObject != nil) {
-
+                    
                     [[NSNotificationCenter defaultCenter] postNotificationName:@"userExit" object:self];
                     [MBProgressHUD showSuccess:@"退出成功"];
-
+                    
                     [self performSelector:@selector(GoToMainView) withObject:self afterDelay:0.8f];
-
+                    
                 }
                 
                 
@@ -579,11 +583,11 @@
                 //失败
                 NSLog(@"failure  error ： %@",error);
                 [MBProgressHUD showError:@"退出失败"];
-
+                
                 
             }];
-
-    
+            
+            
         }
         
         
@@ -604,30 +608,30 @@
 {
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-
-    NSString * urlStr = [NSString stringWithFormat:userInfoHttp];
-    
-    AFHTTPSessionManager * manager = [AFHTTPSessionManager manager];
-    
-    [manager GET:urlStr parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
         
-        //这里可以用来显示下载进度
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSString * urlStr = [NSString stringWithFormat:userInfoHttp];
         
-        if (responseObject != nil) {
-            _infoVC= [[SDInfoViewController alloc] init];
-            _infoVC.allInfoArray = [NSMutableArray array];
-            _infoVC.noReadInfoArray = [NSMutableArray array];
-            _infoVC.readedInfoArray = [NSMutableArray array];
+        AFHTTPSessionManager * manager = [AFHTTPSessionManager manager];
+        
+        [manager GET:urlStr parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
             
-
+            //这里可以用来显示下载进度
+        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
             
-            NSMutableArray * infoArray = [NSMutableArray array];
-            infoArray = responseObject[@"resdata"];
-            for (NSDictionary * dict in infoArray) {
+            if (responseObject != nil) {
+                _infoVC= [[SDInfoViewController alloc] init];
+                _infoVC.allInfoArray = [NSMutableArray array];
+                _infoVC.noReadInfoArray = [NSMutableArray array];
+                _infoVC.readedInfoArray = [NSMutableArray array];
                 
-                InfoModel * model = [[InfoModel alloc] init];
-               
+                
+                
+                NSMutableArray * infoArray = [NSMutableArray array];
+                infoArray = responseObject[@"resdata"];
+                for (NSDictionary * dict in infoArray) {
+                    
+                    InfoModel * model = [[InfoModel alloc] init];
+                    
                     [model setValuesForKeysWithDictionary:dict];
                     
                     [_infoVC.allInfoArray addObject:model];
@@ -636,22 +640,22 @@
                     }else if(model.readflag == 1){
                         [_infoVC.readedInfoArray addObject:model];
                     }
-            
+                    
+                }
+                
+                // 发送通知 未读消息的数量
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"noReadInfoCount" object:nil];
+                
             }
             
-           // 发送通知 未读消息的数量
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"noReadInfoCount" object:nil];
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            //失败
+            NSLog(@"failure  error ： %@",error);
             
-        }
+        }];
         
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        //失败
-        NSLog(@"failure  error ： %@",error);
-        
-    }];
-    
     });
-
+    
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
