@@ -235,8 +235,13 @@ static  BOOL Btnstatu = YES;
                     //                    [self.navigationController pushViewController:incomeVC animated:YES];
                     //
                     //                    self.hidesBottomBarWhenPushed=NO;
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        
+                       [_IncomeTableView reloadData];
+                    });
                     
-                    [_IncomeTableView reloadData];
+
+                   
                     
                 }
                 

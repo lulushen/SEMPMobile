@@ -23,6 +23,7 @@
 @interface DashBoardViewController ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,PNChartDelegate>
 {
     DashCollectionViewFlowLayout * layout;
+    AddViewController * addVC;
 }
 //分享按钮
 @property (nonatomic , strong) UIButton * shareButton;
@@ -72,7 +73,9 @@
     [super viewWillAppear:animated];
 
     _topView.moreButton.selected = NO;
-   
+
+    // 添加界面的数据
+    [self makeADDDate];
     //显示tabbar
     [self showTabBar];
     
@@ -205,8 +208,9 @@
     
     CGRect shareframe = CGRectMake(0, 0, 20*KWidth6scale, 25*KHeight6scale);
     
-    _shareButton = [[UIButton alloc] initWithFrame:shareframe];
-    
+    _shareButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [_shareButton setTintColor:[UIColor whiteColor]];
+    _shareButton.frame = shareframe;
     [_shareButton setImage:shareImage forState:UIControlStateNormal];
     
     [_shareButton addTarget:self action:@selector(shareButtonClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -696,9 +700,20 @@ static  BOOL Btnstatu = YES;
 {
     if (button.selected == NO) {
         button.selected = YES;
-        // 添加界面的数据
-        [self makeADDDate];
+        // 指标model清空
+        [_DashModelArray removeAllObjects];
         
+        // 移除日期视图
+        [_dataSearchView removeFromSuperview];
+        
+        Btnstatu = YES;
+        
+        [[NSUserDefaults standardUserDefaults] setObject:_Time forKey:@"ADDBackTime"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+
+        [self.navigationController pushViewController:addVC animated:YES];
+
     }else{
         
     }
@@ -708,6 +723,7 @@ static  BOOL Btnstatu = YES;
 
 - (void)makeIncomeDate:(NSString *)Time
 {
+    SDIncomeViewController * incomeVC = [[SDIncomeViewController alloc] init];
     //1.获取一个全局串行队列
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     //2.把任务添加到队列中执行
@@ -740,9 +756,6 @@ static  BOOL Btnstatu = YES;
                     
                     [model setValuesForKeysWithDictionary:dict];
                     
-                    
-                    SDIncomeViewController * incomeVC = [[SDIncomeViewController alloc] init];
-                    
                     incomeVC.IncomeDateString  = _dataView.dateLabel.text;
                     
                     incomeVC.IncomeDefaultDateString = _dataSearchView.defaultDateString;
@@ -752,7 +765,7 @@ static  BOOL Btnstatu = YES;
                     incomeVC.incomeDashModel = model;
                     
                     incomeVC.pieColorArray = _pieColorArray;
-                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
                     // tabbar的显示和隐藏
                     self.hidesBottomBarWhenPushed=YES;
                     
@@ -760,7 +773,7 @@ static  BOOL Btnstatu = YES;
                     
                     self.hidesBottomBarWhenPushed=NO;
                     
-                    
+                    });
                 }
                 
             }else{
@@ -771,6 +784,16 @@ static  BOOL Btnstatu = YES;
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
             //失败
             NSLog(@"failure  error ： %@",error);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                // tabbar的显示和隐藏
+                self.hidesBottomBarWhenPushed=YES;
+                
+                [self.navigationController pushViewController:incomeVC animated:YES];
+                
+                self.hidesBottomBarWhenPushed=NO;
+                
+            });
+
         }];
         
     });
@@ -895,6 +918,8 @@ static  BOOL Btnstatu = YES;
 
 - (void)makeADDDate
 {
+    addVC = [[AddViewController alloc] init];
+
     dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         // 执⾏耗时的异步操作...
         NSString * urlStr = [NSString stringWithFormat:ADDHttp,_token];
@@ -915,7 +940,7 @@ static  BOOL Btnstatu = YES;
             NSMutableArray * arrayDashLabel = [NSMutableArray array];
             
             if (dict != nil) {
-                
+                dispatch_async(dispatch_get_main_queue(), ^{
                 for (NSDictionary * dict in array) {
                     
                     AddDashModel * m = [[AddDashModel alloc] init];
@@ -935,7 +960,6 @@ static  BOOL Btnstatu = YES;
                     [arrayAllDashLabel addObject:m];
                 }
                 
-                AddViewController * addVC = [[AddViewController alloc] init];
                 
                 if ( addVC.dashLabelArray.count == 0) {
                     
@@ -943,20 +967,9 @@ static  BOOL Btnstatu = YES;
                     
                     addVC.dashAllArray = arrayAllDashLabel;
                     
-                    // 指标model清空
-                    [_DashModelArray removeAllObjects];
-                    
-                    // 移除日期视图
-                    [_dataSearchView removeFromSuperview];
-                    
-                    Btnstatu = YES;
-                    
-                    [[NSUserDefaults standardUserDefaults] setObject:_Time forKey:@"ADDBackTime"];
-                    [[NSUserDefaults standardUserDefaults] synchronize];
-                    
-                    [self.navigationController pushViewController:addVC animated:YES];
                     
                 }
+                });
             }
             
             
@@ -964,6 +977,7 @@ static  BOOL Btnstatu = YES;
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
             //失败
             NSLog(@"failure  error ： %@",error);
+
         }];
         
         

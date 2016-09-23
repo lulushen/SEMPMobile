@@ -532,8 +532,17 @@
     
     if (indexPath.section == 0) {
         self.hidesBottomBarWhenPushed=YES;
-        [self.navigationController pushViewController:_infoVC animated:YES];
+
+        if (_infoVC.allInfoArray.count == 0) {
+            SDInfoViewController * info = [[SDInfoViewController alloc] init];
+            [self.navigationController pushViewController:info animated:YES];
+        }else{
+            [self.navigationController pushViewController:_infoVC animated:YES];
+ 
+            
+        }
         self.hidesBottomBarWhenPushed=NO;
+
         
     }else if (indexPath.section == 1){
         
@@ -628,6 +637,7 @@
                 
                 NSMutableArray * infoArray = [NSMutableArray array];
                 infoArray = responseObject[@"resdata"];
+                NSLog(@"%@",responseObject);
                 for (NSDictionary * dict in infoArray) {
                     
                     InfoModel * model = [[InfoModel alloc] init];

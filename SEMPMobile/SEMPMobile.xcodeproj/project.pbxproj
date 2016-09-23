@@ -143,6 +143,10 @@
 		3D5618E61D925A5E001B8B40 /* message.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D5618E21D925A5E001B8B40 /* message.png */; };
 		3D5618E71D925A5E001B8B40 /* qq.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D5618E31D925A5E001B8B40 /* qq.png */; };
 		3D5618E81D925A5E001B8B40 /* wechat.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D5618E41D925A5E001B8B40 /* wechat.png */; };
+		3D5618EC1D93D18A001B8B40 /* SetTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D5618EB1D93D18A001B8B40 /* SetTableViewCell.m */; };
+		3D5618F11D93DEE3001B8B40 /* deleteCache.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D5618EE1D93DEE3001B8B40 /* deleteCache.png */; };
+		3D5618F21D93DEE3001B8B40 /* edition.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D5618EF1D93DEE3001B8B40 /* edition.png */; };
+		3D5618F31D93DEE3001B8B40 /* pass.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D5618F01D93DEE3001B8B40 /* pass.png */; };
 		3D7012331D65990200C3648D /* IncomeDashModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D7012321D65990200C3648D /* IncomeDashModel.m */; };
 		3D7261271D62AB9B0006945E /* DashBoardCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D7261261D62AB9B0006945E /* DashBoardCollectionViewCell.m */; };
 		3D72D3201D59E19000EDD71A /* sanjiao.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D72D31F1D59E19000EDD71A /* sanjiao.png */; };
@@ -478,6 +482,11 @@
 		3D5618E21D925A5E001B8B40 /* message.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = message.png; sourceTree = "<group>"; };
 		3D5618E31D925A5E001B8B40 /* qq.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = qq.png; sourceTree = "<group>"; };
 		3D5618E41D925A5E001B8B40 /* wechat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wechat.png; sourceTree = "<group>"; };
+		3D5618EA1D93D18A001B8B40 /* SetTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetTableViewCell.h; sourceTree = "<group>"; };
+		3D5618EB1D93D18A001B8B40 /* SetTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetTableViewCell.m; sourceTree = "<group>"; };
+		3D5618EE1D93DEE3001B8B40 /* deleteCache.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = deleteCache.png; sourceTree = "<group>"; };
+		3D5618EF1D93DEE3001B8B40 /* edition.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = edition.png; sourceTree = "<group>"; };
+		3D5618F01D93DEE3001B8B40 /* pass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pass.png; sourceTree = "<group>"; };
 		3D7012311D65990200C3648D /* IncomeDashModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IncomeDashModel.h; sourceTree = "<group>"; };
 		3D7012321D65990200C3648D /* IncomeDashModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IncomeDashModel.m; sourceTree = "<group>"; };
 		3D7261251D62AB9B0006945E /* DashBoardCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DashBoardCollectionViewCell.h; sourceTree = "<group>"; };
@@ -806,6 +815,7 @@
 		3D267F231D4EDD4F001E732B /* AccountImage */ = {
 			isa = PBXGroup;
 			children = (
+				3D5618ED1D93DEE3001B8B40 /* setImage */,
 				3D922A361D88E5DB00D93171 /* AccountMainImage */,
 				3D922A3B1D88E5DB00D93171 /* InfoImage */,
 			);
@@ -991,6 +1001,7 @@
 		3D267F6D1D4EEC10001E732B /* View */ = {
 			isa = PBXGroup;
 			children = (
+				3D5618E91D93D16E001B8B40 /* setTableViewCell */,
 				3D0B0D071D8257F700DBCD6E /* InfoTableViewCell */,
 				3D26800A1D4F3EB3001E732B /* SDUserTableViewCell.h */,
 				3D26800B1D4F3EB3001E732B /* SDUserTableViewCell.m */,
@@ -1585,6 +1596,25 @@
 			path = share;
 			sourceTree = "<group>";
 		};
+		3D5618E91D93D16E001B8B40 /* setTableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				3D5618EA1D93D18A001B8B40 /* SetTableViewCell.h */,
+				3D5618EB1D93D18A001B8B40 /* SetTableViewCell.m */,
+			);
+			path = setTableViewCell;
+			sourceTree = "<group>";
+		};
+		3D5618ED1D93DEE3001B8B40 /* setImage */ = {
+			isa = PBXGroup;
+			children = (
+				3D5618EE1D93DEE3001B8B40 /* deleteCache.png */,
+				3D5618EF1D93DEE3001B8B40 /* edition.png */,
+				3D5618F01D93DEE3001B8B40 /* pass.png */,
+			);
+			path = setImage;
+			sourceTree = "<group>";
+		};
 		3D7012301D6598DD00C3648D /* IncomeDashModel */ = {
 			isa = PBXGroup;
 			children = (
@@ -1984,6 +2014,7 @@
 				3DDB58621D6E8D1F00CB50C5 /* arrow_right_grey.png in Resources */,
 				3D0B0CEA1D74085500DBCD6E /* user.png in Resources */,
 				3D0B0CE81D74085500DBCD6E /* text.png in Resources */,
+				3D5618F31D93DEE3001B8B40 /* pass.png in Resources */,
 				3D922A4D1D88E5DB00D93171 /* sender.png in Resources */,
 				3D72D3341D59ED8000EDD71A /* report_normal.png in Resources */,
 				3D5618BC1D92361A001B8B40 /* UMSnsAccountViewController.xib in Resources */,
@@ -2025,6 +2056,7 @@
 				3D72D3331D59ED8000EDD71A /* report_highlight.png in Resources */,
 				3D94529A1D69EBB900B6D4B7 /* 0.png in Resources */,
 				3D26804E1D4FAD20001E732B /* mic_3.png in Resources */,
+				3D5618F11D93DEE3001B8B40 /* deleteCache.png in Resources */,
 				3D26804C1D4FAD20001E732B /* mic_1.png in Resources */,
 				3D267FB71D4F357D001E732B /* login.png in Resources */,
 				3D72D3261D59ED7200EDD71A /* account_highlight.png in Resources */,
@@ -2046,6 +2078,7 @@
 				3D9EE8841D59A7970062DB1F /* IncomeText.png in Resources */,
 				3D5618B41D92361A001B8B40 /* UMSocialLocalizable.strings in Resources */,
 				3D3B3F8A1D5B236A00096AC7 /* detail.png in Resources */,
+				3D5618F21D93DEE3001B8B40 /* edition.png in Resources */,
 				3D5618D21D92361B001B8B40 /* ios-social-sdk-share-detail.html in Resources */,
 				3D922A4B1D88E5DB00D93171 /* readed.png in Resources */,
 				3D5618CB1D92361B001B8B40 /* iOS-social-releasenote.html in Resources */,
@@ -2205,6 +2238,7 @@
 				3D267F8A1D4EFAC1001E732B /* RootViewController.m in Sources */,
 				3DCAD7A61D62A0FE00BE758F /* DashCollectionReusableView.m in Sources */,
 				3D267F661D4EEA1F001E732B /* PingFoundation.m in Sources */,
+				3D5618EC1D93D18A001B8B40 /* SetTableViewCell.m in Sources */,
 				3D9EE8901D59B34A0062DB1F /* IncomeTableViewCell.m in Sources */,
 				3D9452A21D69FE6200B6D4B7 /* ActionIncomeViewController.m in Sources */,
 				3D922A5D1D8E28D000D93171 /* FCXRefreshFooterView.m in Sources */,
@@ -2315,7 +2349,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				ENABLE_ON_DEMAND_RESOURCES = YES;
+				ENABLE_ON_DEMAND_RESOURCES = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -2332,7 +2366,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -2362,7 +2396,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_ON_DEMAND_RESOURCES = YES;
+				ENABLE_ON_DEMAND_RESOURCES = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -2372,7 +2406,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";

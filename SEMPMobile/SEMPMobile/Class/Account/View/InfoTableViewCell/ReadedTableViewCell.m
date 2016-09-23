@@ -77,7 +77,7 @@
     _infoLabel.numberOfLines = 0;
     _infoTitleLabel.numberOfLines = 0;
     _infoDateLabel.numberOfLines = 0;
-    
+    _contentLabel.numberOfLines = 0;
     _infoTitleLabel.font = [UIFont systemFontOfSize:15.0f];
     _infoDateLabel.font = [UIFont systemFontOfSize:13.0f];
     _senderTitleLabel.font = [UIFont systemFontOfSize:14.0f];
@@ -106,7 +106,7 @@
     
     CGRect senderRect = [_senderLabel.text boundingRectWithSize:CGSizeMake(Main_Screen_Width/2.0, KViewHeight) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:_senderLabel.font} context:nil];
     CGRect  receiveRect = [_receiveLabel.text boundingRectWithSize:CGSizeMake(Main_Screen_Width/2.0, KViewHeight) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:_receiveLabel.font} context:nil];
-    CGRect  contentRect = [_contentLabel.text boundingRectWithSize:CGSizeMake(Main_Screen_Width-180*KWidth6scale, KViewHeight) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:_contentLabel.font} context:nil];
+    CGRect  contentRect = [_contentLabel.text boundingRectWithSize:CGSizeMake(Main_Screen_Width-130*KWidth6scale, KViewHeight) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:_contentLabel.font} context:nil];
 
     _senderImageView.frame = CGRectMake(0, 20*KHeight6scale, 15*KWidth6scale, 15*KHeight6scale);
     _senderTitleLabel.frame =  CGRectMake(CGRectGetMaxX(_senderImageView.frame) + 5*KWidth6scale, CGRectGetMinY(_senderImageView.frame), 50*KWidth6scale, CGRectGetHeight(_senderImageView.frame));

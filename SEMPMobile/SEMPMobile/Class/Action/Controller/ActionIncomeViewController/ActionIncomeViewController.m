@@ -623,7 +623,7 @@
             
             _firstView.oneButton.hidden = YES;
             [_firstView.twoButton setTitle:@"完成" forState:UIControlStateNormal];
-            
+            [_firstView.twoButton addTarget:self action:@selector(reviewActionButtonClick:) forControlEvents:UIControlEventTouchUpInside];
             
         }else{
             
@@ -2048,7 +2048,7 @@
 {
     _addString = @"AddDefaultIndex";
     [_indexArray removeAllObjects];
-    _defaultIndexInfoView = [[UIView alloc] initWithFrame:CGRectMake(60*KWidth6scale, 120*KHeight6scale, Main_Screen_Width-120*KWidth6scale, KViewHeight-280*KHeight6scale)];
+    _defaultIndexInfoView = [[UIView alloc] initWithFrame:CGRectMake(30*KWidth6scale, 60*KHeight6scale, Main_Screen_Width-80*KWidth6scale, KViewHeight-120*KHeight6scale)];
     _defaultIndexInfoView.backgroundColor = [UIColor whiteColor];
     _defaultIndexInfoView.alpha = 0.0f;
     _defaultIndexInfoView.layer.masksToBounds = YES;
@@ -2086,7 +2086,7 @@
 - (void)makeAddPersonView
 {
     
-    _addPersonView = [[UIView alloc] initWithFrame:CGRectMake(60*KWidth6scale, 120*KHeight6scale, Main_Screen_Width-120*KWidth6scale, KViewHeight-280*KHeight6scale)];
+    _addPersonView = [[UIView alloc] initWithFrame:CGRectMake(40*KWidth6scale, 60*KHeight6scale, Main_Screen_Width-80*KWidth6scale, KViewHeight-120*KHeight6scale)];
     _addPersonView.layer.masksToBounds = YES;
     _addPersonView.layer.cornerRadius = 10;
     _addPersonView.backgroundColor = [UIColor whiteColor];
@@ -2576,9 +2576,53 @@
 - (void)yanchiActionButtonClick: (UIButton *)button
 {
     
-    [MBProgressHUD showSuccess:@"暂时没有延迟"];
+    [self makePopupViewTitleString:@"  申请延期" ];
+    [_OKButton addTarget:self action:@selector(delayOKButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+    [_cancelButton addTarget:self action:@selector(cancelButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+
     
     
+}
+//申请延期
+- (void)delayOKButtonClick:(UIButton *)button
+{
+    if (_shuoMingTextView.text.length == 0) {
+        [MBProgressHUD showSuccess:@"说明不能为空"];
+        
+    }else{
+        if (button.selected == YES) {
+            
+        }else{
+            button.selected = YES;
+            NSString * urlStr = [NSString stringWithFormat:DelayActionHttp,_taskIDString,_shuoMingTextView.text];
+            
+            
+            AFHTTPSessionManager * manager = [AFHTTPSessionManager manager];
+            
+            [manager GET:urlStr parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
+                
+                //这里可以用来显示下载进度
+            } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                
+                if (responseObject != nil) {
+                    
+                    [MBProgressHUD showSuccess:@"确定申请延期"];
+                    
+                    [self performSelector:@selector(BackView) withObject:self afterDelay:1.0f];
+                    
+                    
+                }
+                
+                
+                
+            } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                //失败
+                NSLog(@"failure  error ： %@",error);
+                
+            }];
+            
+        }
+    }
 }
 
 - (void)didReceiveMemoryWarning {

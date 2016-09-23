@@ -176,8 +176,6 @@
 }
 - (void)GoToDashView
 {
-    [[NSUserDefaults standardUserDefaults] setObject:_dashDictArray forKey:@"array"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
     
     TabBarControllerConfig *tabBarConfig = [[TabBarControllerConfig alloc]init];
         
@@ -232,6 +230,8 @@
                             [_dashDictArray addObject:dict];
                             
                         }
+                     [[NSUserDefaults standardUserDefaults] setObject:_dashDictArray forKey:@"array"];
+                     [[NSUserDefaults standardUserDefaults] synchronize];
 
                         //    // 延迟0.5秒跳转页面
                         [self performSelector:@selector(GoToDashView) withObject:self afterDelay:0.2f];

@@ -7,8 +7,13 @@
 //
 
 #import "SDSetViewController.h"
+#import "SetTableViewCell.h"
+#import "MBProgressHUD+MJ.h"
 
-@interface SDSetViewController ()
+@interface SDSetViewController ()<UITableViewDelegate,UITableViewDataSource>
+{
+    UITableView * setTableView;
+}
 
 @end
 
@@ -27,21 +32,131 @@
 - (void)makeSettingView
 {
     
-    
-    UILabel * passLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width - 100*KWidth6scale, 50*KHeight6scale)];
-    passLabel.backgroundColor = [UIColor grayColor];
-    [passLabel setText:@"开启手势密码"];
-    [self.view addSubview:passLabel];
-    
-    
-    
-}
-- (void)switchButtonClick:(UIButton *)button
-{
-    
-    NSLog(@"---------开启手势密码");
+    setTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, KViewHeight) style:UITableViewStylePlain];
+    setTableView.backgroundColor = DEFAULT_BGCOLOR;
+    setTableView.delegate = self;
+    setTableView.dataSource = self;
+    [self.view addSubview:setTableView];
+    // 去除分割线
+    setTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    [setTableView registerClass:[SetTableViewCell class] forCellReuseIdentifier:@"cell"];
 }
 
+#pragma ----tableView
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 3;
+}
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    SetTableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
+    
+    if (indexPath.row == 0) {
+        cell.setImageView.image = [UIImage imageNamed:@"pass.png"];
+        cell.setTitleLabel.text = @"设置锁密码";
+    }else if (indexPath.row == 1){
+        cell.setImageView.image = [UIImage imageNamed:@"deleteCache.png"];
+        cell.setTitleLabel.text = @"清除缓存";
+        cell.setDetailLabel.text = [NSString stringWithFormat:@"缓存文件  %0.2fM", [self filePath]];
+    }else if (indexPath.row == 2){
+        cell.setImageView.image = [UIImage imageNamed:@"edition.png"];
+        cell.setTitleLabel.text = @"更新版本";
+    }
+    
+    return cell;
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 70*KHeight6scale;
+}
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.row == 1) {
+        [self clearFile];
+
+    }
+    
+}
+
+#pragma ==清除缓存
+- ( long long ) fileSizeAtPath:( NSString *) filePath{
+    
+    NSFileManager * manager = [ NSFileManager defaultManager ];
+    
+    if ([manager fileExistsAtPath :filePath]){
+        
+        return [[manager attributesOfItemAtPath :filePath error : nil ] fileSize ];
+        
+    }
+    
+    return 0 ;
+    
+}
+- ( float ) folderSizeAtPath:( NSString *) folderPath{
+    
+    NSFileManager * manager = [ NSFileManager defaultManager ];
+    
+    if (![manager fileExistsAtPath :folderPath]) return 0 ;
+    
+    NSEnumerator *childFilesEnumerator = [[manager subpathsAtPath :folderPath] objectEnumerator ];
+    
+    NSString * fileName;
+    
+    long long folderSize = 0 ;
+    
+    while ((fileName = [childFilesEnumerator nextObject ]) != nil ){
+        
+        NSString * fileAbsolutePath = [folderPath stringByAppendingPathComponent :fileName];
+        
+        folderSize += [self fileSizeAtPath:fileAbsolutePath];
+        
+    }
+    
+    return folderSize/( 1024.0 * 1024.0 );
+    
+}
+// 显示缓存大小
+
+- ( float )filePath
+
+{
+    NSString * cachPath = [ NSSearchPathForDirectoriesInDomains ( NSCachesDirectory , NSUserDomainMask , YES ) firstObject ];
+    return [ self folderSizeAtPath :cachPath];
+    
+}
+
+- ( void )clearFile
+
+{
+    
+    NSString * cachPath = [ NSSearchPathForDirectoriesInDomains ( NSCachesDirectory , NSUserDomainMask , YES ) firstObject ];
+    
+    NSArray * files = [[ NSFileManager defaultManager ] subpathsAtPath :cachPath];
+    
+    for ( NSString * p in files) {
+        
+        NSError * error = nil ;
+        
+        NSString * path = [cachPath stringByAppendingPathComponent :p];
+        
+        if ([[ NSFileManager defaultManager ] fileExistsAtPath :path]) {
+            
+            [[ NSFileManager defaultManager ] removeItemAtPath :path error :&error];
+            
+        }
+        
+    }
+    
+    [ self performSelectorOnMainThread : @selector (clearCachSuccess) withObject : nil waitUntilDone : YES ];
+    
+}
+
+-(void)clearCachSuccess
+
+{
+    [MBProgressHUD showError:@"qqq"];
+
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

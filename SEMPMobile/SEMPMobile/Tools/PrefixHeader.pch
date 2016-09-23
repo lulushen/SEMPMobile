@@ -141,7 +141,8 @@
 #define CancalActionHttp server@"/app_operationTask.action?key=cancel&taskid=%@&taskinfo=%@&dateline=""&tasktitle=""&priority=""&tasktype=""&user=""&index="""
 // 下达人删除任务
 #define DeleteActionHttp server@"/app_operationTask.action?key=delete&taskid=%@&dateline=""&tasktitle=""&priority=""&tasktype=""&user=""&index=""&taskinfo=%@"
-
+// 延期申请
+#define DelayActionHttp server@"/app_operationTask.action?key=delay&taskid=%@&dateline=""&tasktitle=""&priority=""&tasktype=""&user=""&index=""&taskinfo=%@"
 //-------------------------------个人中心接口------------------------------------
 
 // 退出登录接口

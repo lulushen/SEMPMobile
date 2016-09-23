@@ -23,10 +23,10 @@
 @property (nonatomic , copy) NSMutableArray * user;
 
 @property (nonatomic , assign) BOOL expand;//该节点是否处于展开状态
-@property (nonatomic , assign) int res_level;//该节点的深度
+@property (nonatomic , assign) NSInteger res_level;//该节点的深度
 /**
  *快速实例化该对象模型
  */
-- (instancetype)initWithParentId : (NSString *)parentId nodeId : (NSString*)nodeId name : (NSString *)name  res_level : (int)res_level expand : (BOOL)expand user: (NSMutableArray *)user;
+- (instancetype)initWithParentId : (NSString *)parentId nodeId : (NSString*)nodeId name : (NSString *)name  res_level : (NSInteger)res_level expand : (BOOL)expand user: (NSMutableArray *)user;
 
 @end

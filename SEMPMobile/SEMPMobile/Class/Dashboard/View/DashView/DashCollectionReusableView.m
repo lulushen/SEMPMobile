@@ -73,6 +73,6 @@
     
     _lable.frame = CGRectMake(20*KWidth6scale, CGRectGetMidY(_moreButton.frame)-5*KHeight6scale, 60*KWidth6scale, CGRectGetHeight(_moreButton.frame)/2);
 
-    _moreButton.frame = CGRectMake(Main_Screen_Width - 100*KWidth6scale, CGRectGetMinY(self.frame), 100*KWidth6scale, CGRectGetHeight(self.frame));
+    _moreButton.frame = CGRectMake(Main_Screen_Width - 100*KWidth6scale, CGRectGetMinY(self.frame), 150*KWidth6scale, CGRectGetHeight(self.frame));
 }
 @end

@@ -891,7 +891,7 @@
 
     [_indexArray removeAllObjects];
     
-    _defaultIndexInfoView = [[UIView alloc] initWithFrame:CGRectMake(60*KWidth6scale, 120*KHeight6scale, Main_Screen_Width-120*KWidth6scale, KViewHeight-280*KHeight6scale)];
+    _defaultIndexInfoView = [[UIView alloc] initWithFrame:CGRectMake(40*KWidth6scale, 60*KHeight6scale, Main_Screen_Width-80*KWidth6scale, KViewHeight-120*KHeight6scale)];
     _defaultIndexInfoView.backgroundColor = [UIColor whiteColor];
     _defaultIndexInfoView.alpha = 1.0f;
     _defaultIndexInfoView.layer.masksToBounds = YES;
@@ -929,7 +929,7 @@
 - (void)makeAddDefalutPersonView
 {
     
-    _addPersonView = [[UIView alloc] initWithFrame:CGRectMake(60*KWidth6scale, 120*KHeight6scale, Main_Screen_Width-120*KWidth6scale, KViewHeight-280*KHeight6scale)];
+    _addPersonView = [[UIView alloc] initWithFrame:CGRectMake(40*KWidth6scale, 60*KHeight6scale, Main_Screen_Width-80*KWidth6scale, KViewHeight-120*KHeight6scale)];
     _addPersonView.layer.masksToBounds = YES;
     _addPersonView.layer.cornerRadius = 10;
     _addPersonView.backgroundColor = [UIColor whiteColor];

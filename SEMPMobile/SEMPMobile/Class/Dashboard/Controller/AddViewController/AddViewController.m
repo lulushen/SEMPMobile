@@ -113,8 +113,12 @@
     
     _token =  [userDict valueForKey:@"user_token"];
     
+    //1.获取一个全局串行队列
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    //2.把任务添加到队列中执行
+    dispatch_async(queue, ^{
+        
 
-    
     NSString * urlStr = [NSString stringWithFormat:indexCheckedHttp,_token,indexCheckedString];
     
     AFHTTPSessionManager * manager = [AFHTTPSessionManager manager];
@@ -124,7 +128,8 @@
         //这里可以用来显示下载进度
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
-        
+        dispatch_async(dispatch_get_main_queue(), ^{
+
             //发送消息
             [[NSNotificationCenter defaultCenter] postNotificationName:@"ADDDashLabelArrayChange" object:nil];
             
@@ -137,18 +142,15 @@
                 [self.navigationController popViewControllerAnimated:YES];
                 
             }
-            
-
-    
-        
-        
+        });
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         //失败
         NSLog(@"failure  error ： %@",error);
-        
+        [self.navigationController popViewControllerAnimated:YES];
+
     }];
     
-    
+    }); 
 }
 
 

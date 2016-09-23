@@ -275,7 +275,7 @@
 -(void)shareButtonClick:(UIButton *)button
 {
     
-    [super ScreenShot];
+//    [super ScreenShot];
  
 }
 

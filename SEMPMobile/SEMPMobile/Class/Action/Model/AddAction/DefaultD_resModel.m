@@ -9,7 +9,7 @@
 #import "DefaultD_resModel.h"
 
 @implementation DefaultD_resModel
-- (instancetype)initWithParentId : (NSString *)parentId nodeId : (NSString*)nodeId name : (NSString *)name  res_level : (int)res_level expand : (BOOL)expand user: (NSMutableArray *)user{
+- (instancetype)initWithParentId : (NSString *)parentId nodeId : (NSString*)nodeId name : (NSString *)name  res_level : (NSInteger)res_level expand : (BOOL)expand user: (NSMutableArray *)user{
     
     self = [self init];
     if (self) {

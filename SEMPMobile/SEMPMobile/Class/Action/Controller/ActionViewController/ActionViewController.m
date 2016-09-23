@@ -433,7 +433,7 @@
             cell.actionStatuLabel.text = @"已完成";
             
         }else if ([actionModel.task_state isEqualToString:@"8"]){
-            cell.actionStatuLabel.text = @"已完成";
+            cell.actionStatuLabel.text = @"延期完成";
             
         }else if ([actionModel.task_state isEqualToString:@"2"]){
             cell.actionStatuLabel.text = @"被拒绝";

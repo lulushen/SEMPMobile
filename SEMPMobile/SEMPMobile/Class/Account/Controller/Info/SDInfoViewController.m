@@ -310,7 +310,15 @@
                 _readedCell.infoDateLabel.text = model.time;
                 _readedCell.senderLabel.text = model.send_user;
                 _readedCell.receiveLabel.text = model.receive_user;
-                _readedCell.contentLabel.text = model.text;
+                if ((model.create_user.length == 0) && (model.help_user.length == 0)) {
+                    _readedCell.contentLabel.text = model.text;
+                }else if ((model.create_user.length != 0) && (model.help_user.length == 0)){
+                    _readedCell.contentLabel.text = [NSString stringWithFormat:@"%@        创建人：%@",model.text,model.create_user];
+                    
+                }else if ((model.create_user.length == 0) && (model.help_user.length != 0)){
+                    _readedCell.contentLabel.text = [NSString stringWithFormat:@"%@        协助人：%@",model.text,model.help_user];
+                    
+                }
                 _readedCell.infoImageView.image = [UIImage imageNamed:@"readed.png"];
 
             }
@@ -366,7 +374,15 @@
                 _readedCell.infoDateLabel.text = model.time;
                 _readedCell.senderLabel.text = model.send_user;
                 _readedCell.receiveLabel.text = model.receive_user;
-                _readedCell.contentLabel.text = model.text;
+                if ((model.create_user.length == 0) && (model.help_user.length == 0)) {
+                    _readedCell.contentLabel.text = model.text;
+                }else if ((model.create_user.length != 0) && (model.help_user.length == 0)){
+                    _readedCell.contentLabel.text = [NSString stringWithFormat:@"%@        创建人：%@",model.text,model.create_user];
+                    
+                }else if ((model.create_user.length == 0) && (model.help_user.length != 0)){
+                    _readedCell.contentLabel.text = [NSString stringWithFormat:@"%@        协助人：%@",model.text,model.help_user];
+                    
+                }
                 _readedCell.infoImageView.image = [UIImage imageNamed:@"readed.png"];
                 
             }
@@ -403,7 +419,15 @@
             _readedCell.infoDateLabel.text = model.time;
             _readedCell.senderLabel.text = model.send_user;
             _readedCell.receiveLabel.text = model.receive_user;
-            _readedCell.contentLabel.text = model.text;
+            if ((model.create_user.length == 0) && (model.help_user.length == 0)) {
+                _readedCell.contentLabel.text = model.text;
+            }else if ((model.create_user.length != 0) && (model.help_user.length == 0)){
+                _readedCell.contentLabel.text = [NSString stringWithFormat:@"%@        创建人：%@",model.text,model.create_user];
+                
+            }else if ((model.create_user.length == 0) && (model.help_user.length != 0)){
+                _readedCell.contentLabel.text = [NSString stringWithFormat:@"%@        协助人：%@",model.text,model.help_user];
+                
+            }
             _readedCell.infoImageView.image = [UIImage imageNamed:@"readed.png"];
 
         }
