@@ -74,6 +74,14 @@
     _contrastnameLabel.textColor = [UIColor grayColor];
 
     _label.backgroundColor = [UIColor grayColor];
+    _defaultunitLabel.numberOfLines = 0;
+    _defaultvalLabel.numberOfLines = 0;
+    _contrastvalLabel.numberOfLines = 0;
+    _contrastunitLable.numberOfLines = 0;
+    _contrastnameLabel.numberOfLines = 0;
+    _othernameLabel.numberOfLines = 0;
+    _otherunitLabel.numberOfLines = 0;
+    _otherval.numberOfLines = 0;
 
 //    _defaultvalLabel.backgroundColor = [UIColor grayColor];
 //    _defaultunitLabel.backgroundColor = [UIColor redColor];
@@ -89,33 +97,38 @@
 {
     [super layoutSubviews];
     _titleImage.frame = CGRectMake(50*KWidth6scale, CGRectGetHeight(self.contentView.frame)/2.0-15*KHeight6scale, 30*KWidth6scale, 40*KHeight6scale);
-    CGRect defaultvalStringRect = [_defaultvalLabel.text boundingRectWithSize:CGSizeMake(CGRectGetWidth(self.contentView.frame)-60, 40*KHeight6scale) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:_defaultvalLabel.font} context:nil];
-    CGRect defaultunitStringRect = [_defaultunitLabel.text boundingRectWithSize:CGSizeMake(CGRectGetWidth(self.contentView.frame)-60, 40*KHeight6scale) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:_defaultunitLabel.font} context:nil];
-    CGRect contrastnameStringRect = [_contrastnameLabel.text boundingRectWithSize:CGSizeMake(CGRectGetWidth(self.contentView.frame)-60, 40*KHeight6scale) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:_contrastnameLabel.font} context:nil];
-    CGRect contrastvalStringRect = [_contrastvalLabel.text boundingRectWithSize:CGSizeMake(CGRectGetWidth(self.contentView.frame)-60, 40*KHeight6scale) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:_contrastvalLabel.font} context:nil];
+    CGRect defaultvalStringRect = [_defaultvalLabel.text boundingRectWithSize:CGSizeMake(CGRectGetWidth(self.contentView.frame)-60, 80*KHeight6scale) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:_defaultvalLabel.font} context:nil];
+    CGRect defaultunitStringRect = [_defaultunitLabel.text boundingRectWithSize:CGSizeMake(CGRectGetWidth(self.contentView.frame)-60, 80*KHeight6scale) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:_defaultunitLabel.font} context:nil];
+    CGRect contrastnameStringRect = [_contrastnameLabel.text boundingRectWithSize:CGSizeMake(CGRectGetWidth(self.contentView.frame)-60, 80*KHeight6scale) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:_contrastnameLabel.font} context:nil];
+    CGRect contrastvalStringRect = [_contrastvalLabel.text boundingRectWithSize:CGSizeMake(CGRectGetWidth(self.contentView.frame)-60, 80*KHeight6scale) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:_contrastvalLabel.font} context:nil];
 
-    CGRect contrastunitStringRect = [_contrastunitLable.text boundingRectWithSize:CGSizeMake(CGRectGetWidth(self.contentView.frame)-60, 40*KHeight6scale) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:_contrastunitLable.font} context:nil];
-    CGRect othernameStringRect = [_othernameLabel.text boundingRectWithSize:CGSizeMake(CGRectGetWidth(self.contentView.frame)-60, 40*KHeight6scale) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:_othernameLabel.font} context:nil];
-    CGRect othervalStringRect = [_otherval.text boundingRectWithSize:CGSizeMake(CGRectGetWidth(self.contentView.frame)-60, 40*KHeight6scale) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:_otherval.font} context:nil];
+    CGRect contrastunitStringRect = [_contrastunitLable.text boundingRectWithSize:CGSizeMake(CGRectGetWidth(self.contentView.frame)-60, 80*KHeight6scale) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:_contrastunitLable.font} context:nil];
+    CGRect othernameStringRect = [_othernameLabel.text boundingRectWithSize:CGSizeMake(CGRectGetWidth(self.contentView.frame)-60, 80*KHeight6scale) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:_othernameLabel.font} context:nil];
     
-    CGRect otherunitLabelStringRect = [_otherunitLabel.text boundingRectWithSize:CGSizeMake(CGRectGetWidth(self.contentView.frame)-60, 40*KHeight6scale) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:_otherunitLabel.font} context:nil];
-    _defaultvalLabel.frame = CGRectMake(CGRectGetMaxX(_titleImage.frame)+30*KWidth6scale, CGRectGetMinY(_titleImage.frame), defaultvalStringRect.size.width+10*KWidth6scale,CGRectGetHeight(_titleImage.frame));
+    CGRect othervalStringRect = [_otherval.text boundingRectWithSize:CGSizeMake(CGRectGetWidth(self.contentView.frame)-60, 80*KHeight6scale) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:_otherval.font} context:nil];
+    
+    CGRect otherunitLabelStringRect = [_otherunitLabel.text boundingRectWithSize:CGSizeMake(CGRectGetWidth(self.contentView.frame)-60, 80*KHeight6scale) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:_otherunitLabel.font} context:nil];
+    _defaultvalLabel.frame = CGRectMake(CGRectGetMaxX(_titleImage.frame)+30*KWidth6scale, CGRectGetMinY(_titleImage.frame), defaultvalStringRect.size.width+10*KWidth6scale,defaultvalStringRect.size.height+10*KWidth6scale);
     
     _defaultunitLabel.frame = CGRectMake(CGRectGetMaxX(_defaultvalLabel.frame), CGRectGetMinY(_defaultvalLabel.frame), defaultunitStringRect.size.width+20*KWidth6scale,CGRectGetHeight(_defaultvalLabel.frame));
+    _contrastunitLable.frame = CGRectMake(CGRectGetMaxX(self.contentView.frame) - (contrastunitStringRect.size.width + 10*KWidth6scale), CGRectGetMinY(_defaultunitLabel.frame) - contrastunitStringRect.size.height, contrastunitStringRect.size.width , contrastunitStringRect.size.height);
+    
+    _contrastvalLabel.frame = CGRectMake(CGRectGetMinX(_contrastunitLable.frame) - (contrastvalStringRect.size.width+5*KWidth6scale), CGRectGetMinY(_contrastunitLable.frame), contrastvalStringRect.size.width+5*KWidth6scale , contrastvalStringRect.size.height);
 
-    _contrastnameLabel.frame = CGRectMake(self.contentView.frame.size.width-110*KWidth6scale, CGRectGetMidY(self.contentView.frame)-(contrastnameStringRect.size.height + 10*KHeight6scale), contrastnameStringRect.size.width+20*KWidth6scale , contrastnameStringRect.size.height);
+    _contrastnameLabel.frame = CGRectMake(CGRectGetMinX(_contrastvalLabel.frame)- (contrastnameStringRect.size.width+20*KWidth6scale), CGRectGetMinY(_contrastunitLable.frame), contrastnameStringRect.size.width+20*KWidth6scale , contrastnameStringRect.size.height);
     
-    _contrastvalLabel.frame = CGRectMake(CGRectGetMaxX(_contrastnameLabel.frame), CGRectGetMinY(_contrastnameLabel.frame), contrastvalStringRect.size.width+5*KWidth6scale , contrastvalStringRect.size.height);
-    
-    _contrastunitLable.frame = CGRectMake(CGRectGetMaxX(_contrastvalLabel.frame), CGRectGetMinY(_contrastvalLabel.frame), contrastunitStringRect.size.width , contrastunitStringRect.size.height);
-    
+        _otherunitLabel.frame = CGRectMake(CGRectGetMaxX(self.contentView.frame) - (otherunitLabelStringRect.size.width + 10*KWidth6scale), CGRectGetMaxY(_defaultunitLabel.frame), otherunitLabelStringRect.size.width , otherunitLabelStringRect.size.height);
+        
+
+        _otherval.frame = CGRectMake(CGRectGetMinX(_otherunitLabel.frame)- (othervalStringRect.size.width+5*KWidth6scale), CGRectGetMinY(_otherunitLabel.frame), othervalStringRect.size.width+5*KWidth6scale , othervalStringRect.size.height);
+        
+        _othernameLabel.frame = CGRectMake(CGRectGetMinX(_otherval.frame) - (othernameStringRect.size.width+20*KWidth6scale), CGRectGetMinY(_otherval.frame), othernameStringRect.size.width+20*KWidth6scale , othernameStringRect.size.height);
+        
 
     
-     _othernameLabel.frame = CGRectMake(CGRectGetMinX(_contrastnameLabel.frame), CGRectGetMidY(self.contentView.frame)+10*KHeight6scale, othernameStringRect.size.width+20*KWidth6scale , othernameStringRect.size.height);
     
-     _otherval.frame = CGRectMake(CGRectGetMaxX(_othernameLabel.frame), CGRectGetMinY(_othernameLabel.frame), othervalStringRect.size.width+5*KWidth6scale , othervalStringRect.size.height);
     
-     _otherunitLabel.frame = CGRectMake(CGRectGetMaxX(_otherval.frame), CGRectGetMinY(_otherval.frame), otherunitLabelStringRect.size.width , otherunitLabelStringRect.size.height);
+    
     
     _label.frame = CGRectMake(0, CGRectGetMaxY(self.contentView.frame)-0.5*KWidth6scale, CGRectGetWidth(self.contentView.frame), 0.5*KWidth6scale);
     

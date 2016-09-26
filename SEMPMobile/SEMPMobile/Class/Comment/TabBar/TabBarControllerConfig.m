@@ -52,28 +52,31 @@ CGFloat const ZTCellMargin = 44.0;
 - (void)customizeTabBarForController:(CYLTabBarController *)tabBarController
 {
     NSDictionary *dict1 = @{
-                            CYLTabBarItemTitle : @"",
+                            CYLTabBarItemTitle : @"指标",
                             CYLTabBarItemImage : @"dash_normal",
                             CYLTabBarItemSelectedImage : @"dash_highlight",
                             };
     NSDictionary *dict2 = @{
-                            CYLTabBarItemTitle : @"",
+                            CYLTabBarItemTitle : @"报表",
                             CYLTabBarItemImage : @"report_normal",
                             CYLTabBarItemSelectedImage : @"report_highlight",
                             };
     NSDictionary *dict3 = @{
-                            CYLTabBarItemTitle : @"",
+                            CYLTabBarItemTitle : @"行动",
                             CYLTabBarItemImage : @"action_normal",
                             CYLTabBarItemSelectedImage : @"action_highlight",
                             };
     NSDictionary *dict4 = @{
-                            CYLTabBarItemTitle : @"",
+                            CYLTabBarItemTitle : @"个人",
                             CYLTabBarItemImage : @"account_normal",
                             CYLTabBarItemSelectedImage : @"account_highlight",
                             };
+   
+
     NSArray *tabBarItemsAttributes = @[ dict1, dict2, dict3, dict4 ];
     tabBarController.tabBarItemsAttributes = tabBarItemsAttributes;
-
+    tabBarController.tabBar.tintColor = MoreButtonColor;
+    
 }
 
 - (UINavigationController *)produceNavControllerWithClassName:(NSString *)className

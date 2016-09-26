@@ -8,12 +8,21 @@
 
 #import "ReportIncomeViewController.h"
 #import <WebKit/WebKit.h>
+#import "DataSearchView.h"
 
 
 @interface ReportIncomeViewController ()<WKNavigationDelegate,WKUIDelegate,YXCustomActionSheetDelegate>
+{
+    NSString * dateString;
+    NSString * dateStringFormat;
+    DataSearchView * dataSearchView;
+
+
+}
 @property(nonatomic , strong)  WKWebView * reportWebView;
 @property (nonatomic , strong) UIView * parameterView;
 @property (nonatomic , strong)  UITabBar * tabView;
+
 @end
 
 @implementation ReportIncomeViewController
@@ -29,7 +38,7 @@
 {
     
     _reportWebView = [[WKWebView alloc]initWithFrame:CGRectMake(0, 0, Main_Screen_Width, KViewHeight)];
-//    _reportWebView.backgroundColor = [UIColor whiteColor];
+    //    _reportWebView.backgroundColor = [UIColor whiteColor];
     NSURL *url = [NSURL URLWithString:_webViewHttpString];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     
@@ -38,26 +47,26 @@
     _reportWebView.UIDelegate = self;
     [self.view addSubview:_reportWebView];
     [self makeParametersView];
-   
+    
     
 }
 // 页面开始加载时调用
 - (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(WKNavigation *)navigation
 {
     NSLog(@"开始加载");
-
+    
 }
 // 当内容开始返回时调用
 - (void)webView:(WKWebView *)webView didCommitNavigation:(WKNavigation *)navigation
 {
     NSLog(@"内容开始返回");
-
+    
 }
 // 页面加载完成之后调用
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation
 {
     NSLog(@"加载完成");
-
+    
 }
 // 页面加载失败时调用
 - (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation
@@ -68,22 +77,22 @@
 - (void)webView:(WKWebView *)webView didReceiveServerRedirectForProvisionalNavigation:(WKNavigation *)navigation
 {
     NSLog(@"接收到服务器跳转请求之后再执行");
-//    completionHandler(NSURLSessionAuthChallengePerformDefaultHandling, nil);
-
+    //    completionHandler(NSURLSessionAuthChallengePerformDefaultHandling, nil);
+    
 }
 // 在收到响应后，决定是否跳转
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationResponse:(WKNavigationResponse *)navigationResponse decisionHandler:(void (^)(WKNavigationResponsePolicy))decisionHandler
 {
     NSLog(@" 在收到响应后，决定是否跳转");
     decisionHandler(WKNavigationResponsePolicyAllow);
-
+    
 }
 // 在发送请求之前，决定是否跳转
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler
 {
     NSLog(@"在发送请求之前，决定是否跳转");
     decisionHandler(WKNavigationActionPolicyAllow);
-
+    
 }
 - (void)makeParametersView
 {
@@ -91,7 +100,7 @@
     _parameterView.alpha = 0;
     _parameterView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:_parameterView];
-
+    
     UILabel * titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(20*KWidth6scale, 0, 100*KWidth6scale, 50*KHeight6scale)];
     titleLabel.text = @"筛选";
     [_parameterView addSubview:titleLabel];
@@ -119,7 +128,14 @@
     dateParameterLabel.text = @"日期:";
     [_parameterView addSubview:dateParameterLabel];
     UIButton * dateParameterButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [dateParameterButton setTitle:@"2016-09-09" forState:UIControlStateNormal];
+    NSDate *  senddate=[NSDate date];
+    
+    NSDateFormatter  *dateformatter=[[NSDateFormatter alloc] init];
+    
+    [dateformatter setDateFormat:@"YYYY-MM-dd"];
+    
+    NSString *  locationString=[dateformatter stringFromDate:senddate];
+    [dateParameterButton setTitle:locationString forState:UIControlStateNormal];
     CGRect dateParatemerRect = [dateParameterButton.titleLabel.text boundingRectWithSize:CGSizeMake(CGRectGetWidth(_parameterView.frame)-60, 40*KHeight6scale) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:dateParameterButton.titleLabel.font} context:nil];
     
     dateParameterButton.frame = CGRectMake(CGRectGetMaxX(dateParameterLabel.frame), CGRectGetMinY(dateParameterLabel.frame), dateParatemerRect.size.width+20, CGRectGetHeight(dateParameterLabel.frame));
@@ -135,37 +151,69 @@
 - (void)cancelParaButtonClick: (UIButton*)button
 {
     _tabView.userInteractionEnabled = YES;
-
+    
     [UIView animateWithDuration:0.3 animations:^{
-    self.view.backgroundColor = [UIColor blackColor];
-    _reportWebView.alpha = 1;
-    _reportWebView.userInteractionEnabled = YES;
-    _parameterView.alpha = 0;
- } completion:nil];
+        self.view.backgroundColor = [UIColor blackColor];
+        _reportWebView.alpha = 1;
+        _reportWebView.userInteractionEnabled = YES;
+        _parameterView.alpha = 0;
+    } completion:nil];
     
     
 }
 // 确认按钮
 - (void)OKParaButtonClick: (UIButton*)button
 {
-//    [UIView animateWithDuration:0.3 animations:^{
-//        self.view.backgroundColor = [UIColor blackColor];
-//        _reportWebView.alpha = 1;
-//        _reportWebView.userInteractionEnabled = YES;
-//        _parameterView.alpha = 0;
-//    } completion:nil];
+    _tabView.userInteractionEnabled = YES;
+
+    [UIView animateWithDuration:0.3 animations:^{
+        self.view.backgroundColor = [UIColor blackColor];
+        _reportWebView.alpha = 1;
+        _reportWebView.userInteractionEnabled = YES;
+        _parameterView.alpha = 0;
+    } completion:nil];
     
     
 }
 // 选择时间按钮
 - (void)dateParameterButtonClick: (UIButton*)button
 {
-//    [UIView animateWithDuration:0.3 animations:^{
-//        self.view.backgroundColor = [UIColor blackColor];
-//        _reportWebView.alpha = 1;
-//        _reportWebView.userInteractionEnabled = YES;
-//        _parameterView.alpha = 0;
-//    } completion:nil];
+    
+    UIDatePicker *picker = [[UIDatePicker alloc]init];
+    picker.datePickerMode = UIDatePickerModeDate;
+    
+    picker.frame = CGRectMake(0, 40, Main_Screen_Width-20, 200);
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"请选择\n\n\n\n\n\n\n\n\n\n\n\n" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+        NSDate *date = picker.date;
+        dateString = [date stringWithFormat:@"yyyy-MM-dd"];
+       
+        [button setTitle:dateString forState:UIControlStateNormal];
+        
+    }];
+     dateStringFormat = @"yyyy-MM";
+    
+    NSString * string = [NSString stringWithFormat:@"2015"];
+    NSLog(@"%@",string);
+
+    if ([dateStringFormat isEqualToString:@"yyyy-MM-dd"]) {
+        [alertController.view addSubview:picker];
+
+    }else if ([dateStringFormat isEqualToString:@"yyyy-MM"]){
+        dataSearchView = [[DataSearchView alloc] initWithFrame:CGRectMake(0, 40, Main_Screen_Width-20, 200)];
+        [alertController.view addSubview:dataSearchView];
+
+        [alertController.view addSubview:dataSearchView.myPickerView];
+        dataSearchView.defaultDateString = string;
+        NSLog(@"%@",dataSearchView.defaultDateString);
+
+        [dataSearchView mouthButtonClick:dataSearchView.mouthButton];
+
+    }
+    
+
+    [alertController addAction:cancelAction];
+    [self presentViewController:alertController animated:YES completion:nil];
     
     
 }
@@ -182,14 +230,14 @@
 }
 - (void)backButtonClick:(UIButton *)button {
     
-      [self.navigationController popViewControllerAnimated:YES];
-
+    [self.navigationController popViewControllerAnimated:YES];
+    
 }
 
 
 
 - (void)maketab{
-
+    
     _tabView = [[UITabBar alloc] initWithFrame:CGRectMake(0, KViewHeight, Main_Screen_Width, BottomBarHeight)];
     _tabView.backgroundColor = [UIColor whiteColor];
     
@@ -222,9 +270,9 @@
         _parameterView.alpha = 1.0f;
         
     } completion:nil];
-
-   
-
+    
+    
+    
     
 }
 - (void)getReportParameters
@@ -237,10 +285,10 @@
         NSString * urlStr = [NSString stringWithFormat:getReportParametersHttp];
         
         AFHTTPSessionManager * manager = [AFHTTPSessionManager manager];
-    
+        
         manager.responseSerializer = [AFHTTPResponseSerializer serializer];
-    
-       [manager GET:urlStr parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
+        
+        [manager GET:urlStr parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
             //这里可以用来显示下载进度
         } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
             NSDictionary *dic=   [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
@@ -275,8 +323,8 @@
 -(void)shareButtonClick:(UIButton *)button
 {
     
-//    [super ScreenShot];
- 
+    //    [super ScreenShot];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -285,12 +333,12 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }*/
 
 @end

@@ -29,7 +29,7 @@
     _infoLabel = [[UILabel alloc] init];
     _infoTitleLabel = [[UILabel alloc] init];
     _infoDateLabel = [[UILabel alloc] init];
-    _lineLabel = [[UILabel alloc] init];
+//    _lineLabel = [[UILabel alloc] init];
     
     _readedView = [[UIView alloc] init];
     _senderLabel = [[UILabel alloc] init];
@@ -47,7 +47,7 @@
     [self.contentView addSubview:_infoLabel];
     [_infoLabel addSubview:_infoTitleLabel];
     [_infoLabel addSubview:_infoDateLabel];
-    [self.contentView addSubview:_lineLabel];
+//    [self.contentView addSubview:_lineLabel];
     
     [self.contentView addSubview:_readedView];
     [_readedView addSubview:_hornImageView];
@@ -95,14 +95,16 @@
     _rectTitle = [_infoTitleLabel.text boundingRectWithSize:CGSizeMake(Main_Screen_Width-80*KWidth6scale, KViewHeight) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:_infoTitleLabel.font} context:nil];
     _rectDate = [_infoDateLabel.text boundingRectWithSize:CGSizeMake(Main_Screen_Width-80*KWidth6scale, KViewHeight) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:_infoDateLabel.font} context:nil];
     
-    
-    _infoLabel.frame = CGRectMake(40*KWidth6scale, 10*KHeight6scale, Main_Screen_Width - 60*KWidth6scale, _rectTitle.size.height + _rectDate.size.height+ 30*KHeight6scale);
     _infoImageView.frame = CGRectMake(10*KWidth6scale, CGRectGetMidY(_infoLabel.frame)-15*KHeight6scale, 30*KWidth6scale, 30*KHeight6scale);
 
-    
+    _infoLabel.frame = CGRectMake(CGRectGetMaxX(_infoImageView.frame)+5*KWidth6scale, 10*KHeight6scale, Main_Screen_Width - (CGRectGetMaxX(_infoImageView.frame)+20*KWidth6scale), _rectTitle.size.height + _rectDate.size.height+ 30*KHeight6scale);
+   
     _infoTitleLabel.frame = CGRectMake(5*KWidth6scale, 10*KHeight6scale, _rectTitle.size.width, _rectTitle.size.height);
     _infoDateLabel.frame = CGRectMake(CGRectGetMinX(_infoTitleLabel.frame), CGRectGetMaxY(_infoTitleLabel.frame)+10*KHeight6scale, _rectDate.size.width, _rectDate.size.height);
+   
+
     
+
     
     CGRect senderRect = [_senderLabel.text boundingRectWithSize:CGSizeMake(Main_Screen_Width/2.0, KViewHeight) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:_senderLabel.font} context:nil];
     CGRect  receiveRect = [_receiveLabel.text boundingRectWithSize:CGSizeMake(Main_Screen_Width/2.0, KViewHeight) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:_receiveLabel.font} context:nil];

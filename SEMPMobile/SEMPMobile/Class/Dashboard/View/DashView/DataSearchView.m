@@ -46,6 +46,7 @@
         
         self.backgroundColor = [UIColor whiteColor];
         self.userInteractionEnabled = YES;
+        _defaultDateString = [NSString string];
         [self p_makeview];
         
     }
@@ -107,7 +108,8 @@
 {
     // 根据日期字符串长度 判断默认日期的年月日
     // 默认仅有年
-    if (_defaultDateString.length == 5) {
+    if (_defaultDateString.length <= 5) {
+        
         yearNumeber = [[_defaultDateString substringWithRange:NSMakeRange(0, 4)] intValue];
     }
     // 默认仅有年月
@@ -152,8 +154,10 @@
     number = 2;
     // 此方法是创建日期选择器
     [self makedata];
+
     // 进入日期选择器时的默认日期，年，月，日（从DataView界面传值过来的）
     [self makeDefaultDate];
+    NSLog(@"%@",_defaultDateString);
     
     // 进入日期选择器是的默认日期
     [_myPickerView selectRow:yearNumeber-1970 inComponent:0 animated:NO];

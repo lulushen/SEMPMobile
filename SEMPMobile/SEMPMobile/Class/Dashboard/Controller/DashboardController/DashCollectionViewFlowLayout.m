@@ -164,7 +164,7 @@
     
     UIView * view = _viewDashArray.lastObject;
     
-    CGSize contentSize = CGSizeMake(Main_Screen_Width, CGRectGetMaxY(view.frame));
+    CGSize contentSize = CGSizeMake(Main_Screen_Width, CGRectGetMaxY(view.frame)+10*KWidth6scale);
     return contentSize;
 }
 - (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath

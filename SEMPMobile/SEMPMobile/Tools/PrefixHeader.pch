@@ -104,8 +104,9 @@
 // 指标详情界面
 #define IncomeHttp server@"/app_indexInfoByOne.do?indexId=%@&timeVal=%@"
 
-// 测试用户反馈的接口
-#define FeedbackHttp  server@"/app_srvUserFeedback.action?feedback_content=%@&user_token=%@"
+
+#define DeleteIndexHttp server@"/app_deleteindex.action?indexId=%@"
+
 //-------------------------------报表接口------------------------------------
 
 // 测试报表详情界面的webView接口
@@ -151,7 +152,8 @@
 #define userInfoHttp server"/app_getMsg.action"
 // 阅读消息接口
 #define userReadInfoHttp server"/app_readMsg.action?msgId=%@"
-
+// 测试用户反馈的接口
+#define FeedbackHttp  server@"/app_srvUserFeedback.action?feedback_content=%@&user_token=%@"
 // 加载头像接口
 #define headImageHttp server"/app_readHeadImg.action"
 

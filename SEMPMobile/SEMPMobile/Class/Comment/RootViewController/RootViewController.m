@@ -167,14 +167,15 @@ static int ScreenshotIndex = 0;
     UIGraphicsEndImageContext();
     CGImageRef imageRef = viewImage.CGImage;
     //    CGRect rect = CGRectMake(166, 211, 426, 320);//这里可以设置想要截图的区域
-    CGRect rect = CGRectMake(0, NavgationHeight, Main_Screen_Height * 2, (Main_Screen_Height)*2);//这里可以设置想要截图的区域
+    CGRect rect = CGRectMake(0, NavgationHeight, Main_Screen_Height * 2, (Main_Screen_Height)*2);
+    //这里可以设置想要截图的区域
     CGImageRef imageRefRect =CGImageCreateWithImageInRect(imageRef, rect);
     shareImage = [[UIImage alloc] initWithCGImage:imageRefRect];
     
     //    UIImageWriteToSavedPhotosAlbum(sendImage, nil, nil, nil);//保存图片到照片库
     
     NSData *imageViewData = UIImagePNGRepresentation(shareImage);
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
     NSString *pictureName= [NSString stringWithFormat:@"screenShow_%d.png",ScreenshotIndex];
     NSString *savedImagePath = [documentsDirectory stringByAppendingPathComponent:pictureName];
@@ -228,7 +229,8 @@ static int ScreenshotIndex = 0;
         
         shareType = UMShareToEmail;
     }
-    [[UMSocialDataService defaultDataService]  postSNSWithTypes:@[shareType] content:@"" image:shareImage location:nil urlResource:nil presentedController:self completion:^(UMSocialResponseEntity *response){
+    
+    [[UMSocialDataService defaultDataService]  postSNSWithTypes:@[shareType] content:@"qw" image:shareImage location:nil urlResource:nil presentedController:self completion:^(UMSocialResponseEntity *response){
         if (response.responseCode == UMSResponseCodeSuccess) {
             NSLog(@"分享成功！");
             

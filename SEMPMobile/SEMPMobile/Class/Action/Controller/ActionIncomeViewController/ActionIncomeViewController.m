@@ -1292,6 +1292,7 @@
                 //这里可以用来显示下载进度
             } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                 
+                NSLog(@"123--%@",responseObject);
                 if (responseObject != nil) {
                     
                     
@@ -2595,10 +2596,13 @@
         }else{
             button.selected = YES;
             NSString * urlStr = [NSString stringWithFormat:DelayActionHttp,_taskIDString,_shuoMingTextView.text];
-            
+            NSLog(@"%@,%@",_taskIDString,_shuoMingTextView);
+            NSLog(@"%@",urlStr);
             
             AFHTTPSessionManager * manager = [AFHTTPSessionManager manager];
             
+            manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+
             [manager GET:urlStr parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
                 
                 //这里可以用来显示下载进度

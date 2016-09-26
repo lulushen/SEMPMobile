@@ -156,7 +156,7 @@
 
 - (void)makeCollectionView
 {
-    UILabel * label = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, Main_Screen_Width, 40)];
+    UILabel * label = [[UILabel alloc] initWithFrame:CGRectMake(10*KWidth6scale, 0, Main_Screen_Width- 20*KWidth6scale, 40*KHeight6scale)];
     
     label.text = @"我的指标";
     
@@ -166,7 +166,7 @@
     
     layout.sectionInset = UIEdgeInsetsMake(10, 10, 10, 10);
     
-    _DashCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(label.frame), Main_Screen_Width, Main_Screen_Height/3.0-40) collectionViewLayout:layout];
+    _DashCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(label.frame), Main_Screen_Width, (KViewHeight-40*KHeight6scale)/3.0) collectionViewLayout:layout];
     
     layout.scrollDirection = UICollectionViewScrollDirectionVertical;//滚动方向
     
@@ -184,13 +184,12 @@
     
     [self.view addSubview:_DashCollectionView];
     //此处给其增加长按手势，用此手势触发cell移动效果
-    //    UILongPressGestureRecognizer *longGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handlelongGesture:)];
-    //    [_DashCollectionView addGestureRecognizer:longGesture];
-    //
-    UILabel * label2 = [[UILabel alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(_DashCollectionView.frame), Main_Screen_Width, 40)];
+        UILongPressGestureRecognizer *longGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handlelongGesture:)];
+        [_DashCollectionView addGestureRecognizer:longGesture];
+    
+    UILabel * label2 = [[UILabel alloc] initWithFrame:CGRectMake(10*KWidth6scale, CGRectGetMaxY(_DashCollectionView.frame), Main_Screen_Width-20*KWidth6scale, 40*KHeight6scale)];
     
     label2.text = @"推荐指标";
-    
     [self.view addSubview:label2];
     
     UICollectionViewFlowLayout * layout2 = [[UICollectionViewFlowLayout alloc] init];
@@ -203,7 +202,7 @@
     
     layout2.minimumInteritemSpacing = 8;
     
-    _AllDashCollectctionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(label2.frame), Main_Screen_Width, Main_Screen_Height*2/3.0-80)collectionViewLayout:layout2];
+    _AllDashCollectctionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(label2.frame), Main_Screen_Width, (KViewHeight - 40*KHeight6scale)*2.0/3.0)collectionViewLayout:layout2];
     
     _AllDashCollectctionView.backgroundColor = [UIColor whiteColor];
     
@@ -247,7 +246,7 @@
     if (collectionView.tag == 1) {
         
         UIImageView * deleteImage = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(addcell.contentView.frame)-10, 0, 15, 15)];
-        deleteImage.image = [UIImage imageNamed:@"delete.png"];
+//        deleteImage.image = [UIImage imageNamed:@"delete.png"];
         
         [addcell addSubview:deleteImage];
         
@@ -303,50 +302,50 @@
     
     
 }
-//- (void)handlelongGesture:(UILongPressGestureRecognizer *)longGesture {
-//    //判断手势状态
-//    switch (longGesture.state) {
-//        case UIGestureRecognizerStateBegan:{
-//            //判断手势落点位置是否在路径上
-//            _orightindexPath = [_DashCollectionView indexPathForItemAtPoint:[longGesture locationInView:_DashCollectionView]];
-//            if (_orightindexPath == nil) {
-//                break;
-//            }
-//            //在路径上则开始移动该路径上的cell
-//            [_DashCollectionView beginInteractiveMovementForItemAtIndexPath:_orightindexPath];
-//        }
-//            break;
-//        case UIGestureRecognizerStateChanged:{
-//
-//            //移动过程当中随时更新cell位置
-//            [_DashCollectionView updateInteractiveMovementTargetPosition:[longGesture locationInView:_DashCollectionView]];
-//        }
-//            break;
-//        case UIGestureRecognizerStateEnded:
-//            //移动结束后关闭cell移动
-//            [_DashCollectionView endInteractiveMovement];
-//            break;
-//        default:
-//            [_DashCollectionView cancelInteractiveMovement];
-//            break;
-//    }
-//}
-//- (BOOL)collectionView:(UICollectionView *)collectionView canMoveItemAtIndexPath:(NSIndexPath *)indexPath{
-//    //返回YES允许其item移动
-//    return YES;
-//}
-//
-//- (void)collectionView:(UICollectionView *)collectionView moveItemAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath*)destinationIndexPath {
-//    DashBoardModel * dashModel = [[DashBoardModel alloc] init];
-//
-//    dashModel = _dashLabelArray[sourceIndexPath.row];
-//    //  从资源数组中移除该数据
-//    [_dashLabelArray removeObject:dashModel];
-//    //  将数据插入到资源数组中的目标位置上
-//    [_dashLabelArray insertObject:dashModel atIndex:destinationIndexPath.item];
-//
-//
-//}
+- (void)handlelongGesture:(UILongPressGestureRecognizer *)longGesture {
+    //判断手势状态
+    switch (longGesture.state) {
+        case UIGestureRecognizerStateBegan:{
+            //判断手势落点位置是否在路径上
+            _orightindexPath = [_DashCollectionView indexPathForItemAtPoint:[longGesture locationInView:_DashCollectionView]];
+            if (_orightindexPath == nil) {
+                break;
+            }
+            //在路径上则开始移动该路径上的cell
+            [_DashCollectionView beginInteractiveMovementForItemAtIndexPath:_orightindexPath];
+        }
+            break;
+        case UIGestureRecognizerStateChanged:{
+
+            //移动过程当中随时更新cell位置
+            [_DashCollectionView updateInteractiveMovementTargetPosition:[longGesture locationInView:_DashCollectionView]];
+        }
+            break;
+        case UIGestureRecognizerStateEnded:
+            //移动结束后关闭cell移动
+            [_DashCollectionView endInteractiveMovement];
+            break;
+        default:
+            [_DashCollectionView cancelInteractiveMovement];
+            break;
+    }
+}
+- (BOOL)collectionView:(UICollectionView *)collectionView canMoveItemAtIndexPath:(NSIndexPath *)indexPath{
+    //返回YES允许其item移动
+    return YES;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView moveItemAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath*)destinationIndexPath {
+    DashBoardModel * dashModel = [[DashBoardModel alloc] init];
+
+    dashModel = _dashLabelArray[sourceIndexPath.row];
+    //  从资源数组中移除该数据
+    [_dashLabelArray removeObject:dashModel];
+    //  将数据插入到资源数组中的目标位置上
+    [_dashLabelArray insertObject:dashModel atIndex:destinationIndexPath.item];
+
+
+}
 -(void)dealloc
 {
     

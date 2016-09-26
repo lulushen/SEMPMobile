@@ -96,15 +96,13 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 - (void)LoginButtonClick:(UIButton *)button{
-
+    self.userTextField.text = @"mobile";
+    self.passWordTextField.text = @"111111";
     //1.获取一个全局串行队列
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     //2.把任务添加到队列中执行
     dispatch_async(queue, ^{
-        
 
-        self.userTextField.text = @"mobile";
-        self.passWordTextField.text = @"111111";
         // 1.设置请求路径
         NSString * urlStr = [NSString stringWithFormat:LoginHttp];
         
@@ -234,9 +232,9 @@
                      [[NSUserDefaults standardUserDefaults] synchronize];
 
                         //    // 延迟0.5秒跳转页面
-                        [self performSelector:@selector(GoToDashView) withObject:self afterDelay:0.2f];
+                     [self performSelector:@selector(GoToDashView) withObject:self afterDelay:0.2f];
 
-                    
+                   
                 }
                 
             } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {

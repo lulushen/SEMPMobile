@@ -96,7 +96,6 @@
 		3D3B3F9C1D5C5C0500096AC7 /* qipao.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D3B3F991D5C5C0500096AC7 /* qipao.png */; };
 		3D3B3F9E1D5C61F000096AC7 /* databgImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D3B3F9D1D5C61F000096AC7 /* databgImage.png */; };
 		3D3B3FA01D5C6FD500096AC7 /* delete.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D3B3F9F1D5C6FD500096AC7 /* delete.png */; };
-		3D3B3FA21D5C75AE00096AC7 /* wenBenDelete.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D3B3FA11D5C75AE00096AC7 /* wenBenDelete.png */; };
 		3D56180F1D9218D0001B8B40 /* parameterCancel.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D56180E1D9218D0001B8B40 /* parameterCancel.png */; };
 		3D5618111D922E0B001B8B40 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D5618101D922E0B001B8B40 /* Social.framework */; };
 		3D5618131D922E6B001B8B40 /* libz.1.2.5.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D5618121D922E6B001B8B40 /* libz.1.2.5.tbd */; };
@@ -158,6 +157,12 @@
 		3D72D3321D59ED8000EDD71A /* dash_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D72D32B1D59ED8000EDD71A /* dash_normal.png */; };
 		3D72D3331D59ED8000EDD71A /* report_highlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D72D32C1D59ED8000EDD71A /* report_highlight.png */; };
 		3D72D3341D59ED8000EDD71A /* report_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D72D32D1D59ED8000EDD71A /* report_normal.png */; };
+		3D79BFD21D991A11004D18C3 /* IncomeHuaBi.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D79BFCD1D991A11004D18C3 /* IncomeHuaBi.png */; };
+		3D79BFD31D991A11004D18C3 /* IncomeLunYin.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D79BFCE1D991A11004D18C3 /* IncomeLunYin.png */; };
+		3D79BFD41D991A11004D18C3 /* IncomeShare.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D79BFCF1D991A11004D18C3 /* IncomeShare.png */; };
+		3D79BFD51D991A11004D18C3 /* IncomeText.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D79BFD01D991A11004D18C3 /* IncomeText.png */; };
+		3D79BFD61D991A11004D18C3 /* 画笔-2.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D79BFD11D991A11004D18C3 /* 画笔-2.png */; };
+		3D79BFD81D991BE9004D18C3 /* delete.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D79BFD71D991BE9004D18C3 /* delete.png */; };
 		3D86E2421D6311D600FF7245 /* cellDelete.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D86E2411D6311D600FF7245 /* cellDelete.png */; };
 		3D8828591D65654200242B6A /* add.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D8828581D65654200242B6A /* add.png */; };
 		3D88285D1D65869B00242B6A /* ReportIncomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D88285C1D65869B00242B6A /* ReportIncomeViewController.m */; };
@@ -202,10 +207,6 @@
 		3D9EE8771D5982480062DB1F /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D9EE8761D5982480062DB1F /* libstdc++.tbd */; };
 		3D9EE8791D5982530062DB1F /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D9EE8781D5982530062DB1F /* libz.tbd */; };
 		3D9EE87B1D5982600062DB1F /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D9EE87A1D5982600062DB1F /* libiconv.tbd */; };
-		3D9EE8811D59A7970062DB1F /* IncomeHuaBi.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D9EE87D1D59A7970062DB1F /* IncomeHuaBi.png */; };
-		3D9EE8821D59A7970062DB1F /* IncomeLunYin.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D9EE87E1D59A7970062DB1F /* IncomeLunYin.png */; };
-		3D9EE8831D59A7970062DB1F /* IncomeShare.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D9EE87F1D59A7970062DB1F /* IncomeShare.png */; };
-		3D9EE8841D59A7970062DB1F /* IncomeText.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D9EE8801D59A7970062DB1F /* IncomeText.png */; };
 		3D9EE8901D59B34A0062DB1F /* IncomeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D9EE88F1D59B34A0062DB1F /* IncomeTableViewCell.m */; };
 		3D9EE8931D59C5CB0062DB1F /* IncomeTableViewTopCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D9EE8921D59C5CB0062DB1F /* IncomeTableViewTopCell.m */; };
 		3D9EE8961D59D9750062DB1F /* IncomeTableViewChartCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D9EE8951D59D9750062DB1F /* IncomeTableViewChartCell.m */; };
@@ -402,7 +403,6 @@
 		3D3B3F991D5C5C0500096AC7 /* qipao.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = qipao.png; sourceTree = "<group>"; };
 		3D3B3F9D1D5C61F000096AC7 /* databgImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = databgImage.png; sourceTree = "<group>"; };
 		3D3B3F9F1D5C6FD500096AC7 /* delete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = delete.png; sourceTree = "<group>"; };
-		3D3B3FA11D5C75AE00096AC7 /* wenBenDelete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wenBenDelete.png; sourceTree = "<group>"; };
 		3D56180E1D9218D0001B8B40 /* parameterCancel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = parameterCancel.png; sourceTree = "<group>"; };
 		3D5618101D922E0B001B8B40 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		3D5618121D922E6B001B8B40 /* libz.1.2.5.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.1.2.5.tbd; path = usr/lib/libz.1.2.5.tbd; sourceTree = SDKROOT; };
@@ -500,6 +500,12 @@
 		3D72D32B1D59ED8000EDD71A /* dash_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dash_normal.png; sourceTree = "<group>"; };
 		3D72D32C1D59ED8000EDD71A /* report_highlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = report_highlight.png; sourceTree = "<group>"; };
 		3D72D32D1D59ED8000EDD71A /* report_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = report_normal.png; sourceTree = "<group>"; };
+		3D79BFCD1D991A11004D18C3 /* IncomeHuaBi.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IncomeHuaBi.png; sourceTree = "<group>"; };
+		3D79BFCE1D991A11004D18C3 /* IncomeLunYin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IncomeLunYin.png; sourceTree = "<group>"; };
+		3D79BFCF1D991A11004D18C3 /* IncomeShare.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IncomeShare.png; sourceTree = "<group>"; };
+		3D79BFD01D991A11004D18C3 /* IncomeText.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IncomeText.png; sourceTree = "<group>"; };
+		3D79BFD11D991A11004D18C3 /* 画笔-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "画笔-2.png"; sourceTree = "<group>"; };
+		3D79BFD71D991BE9004D18C3 /* delete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = delete.png; sourceTree = "<group>"; };
 		3D86E2411D6311D600FF7245 /* cellDelete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cellDelete.png; sourceTree = "<group>"; };
 		3D8828581D65654200242B6A /* add.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add.png; sourceTree = "<group>"; };
 		3D88285B1D65869B00242B6A /* ReportIncomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportIncomeViewController.h; sourceTree = "<group>"; };
@@ -557,10 +563,6 @@
 		3D9EE8761D5982480062DB1F /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
 		3D9EE8781D5982530062DB1F /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		3D9EE87A1D5982600062DB1F /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = usr/lib/libiconv.tbd; sourceTree = SDKROOT; };
-		3D9EE87D1D59A7970062DB1F /* IncomeHuaBi.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IncomeHuaBi.png; sourceTree = "<group>"; };
-		3D9EE87E1D59A7970062DB1F /* IncomeLunYin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IncomeLunYin.png; sourceTree = "<group>"; };
-		3D9EE87F1D59A7970062DB1F /* IncomeShare.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IncomeShare.png; sourceTree = "<group>"; };
-		3D9EE8801D59A7970062DB1F /* IncomeText.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IncomeText.png; sourceTree = "<group>"; };
 		3D9EE88E1D59B34A0062DB1F /* IncomeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IncomeTableViewCell.h; sourceTree = "<group>"; };
 		3D9EE88F1D59B34A0062DB1F /* IncomeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IncomeTableViewCell.m; sourceTree = "<group>"; };
 		3D9EE8911D59C5CB0062DB1F /* IncomeTableViewTopCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IncomeTableViewTopCell.h; sourceTree = "<group>"; };
@@ -1624,6 +1626,19 @@
 			path = IncomeDashModel;
 			sourceTree = "<group>";
 		};
+		3D79BFCC1D991A11004D18C3 /* incomeTabBar */ = {
+			isa = PBXGroup;
+			children = (
+				3D79BFD71D991BE9004D18C3 /* delete.png */,
+				3D79BFCD1D991A11004D18C3 /* IncomeHuaBi.png */,
+				3D79BFCE1D991A11004D18C3 /* IncomeLunYin.png */,
+				3D79BFCF1D991A11004D18C3 /* IncomeShare.png */,
+				3D79BFD01D991A11004D18C3 /* IncomeText.png */,
+				3D79BFD11D991A11004D18C3 /* 画笔-2.png */,
+			);
+			path = incomeTabBar;
+			sourceTree = "<group>";
+		};
 		3D88285A1D65866000242B6A /* ReportIncomeController */ = {
 			isa = PBXGroup;
 			children = (
@@ -1779,19 +1794,15 @@
 		3D9EE87C1D59A7970062DB1F /* Income */ = {
 			isa = PBXGroup;
 			children = (
+				3D79BFCC1D991A11004D18C3 /* incomeTabBar */,
 				3D5618E01D925A5E001B8B40 /* share */,
 				3D0B0D1C1D869E3600DBCD6E /* yline.png */,
 				3D0B0D1A1D869DD800DBCD6E /* barLine.png */,
 				3D0B0D001D8105A600DBCD6E /* button.png */,
 				3D3B3F971D5C5C0500096AC7 /* luyin.png */,
-				3D3B3FA11D5C75AE00096AC7 /* wenBenDelete.png */,
 				3D3B3F981D5C5C0500096AC7 /* play.png */,
 				3D3B3F991D5C5C0500096AC7 /* qipao.png */,
 				3D72D31F1D59E19000EDD71A /* sanjiao.png */,
-				3D9EE87D1D59A7970062DB1F /* IncomeHuaBi.png */,
-				3D9EE87E1D59A7970062DB1F /* IncomeLunYin.png */,
-				3D9EE87F1D59A7970062DB1F /* IncomeShare.png */,
-				3D9EE8801D59A7970062DB1F /* IncomeText.png */,
 			);
 			path = Income;
 			sourceTree = "<group>";
@@ -1994,7 +2005,6 @@
 			files = (
 				3D2680311D4F8BCC001E732B /* dateAll.txt in Resources */,
 				3D5618B61D92361A001B8B40 /* UMSCommentDetailController.xib in Resources */,
-				3D9EE8811D59A7970062DB1F /* IncomeHuaBi.png in Resources */,
 				3D26804D1D4FAD20001E732B /* mic_2.png in Resources */,
 				3DD34CFC1D6AE0F70087836E /* reportIncomeShare.png in Resources */,
 				3D922A461D88E5DB00D93171 /* setting.png in Resources */,
@@ -2028,14 +2038,15 @@
 				3D0B0CF71D767B5E00DBCD6E /* noexpend.png in Resources */,
 				3D3B3F8C1D5B270E00096AC7 /* concern_highligh.png in Resources */,
 				3D267EF01D4EDB3F001E732B /* LaunchScreen.storyboard in Resources */,
+				3D79BFD21D991A11004D18C3 /* IncomeHuaBi.png in Resources */,
 				3D922A441D88E5DB00D93171 /* feedBack.png in Resources */,
-				3D9EE8831D59A7970062DB1F /* IncomeShare.png in Resources */,
 				3D922A5B1D8E28D000D93171 /* blueArrow@2x.png in Resources */,
 				3D26804B1D4FAD20001E732B /* mic_0.png in Resources */,
 				3D922A4C1D88E5DB00D93171 /* receive.png in Resources */,
 				3D0B0D1B1D869DD800DBCD6E /* barLine.png in Resources */,
 				3D5618CC1D92361B001B8B40 /* ios-social-sdk-comment-detail.html in Resources */,
 				3D94529F1D69EBB900B6D4B7 /* addAction.png in Resources */,
+				3D79BFD31D991A11004D18C3 /* IncomeLunYin.png in Resources */,
 				3D5618E71D925A5E001B8B40 /* qq.png in Resources */,
 				3D3B3F9C1D5C5C0500096AC7 /* qipao.png in Resources */,
 				3D5618D41D92361B001B8B40 /* ios-social-sdk-socialbar.html in Resources */,
@@ -2048,7 +2059,6 @@
 				3D922A481D88E5DB00D93171 /* header.png in Resources */,
 				3D5618CF1D92361B001B8B40 /* ios-social-sdk-login-detail.html in Resources */,
 				3D26804F1D4FAD20001E732B /* mic_4.png in Resources */,
-				3D3B3FA21D5C75AE00096AC7 /* wenBenDelete.png in Resources */,
 				3D3B3F7E1D5B051B00096AC7 /* style_normal.png in Resources */,
 				3D5618C41D92361B001B8B40 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				3D5618B81D92361A001B8B40 /* UMSCommentInputControlleriPad.xib in Resources */,
@@ -2061,6 +2071,7 @@
 				3D267FB71D4F357D001E732B /* login.png in Resources */,
 				3D72D3261D59ED7200EDD71A /* account_highlight.png in Resources */,
 				3D94529B1D69EBB900B6D4B7 /* 1.png in Resources */,
+				3D79BFD61D991A11004D18C3 /* 画笔-2.png in Resources */,
 				3D0B0D011D8105A600DBCD6E /* button.png in Resources */,
 				3D72D32F1D59ED8000EDD71A /* action_highlight.png in Resources */,
 				3D2680511D4FAD20001E732B /* mic_cancel.png in Resources */,
@@ -2073,11 +2084,10 @@
 				3D922A4A1D88E5DB00D93171 /* noread.png in Resources */,
 				3D3B3F901D5B309F00096AC7 /* shu.png in Resources */,
 				3D94529C1D69EBB900B6D4B7 /* 2.png in Resources */,
-				3D9EE8821D59A7970062DB1F /* IncomeLunYin.png in Resources */,
 				3D72D3301D59ED8000EDD71A /* action_normal.png in Resources */,
-				3D9EE8841D59A7970062DB1F /* IncomeText.png in Resources */,
 				3D5618B41D92361A001B8B40 /* UMSocialLocalizable.strings in Resources */,
 				3D3B3F8A1D5B236A00096AC7 /* detail.png in Resources */,
+				3D79BFD81D991BE9004D18C3 /* delete.png in Resources */,
 				3D5618F21D93DEE3001B8B40 /* edition.png in Resources */,
 				3D5618D21D92361B001B8B40 /* ios-social-sdk-share-detail.html in Resources */,
 				3D922A4B1D88E5DB00D93171 /* readed.png in Resources */,
@@ -2093,6 +2103,7 @@
 				3DD34CFA1D6AE0F70087836E /* reportIncomeguanzhu.png in Resources */,
 				3D5618D31D92361B001B8B40 /* ios-social-sdk-share-quick.html in Resources */,
 				3D3B3F9B1D5C5C0500096AC7 /* play.png in Resources */,
+				3D79BFD41D991A11004D18C3 /* IncomeShare.png in Resources */,
 				3D72D3201D59E19000EDD71A /* sanjiao.png in Resources */,
 				3D26801B1D4F4835001E732B /* zhibiao.png in Resources */,
 				3D922A431D88E5DB00D93171 /* exit.png in Resources */,
@@ -2106,6 +2117,7 @@
 				3D72D3321D59ED8000EDD71A /* dash_normal.png in Resources */,
 				3D267EEB1D4EDB3F001E732B /* Main.storyboard in Resources */,
 				3D0B0CE91D74085500DBCD6E /* type.png in Resources */,
+				3D79BFD51D991A11004D18C3 /* IncomeText.png in Resources */,
 				3D94529E1D69EBB900B6D4B7 /* 4.png in Resources */,
 				3DD244211D532364006F40BA /* share.png in Resources */,
 			);
@@ -2346,6 +2358,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -2392,6 +2405,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";

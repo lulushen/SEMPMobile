@@ -15,6 +15,7 @@
 #import "UMSocialControllerService.h"
 #import "YXCustomActionSheet.h"
 #import "MBProgressHUD+MJ.h"
+#import "NSDate+Helper.h"
 
 @interface RootViewController : BaseViewController
 

@@ -18,7 +18,7 @@
 
 @property (nonatomic , strong)UILabel * infoLabel;
 
-@property (nonatomic , strong)UILabel * lineLabel;
+//@property (nonatomic , strong)UILabel * lineLabel;
 
 @property (nonatomic , assign)CGRect rectTitle;
 

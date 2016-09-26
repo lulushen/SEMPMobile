@@ -19,6 +19,9 @@
 
 
 @interface SDIncomeViewController () <UITextViewDelegate,UITableViewDataSource,UITableViewDelegate,PNChartDelegate,UIAlertViewDelegate,UIScrollViewDelegate>
+{
+    UIButton * backButton;
+}
 //nav上的日期视图
 @property (nonatomic ,strong) DataView * dataView;
 //日期选择视图
@@ -62,9 +65,6 @@
 @property (nonatomic , assign) NSInteger pointIndexPath;
 // show点label
 @property (nonatomic , strong) UIButton * pointButton;
-
-@property (nonatomic , strong)NSString * Time;
-
 // 折线图上的xy数组（实际和对比）
 @property (nonatomic , strong)NSMutableArray * XdefaultValValueArray;
 @property (nonatomic , strong)NSMutableArray * YdefaultValValueArray;
@@ -73,6 +73,9 @@
 
 //用来判断实际值折线图或是对比值折线图
 @property (nonatomic , strong)NSString * LineString;
+
+//右滑手势
+@property (nonatomic, strong) UISwipeGestureRecognizer *rightSwipeGestureRecognizer;
 @end
 @implementation SDIncomeViewController
 
@@ -86,14 +89,14 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-#pragma ==nav方法 头
+    self.rightSwipeGestureRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipes:)];
     [self makeNavigation];
     
-#warning tableView方法
     [self makeTableView];
     
-#pragma ==tab方法 尾
     [self maketab];
+    
+    [self makeIncomeDate:_Time];
     // Do any additional setup after loading the view.
 }
 - (void)makeNavigation
@@ -131,6 +134,8 @@
     
 
     [_dataSearchView removeFromSuperview];
+    
+    
     [self makeIncomeDate:_Time];
     
 }
@@ -139,7 +144,7 @@
 {
     UIImage * backImage = [UIImage imageNamed:@"back.png"];
     CGRect backframe = CGRectMake(0, 0, 35*KWidth6scale, 25*KHeight6scale);
-    UIButton * backButton = [[UIButton alloc] initWithFrame:backframe];
+    backButton = [[UIButton alloc] initWithFrame:backframe];
     [backButton setBackgroundImage:backImage forState:UIControlStateNormal];
     [backButton addTarget:self action:@selector(backButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem * leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
@@ -228,21 +233,12 @@ static  BOOL Btnstatu = YES;
                     
                     
                     self.incomeDashModel = model;
-                    
-                    //                    // tabbar的显示和隐藏
-                    //                    self.hidesBottomBarWhenPushed=YES;
-                    //
-                    //                    [self.navigationController pushViewController:incomeVC animated:YES];
-                    //
-                    //                    self.hidesBottomBarWhenPushed=NO;
+
                     dispatch_async(dispatch_get_main_queue(), ^{
                         
                        [_IncomeTableView reloadData];
                     });
-                    
 
-                   
-                    
                 }
                 
             }else{
@@ -281,7 +277,8 @@ static  BOOL Btnstatu = YES;
     {
         _removebutton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         _removebutton.frame = CGRectMake(0, 0, 50, 50);
-        _removebutton.backgroundColor = [UIColor redColor];
+        
+        [_removebutton setImage:[UIImage imageNamed:@"delete.png"] forState:UIControlStateNormal];
         [_removebutton addTarget:self action:@selector(removebuttonClick:) forControlEvents:UIControlEventTouchUpInside];
         [self.huabiV addSubview:_removebutton];
         
@@ -388,7 +385,7 @@ static  BOOL Btnstatu = YES;
     _textView.alpha = 0.5;
     _removebutton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     _removebutton.frame = CGRectMake(CGRectGetMaxX(_textView.frame)-20, 0, 40, 40);
-    [_removebutton setImage:[UIImage imageNamed:@"wenBenDelete.png"] forState:UIControlStateNormal];
+    [_removebutton setImage:[UIImage imageNamed:@"delete.png"] forState:UIControlStateNormal];
     [_removebutton addTarget:self action:@selector(removebuttonClick:) forControlEvents:UIControlEventTouchUpInside];
     [_wenBenView addSubview:_removebutton];
     _removebutton.clipsToBounds = YES;
@@ -463,9 +460,6 @@ static  BOOL Btnstatu = YES;
     
 }
 
-
-#warning tableView
-
 - (void)makeTableView
 {
     _IncomeTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, KViewHeight) style:UITableViewStyleGrouped];
@@ -478,9 +472,13 @@ static  BOOL Btnstatu = YES;
     
     _IncomeTableView.dataSource = self;
     // cell重用标示
-    //    [_IncomeTableView registerClass:[IncomeTableViewCell class] forCellReuseIdentifier:@"IncomeCell"];
-    //    [_IncomeTableView registerClass:[IncomeTableViewTopCell class] forCellReuseIdentifier:@"IncomeTopCell"];
+    [_IncomeTableView registerClass:[IncomeTableViewCell class] forCellReuseIdentifier:@"cell"];
+    [_IncomeTableView registerClass:[IncomeTableViewTopCell class] forCellReuseIdentifier:@"TopCell"];
+    [_IncomeTableView registerClass:[IncomeTableViewChartCell class] forCellReuseIdentifier:@"ChartCell"];
+
     
+    [_IncomeTableView addGestureRecognizer:self.rightSwipeGestureRecognizer];
+
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -496,10 +494,7 @@ static  BOOL Btnstatu = YES;
     
     if (indexPath.section==0 && indexPath.row == 0) {
         
-        IncomeTableViewTopCell * cell = [tableView cellForRowAtIndexPath:indexPath];
-        if (cell == nil) {
-            
-            cell =  [[IncomeTableViewTopCell alloc] initWithStyle:(UITableViewCellStyleSubtitle) reuseIdentifier:@"TopCell"] ;
+        IncomeTableViewTopCell * cell = [tableView dequeueReusableCellWithIdentifier:@"TopCell" forIndexPath:indexPath];
             cell.defaultvalLabel.text = _incomeDashModel.defaultval;
             cell.defaultunitLabel.text = _incomeDashModel.defaultunit;
             cell.contrastnameLabel.text = _incomeDashModel.contrastname;
@@ -509,31 +504,26 @@ static  BOOL Btnstatu = YES;
             cell.otherval.text = _incomeDashModel.otherval;
             cell.otherunitLabel.text = _incomeDashModel.otherunit;
             cell.titleImage.image = [UIImage imageNamed:@"sanjiao.png"];
-        }
-        
-        
-        return cell;
+         return cell;
     }else  if(indexPath.row == 1){
-        
-        IncomeTableViewChartCell * cell = [tableView cellForRowAtIndexPath:indexPath];
-        cell =  [[IncomeTableViewChartCell alloc] initWithStyle:(UITableViewCellStyleSubtitle) reuseIdentifier:@"ChartCell"] ;
-        
+        IncomeTableViewChartCell * cell = [tableView dequeueReusableCellWithIdentifier:@"ChartCell" forIndexPath:indexPath];
         cell.scrollView.delegate = self;
+     
+        for (UIView * view in cell.scrollView.subviews) {
+                [view removeFromSuperview];
+        }
+
         [self incomeTableViewChartCell:cell indexPath:indexPath];
         
         return cell;
         
     }else if (indexPath.section == 1 && indexPath.row == 0) {
-        
-        UITableViewCell * cell = [tableView cellForRowAtIndexPath:indexPath];
-        cell =  [[UITableViewCell alloc] initWithStyle:(UITableViewCellStyleSubtitle) reuseIdentifier:@"cell2"] ;
+        IncomeTableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
         cell.textLabel.text = @"收入结构";
         return cell;
         
     }else{
-        
-        IncomeTableViewCell * cell = [tableView cellForRowAtIndexPath:indexPath];
-        cell =  [[IncomeTableViewCell alloc] initWithStyle:(UITableViewCellStyleSubtitle) reuseIdentifier:@"cell"] ;
+        IncomeTableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
         [self incomeTableViewCell:cell indexPath:indexPath];
         
         return cell;
@@ -579,16 +569,14 @@ static  BOOL Btnstatu = YES;
     _pointIndexPath = (int)pointIndex;
     NSIndexPath * indexPath = [NSIndexPath indexPathForRow:1 inSection:0];
     IncomeTableViewChartCell * cell = [_IncomeTableView cellForRowAtIndexPath:indexPath];
-    
-
     [_pointButton removeFromSuperview];
     _pointButton = [UIButton buttonWithType:UIButtonTypeCustom];
 #warning ====偏移量判断点的交互时间（会有改动）
-    if ((cell.scrollView.contentOffset.x >= 0)&&(cell.scrollView.contentOffset.x <= cell.scrollView.contentSize.width/6.0)) {
+    if ((cell.scrollView.contentOffset.y >= 0)&&(cell.scrollView.contentOffset.y <= cell.scrollView.contentSize.height/2.0)) {
         [_defaultLineChart addSubview:_pointButton];
         [_pointButton setTitle:[NSString stringWithFormat:@"%@,%@",_incomeDashModel.defaultVal[@"x"][_pointIndexPath],_incomeDashModel.defaultVal[@"y"][_pointIndexPath]] forState:UIControlStateNormal];
         
-    }else if((cell.scrollView.contentOffset.x >= cell.scrollView.contentSize.width/2.0)){
+    }else if((cell.scrollView.contentOffset.y >= cell.scrollView.contentSize.height/2.0)){
         
         [_contrastLineChart addSubview:_pointButton];
         [_pointButton setTitle:[NSString stringWithFormat:@"%@,%@",_incomeDashModel.contrastVal[@"x"][_pointIndexPath],_incomeDashModel.contrastVal[@"y"][_pointIndexPath]] forState:UIControlStateNormal];
@@ -599,18 +587,7 @@ static  BOOL Btnstatu = YES;
     CGRect buttonStringRect = [_pointButton.titleLabel.text boundingRectWithSize:CGSizeMake(CGRectGetWidth(self.view.frame)-60, 40*KHeight6scale) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:_pointButton.titleLabel.font} context:nil];
 
     _pointButton.frame = CGRectMake(point.x-(buttonStringRect.size.width)/2.0, point.y-(buttonStringRect.size.height)-10*KHeight6scale, buttonStringRect.size.width, buttonStringRect.size.height );
-//    [_pointButton setBackgroundImage:[UIImage imageNamed:@"button.png"] forState:UIControlStateNormal];
-    //label上展示图片
-//    UIImage *image = [UIImage imageNamed:@"label.png"];
-//    // 1> 生成文本附件
-//    NSTextAttachment *textAttach = [[NSTextAttachment alloc] init];
-//    textAttach.image = image;
-//    
-//    // 2> 使用文本附件创建属性文本
-//    NSAttributedString *strA = [NSAttributedString attributedStringWithAttachment:textAttach];
-//    _label.attributedText = strA;
-    
-//    [_pointButton setImage:[UIImage imageNamed:@"label.png"] forState:UIControlStateNormal];
+
     _pointButton.backgroundColor = [UIColor blackColor];
     [_pointButton.titleLabel setFont:[UIFont systemFontOfSize:13.0f]];
     _pointButton.alpha = 0.8;
@@ -622,10 +599,12 @@ static  BOOL Btnstatu = YES;
     NSIndexPath *indexPath1=[NSIndexPath indexPathForRow:2 inSection:0];
     NSIndexPath *indexPath2=[NSIndexPath indexPathForRow:3 inSection:0];
     NSIndexPath *indexPath3=[NSIndexPath indexPathForRow:4 inSection:0];
-    if ((cell.scrollView.contentOffset.x >= 0)&&(cell.scrollView.contentOffset.x <= cell.scrollView.contentSize.width/6.0)) {
+    if ((cell.scrollView.contentOffset.y >= 0)&&(cell.scrollView.contentOffset.y <= cell.scrollView.contentSize.height/2.0)) {
         [_IncomeTableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath1,indexPath2,indexPath3,nil] withRowAnimation:UITableViewRowAnimationNone];
-    }else if((cell.scrollView.contentOffset.x >= cell.scrollView.contentSize.width/2.0)){
-         }
+    }else if((cell.scrollView.contentOffset.y >= cell.scrollView.contentSize.height/2.0)){
+        [_IncomeTableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath1,indexPath2,indexPath3,nil] withRowAnimation:UITableViewRowAnimationNone];
+    
+    }
     
 
     
@@ -645,9 +624,9 @@ static  BOOL Btnstatu = YES;
     NSIndexPath * indexPath = [NSIndexPath indexPathForRow:1 inSection:0];
     IncomeTableViewChartCell * cell = [_IncomeTableView cellForRowAtIndexPath:indexPath];
     
-    if ((cell.scrollView.contentOffset.x >= 0)&&(cell.scrollView.contentOffset.x <= cell.scrollView.contentSize.width/6.0)) {
+    if ((cell.scrollView.contentOffset.y >= 0)&&(cell.scrollView.contentOffset.y <= cell.scrollView.contentSize.height/2.0)) {
         [_IncomeTableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath1,indexPath2,indexPath3,nil] withRowAnimation:UITableViewRowAnimationNone];
-    }else if((cell.scrollView.contentOffset.x >= cell.scrollView.contentSize.width/2.0)){
+    }else if((cell.scrollView.contentOffset.y >= cell.scrollView.contentSize.height/2.0)){
     }
 }
 - (void)didUnselectPieItem{
@@ -667,9 +646,9 @@ static  BOOL Btnstatu = YES;
     NSIndexPath * indexPath = [NSIndexPath indexPathForRow:1 inSection:0];
     IncomeTableViewChartCell * cell = [_IncomeTableView cellForRowAtIndexPath:indexPath];
     
-    if ((cell.scrollView.contentOffset.x >= 0)&&(cell.scrollView.contentOffset.x <= cell.scrollView.contentSize.width/6.0)) {
+    if ((cell.scrollView.contentOffset.y >= 0)&&(cell.scrollView.contentOffset.y <= cell.scrollView.contentSize.height/2.0)) {
         [_IncomeTableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath1,indexPath2,indexPath3,nil] withRowAnimation:UITableViewRowAnimationNone];
-    }else if((cell.scrollView.contentOffset.x >= cell.scrollView.contentSize.width/2.0)){
+    }else if((cell.scrollView.contentOffset.y >= cell.scrollView.contentSize.height/2.0)){
     }
 
 }
@@ -683,27 +662,27 @@ static  BOOL Btnstatu = YES;
     _XcontrastValValueArray = [NSMutableArray arrayWithArray:[_incomeDashModel.contrastVal valueForKey:@"x"]];
     _YcontrastValValueArray = [NSMutableArray arrayWithArray:[_incomeDashModel.contrastVal valueForKey:@"y"]];
     // 判断是否添加实际值按钮或对比值按钮
-    if ((_XdefaultValValueArray.count == 0) && (_YdefaultValValueArray.count == 0)&& !((_XcontrastValValueArray.count == 0) && (_YcontrastValValueArray.count == 0))) {
-        //对比按钮
-        [cell.contrastvalButton addTarget:self action:@selector(contrastvalButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+//    if ((_XdefaultValValueArray.count == 0) && (_YdefaultValValueArray.count == 0)&& !((_XcontrastValValueArray.count == 0) && (_YcontrastValValueArray.count == 0))) {
+//        //对比按钮
+//        [cell.contrastvalButton addTarget:self action:@selector(contrastvalButtonClick:) forControlEvents:UIControlEventTouchUpInside];
         cell.contrastvalColorLabel.backgroundColor = MoreButtonColor;
-    }else if(!((_XdefaultValValueArray.count == 0) && (_YdefaultValValueArray.count == 0))&& ((_XcontrastValValueArray.count == 0) && (_YcontrastValValueArray.count == 0))){
-        //实际按钮
-        [cell.defaultvalButton addTarget:self action:@selector(defaultvalButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-        cell.defaultvalButton.selected = YES;
+//    }else if(!((_XdefaultValValueArray.count == 0) && (_YdefaultValValueArray.count == 0))&& ((_XcontrastValValueArray.count == 0) && (_YcontrastValValueArray.count == 0))){
+//        //实际按钮
+//        [cell.defaultvalButton addTarget:self action:@selector(defaultvalButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+//        cell.defaultvalButton.selected = YES;
         cell.defaultvalColorLabel.backgroundColor = [UIColor orangeColor];
-    }else if (!((_XdefaultValValueArray.count == 0) && (_YdefaultValValueArray.count == 0))&&!((_XcontrastValValueArray.count == 0) && (_YcontrastValValueArray.count == 0)) ){
-        //实际按钮
-        [cell.defaultvalButton addTarget:self action:@selector(defaultvalButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-        cell.defaultvalButton.selected = YES;
-        //对比按钮
-        [cell.contrastvalButton addTarget:self action:@selector(contrastvalButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-        cell.defaultvalColorLabel.backgroundColor = [UIColor orangeColor];
-        cell.contrastvalColorLabel.backgroundColor = MoreButtonColor;
-    }else{
-       
-        
-    }
+//    }else if (!((_XdefaultValValueArray.count == 0) && (_YdefaultValValueArray.count == 0))&&!((_XcontrastValValueArray.count == 0) && (_YcontrastValValueArray.count == 0)) ){
+//        //实际按钮
+//        [cell.defaultvalButton addTarget:self action:@selector(defaultvalButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+//        cell.defaultvalButton.selected = YES;
+//        //对比按钮
+//        [cell.contrastvalButton addTarget:self action:@selector(contrastvalButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+//        cell.defaultvalColorLabel.backgroundColor = [UIColor orangeColor];
+//        cell.contrastvalColorLabel.backgroundColor = MoreButtonColor;
+//    }else{
+//       
+//        
+//    }
  //判断数据是否为空
     if ((_XdefaultValValueArray.count == 0) && (_YdefaultValValueArray.count == 0)) {
         [_XdefaultValValueArray addObject:@""];
@@ -994,10 +973,14 @@ static  BOOL Btnstatu = YES;
         }else{
             
             _defaultLineChart = [[PNLineChart alloc] initWithFrame:CGRectMake(0, 0,Main_Screen_Width-40*KWidth6scale,220*KHeight6scale)];
-            _contrastLineChart = [[PNLineChart alloc] initWithFrame:CGRectMake(Main_Screen_Width-40*KWidth6scale, CGRectGetMinY(_defaultLineChart.frame),CGRectGetWidth(_defaultLineChart.frame),CGRectGetHeight(_defaultLineChart.frame))];
+            _contrastLineChart = [[PNLineChart alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_defaultLineChart.frame)+40*KWidth6scale,CGRectGetWidth(_defaultLineChart.frame),CGRectGetHeight(_defaultLineChart.frame))];
             _defaultBarChart = [[PNBarChart alloc] initWithFrame:CGRectMake(CGRectGetMinX(_defaultLineChart.frame), CGRectGetMinY(_defaultLineChart.frame),CGRectGetWidth(_defaultLineChart.frame),CGRectGetHeight(_defaultLineChart.frame))];
-            _contrastBarChart = [[PNBarChart alloc] initWithFrame:CGRectMake(CGRectGetMinX(_contrastLineChart.frame), CGRectGetMinY(_defaultBarChart.frame),CGRectGetWidth(_defaultBarChart.frame),CGRectGetHeight(_defaultBarChart.frame))];
-            [cell.chartView addSubview:cell.scrollView];
+            _contrastBarChart = [[PNBarChart alloc] initWithFrame:CGRectMake(CGRectGetMinX(_contrastLineChart.frame), CGRectGetMinY(_contrastLineChart.frame),CGRectGetWidth(_defaultBarChart.frame),CGRectGetHeight(_defaultBarChart.frame))];
+            
+            
+               [cell.scrollView  removeFromSuperview];
+               [cell.chartView addSubview:cell.scrollView];
+
             if ([_incomeDashModel.charttype isEqualToString:@"line_chart"] | [_incomeDashModel.charttype isEqualToString:@"text"] | [_incomeDashModel.charttype isEqualToString:@"long_text"]) {
                 [self makeLine];
                 [cell.scrollView addSubview:_defaultLineChart];
@@ -1077,10 +1060,6 @@ static  BOOL Btnstatu = YES;
             
             cell.ValueLabel.text =[NSString stringWithFormat:@"%@,%@",_incomeDashModel.defaultVal[@"x"][_pointIndexPath],_incomeDashModel.defaultVal[@"y"][_pointIndexPath]] ;
         }
-        
-        
-        
-        
     }else if (indexPath.row == 3)
     {
         cell.titleLabel.text = @"实际值：x";
@@ -1092,22 +1071,6 @@ static  BOOL Btnstatu = YES;
         }else{
             cell.ValueLabel.text = _incomeDashModel.defaultVal[@"x"][_pointIndexPath];
         }
-        
-        
-
-//        cell.titleLabel.text = @"对比值：y";
-//        NSMutableArray * arrX = [NSMutableArray arrayWithArray:_incomeDashModel.contrastVal[@"x"]];
-//        NSMutableArray * arrY = [NSMutableArray arrayWithArray:_incomeDashModel.contrastVal[@"y"]];
-//        
-//        if ((arrX.count == 0  ) | (arrY.count == 0 )) {
-//            
-//            cell.ValueLabel.text = [NSString stringWithFormat:@"%@,%@",@"",@""];
-//            
-//        }else{
-//            
-//            cell.ValueLabel.text = [NSString stringWithFormat:@"%@,%@",_incomeDashModel.contrastVal[@"x"][_pointIndexPath],_incomeDashModel.contrastVal[@"y"][_pointIndexPath]];
-//        }
-        
     }else{
         
         cell.titleLabel.text = @"实际值：y";
@@ -1121,8 +1084,7 @@ static  BOOL Btnstatu = YES;
         
         
     }
-    
-    
+
 }
 
 // 折线图
@@ -1236,7 +1198,7 @@ static  BOOL Btnstatu = YES;
         j++;
     }
     
-    _contrastPieChart = [[PNPieChart alloc] initWithFrame:CGRectMake(Main_Screen_Width + 10*KWidth6scale, 10*KHeight6scale, CGRectGetHeight(_defaultLineChart.frame)-20*KHeight6scale, CGRectGetHeight(_defaultLineChart.frame)-20*KHeight6scale) items:items2];
+    _contrastPieChart = [[PNPieChart alloc] initWithFrame:CGRectMake(CGRectGetMinX(_defaultPieChart.frame), CGRectGetMaxY(_defaultPieChart.frame), CGRectGetHeight(_defaultLineChart.frame)-20*KHeight6scale, CGRectGetHeight(_defaultLineChart.frame)-20*KHeight6scale) items:items2];
     _contrastPieChart.descriptionTextColor = [UIColor whiteColor];
     _contrastPieChart.descriptionTextFont  = [UIFont fontWithName:@"Avenir-Medium" size:11.0];
     _contrastPieChart.showAbsoluteValues = NO;
@@ -1360,7 +1322,25 @@ static  BOOL Btnstatu = YES;
      [super ScreenShot];
 }
 
+- (void)handleSwipes:(UISwipeGestureRecognizer *)sender
+{
+    if (sender.direction == UISwipeGestureRecognizerDirectionLeft) {
+//        CGPoint labelPosition = CGPointMake(self.swipeLabel.frame.origin.x - 100.0, self.swipeLabel.frame.origin.y);
+//        self.swipeLabel.frame = CGRectMake( labelPosition.x , labelPosition.y , self.swipeLabel.frame.size.width, self.swipeLabel.frame.size.height);
+//        self.swipeLabel.text = @"尼玛的, 你在往左边跑啊....";
+        
+    }
+    
+    if (sender.direction == UISwipeGestureRecognizerDirectionRight) {
+//        [UIView animateWithDuration:1.0 // 动画时长
+//                         animations:^{
+                              [self backButtonClick:backButton];
+//                         }];
+       
 
+        
+    }
+}
 /*
  #pragma mark - Navigation
  

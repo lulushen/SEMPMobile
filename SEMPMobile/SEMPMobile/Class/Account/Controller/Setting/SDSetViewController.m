@@ -32,7 +32,7 @@
 - (void)makeSettingView
 {
     
-    setTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, KViewHeight) style:UITableViewStylePlain];
+    setTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, Main_Screen_Height) style:UITableViewStylePlain];
     setTableView.backgroundColor = DEFAULT_BGCOLOR;
     setTableView.delegate = self;
     setTableView.dataSource = self;
@@ -57,7 +57,8 @@
     }else if (indexPath.row == 1){
         cell.setImageView.image = [UIImage imageNamed:@"deleteCache.png"];
         cell.setTitleLabel.text = @"清除缓存";
-        cell.setDetailLabel.text = [NSString stringWithFormat:@"缓存文件  %0.2fM", [self filePath]];
+        cell.setDetailLabel.text = [NSString stringWithFormat:@"%0.2fM", [self filePath]];
+    
     }else if (indexPath.row == 2){
         cell.setImageView.image = [UIImage imageNamed:@"edition.png"];
         cell.setTitleLabel.text = @"更新版本";
@@ -67,7 +68,7 @@
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 70*KHeight6scale;
+    return 60*KHeight6scale;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -120,7 +121,10 @@
 - ( float )filePath
 
 {
-    NSString * cachPath = [ NSSearchPathForDirectoriesInDomains ( NSCachesDirectory , NSUserDomainMask , YES ) firstObject ];
+    NSString * cachPath = [ NSSearchPathForDirectoriesInDomains (NSCachesDirectory , NSUserDomainMask , YES ) firstObject];
+    
+    NSLog(@"%@",cachPath);
+    
     return [ self folderSizeAtPath :cachPath];
     
 }
@@ -146,15 +150,18 @@
         }
         
     }
-    
-    [ self performSelectorOnMainThread : @selector (clearCachSuccess) withObject : nil waitUntilDone : YES ];
+    [self performSelectorOnMainThread : @selector (clearCachSuccess) withObject : nil waitUntilDone : YES ];
     
 }
 
 -(void)clearCachSuccess
 
 {
-    [MBProgressHUD showError:@"qqq"];
+    [MBProgressHUD showError:@"清除成功"];
+    
+    NSIndexPath * indexPath = [NSIndexPath indexPathForRow:1 inSection:0];
+    SetTableViewCell * cell = [setTableView cellForRowAtIndexPath: indexPath];
+    cell.setDetailLabel.text = @"";
 
 }
 - (void)didReceiveMemoryWarning {

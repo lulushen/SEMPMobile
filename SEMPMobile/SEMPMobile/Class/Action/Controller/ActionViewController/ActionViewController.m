@@ -106,6 +106,7 @@
             //这里可以用来显示下载进度
         } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
           
+            NSLog(@"%@",responseObject);
             _allActionArray = [NSMutableArray array];
             _yiJieShouActionArray = [NSMutableArray array];
             _yiXiaActionArray = [NSMutableArray array];
@@ -490,7 +491,7 @@
             cell.actionStatuLabel.text = @"已完成";
             
         }else if ([actionModel.task_state isEqualToString:@"8"]){
-            cell.actionStatuLabel.text = @"已完成";
+            cell.actionStatuLabel.text = @"延期完成";
             
         }
         return cell;
@@ -526,7 +527,7 @@
             cell.actionStatuLabel.text = @"已完成";
             
         }else if ([actionModel.task_state isEqualToString:@"8"]){
-            cell.actionStatuLabel.text = @"已完成";
+            cell.actionStatuLabel.text = @"延期完成";
             
         }
         

@@ -30,7 +30,7 @@
     [self.contentView addSubview:_setTitleLabel];
     [self.contentView addSubview:_setDetailLabel];
     
-    
+    _setDetailLabel.textColor  = [UIColor grayColor];
 //    _setImageView.backgroundColor = [UIColor redColor];
 //    _setTitleLabel.backgroundColor = [UIColor blueColor];
 //    _setDetailLabel.backgroundColor = [UIColor blackColor];
@@ -43,10 +43,14 @@
 {
     [super layoutSubviews];
     
-    _setImageView.frame  = CGRectMake(10*KWidth6scale, CGRectGetMidY(self.contentView.frame)-15*KWidth6scale, 30*KWidth6scale, 30*KWidth6scale);
-    _setTitleLabel.frame = CGRectMake(CGRectGetMaxX(_setImageView.frame)+10*KWidth6scale, CGRectGetMinY(_setImageView.frame), 150, CGRectGetHeight(_setImageView.frame));
-    _setDetailLabel.frame = CGRectMake(CGRectGetMaxX(self.contentView.frame)-100*KWidth6scale, CGRectGetMinY(_setTitleLabel.frame), 100*KWidth6scale, CGRectGetHeight(_setTitleLabel.frame));
-     _line.frame = CGRectMake(10, CGRectGetMaxY(self.contentView.frame)-1, CGRectGetWidth(self.contentView.frame)-20, 1);
+    CGRect detailsString =  [_setDetailLabel.text boundingRectWithSize:CGSizeMake(CGRectGetWidth(self.contentView.frame)-60, 80*KHeight6scale) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:_setDetailLabel.font} context:nil];
+    
+
+    
+    _setImageView.frame  = CGRectMake(40*KWidth6scale, CGRectGetMidY(self.contentView.frame)-10*KWidth6scale, 20*KWidth6scale, 20*KWidth6scale);
+    _setTitleLabel.frame = CGRectMake(CGRectGetMaxX(_setImageView.frame)+10*KWidth6scale, CGRectGetMinY(_setImageView.frame), 150*KWidth6scale, CGRectGetHeight(_setImageView.frame));
+    _setDetailLabel.frame = CGRectMake(CGRectGetMaxX(self.contentView.frame)- (detailsString.size.width+20*KWidth6scale), CGRectGetMinY(_setTitleLabel.frame), detailsString.size.width, CGRectGetHeight(_setTitleLabel.frame));
+     _line.frame = CGRectMake(10*KWidth6scale, CGRectGetMaxY(self.contentView.frame)-1, CGRectGetWidth(self.contentView.frame)-20, 1);
     
 }
 - (void)awakeFromNib {

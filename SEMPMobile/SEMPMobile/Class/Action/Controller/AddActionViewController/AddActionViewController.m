@@ -10,7 +10,6 @@
 #import "DefaultIndexInfoModel.h"
 #import "AddActionSelectTableViewCell.h"
 #import "DefaultD_resModel.h"
-#import "NSDate+Helper.h"
 #import "TreeTableView.h"
 #import "AddActionSubView.h"
 
@@ -627,6 +626,14 @@
     _dateButton.frame = CGRectMake(CGRectGetMidX(self.view.frame) + 20*KWidth6scale, 15*KHeight6scale, CGRectGetMidX(self.view.frame) - 80*KWidth6scale, 20*KWidth6scale);
     _dateButton.backgroundColor = DEFAULT_BGCOLOR;
     [_firstView addSubview:_dateButton];
+    NSDate *  senddate=[NSDate date];
+    
+    NSDateFormatter  *dateformatter=[[NSDateFormatter alloc] init];
+    
+    [dateformatter setDateFormat:@"YYYY-MM-dd"];
+    
+    NSString *  locationString=[dateformatter stringFromDate:senddate];
+    [_dateButton setTitle:locationString forState:UIControlStateNormal];
     [_dateButton addTarget:self action:@selector(dateButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     UILabel * yearLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_dateButton.frame), CGRectGetMinY(_dateButton.frame), 40*KWidth6scale, CGRectGetHeight(_dateButton.frame))];
     yearLabel.text = @"日期";
@@ -817,7 +824,7 @@
     UIDatePicker *picker = [[UIDatePicker alloc]init];
     picker.datePickerMode = UIDatePickerModeDate;
     
-    picker.frame = CGRectMake(0, 40, 320, 200);
+    picker.frame = CGRectMake(0, 40, Main_Screen_Width-20, 200);
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"请选择\n\n\n\n\n\n\n\n\n\n\n\n" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {

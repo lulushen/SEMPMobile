@@ -40,6 +40,7 @@
     [self.contentView addSubview:_defaultvalButton];
     [self.contentView addSubview:_contrastvalButton];
     [self.contentView addSubview:_chartView];
+    [self.chartView addSubview:_scrollView];
     
     [_defaultvalButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     [_contrastvalButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
@@ -72,7 +73,7 @@
     
     _scrollView.frame = CGRectMake(0, 0, CGRectGetWidth(_chartView.frame),CGRectGetHeight(_chartView.frame));
     
-    _scrollView.contentSize = CGSizeMake(CGRectGetWidth(_chartView.frame)*2.0, CGRectGetHeight(_chartView.frame));
+    _scrollView.contentSize = CGSizeMake(CGRectGetWidth(_chartView.frame), CGRectGetHeight(_chartView.frame)*2 + 40*KHeight6scale);
 
 }
 

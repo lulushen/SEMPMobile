@@ -29,13 +29,13 @@
     _infoLabel = [[UILabel alloc] init];
     _infoTitleLabel = [[UILabel alloc] init];
     _infoDateLabel = [[UILabel alloc] init];
-    _lineLabel = [[UILabel alloc] init];
+//    _lineLabel = [[UILabel alloc] init];
     
     [self.contentView addSubview:_infoImageView];
     [self.contentView addSubview:_infoLabel];
     [_infoLabel addSubview:_infoTitleLabel];
     [_infoLabel addSubview:_infoDateLabel];
-    [self.contentView addSubview:_lineLabel];
+//    [self.contentView addSubview:_lineLabel];
 //    _lineLabel.backgroundColor = DEFAULT_BGCOLOR;
     
     _infoLabel.layer.masksToBounds = YES;
@@ -44,8 +44,8 @@
     _infoLabel.numberOfLines = 0;
     _infoTitleLabel.numberOfLines = 0;
     _infoDateLabel.numberOfLines = 0;
-    _infoDateLabel.font = [UIFont systemFontOfSize:15.0f];
-    _infoTitleLabel.font = [UIFont systemFontOfSize:13.0f];
+    _infoDateLabel.font = [UIFont systemFontOfSize:14.0f];
+    _infoTitleLabel.font = [UIFont systemFontOfSize:15.0f];
     
 }
 - (void)layoutSubviews
