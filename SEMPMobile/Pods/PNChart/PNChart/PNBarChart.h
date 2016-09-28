@@ -14,6 +14,7 @@
 
 #define kXLabelMargin 15
 #define kYLabelMargin 15
+//#define kYLabelHeight 11 原来
 #define kYLabelHeight 11
 #define kXLabelHeight 20
 

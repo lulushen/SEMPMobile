@@ -200,16 +200,24 @@
             NSInteger x = (index * _xLabelWidth + _chartMarginLeft + _xLabelWidth / 2.0);
             //没有倾斜的时候y值
             NSInteger y = _chartMarginTop + _chartCavanHeight;
-            PNChartLabel *label = [[PNChartLabel alloc] initWithFrame:CGRectMake(x, y, (NSInteger) _xLabelWidth, (NSInteger) _chartMarginBottom)];
+            
+            PNChartLabel *label = [[PNChartLabel alloc] init];
+           //原来的
+//            label.frame =CGRectMake(x, y, (NSInteger) _xLabelWidth, (NSInteger) _chartMarginBottom);
+            label.text = labelText;
+            CGRect rectLabel = [label.text boundingRectWithSize:CGSizeMake(_xLabelWidth*2, 80) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:label.font} context:nil];
+            
+
+            label.frame =CGRectMake(x, y, (NSInteger) rectLabel.size.width, rectLabel.size.height);
+            
+            
             [label setTextAlignment:NSTextAlignmentCenter];
             // label的倾斜角度
-            label.transform = CGAffineTransformMakeRotation(0.2);
+            label.transform = CGAffineTransformMakeRotation(0.25);
             //因为角度发生改变所以xy也发生改变，为了不使label位置变化，所以在旋转后重新赋值label的位置
             CGRect rect = label.frame;
             rect.origin.y = y;
             label.frame = rect;
-        
-            label.text = labelText;
             label.textAlignment = NSTextAlignmentLeft;
 //            label.backgroundColor = [UIColor orangeColor];
             [self setCustomStyleForXLabel:label];

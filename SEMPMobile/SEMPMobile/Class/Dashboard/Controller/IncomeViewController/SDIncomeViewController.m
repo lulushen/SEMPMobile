@@ -90,10 +90,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.rightSwipeGestureRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipes:)];
-    [self makeNavigation];
     
     [self makeTableView];
     
+    [self makeNavigation];
+
     [self maketab];
     
     [self makeIncomeDate:_Time];
@@ -110,6 +111,8 @@
     
     [_dataView.dateButton addTarget:self action:@selector(dataClick:) forControlEvents:UIControlEventTouchUpInside];
     _dataSearchView = [[DataSearchView alloc] initWithFrame:CGRectMake(50, 10, Main_Screen_Width-100, Main_Screen_Width-100)];
+    [self.view addSubview:_dataSearchView];
+    _dataSearchView.alpha = 0.0f;
     _dataSearchView.defaultDateString = _IncomeDefaultDateString;
     [_dataSearchView.deleteButton addTarget:self action:@selector(deleteButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     
@@ -133,8 +136,14 @@
     _Time = [_Time stringByReplacingOccurrencesOfString:@"日" withString:@""];
     
 
-    [_dataSearchView removeFromSuperview];
-    
+    [UIView animateWithDuration:0.5 animations:^{
+        self.view.backgroundColor = [UIColor whiteColor];
+        _IncomeTableView.alpha = 1;
+        _IncomeTableView.userInteractionEnabled = YES;
+        _dataSearchView.alpha = 0.0f;
+        
+    } completion:nil];
+
     
     [self makeIncomeDate:_Time];
     
@@ -160,7 +169,13 @@
     _dataSearchView.dateString =  _dataSearchView.defaultDateString;
     
     
-    [_dataSearchView removeFromSuperview];
+    [UIView animateWithDuration:0.5 animations:^{
+        self.view.backgroundColor = [UIColor whiteColor];
+        _IncomeTableView.alpha = 1;
+        _IncomeTableView.userInteractionEnabled = YES;
+        _dataSearchView.alpha = 0.0f;
+        
+    } completion:nil];
     
     Btnstatu = YES;
     [self.navigationController popViewControllerAnimated:YES];
@@ -173,26 +188,36 @@ static  BOOL Btnstatu = YES;
 {
     
     if (button.selected == Btnstatu) {
-        
-        // 移除视图
-        [_dataSearchView removeFromSuperview];
-        
+
         Btnstatu = YES;
         
     }else{
-        //添加视图
-        [self.view addSubview:_dataSearchView];
         // 点击日期按钮时 相当于默认点击日期选择视图中的月按钮
         [_dataSearchView mouthButtonClick:_dataSearchView.mouthButton];
         
         Btnstatu = NO;
     }
+    [UIView animateWithDuration:0.5 animations:^{
+        self.view.backgroundColor = [UIColor blackColor];
+        _IncomeTableView.alpha = 0.5;
+        _IncomeTableView.userInteractionEnabled = NO;
+        _dataSearchView.alpha = 1.0f;
+        
+    } completion:nil];
+    
 }
 // 日期视图中的关闭事件
 - (void)deleteButtonClick:(UIButton *)button
 {
     
-    [_dataSearchView removeFromSuperview];
+    [UIView animateWithDuration:0.5 animations:^{
+        self.view.backgroundColor = [UIColor whiteColor];
+        _IncomeTableView.alpha = 1;
+        _IncomeTableView.userInteractionEnabled = YES;
+        _dataSearchView.alpha = 0.0f;
+        
+    } completion:nil];
+
     
     Btnstatu = YES;
     
@@ -661,28 +686,28 @@ static  BOOL Btnstatu = YES;
     _YdefaultValValueArray = [NSMutableArray arrayWithArray:[_incomeDashModel.defaultVal valueForKey:@"y"]];
     _XcontrastValValueArray = [NSMutableArray arrayWithArray:[_incomeDashModel.contrastVal valueForKey:@"x"]];
     _YcontrastValValueArray = [NSMutableArray arrayWithArray:[_incomeDashModel.contrastVal valueForKey:@"y"]];
-    // 判断是否添加实际值按钮或对比值按钮
-//    if ((_XdefaultValValueArray.count == 0) && (_YdefaultValValueArray.count == 0)&& !((_XcontrastValValueArray.count == 0) && (_YcontrastValValueArray.count == 0))) {
-//        //对比按钮
+    // 判断实际值或对比值颜色
+    if ((_XdefaultValValueArray.count == 0) && (_YdefaultValValueArray.count == 0)&& !((_XcontrastValValueArray.count == 0) && (_YcontrastValValueArray.count == 0))) {
+        //对比按钮
 //        [cell.contrastvalButton addTarget:self action:@selector(contrastvalButtonClick:) forControlEvents:UIControlEventTouchUpInside];
         cell.contrastvalColorLabel.backgroundColor = MoreButtonColor;
-//    }else if(!((_XdefaultValValueArray.count == 0) && (_YdefaultValValueArray.count == 0))&& ((_XcontrastValValueArray.count == 0) && (_YcontrastValValueArray.count == 0))){
-//        //实际按钮
+    }else if(!((_XdefaultValValueArray.count == 0) && (_YdefaultValValueArray.count == 0))&& ((_XcontrastValValueArray.count == 0) && (_YcontrastValValueArray.count == 0))){
+        //实际按钮
 //        [cell.defaultvalButton addTarget:self action:@selector(defaultvalButtonClick:) forControlEvents:UIControlEventTouchUpInside];
 //        cell.defaultvalButton.selected = YES;
         cell.defaultvalColorLabel.backgroundColor = [UIColor orangeColor];
-//    }else if (!((_XdefaultValValueArray.count == 0) && (_YdefaultValValueArray.count == 0))&&!((_XcontrastValValueArray.count == 0) && (_YcontrastValValueArray.count == 0)) ){
-//        //实际按钮
+    }else if (!((_XdefaultValValueArray.count == 0) && (_YdefaultValValueArray.count == 0))&&!((_XcontrastValValueArray.count == 0) && (_YcontrastValValueArray.count == 0)) ){
+        //实际按钮
 //        [cell.defaultvalButton addTarget:self action:@selector(defaultvalButtonClick:) forControlEvents:UIControlEventTouchUpInside];
 //        cell.defaultvalButton.selected = YES;
-//        //对比按钮
+        //对比按钮
 //        [cell.contrastvalButton addTarget:self action:@selector(contrastvalButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-//        cell.defaultvalColorLabel.backgroundColor = [UIColor orangeColor];
-//        cell.contrastvalColorLabel.backgroundColor = MoreButtonColor;
-//    }else{
-//       
-//        
-//    }
+        cell.defaultvalColorLabel.backgroundColor = [UIColor orangeColor];
+        cell.contrastvalColorLabel.backgroundColor = MoreButtonColor;
+    }else{
+       
+        
+    }
  //判断数据是否为空
     if ((_XdefaultValValueArray.count == 0) && (_YdefaultValValueArray.count == 0)) {
         [_XdefaultValValueArray addObject:@""];
@@ -1198,7 +1223,7 @@ static  BOOL Btnstatu = YES;
         j++;
     }
     
-    _contrastPieChart = [[PNPieChart alloc] initWithFrame:CGRectMake(CGRectGetMinX(_defaultPieChart.frame), CGRectGetMaxY(_defaultPieChart.frame), CGRectGetHeight(_defaultLineChart.frame)-20*KHeight6scale, CGRectGetHeight(_defaultLineChart.frame)-20*KHeight6scale) items:items2];
+    _contrastPieChart = [[PNPieChart alloc] initWithFrame:CGRectMake(CGRectGetMinX(_defaultPieChart.frame), CGRectGetMaxY(_defaultPieChart.frame)+30*KHeight6scale, CGRectGetHeight(_defaultLineChart.frame)-20*KHeight6scale, CGRectGetHeight(_defaultLineChart.frame)-20*KHeight6scale) items:items2];
     _contrastPieChart.descriptionTextColor = [UIColor whiteColor];
     _contrastPieChart.descriptionTextFont  = [UIFont fontWithName:@"Avenir-Medium" size:11.0];
     _contrastPieChart.showAbsoluteValues = NO;

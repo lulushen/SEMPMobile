@@ -46,6 +46,9 @@
         
         self.backgroundColor = [UIColor whiteColor];
         self.userInteractionEnabled = YES;
+        self.layer.masksToBounds = YES;
+        self.layer.cornerRadius = 10;
+        
         _defaultDateString = [NSString string];
         [self p_makeview];
         
@@ -330,15 +333,21 @@
     
     if (component == 0)
     {
-        pickerLabel.text =  [yearArray objectAtIndex:row]; // Year
+//        pickerLabel.text =  [yearArray objectAtIndex:row]; // Year
+        pickerLabel.text = [NSString stringWithFormat:@"%@年",[yearArray objectAtIndex:row]];
+
     }
     else if (component == 1)
     {
-        pickerLabel.text =  [monthArray objectAtIndex:row];  // Month
+//        pickerLabel.text =  [monthArray objectAtIndex:row];  // Month
+        pickerLabel.text = [NSString stringWithFormat:@"%@月",[monthArray objectAtIndex:row]];
+
     }
     else if (component == 2)
     {
-        pickerLabel.text =  [DaysArray objectAtIndex:row]; // Date
+//        pickerLabel.text =  [DaysArray objectAtIndex:row]; // Date
+        pickerLabel.text = [NSString stringWithFormat:@"%@日",[DaysArray objectAtIndex:row]];
+
         
     }
     

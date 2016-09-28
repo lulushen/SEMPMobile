@@ -27,6 +27,8 @@
     // 提示没有指标的label
     UILabel * label;
 }
+@property (nonatomic , strong) FCXRefreshHeaderView *headerView;
+
 //分享按钮
 @property (nonatomic , strong) UIButton * shareButton;
 //nav上的日期视图
@@ -70,10 +72,11 @@
     }
     return _DashModelArray;
 }
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-
+    
     _topView.moreButton.selected = NO;
 
     // 添加界面的数据
@@ -89,14 +92,14 @@
     NSMutableDictionary * dict = [userDict valueForKey:@"resdata"];
     _Time = [NSString stringWithFormat:@"%@",dict[@"defaulttime"]];
     _token =  [userDict valueForKey:@"user_token"];
-
+    
     _pieColorArray = [NSMutableArray array];
     
     for (int i = 0; i < 10; i++) {
         
         [_pieColorArray addObject:PNArc4randomColor];
     }
-
+    
     _topView = [[DashCollectionReusableView alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, 30*KHeight6scale)];
     
     [_topView.moreButton addTarget:self action:@selector(moreButtonClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -117,7 +120,7 @@
     _DashModelArray = [NSMutableArray array];
     //获取持久化数据
     NSMutableArray * array = [[NSUserDefaults standardUserDefaults] objectForKey:@"array"];
-   
+    
     for (NSDictionary * dict in array) {
         DashBoardModel * model = [[DashBoardModel alloc] init];
         [model setValuesForKeysWithDictionary:dict];
@@ -128,6 +131,26 @@
     [self makeNewDashModelArray];
     // 创建collectionView
     [self makeCollectionView];
+   
+}
+- (void)makeCollectionView
+{
+    
+    layout = [[DashCollectionViewFlowLayout alloc] init];
+    
+    layout.DashModelArray = [_DashModelArray mutableCopy];
+    
+    self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_topView.frame), Main_Screen_Width, KViewHeight-CGRectGetHeight(_topView.frame)) collectionViewLayout:layout];
+    
+    self.collectionView.backgroundColor = [UIColor whiteColor];
+    
+    [self.view addSubview:_collectionView];
+    
+    _collectionView.dataSource = self;
+    _collectionView.delegate = self;
+    
+    [_collectionView registerClass:[DashBoardCollectionViewCell class] forCellWithReuseIdentifier:@"cell"];
+
     if(_DashModelArray.count == 0){
         
         label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(_collectionView.frame), CGRectGetHeight(_collectionView.frame))];
@@ -136,29 +159,8 @@
         [_collectionView addSubview:label];
         
     }
-}
-- (void)makeCollectionView
-{
-    
-    layout = [[DashCollectionViewFlowLayout alloc] init];
-    
-    layout.DashModelArray = [NSMutableArray array];
-    
-    layout.DashModelArray = [_DashModelArray mutableCopy];
+    [self addRefreshView];
 
-    self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_topView.frame), Main_Screen_Width, KViewHeight-CGRectGetHeight(_topView.frame)) collectionViewLayout:layout];
-
-    self.collectionView.backgroundColor = [UIColor whiteColor];
-    
-    [self.view addSubview:_collectionView];
-    
-    _collectionView.dataSource = self;
-    _collectionView.delegate = self;
-    
-    NSString *CellIdentifier = [NSString stringWithFormat:@"cell"];
-        
-    [_collectionView registerClass:[DashBoardCollectionViewCell class] forCellWithReuseIdentifier:CellIdentifier];
-    
     //创建长按手势监听
     UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc]
                                                initWithTarget:self
@@ -209,6 +211,9 @@
     // 点击日期按钮
     [_dataView.dateButton addTarget:self action:@selector(dataClick:) forControlEvents:UIControlEventTouchUpInside];
     _dataSearchView = [[DataSearchView alloc] initWithFrame:CGRectMake(50, 10, Main_Screen_Width-100, Main_Screen_Width-100)];
+    //添加视图
+    [self.view addSubview:_dataSearchView];
+    _dataSearchView.alpha = 0.0f;
     // 进入日期选择视图，确定日期选择期默认的日期
     _dataSearchView.defaultDateString = _dataView.dateLabel.text;
     // 日期选择视图上的关闭按钮
@@ -239,25 +244,41 @@ static  BOOL Btnstatu = YES;
     
     if (button.selected == Btnstatu) {
         
-        // 移除视图
-        [_dataSearchView removeFromSuperview];
-        
         Btnstatu = YES;
         
     }else{
-        //添加视图
-        [self.view addSubview:_dataSearchView];
         // 点击日期按钮时 相当于默认点击日期选择视图中的月按钮
         [_dataSearchView mouthButtonClick:_dataSearchView.mouthButton];
         
         Btnstatu = NO;
+        
     }
+    
+    [UIView animateWithDuration:0.5 animations:^{
+        self.view.backgroundColor = [UIColor blackColor];
+        _topView.backgroundColor = [UIColor blackColor];
+        _topView.alpha = 0.6;
+        _collectionView.alpha = 0.6;
+        _collectionView.userInteractionEnabled = NO;
+        _topView.userInteractionEnabled = NO;
+        _dataSearchView.alpha = 1.0f;
+        
+    } completion:nil];
 }
 // 日期视图中的关闭事件
 - (void)deleteButtonClick:(UIButton *)button
 {
     
-    [_dataSearchView removeFromSuperview];
+    [UIView animateWithDuration:0.5 animations:^{
+        self.view.backgroundColor = [UIColor whiteColor];
+        _topView.backgroundColor = [UIColor whiteColor];
+        _topView.alpha = 1;
+        _collectionView.alpha = 1;
+        _collectionView.userInteractionEnabled = YES;
+        _topView.userInteractionEnabled = YES;
+        _dataSearchView.alpha = 0.0f;
+        
+    } completion:nil];
     
     Btnstatu = YES;
     
@@ -265,7 +286,17 @@ static  BOOL Btnstatu = YES;
 // 被观察者发生改变时 调用观察者方法
 - (void)DateChange
 {
-    [_dataSearchView removeFromSuperview];
+    [UIView animateWithDuration:0.5 animations:^{
+        self.view.backgroundColor = [UIColor whiteColor];
+        _topView.backgroundColor = [UIColor whiteColor];
+        _topView.alpha = 1;
+        _collectionView.alpha = 1;
+        _collectionView.userInteractionEnabled = YES;
+        _topView.userInteractionEnabled = YES;
+        _dataSearchView.alpha = 0.0f;
+        
+    } completion:nil];
+    
     
     NSString * date = [[NSUserDefaults standardUserDefaults] objectForKey:@"DateChange"];
     
@@ -292,6 +323,7 @@ static  BOOL Btnstatu = YES;
 {
 #warning 刷新 ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
     NSMutableDictionary * userDict = [[NSUserDefaults standardUserDefaults] valueForKey:@"userResponseObject"];
+    
     _token =  [userDict valueForKey:@"user_token"];
     _Time = [[NSUserDefaults standardUserDefaults] objectForKey:@"ADDBackTime"];
     // 刷新数据
@@ -330,7 +362,7 @@ static  BOOL Btnstatu = YES;
                 
                 array = [responseObject[@"resdata"] mutableCopy];
                 
-               
+                if (array.count != 0) {
                     
                     for (NSDictionary * dict in array) {
                         
@@ -343,24 +375,28 @@ static  BOOL Btnstatu = YES;
                     }
                     // 指标重新排序
                     [self  makeNewDashModelArray];
+                    layout.DashModelArray = [_DashModelArray mutableCopy];
                     
                     dispatch_async(dispatch_get_main_queue(), ^{
                         
-                       // 返回主线程刷新ui
+                        // 返回主线程刷新ui
                         [_collectionView reloadData];
-                        layout.DashModelArray = [_DashModelArray mutableCopy];
-
+                        
                         
                     });
-                if(_DashModelArray.count == 0){
-                    
-                    NSLog(@"解析出的数组为空");
-                    label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(_collectionView.frame), CGRectGetHeight(_collectionView.frame))];
-                    label.textAlignment = NSTextAlignmentCenter;
-                    label.text = @"没有关注指标~";
-                    [_collectionView addSubview:label];
-                    
+                    if(_DashModelArray.count == 0){
+                        
+                        NSLog(@"解析出的数组为空");
+                        label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(_collectionView.frame), CGRectGetHeight(_collectionView.frame))];
+                        label.textAlignment = NSTextAlignmentCenter;
+                        label.text = @"没有关注指标~";
+                        [_collectionView addSubview:label];
+                        
+                    }
+                }else{
+                    NSLog(@"----没有数据");
                 }
+                
             }
             
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -476,17 +512,13 @@ static  BOOL Btnstatu = YES;
     
     DashBoardCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CellIdentifier forIndexPath:indexPath];
     
-//    if (!cell) {
-//        cell = [[DashBoardCollectionViewCell alloc] init];
-//    }
-    
     DashBoardModel * m = [[DashBoardModel alloc] init];
     m = _DashModelArray[indexPath.row];
     cell.backgroundColor = [UIColor colorWithString:m.bgcolor];
     [cell setTextColor:[UIColor colorWithString:m.color]];
     
     cell.labelTitle.text = m.title;
-
+    
     [cell.label removeFromSuperview];
     [cell.labelBottomval removeFromSuperview];
     [cell.labelBottomtilte removeFromSuperview];
@@ -512,7 +544,7 @@ static  BOOL Btnstatu = YES;
         
         _lineChart = [[PNLineChart alloc] initWithFrame:CGRectMake(10, 20,Main_Screen_Width-50,CGRectGetHeight(cell.frame)-60)];
         _barChart = [[PNBarChart alloc] initWithFrame:CGRectMake(CGRectGetMinX(_lineChart.frame), CGRectGetMinY(_lineChart.frame), CGRectGetWidth(_lineChart.frame), CGRectGetHeight(_lineChart.frame))];
-    
+        
         [cell.contentView addSubview:cell.midvalView];
         cell.midvalView.userInteractionEnabled = NO;
         if (cell.midvalView.subviews.count !=0) {
@@ -520,7 +552,7 @@ static  BOOL Btnstatu = YES;
         }
         
         if ([m.chart_type isEqualToString:@"line_chart"]) {
- 
+            
             [self makeLine];
             
             _lineChart.yUnit = m.unit;
@@ -551,9 +583,9 @@ static  BOOL Btnstatu = YES;
             
         }else if([m.chart_type isEqualToString:@"bar_chart"]){
             [self makeBar];
-          
-            _barChart.yLabelSuffix = m.unit;
-
+            
+//            _barChart.yLabelSuffix = m.unit;
+            
             static NSNumberFormatter *barChartFormatter;
             if (!barChartFormatter){
                 barChartFormatter = [[NSNumberFormatter alloc] init];
@@ -579,10 +611,17 @@ static  BOOL Btnstatu = YES;
             [_barChart strokeChart];
             [cell.midvalView addSubview:_barChart];
             
+            UILabel * yunitLabel = [[UILabel alloc] init];
+            yunitLabel.text = m.unit;
+            yunitLabel.textColor = [UIColor colorWithString:m.color];
+            yunitLabel.font = [UIFont systemFontOfSize:12.0f];
+            CGRect yUnitLabelRect = [yunitLabel.text boundingRectWithSize:CGSizeMake(Main_Screen_Width-80*KWidth6scale, KViewHeight) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:yunitLabel.font} context:nil];
+            yunitLabel.frame = CGRectMake(CGRectGetMinX(_barChart.frame)+ _barChart.chartMarginLeft, CGRectGetMinY(_barChart.frame)-yUnitLabelRect.size.height, yUnitLabelRect.size.width, yUnitLabelRect.size.height);
+            [cell.midvalView addSubview:yunitLabel];
             
             
         }else if([m.chart_type isEqualToString:@"pie_chart"]){
-       
+            
             NSMutableArray *items  = [NSMutableArray array];
             
             int i = 0;
@@ -631,49 +670,41 @@ static  BOOL Btnstatu = YES;
     _cellDeleteButton = [UIButton buttonWithType:UIButtonTypeCustom];
     _cellDeleteButton.tag = indexPath.row;
     
-       return cell;
+    return cell;
     
 }
 // 选中cell
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     
-        [_cellDeleteButton removeFromSuperview];
-        [_dataSearchView removeFromSuperview];
-        
-        Btnstatu = YES;
-        
-        _dashModel = [[DashBoardModel alloc] init];
-        
-        _dashModel = _DashModelArray[indexPath.row];
+    [_cellDeleteButton removeFromSuperview];
+    Btnstatu = YES;
     
-        SDIncomeViewController * incomeVC = [[SDIncomeViewController alloc] init];
-
-            
-        incomeVC.IncomeDateString  = _dataView.dateLabel.text;
-                
-        incomeVC.IncomeDefaultDateString = _dataSearchView.defaultDateString;
-                
-        incomeVC.IndexID = _dashModel.Did;
-        incomeVC.pieColorArray = _pieColorArray;
-        incomeVC.Time = _Time;
+    _dashModel = [[DashBoardModel alloc] init];
     
-    NSLog(@"--%@",incomeVC.IncomeDateString);
-    NSLog(@"--%@",incomeVC.IncomeDefaultDateString);
-    NSLog(@"--%@",incomeVC.IndexID);
-    NSLog(@"--%@",incomeVC.pieColorArray);
-
-    NSLog(@"--%@",incomeVC.Time);
-
-                // tabbar的显示和隐藏
-                self.hidesBottomBarWhenPushed=YES;
-                
-                [self.navigationController pushViewController:incomeVC animated:YES];
-                
-                self.hidesBottomBarWhenPushed=NO;
+    _dashModel = _DashModelArray[indexPath.row];
+    
+    SDIncomeViewController * incomeVC = [[SDIncomeViewController alloc] init];
     
     
-
+    incomeVC.IncomeDateString  = _dataView.dateLabel.text;
+    
+    incomeVC.IncomeDefaultDateString = _dataSearchView.defaultDateString;
+    
+    incomeVC.IndexID = _dashModel.Did;
+    incomeVC.pieColorArray = _pieColorArray;
+    incomeVC.Time = _Time;
+    
+    
+    // tabbar的显示和隐藏
+    self.hidesBottomBarWhenPushed=YES;
+    
+    [self.navigationController pushViewController:incomeVC animated:YES];
+    
+    self.hidesBottomBarWhenPushed=NO;
+    
+    
+    
     //    incomeVC.IncomeDateBlockValue = ^(NSString * IncomeDateString,NSString *DefaultDateString){
     //        // 传日期
     //        _DataString = IncomeDateString;
@@ -712,16 +743,16 @@ static  BOOL Btnstatu = YES;
 - (void)makeBar
 {
     _barChart.backgroundColor = [UIColor clearColor];
-    _barChart.yChartLabelWidth = 20.0;
+    _barChart.yChartLabelWidth = 35.0;
     _barChart.chartBorderColor = [UIColor whiteColor];
     _barChart.strokeColor = [UIColor whiteColor];
-    _barChart.chartMarginLeft = 30.0;
+    _barChart.chartMarginLeft = 40.0;
     _barChart.chartMarginRight = 10.0;
     _barChart.chartMarginTop = 5.0;
     _barChart.chartMarginBottom = 10.0;
     _barChart.barBackgroundColor = [UIColor clearColor];
     _barChart.labelTextColor = [UIColor whiteColor];
-    _barChart.labelFont = [UIFont boldSystemFontOfSize:12.0f];
+    _barChart.labelFont = [UIFont boldSystemFontOfSize:11.0f];
     _barChart.labelMarginTop = 5.0;
     _barChart.showChartBorder = YES;
     _barChart.delegate = self;
@@ -738,19 +769,18 @@ static  BOOL Btnstatu = YES;
         // 指标model清空
         [_DashModelArray removeAllObjects];
         
-        // 移除日期视图
-        [_dataSearchView removeFromSuperview];
         // 提示label
         [label removeFromSuperview];
         
         Btnstatu = YES;
         
         [[NSUserDefaults standardUserDefaults] setObject:_Time forKey:@"ADDBackTime"];
+        
         [[NSUserDefaults standardUserDefaults] synchronize];
         
-
+        
         [self.navigationController pushViewController:addVC animated:YES];
-
+        
     }else{
         
     }
@@ -761,75 +791,75 @@ static  BOOL Btnstatu = YES;
 - (void)makeIncomeDate:(NSString *)Time
 {
     SDIncomeViewController * incomeVC = [[SDIncomeViewController alloc] init];
-           // 指标详情界面的接口
-        NSString * urlStr = [NSString stringWithFormat:IncomeHttp,_dashModel.Did,Time];
+    // 指标详情界面的接口
+    NSString * urlStr = [NSString stringWithFormat:IncomeHttp,_dashModel.Did,Time];
+    
+    AFHTTPSessionManager * manager = [AFHTTPSessionManager manager];
+    
+    [manager GET:urlStr parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
         
-        AFHTTPSessionManager * manager = [AFHTTPSessionManager manager];
+        //这里可以用来显示下载进度
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        //成功
+        NSLog(@"--%@",responseObject);
         
-        [manager GET:urlStr parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
+        if (responseObject != nil) {
             
-            //这里可以用来显示下载进度
-        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-            //成功
-            NSLog(@"--%@",responseObject);
-
-            if (responseObject != nil) {
-                
-                NSMutableDictionary * dict = [NSMutableDictionary dictionary];
-                dict = responseObject[@"resdata"];
-                
-                if (dict != nil) {
-                    
-                    // 防止是参数不是数组
-                    //                id poi = dict[@"contrastVal"];
-                    //
-                    //                if ([poi isKindOfClass:[NSDictionary class]]) {
-                    IncomeDashModel * model = [[IncomeDashModel alloc] init];
-                    
-                    [model setValuesForKeysWithDictionary:dict];
-                    
-                    incomeVC.IncomeDateString  = _dataView.dateLabel.text;
-                    
-                    incomeVC.IncomeDefaultDateString = _dataSearchView.defaultDateString;
-                    
-                    incomeVC.IndexID = _dashModel.Did;
-                    
-                    incomeVC.incomeDashModel = model;
-                    
-                    incomeVC.pieColorArray = _pieColorArray;
-//                    dispatch_async(dispatch_get_main_queue(), ^{
-                    // tabbar的显示和隐藏
-                    self.hidesBottomBarWhenPushed=YES;
-                    
-                    [self.navigationController pushViewController:incomeVC animated:YES];
-                    
-                    self.hidesBottomBarWhenPushed=NO;
-                    
-//                    });
-                }
-                
-            }else{
-                
-                NSLog(@"数据为空");
-            }
+            NSMutableDictionary * dict = [NSMutableDictionary dictionary];
+            dict = responseObject[@"resdata"];
             
-        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-            //失败
-            NSLog(@"failure  error ： %@",error);
-            dispatch_async(dispatch_get_main_queue(), ^{
+            if (dict != nil) {
+                
+                // 防止是参数不是数组
+                //                id poi = dict[@"contrastVal"];
+                //
+                //                if ([poi isKindOfClass:[NSDictionary class]]) {
+                IncomeDashModel * model = [[IncomeDashModel alloc] init];
+                
+                [model setValuesForKeysWithDictionary:dict];
+                
+                incomeVC.IncomeDateString  = _dataView.dateLabel.text;
+                
+                incomeVC.IncomeDefaultDateString = _dataSearchView.defaultDateString;
+                
+                incomeVC.IndexID = _dashModel.Did;
+                
+                incomeVC.incomeDashModel = model;
+                
+                incomeVC.pieColorArray = _pieColorArray;
+                //                    dispatch_async(dispatch_get_main_queue(), ^{
                 // tabbar的显示和隐藏
                 self.hidesBottomBarWhenPushed=YES;
                 
-                    [self.navigationController pushViewController:incomeVC animated:YES];
+                [self.navigationController pushViewController:incomeVC animated:YES];
                 
-                    self.hidesBottomBarWhenPushed=NO;
-
+                self.hidesBottomBarWhenPushed=NO;
                 
-            });
-
-        }];
+                //                    });
+            }
+            
+        }else{
+            
+            NSLog(@"数据为空");
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        //失败
+        NSLog(@"failure  error ： %@",error);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            // tabbar的显示和隐藏
+            self.hidesBottomBarWhenPushed=YES;
+            
+            [self.navigationController pushViewController:incomeVC animated:YES];
+            
+            self.hidesBottomBarWhenPushed=NO;
+            
+            
+        });
+        
+    }];
     
-//
+    //
 }
 
 //长按事件的手势监听实现方法
@@ -874,7 +904,7 @@ static  BOOL Btnstatu = YES;
     }else{
         
         button.selected = YES;
-
+        
         DashBoardModel * model = [[DashBoardModel alloc] init];
         
         model = _DashModelArray[button.tag];
@@ -882,45 +912,50 @@ static  BOOL Btnstatu = YES;
         
         AFHTTPSessionManager * manager = [AFHTTPSessionManager manager];
         manager.responseSerializer = [AFHTTPResponseSerializer serializer];
-
+        
         [manager GET:urlStr parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
             
             //这里可以用来显示下载进度
         } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        //指标重新排序
-        // 添加界面的数据
-        [self makeADDDate];
-        [UIView animateWithDuration:0.3 // 动画时长
-                                 animations:^{
-                                    
-                                     // 返回主线程刷新ui
-                                      button.superview.frame = CGRectMake(button.superview.center.x, button.superview.center.y, 0, 0);
-                                     // 动画完成后执行
-                                     [self makeDate:_Time];
-                                     
-                                 }
-                                 completion:^(BOOL finished) {
-                                    
-
-                                 }];
-                
+            [_DashModelArray removeObject:model];
+            [layout.DashModelArray removeObject:model];
+            //指标重新排序
+            [self makeNewDashModelArray];
+            // 添加界面的数据
+            [self makeADDDate];
+            [UIView animateWithDuration:0.3 // 动画时长
+                             animations:^{
+                                 
+                                 // 返回主线程刷新ui
+                                 button.superview.frame = CGRectMake(button.superview.center.x, button.superview.center.y, 0, 0);
+                                
+                                 
+                                 
+                             }
+                             completion:^(BOOL finished) {
+                                 [_collectionView removeFromSuperview];
+                                 [self makeCollectionView];
+                                 // 动画完成后执行
+//                                 [self makeDate:_Time];(直接刷新有bug)
+                             }];
+            
             
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
             //失败
             NSLog(@"failure  error ： %@",error);
 //            [self makeDate:_Time];
         }];
-    
-    
+        
+        
     }
-
+    
 }
 
 
 - (void)makeADDDate
 {
     addVC = [[AddViewController alloc] init];
-
+    
     dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         // 执⾏耗时的异步操作...
         NSString * urlStr = [NSString stringWithFormat:ADDHttp,_token];
@@ -940,36 +975,38 @@ static  BOOL Btnstatu = YES;
             arrayAll = dict[@"waitcheck"];
             NSMutableArray * arrayDashLabel = [NSMutableArray array];
             
+            NSLog(@"%@",responseObject);
+            
             if (dict != nil) {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                for (NSDictionary * dict in array) {
+                    for (NSDictionary * dict in array) {
+                        
+                        AddDashModel * m = [[AddDashModel alloc] init];
+                        
+                        [m setValuesForKeysWithDictionary:dict];
+                        
+                        [arrayDashLabel addObject:m];
+                    }
+                    NSMutableArray * arrayAllDashLabel = [NSMutableArray array];
                     
-                    AddDashModel * m = [[AddDashModel alloc] init];
-                    
-                    [m setValuesForKeysWithDictionary:dict];
-                    
-                    [arrayDashLabel addObject:m];
-                }
-                NSMutableArray * arrayAllDashLabel = [NSMutableArray array];
-                
-                for (NSDictionary * dict in arrayAll) {
-                    
-                    AddDashModel * m = [[AddDashModel alloc] init];
-                    
-                    [m setValuesForKeysWithDictionary:dict];
-                    
-                    [arrayAllDashLabel addObject:m];
-                }
-                
-                
-                if ( addVC.dashLabelArray.count == 0) {
-                    
-                    addVC.dashLabelArray = arrayDashLabel;
-                    
-                    addVC.dashAllArray = arrayAllDashLabel;
+                    for (NSDictionary * dict in arrayAll) {
+                        
+                        AddDashModel * m = [[AddDashModel alloc] init];
+                        
+                        [m setValuesForKeysWithDictionary:dict];
+                        
+                        [arrayAllDashLabel addObject:m];
+                    }
                     
                     
-                }
+                    if ( addVC.dashLabelArray.count == 0) {
+                        
+                        addVC.dashLabelArray = arrayDashLabel;
+                        
+                        addVC.dashAllArray = arrayAllDashLabel;
+                        
+                        
+                    }
                 });
             }
             
@@ -978,7 +1015,7 @@ static  BOOL Btnstatu = YES;
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
             //失败
             NSLog(@"failure  error ： %@",error);
-
+            
         }];
         
         
@@ -1002,6 +1039,52 @@ static  BOOL Btnstatu = YES;
     //    [_lineChart addSubview:label];
     
     NSLog(@"Click on line %f, %f, line index is %d",point.x, point.y, (int)lineIndex);
+}
+
+
+
+
+
+#pragma ====下拉刷新
+
+- (void)addRefreshView{
+    
+    __weak __typeof(self)weakSelf = self;
+    
+    
+    //下拉刷新
+    _headerView = [_collectionView addHeaderWithRefreshHandler:^(FCXRefreshBaseView *refreshView) {
+        
+        [weakSelf refreshAction];
+    }];
+    
+    //上拉加载更多
+    //    footerView = [_allActionTableView addFooterWithRefreshHandler:^(FCXRefreshBaseView *refreshView) {
+    //        [weakSelf loadMoreAction];
+    //    }];
+    
+    
+}
+
+
+
+- (void)refreshAction {
+    
+    __weak UICollectionView *weakTableView;
+    weakTableView  = _collectionView;
+    
+    __weak FCXRefreshHeaderView *weakHeaderView = _headerView;
+    
+    
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        
+        [self makeDate:_Time];
+        
+        [weakHeaderView endRefresh];
+        
+        
+    });
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

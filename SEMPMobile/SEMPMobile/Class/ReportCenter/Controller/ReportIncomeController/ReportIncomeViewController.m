@@ -8,16 +8,19 @@
 
 #import "ReportIncomeViewController.h"
 #import <WebKit/WebKit.h>
-#import "DataSearchView.h"
+//#import "DataSearchView.h"
+#import "DatePickerView.h"
 
 
 @interface ReportIncomeViewController ()<WKNavigationDelegate,WKUIDelegate,YXCustomActionSheetDelegate>
 {
     NSString * dateString;
     NSString * dateStringFormat;
-    DataSearchView * dataSearchView;
-
-
+    //    DataSearchView * dataSearchView;
+    DatePickerView * pickerView;
+    // 参数总数组
+    NSMutableArray * paramsCountArray;
+    
 }
 @property(nonatomic , strong)  WKWebView * reportWebView;
 @property (nonatomic , strong) UIView * parameterView;
@@ -38,7 +41,7 @@
 {
     
     _reportWebView = [[WKWebView alloc]initWithFrame:CGRectMake(0, 0, Main_Screen_Width, KViewHeight)];
-    //    _reportWebView.backgroundColor = [UIColor whiteColor];
+    _reportWebView.backgroundColor = [UIColor whiteColor];
     NSURL *url = [NSURL URLWithString:_webViewHttpString];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     
@@ -46,7 +49,7 @@
     _reportWebView.navigationDelegate = self;
     _reportWebView.UIDelegate = self;
     [self.view addSubview:_reportWebView];
-    [self makeParametersView];
+//    [self makeParametersView];
     
     
 }
@@ -97,7 +100,7 @@
 - (void)makeParametersView
 {
     _parameterView = [[UIView alloc] initWithFrame:CGRectMake(40*KWidth6scale, 50*KWidth6scale, Main_Screen_Width-80*KWidth6scale, KViewHeight-100*KHeight6scale)];
-    _parameterView.alpha = 0;
+    _parameterView.alpha = 1;
     _parameterView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:_parameterView];
     
@@ -124,28 +127,79 @@
     
     [OKButton addTarget:self action:@selector(OKParaButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     
-    UILabel * dateParameterLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(titleLabel.frame), CGRectGetMaxY(titleLabel.frame)+50*KHeight6scale, 50*KWidth6scale, 25*KHeight6scale)];
-    dateParameterLabel.text = @"日期:";
-    [_parameterView addSubview:dateParameterLabel];
-    UIButton * dateParameterButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    NSDate *  senddate=[NSDate date];
-    
-    NSDateFormatter  *dateformatter=[[NSDateFormatter alloc] init];
-    
-    [dateformatter setDateFormat:@"YYYY-MM-dd"];
-    
-    NSString *  locationString=[dateformatter stringFromDate:senddate];
-    [dateParameterButton setTitle:locationString forState:UIControlStateNormal];
-    CGRect dateParatemerRect = [dateParameterButton.titleLabel.text boundingRectWithSize:CGSizeMake(CGRectGetWidth(_parameterView.frame)-60, 40*KHeight6scale) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:dateParameterButton.titleLabel.font} context:nil];
-    
-    dateParameterButton.frame = CGRectMake(CGRectGetMaxX(dateParameterLabel.frame), CGRectGetMinY(dateParameterLabel.frame), dateParatemerRect.size.width+20, CGRectGetHeight(dateParameterLabel.frame));
-    dateParameterButton.layer.masksToBounds = YES;
-    dateParameterButton.layer.borderWidth= 1;
-    dateParameterButton.layer.borderColor = [UIColor grayColor].CGColor;
-    dateParameterButton.layer.cornerRadius = 5;
-    [_parameterView addSubview:dateParameterButton];
-    [dateParameterButton addTarget:self action:@selector(dateParameterButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-    
+    for (int i = 0; i<paramsCountArray.count; i++) {
+        
+        dateString = [NSString string];
+        UILabel * paramsTimeNameLabel = [[UILabel alloc] init];
+//        paramsTimeNameLabel.text = [paramsCountArray[i] valueForKey:@"paramName"];
+        paramsTimeNameLabel.text = @"时间选择：";
+        CGRect paramsTimeNameLabelRect = [paramsTimeNameLabel.text boundingRectWithSize:CGSizeMake(CGRectGetWidth(_parameterView.frame)-60, 40*KHeight6scale) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:paramsTimeNameLabel.font} context:nil];
+        
+        paramsTimeNameLabel.frame = CGRectMake(CGRectGetMinX(titleLabel.frame), CGRectGetMaxY(titleLabel.frame) + i* 30*KHeight6scale, paramsTimeNameLabelRect.size.width, 25*KHeight6scale);
+        if (paramsTimeNameLabelRect.size.width < 50*KWidth6scale) {
+              paramsTimeNameLabel.frame = CGRectMake(CGRectGetMinX(titleLabel.frame), CGRectGetMaxY(titleLabel.frame) + i* 30*KHeight6scale, 50*KHeight6scale, 25*KHeight6scale);
+        }
+        [_parameterView addSubview:paramsTimeNameLabel];
+
+        UIButton * dateParameterButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        NSDate *  senddate=[NSDate date];
+        NSCalendar*calendar = [NSCalendar currentCalendar];
+        NSDateFormatter  *dateformatter=[[NSDateFormatter alloc] init];
+        NSDateComponents*  comps =[calendar components:(NSCalendarUnitYear | NSCalendarUnitMonth |NSCalendarUnitDay | NSCalendarUnitWeekOfYear |  NSCalendarUnitQuarter)fromDate:senddate];
+        dateStringFormat = [paramsCountArray[i] valueForKey:@"paramFormat"];
+        NSLog(@"%@",dateStringFormat);
+        if ([dateStringFormat isEqualToString:@"yyyyMMdd"]) {
+            // 年月日
+            [dateformatter setDateFormat:@"YYYY-MM-dd"];
+            dateString = [dateformatter stringFromDate:senddate];
+
+        }else if ([dateStringFormat isEqualToString:@"yyyyMM"]){
+            // 年月
+            [dateformatter setDateFormat:@"YYYY-MM"];
+            dateString = [dateformatter stringFromDate:senddate];
+
+        }else if ([dateStringFormat isEqualToString:@"yyyy"]){
+            // 年
+            [dateformatter setDateFormat:@"YYYY"];
+            dateString = [dateformatter stringFromDate:senddate];
+            
+        }else if ([dateStringFormat isEqualToString:@"yyyyQM"]){
+            // 季度
+            // 年
+            NSInteger year = [comps year];
+            // 当前日期所在季度
+//            NSInteger quarter = [comps quarter];
+            
+            dateString = [NSString stringWithFormat:@"%ldQ1",year] ;
+
+        }else if ([dateStringFormat isEqualToString:@""]){
+            // 周
+            // 年
+            NSInteger year = [comps year];
+            // 当前日期所在第几周
+            NSInteger week = [comps weekOfYear];
+            
+            dateString = [NSString stringWithFormat:@"%ldW%02ld",year,week] ;
+        }
+
+        
+        
+        [dateParameterButton setTitle:dateString forState:UIControlStateNormal];
+//        CGRect dateParatemerRect = [dateParameterButton.titleLabel.text boundingRectWithSize:CGSizeMake(CGRectGetWidth(_parameterView.frame)-60, 40*KHeight6scale) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:dateParameterButton.titleLabel.font} context:nil];
+        
+        dateParameterButton.frame = CGRectMake(CGRectGetMaxX(paramsTimeNameLabel.frame), CGRectGetMinY(paramsTimeNameLabel.frame), 150*KWidth6scale, CGRectGetHeight(paramsTimeNameLabel.frame));
+        dateParameterButton.layer.masksToBounds = YES;
+        dateParameterButton.layer.borderWidth= 1;
+        dateParameterButton.layer.borderColor = [UIColor grayColor].CGColor;
+        dateParameterButton.layer.cornerRadius = 5;
+        [_parameterView addSubview:dateParameterButton];
+        dateParameterButton.tag = i;
+        [dateParameterButton addTarget:self action:@selector(dateParameterButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+#warning ==========delete
+        [dateParameterButton setTitle:dateString forState:UIControlStateNormal];
+        
+
+    }
 }
 // 取消按钮
 - (void)cancelParaButtonClick: (UIButton*)button
@@ -165,7 +219,7 @@
 - (void)OKParaButtonClick: (UIButton*)button
 {
     _tabView.userInteractionEnabled = YES;
-
+    
     [UIView animateWithDuration:0.3 animations:^{
         self.view.backgroundColor = [UIColor blackColor];
         _reportWebView.alpha = 1;
@@ -179,39 +233,41 @@
 - (void)dateParameterButtonClick: (UIButton*)button
 {
     
-    UIDatePicker *picker = [[UIDatePicker alloc]init];
-    picker.datePickerMode = UIDatePickerModeDate;
-    
-    picker.frame = CGRectMake(0, 40, Main_Screen_Width-20, 200);
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"请选择\n\n\n\n\n\n\n\n\n\n\n\n" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
-        NSDate *date = picker.date;
-        dateString = [date stringWithFormat:@"yyyy-MM-dd"];
-       
-        [button setTitle:dateString forState:UIControlStateNormal];
+        
+        NSString * string = [NSString stringWithFormat:@"%@",[pickerView saveDateString]];
+        [button setTitle:string forState:UIControlStateNormal];
         
     }];
-     dateStringFormat = @"yyyy-MM";
     
-    NSString * string = [NSString stringWithFormat:@"2015"];
-    NSLog(@"%@",string);
+    pickerView = [[DatePickerView alloc] initWithFrame:CGRectMake(0, 40, Main_Screen_Width-20, 200)];
+    
+    dateStringFormat = [paramsCountArray[button.tag] valueForKey:@"paramFormat"];
 
-    if ([dateStringFormat isEqualToString:@"yyyy-MM-dd"]) {
-        [alertController.view addSubview:picker];
-
-    }else if ([dateStringFormat isEqualToString:@"yyyy-MM"]){
-        dataSearchView = [[DataSearchView alloc] initWithFrame:CGRectMake(0, 40, Main_Screen_Width-20, 200)];
-        [alertController.view addSubview:dataSearchView];
-
-        [alertController.view addSubview:dataSearchView.myPickerView];
-        dataSearchView.defaultDateString = string;
-        NSLog(@"%@",dataSearchView.defaultDateString);
-
-        [dataSearchView mouthButtonClick:dataSearchView.mouthButton];
-
+    pickerView.defaultDateString = button.titleLabel.text;
+    [alertController.view addSubview:pickerView];
+    
+    if ([dateStringFormat isEqualToString:@"yyyyMMdd"]) {
+        
+        [pickerView makeYearMouthDayPicker];
+        
+        
+    }else if ([dateStringFormat isEqualToString:@"yyyyMM"]){
+        
+        [pickerView makeYearMouthPicker];
+        
+    }else if ([dateStringFormat isEqualToString:@"yyyy"]){
+        
+        [pickerView makeYearPicker];
+    }else if ([dateStringFormat isEqualToString:@"yyyyQM"]){
+        
+        [pickerView makeQuarterPicker];
+    }else if([dateStringFormat isEqualToString:@""]){
+        
+        [pickerView makeYearWeekPicker];
     }
     
-
     [alertController addAction:cancelAction];
     [self presentViewController:alertController animated:YES completion:nil];
     
@@ -293,22 +349,100 @@
         } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
             NSDictionary *dic=   [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
             NSLog(@"%@",dic);
-            //成功
-            NSLog(@"%@",responseObject);
+            
+            
+            NSMutableArray * paramsMutableArray = [NSMutableArray array];
+            paramsMutableArray = dic[@"params"] ;
+            
+            paramsCountArray = [NSMutableArray array];
+            
             if (responseObject != nil) {
+                // key值为time的情况下比较infos中type，如果type为time 添加到keyTypeTimeArray数组中
+                for (NSMutableDictionary * dict in paramsMutableArray) {
+                    
+                    NSMutableArray * infosMutableArray = [NSMutableArray array];
+                    infosMutableArray = dict[@"infos"];
+                    // infos数组中type＝time的字典
+                    NSMutableArray * typeTimeArray =[NSMutableArray array];
+                    // infos数组中type＝other的字典
+                    NSMutableArray * typeOtherArray = [NSMutableArray array];
+                    
+                    NSMutableDictionary * paramsDict = [NSMutableDictionary dictionary];
+                    
+                    
+                    for (NSMutableDictionary * infoDict in infosMutableArray) {
+                        
+                        if ([infoDict[@"type"] isEqualToString:@"time"]) {
+                            
+                            [typeTimeArray addObject:infoDict];
+                            
+                        }else if ([infoDict[@"type"] isEqualToString:@"other"]){
+                            
+                            [typeOtherArray addObject:infoDict];
+                        }
+                        
+                    }
+                    if (typeTimeArray.count == 1) {
+                        
+                        [paramsDict setValue:[typeTimeArray[0] valueForKey:@"format"] forKey:@"paramFormat"];
+                        [paramsDict setValue:[typeTimeArray[0] valueForKey:@"type"] forKey:@"paramType"];
+                        [paramsDict setValue:dict[@"key"] forKey:@"paramKey"];
+                        [paramsDict setValue:dict[@"name"] forKey:@"paramName"];
+                        NSLog(@"%@",paramsDict);
+                        
+                        [paramsCountArray addObject:paramsDict];
+                    }else if(typeTimeArray.count > 1){
+                        
+                        [paramsDict setValue:@"yyyyMMdd" forKey:@"paramFormat"];
+                        [paramsDict setValue:@"time" forKey:@"paramType"];
+                        [paramsDict setValue:dict[@"key"] forKey:@"paramKey"];
+                        [paramsDict setValue:dict[@"name"] forKey:@"paramName"];
+                        [paramsCountArray addObject:paramsDict];
+                        
+                    }
+                    //                if (typeOtherArray.count == 1) {
+                    //
+                    //                    [paramsDict setValue:[typeTimeArray[0] valueForKey:@"format"] forKey:@"paramFormat"];
+                    //                    [paramsDict setValue:[typeTimeArray[0] valueForKey:@"type"] forKey:@"paramType"];
+                    //                    [paramsDict setValue:dict[@"key"] forKey:@"paramKey"];
+                    //                    [paramsDict setValue:dict[@"name"] forKey:@"paramName"];
+                    //                    [paramsCountArray addObject:paramsDict];
+                    //                }else{
+                    //
+                    //                    [paramsDict setValue:@"yyyyMMdd" forKey:@"paramFormat"];
+                    //                    [paramsDict setValue:@"time" forKey:@"paramType"];
+                    //                    [paramsDict setValue:dict[@"key"] forKey:@"paramKey"];
+                    //                    [paramsDict setValue:dict[@"name"] forKey:@"paramName"];
+                    //                    [paramsCountArray addObject:paramsDict];
+                    //
+                    //                }
+                    
+                    
+                }
+                
+                NSLog(@"%@",paramsCountArray);
+                
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    
-                    
+              
+                    [self makeParametersView];
                 });
             }else{
-                
-                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    
+                    [self makeParametersView];
+                });
+               
             }
-            
+
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
             //失败
             NSLog(@"failure  error ： %@",error);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                [self makeParametersView];
+            });
+
         }];
         
     });

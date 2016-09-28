@@ -52,7 +52,7 @@
     _showYGridLines      = YES;
     _barBackgroundColor  = PNLightGrey;
     _labelTextColor      = [UIColor grayColor];
-    _labelFont           = [UIFont systemFontOfSize:11.0f];
+    _labelFont           = [UIFont systemFontOfSize:14.0f];
     _xChartLabels        = [NSMutableArray array];
     _yChartLabels        = [NSMutableArray array];
     _bars                = [NSMutableArray array];
@@ -68,7 +68,7 @@
     _showChartBorder     = NO;
     _chartBorderColor    = PNLightGrey;
     _showLevelLine       = NO;
-    _yChartLabelWidth    = 18;
+    _yChartLabelWidth    = 25;
     _rotateForXAxisText  = false;
     _isGradientShow      = YES;
     _isShowNumbers       = YES;
@@ -86,7 +86,10 @@
   //make the _yLabelSum value dependant of the distinct values of yValues to avoid duplicates on yAxis
 
   if (_showLabel) {
+      
     [self __addYCoordinateLabelsValues];
+      
+      
   } else {
     [self processYMaxValue];
   }
@@ -130,6 +133,7 @@
   for (int i = 0; i <= _yLabelSum; i++) {
     NSString *labelText;
 
+      
     if (_yLabels) {
       float yAsixValue = [_yLabels[_yLabels.count - i - 1] floatValue];
       labelText= _yLabelFormatter(yAsixValue);
@@ -138,16 +142,22 @@
     }
 
     PNChartLabel *label = [[PNChartLabel alloc] initWithFrame:CGRectZero];
-    label.font = _labelFont;
     label.textColor = _labelTextColor;
     [label setTextAlignment:NSTextAlignmentRight];
-   
-    label.text = [NSString stringWithFormat:@"%@%@%@", _yLabelPrefix, labelText, _yLabelSuffix];
+    label.font = _labelFont;
+//    label.text = [NSString stringWithFormat:@"%@%@%@", _yLabelPrefix, labelText, _yLabelSuffix];
+    label.text = [NSString stringWithFormat:@"%@%@", _yLabelPrefix, labelText];
+
     [self addSubview:label];
+    CGRect rectLabel = [label.text boundingRectWithSize:CGSizeMake(_xLabelWidth*2, 80) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:label.font} context:nil];
+      
       
     label.frame = (CGRect){0, sectionHeight * i + _chartMarginTop - kYLabelHeight/2.0, _yChartLabelWidth , kYLabelHeight};
-
+      if (_yChartLabelWidth < rectLabel.size.width) {
+         label.frame = (CGRect){0, sectionHeight * i + _chartMarginTop - kYLabelHeight/2.0, _yChartLabelWidth , kYLabelHeight * 2};
+      }
     [_yChartLabels addObject:label];
+      
   }
 }
 
@@ -195,13 +205,24 @@
 
             if (labelAddCount == _xLabelSkip) {
                 NSString *labelText = [_xLabels[index] description];
-                PNChartLabel * label = [[PNChartLabel alloc] initWithFrame:CGRectMake(0, 0, _xLabelWidth, kXLabelHeight)];
+                // 原来的
+//                PNChartLabel * label = [[PNChartLabel alloc] initWithFrame:CGRectMake(0, 0, _xLabelWidth, kXLabelHeight)];
+                PNChartLabel * label = [[PNChartLabel alloc] init];
+                
+            
                 label.font = _labelFont;
                 label.textColor = _labelTextColor;
 
                 [label setTextAlignment:NSTextAlignmentCenter];
                 label.text = labelText;
-                //[label sizeToFit];
+                CGRect rectLabel = [label.text boundingRectWithSize:CGSizeMake(_xLabelWidth*2, 80) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:label.font} context:nil];
+                
+                
+                label.frame =CGRectMake(0, 0, (NSInteger) rectLabel.size.width, rectLabel.size.height);
+                
+                
+
+//                [label sizeToFit];
                 CGFloat labelXPosition;
                 if (_rotateForXAxisText){
                     label.transform = CGAffineTransformMakeRotation(M_PI / 4);
@@ -215,7 +236,7 @@
                 labelAddCount = 0;
                 
                 //label的倾斜角度 原来没有倾斜
-                label.transform = CGAffineTransformMakeRotation(0.2);
+                label.transform = CGAffineTransformMakeRotation(0.25);
                 //  因为角度发生改变所以xy也发生改变，为了不使label位置变化，所以在旋转后重新赋值label的位置
                 CGPoint rect = label.center;
                 rect.x = label.center.x;

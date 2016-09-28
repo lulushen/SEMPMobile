@@ -163,6 +163,7 @@
 		3D79BFD51D991A11004D18C3 /* IncomeText.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D79BFD01D991A11004D18C3 /* IncomeText.png */; };
 		3D79BFD61D991A11004D18C3 /* 画笔-2.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D79BFD11D991A11004D18C3 /* 画笔-2.png */; };
 		3D79BFD81D991BE9004D18C3 /* delete.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D79BFD71D991BE9004D18C3 /* delete.png */; };
+		3D79BFDC1D9A075E004D18C3 /* DatePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D79BFDB1D9A075E004D18C3 /* DatePickerView.m */; };
 		3D86E2421D6311D600FF7245 /* cellDelete.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D86E2411D6311D600FF7245 /* cellDelete.png */; };
 		3D8828591D65654200242B6A /* add.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D8828581D65654200242B6A /* add.png */; };
 		3D88285D1D65869B00242B6A /* ReportIncomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D88285C1D65869B00242B6A /* ReportIncomeViewController.m */; };
@@ -506,6 +507,8 @@
 		3D79BFD01D991A11004D18C3 /* IncomeText.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IncomeText.png; sourceTree = "<group>"; };
 		3D79BFD11D991A11004D18C3 /* 画笔-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "画笔-2.png"; sourceTree = "<group>"; };
 		3D79BFD71D991BE9004D18C3 /* delete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = delete.png; sourceTree = "<group>"; };
+		3D79BFDA1D9A075E004D18C3 /* DatePickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatePickerView.h; sourceTree = "<group>"; };
+		3D79BFDB1D9A075E004D18C3 /* DatePickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatePickerView.m; sourceTree = "<group>"; };
 		3D86E2411D6311D600FF7245 /* cellDelete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cellDelete.png; sourceTree = "<group>"; };
 		3D8828581D65654200242B6A /* add.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add.png; sourceTree = "<group>"; };
 		3D88285B1D65869B00242B6A /* ReportIncomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportIncomeViewController.h; sourceTree = "<group>"; };
@@ -1130,6 +1133,7 @@
 		3D267F7D1D4EEC10001E732B /* View */ = {
 			isa = PBXGroup;
 			children = (
+				3D79BFD91D9A073C004D18C3 /* DatePickerView */,
 				3D3B3F821D5B154A00096AC7 /* AllReportCollectionViewCell.h */,
 				3D3B3F831D5B154A00096AC7 /* AllReportCollectionViewCell.m */,
 				3D3B3F911D5B395E00096AC7 /* ReportTableViewCell.h */,
@@ -1637,6 +1641,15 @@
 				3D79BFD11D991A11004D18C3 /* 画笔-2.png */,
 			);
 			path = incomeTabBar;
+			sourceTree = "<group>";
+		};
+		3D79BFD91D9A073C004D18C3 /* DatePickerView */ = {
+			isa = PBXGroup;
+			children = (
+				3D79BFDA1D9A075E004D18C3 /* DatePickerView.h */,
+				3D79BFDB1D9A075E004D18C3 /* DatePickerView.m */,
+			);
+			path = DatePickerView;
 			sourceTree = "<group>";
 		};
 		3D88285A1D65866000242B6A /* ReportIncomeController */ = {
@@ -2244,6 +2257,7 @@
 				3D3B3F961D5C0CB200096AC7 /* HeaderView.m in Sources */,
 				3D2680531D4FAD20001E732B /* Mp3Recorder.m in Sources */,
 				3DD34D051D6BDB340087836E /* CFLineChartView.m in Sources */,
+				3D79BFDC1D9A075E004D18C3 /* DatePickerView.m in Sources */,
 				3D9EE8961D59D9750062DB1F /* IncomeTableViewChartCell.m in Sources */,
 				3D267F601D4EEA1F001E732B /* ReachState.m in Sources */,
 				3D267F5F1D4EEA1F001E732B /* FSMStateUtil.m in Sources */,

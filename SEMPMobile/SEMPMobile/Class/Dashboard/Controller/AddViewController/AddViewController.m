@@ -109,6 +109,9 @@
         
         indexCheckedString = [NSString stringWithFormat:@""];
     }
+    
+    NSLog(@"%@",indexCheckedString);
+    
     NSMutableDictionary * userDict = [[NSUserDefaults standardUserDefaults] valueForKey:@"userResponseObject"];
     
     _token =  [userDict valueForKey:@"user_token"];

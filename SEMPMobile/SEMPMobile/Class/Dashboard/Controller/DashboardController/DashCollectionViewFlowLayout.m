@@ -28,7 +28,13 @@
     }
     return _attributes;
 }
-
+- (NSMutableArray *)DashModelArray
+{
+    if (_DashModelArray == nil) {
+        _DashModelArray = [NSMutableArray array];
+    }
+    return _DashModelArray;
+}
 -(void)prepareLayout
 {
     
@@ -164,8 +170,17 @@
     
     UIView * view = _viewDashArray.lastObject;
     
-    CGSize contentSize = CGSizeMake(Main_Screen_Width, CGRectGetMaxY(view.frame)+10*KWidth6scale);
-    return contentSize;
+    
+    CGSize contentSize = CGSizeMake(Main_Screen_Width, CGRectGetMaxY(view.frame));
+    
+    if (contentSize.height<=KViewHeight) {
+        
+        CGSize contentSize = CGSizeMake(Main_Screen_Width, KViewHeight);
+        return contentSize;
+    }else{
+        return contentSize;
+    }
+    
 }
 - (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath
 {

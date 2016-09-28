@@ -61,7 +61,7 @@
     
     }else if (indexPath.row == 2){
         cell.setImageView.image = [UIImage imageNamed:@"edition.png"];
-        cell.setTitleLabel.text = @"更新版本";
+        cell.setTitleLabel.text = @"版本更新";
     }
     
     return cell;
