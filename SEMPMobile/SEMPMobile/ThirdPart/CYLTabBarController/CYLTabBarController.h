@@ -40,6 +40,10 @@ extern NSUInteger CYLTabbarItemsCount;
 - (id<UIApplicationDelegate>)appDelegate;
 - (UIWindow *)rootWindow;
 
+// tabBar上item数组（此处改动为了改变tabBarItem上的badgeValue的值）
+@property (nonatomic , strong)NSMutableArray * itemsArray;
+
+
 @end
 
 @interface UIViewController (CYLTabBarController)
@@ -48,5 +52,6 @@ extern NSUInteger CYLTabbarItemsCount;
  * The nearest ancestor in the view controller hierarchy that is a tab bar controller. (read-only)
  */
 @property (nonatomic, readonly) CYLTabBarController *cyl_tabBarController;
+
 
 @end

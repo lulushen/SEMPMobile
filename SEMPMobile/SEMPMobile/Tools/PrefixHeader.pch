@@ -80,6 +80,10 @@
 // 以iphone6为基本屏幕，当前尺寸与6屏幕高的比例
 #define  KHeight6scale ([UIScreen mainScreen].bounds.size.height/667)
 
+//返回按钮宽高
+#define BackButtonWidth  30
+#define BackButtonHeight 30
+
 
 #define server  @"http://192.168.2.33:9111/DAP"
 //"http://192.168.2.33:9111/DAP

@@ -11,6 +11,7 @@
 #import "ReportTableViewCell.h"
 #import "HeaderView.h"
 #import "ReportIncomeViewController.h"
+#import "SearchViewController.h"
 
 @interface ReportCenterViewController ()<UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,UITableViewDelegate,UITableViewDataSource>
 // 搜索按钮
@@ -37,13 +38,12 @@
 @implementation ReportCenterViewController
 -(void)viewWillAppear:(BOOL)animated
 {
-    [self showTabBar];
+    
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
     // 修改视图上navigation的样式
     [self makeNavigation];
-    
     // 全部报表collectionView样式
     [self makeAllReportCollectionView];
     
@@ -109,7 +109,12 @@
 // 搜索按钮点击方法
 - (void)searchButtonClick:(UIButton *)button
 {
+    SearchViewController * searchVC = [[SearchViewController alloc] init];
     
+    self.hidesBottomBarWhenPushed=YES;
+    [self.navigationController pushViewController:searchVC animated:YES];
+    self.hidesBottomBarWhenPushed=NO;
+
 }
 // 样式按钮点击方法
 - (void)styleButtonClick:(UIButton *)button
@@ -356,8 +361,6 @@
         cell.titleLabel.text = @"A101";
         cell.imageView.image = [UIImage imageNamed:@"report.png"];
         [cell.concernButton addTarget:self action:@selector(concernButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-        
-        
     }
     
     

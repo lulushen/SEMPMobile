@@ -136,7 +136,7 @@
     _Time = [_Time stringByReplacingOccurrencesOfString:@"日" withString:@""];
     
 
-    [UIView animateWithDuration:0.5 animations:^{
+    [UIView animateWithDuration:0.3 animations:^{
         self.view.backgroundColor = [UIColor whiteColor];
         _IncomeTableView.alpha = 1;
         _IncomeTableView.userInteractionEnabled = YES;
@@ -152,7 +152,7 @@
 - (void)makeLeftButtonItme
 {
     UIImage * backImage = [UIImage imageNamed:@"back.png"];
-    CGRect backframe = CGRectMake(0, 0, 35*KWidth6scale, 25*KHeight6scale);
+    CGRect backframe = CGRectMake(0, 0, BackButtonWidth, BackButtonHeight);
     backButton = [[UIButton alloc] initWithFrame:backframe];
     [backButton setBackgroundImage:backImage forState:UIControlStateNormal];
     [backButton addTarget:self action:@selector(backButtonClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -169,7 +169,7 @@
     _dataSearchView.dateString =  _dataSearchView.defaultDateString;
     
     
-    [UIView animateWithDuration:0.5 animations:^{
+    [UIView animateWithDuration:0.3 animations:^{
         self.view.backgroundColor = [UIColor whiteColor];
         _IncomeTableView.alpha = 1;
         _IncomeTableView.userInteractionEnabled = YES;
@@ -197,7 +197,7 @@ static  BOOL Btnstatu = YES;
         
         Btnstatu = NO;
     }
-    [UIView animateWithDuration:0.5 animations:^{
+    [UIView animateWithDuration:0.3 animations:^{
         self.view.backgroundColor = [UIColor blackColor];
         _IncomeTableView.alpha = 0.5;
         _IncomeTableView.userInteractionEnabled = NO;
@@ -210,7 +210,7 @@ static  BOOL Btnstatu = YES;
 - (void)deleteButtonClick:(UIButton *)button
 {
     
-    [UIView animateWithDuration:0.5 animations:^{
+    [UIView animateWithDuration:0.3 animations:^{
         self.view.backgroundColor = [UIColor whiteColor];
         _IncomeTableView.alpha = 1;
         _IncomeTableView.userInteractionEnabled = YES;
@@ -600,7 +600,16 @@ static  BOOL Btnstatu = YES;
     if ((cell.scrollView.contentOffset.y >= 0)&&(cell.scrollView.contentOffset.y <= cell.scrollView.contentSize.height/2.0)) {
         [_defaultLineChart addSubview:_pointButton];
         [_pointButton setTitle:[NSString stringWithFormat:@"%@,%@",_incomeDashModel.defaultVal[@"x"][_pointIndexPath],_incomeDashModel.defaultVal[@"y"][_pointIndexPath]] forState:UIControlStateNormal];
-        
+        NSIndexPath *indexPath1=[NSIndexPath indexPathForRow:2 inSection:0];
+        NSIndexPath *indexPath2=[NSIndexPath indexPathForRow:3 inSection:0];
+        NSIndexPath *indexPath3=[NSIndexPath indexPathForRow:4 inSection:0];
+        if ((cell.scrollView.contentOffset.y >= 0)&&(cell.scrollView.contentOffset.y <= cell.scrollView.contentSize.height/2.0)) {
+            [_IncomeTableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath1,indexPath2,indexPath3,nil] withRowAnimation:UITableViewRowAnimationNone];
+        }else if((cell.scrollView.contentOffset.y >= cell.scrollView.contentSize.height/2.0)){
+            [_IncomeTableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath1,indexPath2,indexPath3,nil] withRowAnimation:UITableViewRowAnimationNone];
+            
+        }
+
     }else if((cell.scrollView.contentOffset.y >= cell.scrollView.contentSize.height/2.0)){
         
         [_contrastLineChart addSubview:_pointButton];
@@ -621,15 +630,6 @@ static  BOOL Btnstatu = YES;
     
     
     
-    NSIndexPath *indexPath1=[NSIndexPath indexPathForRow:2 inSection:0];
-    NSIndexPath *indexPath2=[NSIndexPath indexPathForRow:3 inSection:0];
-    NSIndexPath *indexPath3=[NSIndexPath indexPathForRow:4 inSection:0];
-    if ((cell.scrollView.contentOffset.y >= 0)&&(cell.scrollView.contentOffset.y <= cell.scrollView.contentSize.height/2.0)) {
-        [_IncomeTableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath1,indexPath2,indexPath3,nil] withRowAnimation:UITableViewRowAnimationNone];
-    }else if((cell.scrollView.contentOffset.y >= cell.scrollView.contentSize.height/2.0)){
-        [_IncomeTableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath1,indexPath2,indexPath3,nil] withRowAnimation:UITableViewRowAnimationNone];
-    
-    }
     
 
     
@@ -1049,7 +1049,7 @@ static  BOOL Btnstatu = YES;
     NSIndexPath * indexPath = [NSIndexPath  indexPathForRow:1 inSection:0];
     IncomeTableViewChartCell * cell = [_IncomeTableView cellForRowAtIndexPath:indexPath];
     
-    [UIView animateWithDuration:0.5 // 动画时长
+    [UIView animateWithDuration:0.3 // 动画时长
                      animations:^{
                          cell.scrollView.contentOffset = CGPointMake(0, 0);
                      }];
@@ -1061,7 +1061,7 @@ static  BOOL Btnstatu = YES;
     NSIndexPath * indexPath = [NSIndexPath  indexPathForRow:1 inSection:0];
     IncomeTableViewChartCell * cell = [_IncomeTableView cellForRowAtIndexPath:indexPath];
     cell.defaultvalButton.selected = NO;
-    [UIView animateWithDuration:0.5 // 动画时长
+    [UIView animateWithDuration:0.3 // 动画时长
                      animations:^{
                          cell.scrollView.contentOffset = CGPointMake(Main_Screen_Width-40*KWidth6scale, 0);
                      }];

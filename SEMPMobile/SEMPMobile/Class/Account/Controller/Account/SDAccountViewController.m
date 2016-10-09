@@ -14,6 +14,7 @@
 #import "UIColor+NSString.h"
 #import "LoginViewController.h"
 #import "infoModel.h"
+#import "TabBarControllerConfig.h"
 
 @interface SDAccountViewController ()<UITableViewDelegate,UITableViewDataSource,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 
@@ -37,20 +38,23 @@
     //消息中心的数据解析
     [self makeInfoData];
 }
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     self.navigationItem.title = @"Account";
     NSMutableDictionary * userDict = [[NSUserDefaults standardUserDefaults] valueForKey:@"userResponseObject"];
-    
+
     _token =  [userDict valueForKey:@"user_token"];
     
     [self makeHeadImage];
     [self makeTableView];
     // Do any additional setup after loading the view.
     
-    
+
 }
+
+
 - (void)makeHeadImage
 {
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
@@ -158,8 +162,8 @@
     
     
     
-    // 注册观察者
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(callBack) name:@"userExit" object:nil];
+//    // 注册观察者
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(callBack) name:@"userExit" object:nil];
     UILabel * userNameTitle = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMidX(_headerImageButton.frame)-80*KWidth6scale, CGRectGetMaxY(self.headerImageButton.frame) + 10*KWidth6scale, 80*KWidth6scale, 30*KHeight6scale)];
     userNameTitle.text = @"用户名 :";
     [userNameTitle setTextAlignment:NSTextAlignmentRight];
@@ -225,16 +229,16 @@
     
 }
 // 用户退出时观察者方法
-- (void)callBack
-{
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"userResponseObject"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    _userLabel.text =[NSString stringWithFormat:@""];
-    _orgLabel.text = @"";
-    //    [MBProgressHUD showSuccess:@"退出成功"];
-    
-    
-}
+//- (void)callBack
+//{
+//    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"userResponseObject"];
+//    [[NSUserDefaults standardUserDefaults] synchronize];
+//    _userLabel.text =[NSString stringWithFormat:@""];
+//    _orgLabel.text = @"";
+//    //    [MBProgressHUD showSuccess:@"退出成功"];
+//    
+//    
+//}
 - (void)headerImageButtonClick: (UIButton * )button
 {
     UIAlertController *alertController;
@@ -419,8 +423,6 @@
                 //这里可以用来显示下载进度
             } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                 
-                //            NSLog(@"--%@",responseObject);
-                
                 if (responseObject != nil) {
                     [MBProgressHUD showSuccess:@"上传成功"];
                     
@@ -481,8 +483,7 @@
         _noReadInfoCountLabel.layer.cornerRadius = cell.frame.size.height/4.0;
         _noReadInfoCountLabel.clipsToBounds = YES;
         _noReadInfoCountLabel.font = [UIFont boldSystemFontOfSize:13.0f];
-        // 观察者 观察消息中心未读消息的数量
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(noReadInfoCount) name:@"noReadInfoCount" object:nil];
+
         
     }else if ( indexPath.section == 1) {
         cell.image.image = [UIImage imageNamed:@"setting.png"];
@@ -496,20 +497,6 @@
     }
     
     return cell;
-}
-// 观察者方法
-- (void)noReadInfoCount{
-    
-    if (_infoVC.noReadInfoArray.count != 0) {
-        _noReadInfoCountLabel.backgroundColor = [UIColor redColor];
-        [_noReadInfoCountLabel setTextAlignment:NSTextAlignmentCenter];
-        _noReadInfoCountLabel.text = [NSString stringWithFormat:@"%ld",_infoVC.noReadInfoArray.count];
-    }else{
-        _noReadInfoCountLabel.backgroundColor = [UIColor whiteColor];
-        _noReadInfoCountLabel.text = @"";
-        
-        
-    }
 }
 // heightforheaderinsection不起作用时 同时设置heightForFooterInSection即可（不能为0）
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -578,8 +565,13 @@
             } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                 
                 if (responseObject != nil) {
-                    
-                    [[NSNotificationCenter defaultCenter] postNotificationName:@"userExit" object:self];
+                    // 用户退出
+                    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"userResponseObject"];
+                    [[NSUserDefaults standardUserDefaults] synchronize];
+                    _userLabel.text =[NSString stringWithFormat:@""];
+                    _orgLabel.text = @"";
+
+//                    [[NSNotificationCenter defaultCenter] postNotificationName:@"userExit" object:self];
                     [MBProgressHUD showSuccess:@"退出成功"];
                     
                     [self performSelector:@selector(GoToMainView) withObject:self afterDelay:0.8f];
@@ -653,9 +645,27 @@
                     
                 }
                 
-                // 发送通知 未读消息的数量
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"noReadInfoCount" object:nil];
-                
+                // 改变tabBar上的消息数量
+                Singleton * singleton = [Singleton shareSingleHandle];
+                UITabBarItem *tabBar = [UITabBarItem appearance];
+                tabBar = singleton.itemArray[3];
+                //设置未读消息数量
+                if (_infoVC.noReadInfoArray.count != 0) {
+                    
+                    _noReadInfoCountLabel.backgroundColor = [UIColor redColor];
+                    [_noReadInfoCountLabel setTextAlignment:NSTextAlignmentCenter];
+                    _noReadInfoCountLabel.text = [NSString stringWithFormat:@"%ld",_infoVC.noReadInfoArray.count];
+                    tabBar.badgeValue = [NSString stringWithFormat:@"%ld",_infoVC.noReadInfoArray.count];
+
+                }else{
+                    _noReadInfoCountLabel.backgroundColor = [UIColor whiteColor];
+                    _noReadInfoCountLabel.text = @"";
+                    
+                    tabBar.badgeValue = nil;
+
+                }
+
+               
             }
             
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {

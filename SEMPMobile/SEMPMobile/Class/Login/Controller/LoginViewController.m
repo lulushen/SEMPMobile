@@ -14,7 +14,9 @@
 
 
 @interface LoginViewController ()
-
+{
+    UIImageView * imageView;
+}
 
 @end
 
@@ -27,7 +29,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"login.png"]];
+//    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"login"]];
+    imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, Main_Screen_Height)];
+    imageView.image = [UIImage imageNamed:@"login"];
+    [self.view addSubview:imageView];
+    imageView.userInteractionEnabled = YES;
     [self  makeButton];
 }
 // 创建登录按钮控件的方法
@@ -37,13 +43,13 @@
     self.userButton = [UIButton  buttonWithType:UIButtonTypeRoundedRect];
     self.userButton.frame = CGRectMake(Main_Screen_Width/2-100*KWidth6scale, Main_Screen_Height/2-70*KHeight6scale, 200*KWidth6scale, 40*KHeight6scale);
     [self.userButton addTarget:self action:@selector(userButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:self.userButton];
+    [imageView addSubview:self.userButton];
     
     // 游客登录按钮
     self.demoButton = [UIButton  buttonWithType:UIButtonTypeRoundedRect];
     self.demoButton.frame = CGRectMake(CGRectGetMinX(self.userButton.frame), CGRectGetMaxY(self.userButton.frame)+50*KHeight6scale, CGRectGetWidth(self.userButton.frame), CGRectGetHeight(self.userButton.frame));
     [self.demoButton addTarget:self action:@selector(demoButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:self.demoButton];
+    [imageView addSubview:self.demoButton];
     
 }
 // 用户登录实现方法

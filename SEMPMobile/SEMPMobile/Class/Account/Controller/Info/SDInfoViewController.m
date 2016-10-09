@@ -522,6 +522,7 @@
                 _makeReadModel = [[InfoModel alloc] init];
                 
                 [_makeReadModel setValuesForKeysWithDictionary:dict];
+            
 
                 [self tableView:tableView commitEditingStyle:UITableViewCellEditingStyleDelete forRowAtIndexPath:indexPath];
                 
@@ -561,7 +562,7 @@
                 [_noReadInfoArray removeObject:model];
                 [_readedInfoArray addObject:_makeReadModel];
 
-                [tableView deleteRowsAtIndexPaths:@[indexPath]withRowAnimation: NO];
+                [tableView deleteRowsAtIndexPaths:@[indexPath]withRowAnimation:NO];
 
                 // 发送通知数据个数改变
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"DataCountChange" object:nil];

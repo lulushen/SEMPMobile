@@ -188,7 +188,7 @@
 - (void)makeLeftButtonItme
 {
     UIImage * backImage = [UIImage imageNamed:@"back.png"];
-    CGRect backframe = CGRectMake(0, 0, 35*KWidth6scale, 25*KHeight6scale);
+    CGRect backframe = CGRectMake(0, 0, BackButtonWidth, BackButtonHeight);
     UIButton * backButton = [[UIButton alloc] initWithFrame:backframe];
     [backButton setBackgroundImage:backImage forState:UIControlStateNormal];
     [backButton addTarget:self action:@selector(backButtonClick:) forControlEvents:UIControlEventTouchUpInside];

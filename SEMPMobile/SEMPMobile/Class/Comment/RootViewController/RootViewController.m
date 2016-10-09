@@ -48,7 +48,7 @@
     
     
     //添加网络监测通知
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkChanged:) name:kRealReachabilityChangedNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkChanged:) name:kRealReachabilityChangedNotification object:nil];
     // ReachabilityStatus status = [GLobalRealReachability currentReachabilityStatus];
     
 }
@@ -68,7 +68,7 @@
     RealReachability *reachability =(RealReachability *) notification.object;
     ReachabilityStatus status = [reachability currentReachabilityStatus];
     ReachabilityStatus previousStatus = [reachability previousReachabilityStatus];
-    NSLog(@"networkChanged: currentStatus:%@, previouStatus:%@",@(status),@(previousStatus));
+//    NSLog(@"networkChanged: currentStatus:%@, previouStatus:%@",@(status),@(previousStatus));
     if (status == RealStatusNotReachable) {
         [self showHudInView:self.view showHint:@"断网了,请检查网络"];
     }

@@ -29,20 +29,33 @@ CGFloat const ZTCellMargin = 44.0;
     if (_tabBarController == nil) {
         NSArray *vcNameArray = @[@"DashBoardViewController",@"ReportCenterViewController",@"ActionViewController",@"SDAccountViewController"];
         NSMutableArray *navArray =[NSMutableArray arrayWithCapacity:0];
+        
         for (NSString *vcName in vcNameArray) {
+            
             [navArray addObject:[self produceNavControllerWithClassName:vcName]];
+            
         }
         //配置属性
-        
         CYLTabBarController *tabBarController = [[CYLTabBarController alloc]init];
+    
         [self customizeTabBarForController:tabBarController];
         
         [tabBarController setViewControllers:navArray];
         
         // 更多TabBar自定义设置：比如：tabBarItem 的选中和不选中文字和背景图片属性、tabbar 背景图片属性
   //#warning IF YOU NEED CUSTOMIZE TABBAR APPEARANCE, REMOVE THE COMMENT '//'
-        //  [[self class] customizeTabBarAppearance:tabBarController];
+//        [[self class] customizeTabBarAppearance:tabBarController];
         
+        // 进入界面是个人中心的item上显示未读消息的数量即item的badgeValue的值
+        UITabBarItem *tabBar = [UITabBarItem appearance];
+        tabBar = tabBarController.itemsArray[3];
+        if ([_tabBarBadgeValueString integerValue] > 0) {
+          
+            tabBar.badgeValue = _tabBarBadgeValueString;
+        }
+        Singleton * singleton = [Singleton shareSingleHandle];
+        
+        singleton.itemArray = tabBarController.itemsArray;
         _tabBarController = tabBarController;
     }
     
@@ -72,11 +85,12 @@ CGFloat const ZTCellMargin = 44.0;
                             CYLTabBarItemSelectedImage : @"account_highlight",
                             };
    
-
     NSArray *tabBarItemsAttributes = @[ dict1, dict2, dict3, dict4 ];
     tabBarController.tabBarItemsAttributes = tabBarItemsAttributes;
-    tabBarController.tabBar.tintColor = MoreButtonColor;
+    tabBarController.tabBar.tintColor = MoreButtonColor;;
     
+
+
 }
 
 - (UINavigationController *)produceNavControllerWithClassName:(NSString *)className

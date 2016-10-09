@@ -7,6 +7,7 @@
 //
 
 #import "RootViewController.h"
+#import "Singleton.h"
 @interface SDAccountViewController : RootViewController
 // 用户名
 @property (nonatomic , strong) UILabel * userLabel;

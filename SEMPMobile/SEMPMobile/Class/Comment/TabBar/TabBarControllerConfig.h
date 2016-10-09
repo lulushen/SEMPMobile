@@ -8,10 +8,12 @@
 
 #import <Foundation/Foundation.h>
 #import "CYLTabBarController.h"
-
+#import "Singleton.h"
 @interface TabBarControllerConfig : NSObject
 
 @property(nonatomic, strong, readonly)CYLTabBarController *tabBarController;
+
+@property (nonatomic , strong)NSString * tabBarBadgeValueString;
 
 
 /** cell 间距*/

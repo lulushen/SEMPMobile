@@ -74,7 +74,7 @@
 - (void)makeLeftButtonItme
 {
     UIImage * backImage = [UIImage imageNamed:@"back.png"];
-    CGRect backframe = CGRectMake(0, 0, 35*KWidth6scale, 25*KHeight6scale);
+    CGRect backframe = CGRectMake(0, 0, BackButtonWidth, BackButtonHeight);
     UIButton * backButton = [[UIButton alloc] initWithFrame:backframe];
     [backButton setBackgroundImage:backImage forState:UIControlStateNormal];
     [backButton addTarget:self action:@selector(backButtonClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -85,75 +85,83 @@
 - (void)backButtonClick:(UIButton *)button {
 
     NSString * indexCheckedString = [NSString string];
-   
-    if (_dashLabelArray.count > 0) {
-        
-        for (int i = 0; i <= _dashLabelArray.count - 1;i++) {
-            
-            AddDashModel * m = [[AddDashModel alloc] init];
-            
-            m = _dashLabelArray[i];
-            
-            if (i > 0) {
-                NSString * string = [NSString stringWithFormat:@",%@",m.AddId];
-                indexCheckedString = [indexCheckedString  stringByAppendingString:string];
-                
-            }else{
-                
-                indexCheckedString = [NSString stringWithFormat:@"%@",m.AddId];
-                
-            }
-        }
-        
-    }else{
-        
-        indexCheckedString = [NSString stringWithFormat:@""];
-    }
-    
-    NSLog(@"%@",indexCheckedString);
-    
-    NSMutableDictionary * userDict = [[NSUserDefaults standardUserDefaults] valueForKey:@"userResponseObject"];
-    
-    _token =  [userDict valueForKey:@"user_token"];
-    
-    //1.获取一个全局串行队列
-    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-    //2.把任务添加到队列中执行
-    dispatch_async(queue, ^{
-        
-
-    NSString * urlStr = [NSString stringWithFormat:indexCheckedHttp,_token,indexCheckedString];
-    
-    AFHTTPSessionManager * manager = [AFHTTPSessionManager manager];
-    
-    [manager GET:urlStr parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
-        
-        //这里可以用来显示下载进度
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-
-            //发送消息
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"ADDDashLabelArrayChange" object:nil];
-            
-        
-            if ((_dashLabelArray.count == 0)&&(_dashAllArray.count == 0)) {
-                
-                
-            }else{
-                
-                [self.navigationController popViewControllerAnimated:YES];
-                
-            }
-        });
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        //失败
-        NSLog(@"failure  error ： %@",error);
+    if ((_dashAllArray.count == 0) && (_dashLabelArray.count == 0)) {
+      
         [self.navigationController popViewControllerAnimated:YES];
 
-    }];
-    
-    }); 
+        
+    }else{
+        if (_dashLabelArray.count > 0) {
+            
+            for (int i = 0; i <= _dashLabelArray.count - 1;i++) {
+                
+                AddDashModel * m = [[AddDashModel alloc] init];
+                
+                m = _dashLabelArray[i];
+                
+                if (i > 0) {
+                    NSString * string = [NSString stringWithFormat:@",%@",m.AddId];
+                    indexCheckedString = [indexCheckedString  stringByAppendingString:string];
+                    
+                }else{
+                    
+                    indexCheckedString = [NSString stringWithFormat:@"%@",m.AddId];
+                    
+                }
+            }
+            
+        }else{
+            
+            indexCheckedString = [NSString stringWithFormat:@""];
+        }
+        
+        NSLog(@"%@",indexCheckedString);
+        
+        NSMutableDictionary * userDict = [[NSUserDefaults standardUserDefaults] valueForKey:@"userResponseObject"];
+        
+        _token =  [userDict valueForKey:@"user_token"];
+        
+        //1.获取一个全局串行队列
+        dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+        //2.把任务添加到队列中执行
+        dispatch_async(queue, ^{
+            
+            
+            NSString * urlStr = [NSString stringWithFormat:indexCheckedHttp,_token,indexCheckedString];
+            
+            AFHTTPSessionManager * manager = [AFHTTPSessionManager manager];
+            
+            [manager GET:urlStr parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
+                
+                //这里可以用来显示下载进度
+            } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    
+                    //发送消息
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"ADDDashLabelArrayChange" object:nil];
+                    
+                    
+                    if ((_dashLabelArray.count == 0)&&(_dashAllArray.count == 0)) {
+                        
+                        
+                    }else{
+                        
+                        [self.navigationController popViewControllerAnimated:YES];
+                        
+                    }
+                });
+            } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                //失败
+                NSLog(@"failure  error ： %@",error);
+                [self.navigationController popViewControllerAnimated:YES];
+                
+            }];
+            
+        });
+
+    }
+   
 }
 
 

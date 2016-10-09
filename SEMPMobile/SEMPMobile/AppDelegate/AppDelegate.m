@@ -13,12 +13,16 @@
 #import "RealReachability.h"
 #import <MLTransition.h>
 #import "UMSocial.h"
-
 #import "UMSocialWechatHandler.h"
 #import "UMSocialQQHandler.h"
-
+//#import "UMessage.h"
+//#import "UserNotifications.h"
+#import "CLLockVC.h"
 
 @interface AppDelegate ()
+{
+    UIViewController * LockVC;
+}
 
 @end
 
@@ -51,8 +55,7 @@
 //    TabBarControllerConfig *tabBarConfig = [[TabBarControllerConfig alloc]init];
 //    
 //    self.window.rootViewController = tabBarConfig.tabBarController;
-
-    // 设置根视图
+// 设置根视图
     LoginViewController * LoginView = [[LoginViewController alloc] init];
     self.window.rootViewController = LoginView;
 #pragma --share--------------
@@ -81,6 +84,21 @@
     [UMSocialData defaultData].extConfig.wechatTimelineData.wxMessageType = UMSocialWXMessageTypeImage;
     //设置微信朋友圈分享纯图片
     
+    
+    
+    
+    
+    
+    // Let the device know we want to receive push notifications  让设备知道我们要接收推送通知
+//    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:
+//     (UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
+    // iOS8之后和之前应区别对待
+    if ([[UIDevice currentDevice].systemVersion floatValue] >= 8.0) {
+        UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeBadge | UIUserNotificationTypeAlert | UIUserNotificationTypeSound categories:nil];
+        [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
+    } else {
+        [application registerForRemoteNotificationTypes:UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge | UIUserNotificationTypeSound];
+    }
     return YES;
 }
 /**
@@ -112,18 +130,123 @@
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+  
+
 }
+/**
+ *  当程序从后台将要重新回到前台时候调用，这个刚好跟上面的那个方法相反。
+ *
+ *   Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background. 
+ */
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
-    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+  
+    NSString * lockTypeString = [[NSUserDefaults standardUserDefaults] valueForKey:@"SettingLockType"];
+    if ([lockTypeString isEqualToString:@"PIN"]) {
+        
+        
+    }else if ([lockTypeString isEqualToString:@"ShouShi"]){
+        
+        // 手势验证密码
+        BOOL hasPwd = [CLLockVC hasPwd];
+        
+        if(!hasPwd){
+            
+            NSLog(@"你还没有设置密码，请先设置密码");
+        }else {
+
+            //获取当前屏幕中present出来的viewcontroller [self appRootViewController]
+            [CLLockVC showVerifyLockVCInVC:[self appRootViewController] forgetPwdBlock:^{
+                NSLog(@"忘记密码");
+            } successBlock:^(CLLockVC *lockVC, NSString *pwd) {
+                NSLog(@"密码正确");
+                [lockVC dismiss:1.0f];
+                
+            }];
+        }
+        NSLog(@"123");
+        
+    }else if ([lockTypeString isEqualToString:@"ZhiWen"]){
+        
+        
+    }else{
+        
+        
+    }
 }
 
 //- (void)applicationDidBecomeActive:(UIApplication *)application {
-//    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+//    // Restart any tasks that were paused (or notyet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
 //}
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+//2个methods （用来handle register remote notification with device token和register error的events）
+/**
+ *  如果用户同意，苹果会根据应用的 bundleID 和 手机UDID 生成 deviceToken,然后调用 application 的 didregister 方法返回 devicetoken,程序应该把 devicetoken 发给应用的服务器,服务器有义务将其存储(如果允许多点登录,可能存多个 devicetoken)。deviceToken也是会变的： ”If the user restores backup data to a new device or computer, or reinstalls the operating system, the device token changes“，因此应每次都发给服务器(provider)
+ 
+  */
+// 用户同意后，会调用此程序，获取系统的deviceToken，应把deviceToken传给服务器保存，此函数会在程序每次启动时调用(前提是用户允许通知)
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    NSLog(@"deviceToken = %@",deviceToken);
+    NSLog(@"My token is: %@", deviceToken);
+
+}
+// 注册失败调用
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+    NSLog(@"远程通知注册失败：%@",error);
+}
+/**
+ *  这个函数存在的意义在于：当用户在设置中关闭了通知时，程序启动时会调用此函数，我们可以获取用户的设置
+ */
+- (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings {
+    [application registerForRemoteNotifications];
+}
+
+/**
+ *  获取当前屏幕中present出来的viewcontroller。
+ */
+- (UIViewController *)appRootViewController
+{
+    UIViewController *appRootVC = [UIApplication sharedApplication].keyWindow.rootViewController;
+    UIViewController *topVC = appRootVC;
+    while (topVC.presentedViewController) {
+        topVC = topVC.presentedViewController;
+    }
+    return topVC;
+}
+/**
+    获取当前屏幕显示的viewcontroller
+ */
+- (UIViewController *)getCurrentVC
+{
+    UIViewController *result = nil;
+    
+    UIWindow * window = [[UIApplication sharedApplication] keyWindow];
+    if (window.windowLevel != UIWindowLevelNormal)
+    {
+        NSArray *windows = [[UIApplication sharedApplication] windows];
+        for(UIWindow * tmpWin in windows)
+        {
+            if (tmpWin.windowLevel == UIWindowLevelNormal)
+            {
+                window = tmpWin;
+                break;
+            }
+        }
+    }
+    
+    UIView *frontView = [[window subviews] objectAtIndex:0];
+    id nextResponder = [frontView nextResponder];
+    
+    if ([nextResponder isKindOfClass:[UIViewController class]])
+        result = nextResponder;
+    else
+        result = window.rootViewController;
+    
+    return result;
 }
 
 @end

@@ -17,34 +17,36 @@
 
 @interface SDUserLoginViewController ()<UITextFieldDelegate>
 {
+    UIImageView * userLoginImageView;
     UIAlertController * _alert;
     UIAlertController * _alertLoginFail;
     UIAlertController * _alertDidRegiest;
     NSMutableDictionary *_temDic;
     userModel * model;
     NSMutableArray    * _dashDictArray;
+    NSInteger infoCount;
 }
 @property (nonatomic , strong)NSString * info;
 
 @end
 
 @implementation SDUserLoginViewController
-#pragma mrak 声明一个md5加密方法
-- (NSString *)md5HexDigest:(NSString*)password
-{
-    const char *original_str = [password UTF8String];
-    unsigned char result[CC_MD5_DIGEST_LENGTH];
-    CC_MD5(original_str, (int)strlen(original_str), result);
-    NSMutableString *hash = [NSMutableString string];
-    for (int i = 0; i < 16; i++)
-    {
-        [hash appendFormat:@"%02x", result[i]];
-    }
-    NSString *mdfiveString = [hash lowercaseString];
-    
-    NSLog(@"Encryption Result = %@",mdfiveString);
-    return mdfiveString;
-}
+//#pragma mrak 声明一个md5加密方法
+//- (NSString *)md5HexDigest:(NSString*)password
+//{
+//    const char *original_str = [password UTF8String];
+//    unsigned char result[CC_MD5_DIGEST_LENGTH];
+//    CC_MD5(original_str, (int)strlen(original_str), result);
+//    NSMutableString *hash = [NSMutableString string];
+//    for (int i = 0; i < 16; i++)
+//    {
+//        [hash appendFormat:@"%02x", result[i]];
+//    }
+//    NSString *mdfiveString = [hash lowercaseString];
+//    
+//    NSLog(@"Encryption Result = %@",mdfiveString);
+//    return mdfiveString;
+//}
 
 - (void)viewWillAppear:(BOOL)animated{
     
@@ -57,25 +59,33 @@
     
     
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"userlogin.png"]];
+    userLoginImageView  = [[UIImageView alloc] initWithFrame:self.view.frame];
+    userLoginImageView.image = [UIImage imageNamed:@"userlogin.png"];
+    
+    userLoginImageView.userInteractionEnabled = YES;
+    
+    [self.view addSubview:userLoginImageView];
+    
     // 调用设置控件的方法
     [self makeUI];
+    
 }
 - (void)makeUI{
     
     
-    self.biaoshiTextField  = [[UITextField alloc] initWithFrame:CGRectMake(100*KWidth6scale, 235*KHeight6scale, 200*KWidth6scale, 35*KHeight6scale)];
+    self.biaoshiTextField  = [[UITextField alloc] initWithFrame:CGRectMake(100*KWidth6scale, 232*KHeight6scale, 200*KWidth6scale, 35*KHeight6scale)];
     self.biaoshiTextField.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:self.biaoshiTextField];
+    [userLoginImageView addSubview:self.biaoshiTextField];
     
     
     self.userTextField  = [[UITextField alloc] initWithFrame:CGRectMake(100*KWidth6scale, CGRectGetMaxY(self.biaoshiTextField.frame) + 27*KHeight6scale, 200*KWidth6scale, CGRectGetHeight(self.biaoshiTextField.frame))];
     self.userTextField.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:self.userTextField];
+    [userLoginImageView addSubview:self.userTextField];
     
     self.passWordTextField = [[UITextField alloc] initWithFrame:CGRectMake(CGRectGetMinX(self.userTextField.frame), CGRectGetMaxY(self.userTextField.frame)+27*KHeight6scale, CGRectGetWidth(self.userTextField.frame), CGRectGetHeight(self.userTextField.frame))];
     self.passWordTextField.backgroundColor = [UIColor whiteColor];
     self.passWordTextField.secureTextEntry = YES;
-    [self.view addSubview:self.passWordTextField];
+    [userLoginImageView addSubview:self.passWordTextField];
     
     
     self.LoginButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -83,10 +93,10 @@
 //    [self.LoginButton setTitle:@"Login" forState:UIControlStateNormal];
 //    self.LoginButton.backgroundColor = [UIColor grayColor];
     [self.LoginButton addTarget:self action:@selector(LoginButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:self.LoginButton];
+    [userLoginImageView addSubview:self.LoginButton];
     UIButton * backbutton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     backbutton.frame = CGRectMake(10, 20, 80, 50);
-    [self.view addSubview:backbutton];
+    [userLoginImageView addSubview:backbutton];
     [backbutton addTarget:self action:@selector(backbuttonClick:) forControlEvents:UIControlEventTouchUpInside];
     
 }
@@ -136,14 +146,14 @@
                     [userDefault synchronize];
 
                     NSString *path = [NSHomeDirectory() stringByAppendingString:@"/Documents"];
-                    NSLog(@"APP_Path = %@", path);
+//                    NSLog(@"APP_Path = %@", path);
                     
 
                     
 
                     dispatch_async(dispatch_get_main_queue(), ^{
                        
-                        
+                        [self makeInfoData];
                         [self makeDashBoardData];
 
                         [MBProgressHUD showSuccess:model.message];
@@ -176,7 +186,11 @@
 {
     
     TabBarControllerConfig *tabBarConfig = [[TabBarControllerConfig alloc]init];
-        
+   
+       
+    tabBarConfig.tabBarBadgeValueString = [NSString stringWithFormat:@"%ld",infoCount];
+
+    
     [self presentViewController:tabBarConfig.tabBarController animated:YES completion:nil];
     
 }
@@ -248,6 +262,57 @@
         
     
 
+}
+
+
+// 消息中心数据
+- (void)makeInfoData
+{
+    
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        
+        NSString * urlStr = [NSString stringWithFormat:userInfoHttp];
+        
+        AFHTTPSessionManager * manager = [AFHTTPSessionManager manager];
+        
+        [manager GET:urlStr parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
+            
+            //这里可以用来显示下载进度
+        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            
+            if (responseObject != nil) {
+
+                
+                NSMutableArray * infoArray = [NSMutableArray array];
+                infoArray = responseObject[@"resdata"];
+                NSMutableArray * noReadInfoArray = [NSMutableArray array];
+                
+                for (NSMutableDictionary * dict in infoArray) {
+                   
+//                    NSLog(@"%@",dict);
+//                    NSLog(@"%@",dict[@"readflag"]);
+                    
+                    if ([dict[@"readflag"] integerValue] == 0) {
+                        
+                        [noReadInfoArray addObject:dict];
+                        
+                    }else{
+                        
+                    }
+                    
+                }
+                infoCount = noReadInfoArray.count;
+
+            }
+            
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            //失败
+            NSLog(@"failure  error ： %@",error);
+            
+        }];
+        
+    });
+    
 }
 /*
  #pragma mark - Navigation

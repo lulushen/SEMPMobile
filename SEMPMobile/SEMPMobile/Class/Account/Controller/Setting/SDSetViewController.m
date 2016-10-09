@@ -9,7 +9,7 @@
 #import "SDSetViewController.h"
 #import "SetTableViewCell.h"
 #import "MBProgressHUD+MJ.h"
-
+#import "SettingLockTableViewController.h"
 @interface SDSetViewController ()<UITableViewDelegate,UITableViewDataSource>
 {
     UITableView * setTableView;
@@ -62,6 +62,19 @@
     }else if (indexPath.row == 2){
         cell.setImageView.image = [UIImage imageNamed:@"edition.png"];
         cell.setTitleLabel.text = @"版本更新";
+        
+        NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
+        // 当前应用名称
+        NSString *appCurName = [infoDictionary objectForKey:@"CFBundleDisplayName"];
+        NSLog(@"当前应用名称：%@",appCurName);
+        // 当前应用软件版本  比如：1.0.1
+        NSString *appCurVersion = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
+        NSLog(@"当前应用软件版本:%@",appCurVersion);
+        // 当前应用版本号码   int类型
+        NSString *appCurVersionNum = [infoDictionary objectForKey:@"CFBundleVersion"];
+        NSLog(@"当前应用版本号码：%@",appCurVersionNum);
+        
+        cell.setDetailLabel.text = appCurVersion;
     }
     
     return cell;
@@ -74,6 +87,12 @@
 {
     if (indexPath.row == 1) {
         [self clearFile];
+
+    }else if (indexPath.row == 0){
+        SettingLockTableViewController * luchVC = [[SettingLockTableViewController alloc] init];
+        self.hidesBottomBarWhenPushed=YES;
+        [self.navigationController pushViewController:luchVC animated:YES];
+//        self.hidesBottomBarWhenPushed=NO;
 
     }
     

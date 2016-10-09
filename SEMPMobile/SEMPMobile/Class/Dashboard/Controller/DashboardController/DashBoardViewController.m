@@ -81,8 +81,7 @@
 
     // 添加界面的数据
     [self makeADDDate];
-    //显示tabbar
-    [self showTabBar];
+   
     
 }
 - (void)viewDidLoad {
@@ -253,8 +252,7 @@ static  BOOL Btnstatu = YES;
         Btnstatu = NO;
         
     }
-    
-    [UIView animateWithDuration:0.5 animations:^{
+    [UIView animateWithDuration:0.3 animations:^{
         self.view.backgroundColor = [UIColor blackColor];
         _topView.backgroundColor = [UIColor blackColor];
         _topView.alpha = 0.6;
@@ -262,14 +260,13 @@ static  BOOL Btnstatu = YES;
         _collectionView.userInteractionEnabled = NO;
         _topView.userInteractionEnabled = NO;
         _dataSearchView.alpha = 1.0f;
-        
     } completion:nil];
 }
 // 日期视图中的关闭事件
 - (void)deleteButtonClick:(UIButton *)button
 {
     
-    [UIView animateWithDuration:0.5 animations:^{
+    [UIView animateWithDuration:0.3 animations:^{
         self.view.backgroundColor = [UIColor whiteColor];
         _topView.backgroundColor = [UIColor whiteColor];
         _topView.alpha = 1;
@@ -286,7 +283,7 @@ static  BOOL Btnstatu = YES;
 // 被观察者发生改变时 调用观察者方法
 - (void)DateChange
 {
-    [UIView animateWithDuration:0.5 animations:^{
+    [UIView animateWithDuration:0.3 animations:^{
         self.view.backgroundColor = [UIColor whiteColor];
         _topView.backgroundColor = [UIColor whiteColor];
         _topView.alpha = 1;
@@ -309,8 +306,10 @@ static  BOOL Btnstatu = YES;
     
     _Time = [_Time stringByReplacingOccurrencesOfString:@"日" withString:@""];
     //    _Time = _dataSearchView.timeString;
-#warning 刷新 ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
-    
+   
+//    NSMutableDictionary * userDict = [[NSUserDefaults standardUserDefaults] valueForKey:@"userResponseObject"];
+//    
+//    _token =  [userDict valueForKey:@"user_token"];
     // 刷新数据
     [self makeDate:_Time];
     
@@ -322,9 +321,9 @@ static  BOOL Btnstatu = YES;
 - (void)ADDDashLabelArrayChange
 {
 #warning 刷新 ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
-    NSMutableDictionary * userDict = [[NSUserDefaults standardUserDefaults] valueForKey:@"userResponseObject"];
-    
-    _token =  [userDict valueForKey:@"user_token"];
+//    NSMutableDictionary * userDict = [[NSUserDefaults standardUserDefaults] valueForKey:@"userResponseObject"];
+//    
+//    _token =  [userDict valueForKey:@"user_token"];
     _Time = [[NSUserDefaults standardUserDefaults] objectForKey:@"ADDBackTime"];
     // 刷新数据
     [self makeDate:_Time];
@@ -339,7 +338,8 @@ static  BOOL Btnstatu = YES;
 
 - (void)makeDate:(NSString *)time
 {
-    
+    NSMutableDictionary * userDict = [[NSUserDefaults standardUserDefaults] valueForKey:@"userResponseObject"];
+    _token =  [userDict valueForKey:@"user_token"];
     //1.获取一个全局串行队列
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     //2.把任务添加到队列中执行
@@ -354,7 +354,6 @@ static  BOOL Btnstatu = YES;
         } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
             _DashModelArray = [NSMutableArray array];
             [_DashModelArray removeAllObjects];
-            NSLog(@"%@",responseObject);
             //成功
             if (responseObject != nil) {
                 
@@ -778,8 +777,10 @@ static  BOOL Btnstatu = YES;
         
         [[NSUserDefaults standardUserDefaults] synchronize];
         
-        
+        self.hidesBottomBarWhenPushed=YES;
         [self.navigationController pushViewController:addVC animated:YES];
+        self.hidesBottomBarWhenPushed=NO;
+
         
     }else{
         
@@ -801,7 +802,7 @@ static  BOOL Btnstatu = YES;
         //这里可以用来显示下载进度
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         //成功
-        NSLog(@"--%@",responseObject);
+//        NSLog(@"--%@",responseObject);
         
         if (responseObject != nil) {
             
@@ -935,6 +936,8 @@ static  BOOL Btnstatu = YES;
                              completion:^(BOOL finished) {
                                  [_collectionView removeFromSuperview];
                                  [self makeCollectionView];
+                                 // 将日期选择视图放在所有视图的最上方（否则视图会被遮挡呈现半透明状态）
+                                 [self.view bringSubviewToFront:_dataSearchView];
                                  // 动画完成后执行
 //                                 [self makeDate:_Time];(直接刷新有bug)
                              }];

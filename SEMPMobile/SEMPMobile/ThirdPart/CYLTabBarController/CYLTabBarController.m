@@ -30,6 +30,7 @@ NSUInteger CYLTabbarItemsCount = 0;
     [super viewDidLoad];
     // 处理tabBar，使用自定义 tabBar 添加 发布按钮
     [self setUpTabBar];
+    _itemsArray = [NSMutableArray array];
 }
 
 #pragma mark -
@@ -64,6 +65,10 @@ NSUInteger CYLTabbarItemsCount = 0;
                                   WithTitle:_tabBarItemsAttributes[idx][CYLTabBarItemTitle]
                             normalImageName:_tabBarItemsAttributes[idx][CYLTabBarItemImage]
                           selectedImageName:_tabBarItemsAttributes[idx][CYLTabBarItemSelectedImage]];
+            
+            viewController.tabBarItem.tag = idx;
+            // 改动 保存tabBar上的item数组
+            [_itemsArray addObject:viewController.tabBarItem];
             [viewController cyl_setTabBarController:self];
             idx++;
         }

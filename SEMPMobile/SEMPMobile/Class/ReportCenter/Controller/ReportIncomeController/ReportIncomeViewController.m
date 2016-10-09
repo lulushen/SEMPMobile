@@ -14,6 +14,7 @@
 
 @interface ReportIncomeViewController ()<WKNavigationDelegate,WKUIDelegate,YXCustomActionSheetDelegate>
 {
+    UILabel * titleLabel;
     NSString * dateString;
     NSString * dateStringFormat;
     //    DataSearchView * dataSearchView;
@@ -49,8 +50,7 @@
     _reportWebView.navigationDelegate = self;
     _reportWebView.UIDelegate = self;
     [self.view addSubview:_reportWebView];
-//    [self makeParametersView];
-    
+    [self  makeParametersView];
     
 }
 // 页面开始加载时调用
@@ -97,36 +97,42 @@
     decisionHandler(WKNavigationActionPolicyAllow);
     
 }
-- (void)makeParametersView
-{
+- (void)makeParametersView{
     _parameterView = [[UIView alloc] initWithFrame:CGRectMake(40*KWidth6scale, 50*KWidth6scale, Main_Screen_Width-80*KWidth6scale, KViewHeight-100*KHeight6scale)];
-    _parameterView.alpha = 1;
+    _parameterView.alpha = 0;
     _parameterView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:_parameterView];
+
+        titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(20*KWidth6scale, 0, 100*KWidth6scale, 50*KHeight6scale)];
+        titleLabel.text = @"筛选";
+        [_parameterView addSubview:titleLabel];
     
-    UILabel * titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(20*KWidth6scale, 0, 100*KWidth6scale, 50*KHeight6scale)];
-    titleLabel.text = @"筛选";
-    [_parameterView addSubview:titleLabel];
+        UIButton * cancelButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        cancelButton.frame = CGRectMake(CGRectGetWidth(_parameterView.frame)/2.0-25*KWidth6scale, CGRectGetHeight(_parameterView.frame)-50*KHeight6scale, 50*KWidth6scale, 50*KWidth6scale);
+        [cancelButton setImage:[UIImage imageNamed:@"parameterCancel.png"] forState:UIControlStateNormal];
+        [cancelButton setTintColor:[UIColor blackColor]];
+        [_parameterView addSubview:cancelButton];
     
-    UIButton * cancelButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    cancelButton.frame = CGRectMake(CGRectGetWidth(_parameterView.frame)/2.0-25*KWidth6scale, CGRectGetHeight(_parameterView.frame)-50*KHeight6scale, 50*KWidth6scale, 50*KWidth6scale);
-    [cancelButton setImage:[UIImage imageNamed:@"parameterCancel.png"] forState:UIControlStateNormal];
-    [cancelButton setTintColor:[UIColor blackColor]];
-    [_parameterView addSubview:cancelButton];
+        [cancelButton addTarget:self action:@selector(cancelParaButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+        UIButton * OKButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        OKButton.frame = CGRectMake(CGRectGetWidth(_parameterView.frame)-70*KWidth6scale, 10*KHeight6scale , 60*KWidth6scale, 30*KHeight6scale);
+        [OKButton setTitle:@"确认" forState:UIControlStateNormal];
+        [OKButton setTintColor:MoreButtonColor];
+        OKButton.layer.masksToBounds = YES;
+        OKButton.layer.borderWidth= 1;
+        OKButton.layer.borderColor = [UIColor grayColor].CGColor;
+        OKButton.layer.cornerRadius = 5;
+        [_parameterView addSubview:OKButton];
     
-    [cancelButton addTarget:self action:@selector(cancelParaButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-    UIButton * OKButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    OKButton.frame = CGRectMake(CGRectGetWidth(_parameterView.frame)-70*KWidth6scale, 10*KHeight6scale , 60*KWidth6scale, 30*KHeight6scale);
-    [OKButton setTitle:@"确认" forState:UIControlStateNormal];
-    [OKButton setTintColor:MoreButtonColor];
-    OKButton.layer.masksToBounds = YES;
-    OKButton.layer.borderWidth= 1;
-    OKButton.layer.borderColor = [UIColor grayColor].CGColor;
-    OKButton.layer.cornerRadius = 5;
-    [_parameterView addSubview:OKButton];
+        [OKButton addTarget:self action:@selector(OKParaButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     
-    [OKButton addTarget:self action:@selector(OKParaButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-    
+}
+- (void)makeParametersContentView
+{
+//    for (UIView * view in _parameterView.subviews) {
+//        [view removeFromSuperview];
+//    }
+
     for (int i = 0; i<paramsCountArray.count; i++) {
         
         dateString = [NSString string];
@@ -276,7 +282,7 @@
 - (void)makeLeftButtonItme
 {
     UIImage * backImage = [UIImage imageNamed:@"back.png"];
-    CGRect backframe = CGRectMake(0, 0, 35*KWidth6scale, 25*KHeight6scale);
+    CGRect backframe = CGRectMake(0, 0, BackButtonWidth, BackButtonHeight);
     UIButton * backButton = [[UIButton alloc] initWithFrame:backframe];
     [backButton setBackgroundImage:backImage forState:UIControlStateNormal];
     [backButton addTarget:self action:@selector(backButtonClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -318,6 +324,7 @@
 - (void)searchButtonClick:(UIButton *)button
 {
     [self getReportParameters];
+    
     _tabView.userInteractionEnabled = NO;
     [UIView animateWithDuration:0.5 animations:^{
         self.view.backgroundColor = [UIColor blackColor];
@@ -425,23 +432,14 @@
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
               
-                    [self makeParametersView];
-                });
-            }else{
-                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self makeParametersContentView];
                     
-                    [self makeParametersView];
                 });
-               
             }
-
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
             //失败
             NSLog(@"failure  error ： %@",error);
-            dispatch_async(dispatch_get_main_queue(), ^{
-                
-                [self makeParametersView];
-            });
+           
 
         }];
         
@@ -457,7 +455,7 @@
 -(void)shareButtonClick:(UIButton *)button
 {
     
-    //    [super ScreenShot];
+    [super ScreenShot];
     
 }
 
