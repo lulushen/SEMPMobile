@@ -17,7 +17,9 @@
 #import "TabBarControllerConfig.h"
 
 @interface SDAccountViewController ()<UITableViewDelegate,UITableViewDataSource,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
-
+{
+    NSMutableArray * infoArray;
+}
 @property (nonatomic , strong)UITableView * userTableView;
 // UITableView头部视图
 @property (nonatomic , strong)UIView * userTableHeaderView;
@@ -30,11 +32,14 @@
 @property (nonatomic , strong)UILabel * noReadInfoCountLabel;
 
 @property (nonatomic , strong)NSString * token;
+
+@property (nonatomic , strong)UITabBarItem *tabBar;
 @end
 
 @implementation SDAccountViewController
 - (void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:YES];
     //消息中心的数据解析
     [self makeInfoData];
 }
@@ -627,7 +632,7 @@
                 
                 
                 
-                NSMutableArray * infoArray = [NSMutableArray array];
+                infoArray = [NSMutableArray array];
                 infoArray = responseObject[@"resdata"];
                 NSLog(@"%@",responseObject);
                 for (NSDictionary * dict in infoArray) {
@@ -647,21 +652,21 @@
                 
                 // 改变tabBar上的消息数量
                 Singleton * singleton = [Singleton shareSingleHandle];
-                UITabBarItem *tabBar = [UITabBarItem appearance];
-                tabBar = singleton.itemArray[3];
+                _tabBar = [UITabBarItem appearance];
+                _tabBar = singleton.itemArray[3];
                 //设置未读消息数量
                 if (_infoVC.noReadInfoArray.count != 0) {
                     
                     _noReadInfoCountLabel.backgroundColor = [UIColor redColor];
                     [_noReadInfoCountLabel setTextAlignment:NSTextAlignmentCenter];
                     _noReadInfoCountLabel.text = [NSString stringWithFormat:@"%ld",_infoVC.noReadInfoArray.count];
-                    tabBar.badgeValue = [NSString stringWithFormat:@"%ld",_infoVC.noReadInfoArray.count];
+                    _tabBar.badgeValue = [NSString stringWithFormat:@"%ld",_infoVC.noReadInfoArray.count];
 
                 }else{
                     _noReadInfoCountLabel.backgroundColor = [UIColor whiteColor];
                     _noReadInfoCountLabel.text = @"";
                     
-                    tabBar.badgeValue = nil;
+                    _tabBar.badgeValue = nil;
 
                 }
 
@@ -676,6 +681,12 @@
         
     });
     
+}
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:YES];
+    _tabBar = nil;
+    infoArray = nil;
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

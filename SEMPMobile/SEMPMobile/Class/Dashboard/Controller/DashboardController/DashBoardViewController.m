@@ -325,6 +325,7 @@ static  BOOL Btnstatu = YES;
 //    
 //    _token =  [userDict valueForKey:@"user_token"];
     _Time = [[NSUserDefaults standardUserDefaults] objectForKey:@"ADDBackTime"];
+    _collectionView.userInteractionEnabled = NO;
     // 刷新数据
     [self makeDate:_Time];
     
@@ -357,8 +358,8 @@ static  BOOL Btnstatu = YES;
             //成功
             if (responseObject != nil) {
                 
-                NSMutableArray * array = [NSMutableArray array];
-                
+//                NSMutableArray * array = [NSMutableArray array];
+                NSMutableArray * array = nil;
                 array = [responseObject[@"resdata"] mutableCopy];
                 
                 if (array.count != 0) {
@@ -380,6 +381,8 @@ static  BOOL Btnstatu = YES;
                         
                         // 返回主线程刷新ui
                         [_collectionView reloadData];
+                        // add返回的时候设置userInteractionEnabled为no
+                        _collectionView.userInteractionEnabled = YES;
                         
                         
                     });
@@ -395,7 +398,7 @@ static  BOOL Btnstatu = YES;
                 }else{
                     NSLog(@"----没有数据");
                 }
-                
+                array = nil;
             }
             
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -436,8 +439,8 @@ static  BOOL Btnstatu = YES;
             NSInteger xiabiao = [sizeoneindexArray[i] integerValue];
             
             DashBoardModel * modelqian = [[DashBoardModel alloc] init];
-            DashBoardModel * modelhou =[[DashBoardModel alloc] init];
-            
+//            DashBoardModel * modelhou =[[DashBoardModel alloc] init];
+            DashBoardModel * modelhou = nil;
             if ( ((i+1)%2 != 0) && (i == sizeoneindexArray.count -1)) {
                 
                 // 删除最后一个1X1指标
@@ -511,7 +514,8 @@ static  BOOL Btnstatu = YES;
     
     DashBoardCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CellIdentifier forIndexPath:indexPath];
     
-    DashBoardModel * m = [[DashBoardModel alloc] init];
+//    DashBoardModel * m = [[DashBoardModel alloc] init];
+    DashBoardModel * m = nil;
     m = _DashModelArray[indexPath.row];
     cell.backgroundColor = [UIColor colorWithString:m.bgcolor];
     [cell setTextColor:[UIColor colorWithString:m.color]];
@@ -806,7 +810,8 @@ static  BOOL Btnstatu = YES;
         
         if (responseObject != nil) {
             
-            NSMutableDictionary * dict = [NSMutableDictionary dictionary];
+//            NSMutableDictionary * dict = [NSMutableDictionary dictionary];
+            NSMutableDictionary * dict = nil;
             dict = responseObject[@"resdata"];
             
             if (dict != nil) {
@@ -838,6 +843,7 @@ static  BOOL Btnstatu = YES;
                 
                 //                    });
             }
+            dict = nil;
             
         }else{
             
@@ -906,8 +912,8 @@ static  BOOL Btnstatu = YES;
         
         button.selected = YES;
         
-        DashBoardModel * model = [[DashBoardModel alloc] init];
-        
+//        DashBoardModel * model = [[DashBoardModel alloc] init];
+        DashBoardModel * model = nil;
         model = _DashModelArray[button.tag];
         NSString * urlStr = [NSString stringWithFormat:DeleteIndexHttp,model.Did];
         
@@ -970,11 +976,14 @@ static  BOOL Btnstatu = YES;
             //这里可以用来显示下载进度
         } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
             //成功
-            NSMutableDictionary * dict = [NSMutableDictionary dictionary];
+//            NSMutableDictionary * dict = [NSMutableDictionary dictionary];
+            NSMutableDictionary * dict = nil;
             dict = responseObject[@"resdata"];
-            NSMutableArray * array = [NSMutableArray array];
+//            NSMutableArray * array = [NSMutableArray array];
+            NSMutableArray * array = nil;
             array = dict[@"checked"];
-            NSMutableArray * arrayAll = [NSMutableArray array];
+//            NSMutableArray * arrayAll = [NSMutableArray array];
+            NSMutableArray * arrayAll = nil;
             arrayAll = dict[@"waitcheck"];
             NSMutableArray * arrayDashLabel = [NSMutableArray array];
             
@@ -1010,10 +1019,15 @@ static  BOOL Btnstatu = YES;
                         
                         
                     }
+                    
+                    
+                    
                 });
             }
             
-            
+            dict = nil;
+            array = nil;
+            arrayAll = nil;
             
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
             //失败
@@ -1073,9 +1087,8 @@ static  BOOL Btnstatu = YES;
 
 - (void)refreshAction {
     
-    __weak UICollectionView *weakTableView;
-    weakTableView  = _collectionView;
-    
+    __weak UICollectionView *weakCollectionView;
+    weakCollectionView  = _collectionView;
     __weak FCXRefreshHeaderView *weakHeaderView = _headerView;
     
     
@@ -1093,6 +1106,16 @@ static  BOOL Btnstatu = YES;
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+- (void)dealloc
+{    
+    layout = nil;
+    _headerView = nil;
+    _dataView = nil;
+    _dataSearchView = nil;
+    self.view = nil;
+
+}
+
 /*
  #pragma mark - Navigation
  

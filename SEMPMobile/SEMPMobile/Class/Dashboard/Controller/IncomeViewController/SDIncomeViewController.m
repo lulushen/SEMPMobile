@@ -244,9 +244,11 @@ static  BOOL Btnstatu = YES;
             //成功
             NSLog(@"%@",responseObject);
             if (responseObject != nil) {
-                
-                NSMutableDictionary * dict = [NSMutableDictionary dictionary];
+                // 内存问题
+//                NSMutableDictionary * dict = [NSMutableDictionary dictionary];
+                NSMutableDictionary * dict = nil;
                 dict = responseObject[@"resdata"];
+                NSLog(@"--==%@",dict);
                 
                 if (dict != nil) {
                     
@@ -394,20 +396,21 @@ static  BOOL Btnstatu = YES;
     [self.wenBenView removeFromSuperview];
     
     self.wenBenView = [[UIView alloc] init];
-    self.wenBenView.frame = CGRectMake(Main_Screen_Width/2.0-150, KViewHeight/2.0-100, 300, 200);
+    self.wenBenView.frame = CGRectMake(Main_Screen_Width/2.0-150, KViewHeight/2.0-100, 320, 200);
     [self.view addSubview:self.wenBenView];
     
     _textView = [[UITextView alloc] init];
-    _textView.frame = CGRectMake(0, 20, CGRectGetWidth(_wenBenView.frame),CGRectGetHeight(_wenBenView.frame)-25);
+    _textView.frame = CGRectMake(0, 20, CGRectGetWidth(_wenBenView.frame)-20,CGRectGetHeight(_wenBenView.frame)-25);
     _textView.delegate = self;
     [_textView resignFirstResponder];
-    _textView.font = [UIFont boldSystemFontOfSize:28];
-    [_textView addGestureRecognizer:_longPressGr];
+    _textView.font = [UIFont boldSystemFontOfSize:20];
+//    [_textView addGestureRecognizer:_longPressGr];
     
     [_wenBenView addSubview:_textView];
     
     _textView.backgroundColor = [UIColor orangeColor];
-    _textView.alpha = 0.5;
+    _textView.alpha = 0.7;
+    _textView.textColor = [UIColor blackColor];
     _removebutton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     _removebutton.frame = CGRectMake(CGRectGetMaxX(_textView.frame)-20, 0, 40, 40);
     [_removebutton setImage:[UIImage imageNamed:@"delete.png"] forState:UIControlStateNormal];
@@ -1365,6 +1368,10 @@ static  BOOL Btnstatu = YES;
 
         
     }
+}
+-(void)dealloc{
+    NSLog(@"DashIncomDealloc");
+    self.view = nil;
 }
 /*
  #pragma mark - Navigation

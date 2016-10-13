@@ -52,7 +52,9 @@
     [imageView addSubview:self.demoButton];
     
 }
-// 用户登录实现方法
+/**
+ *  用户登录实现方法
+ */
 - (void)userButtonClick:(UIButton *)button
 {
     
@@ -68,7 +70,9 @@
     [self LoginSucceed];
     
 }
-// 登录成功后跳转页面的方法
+/**
+ *  登录成功后跳转页面的方法
+ */
 - (void)LoginSucceed{
     
     TabBarControllerConfig *tabBarConfig = [[TabBarControllerConfig alloc]init];
@@ -80,7 +84,15 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:YES];
+    [self.view removeFromSuperview];
+}
+-(void)dealloc
+{
+    NSLog(@"loginDealloc");
+}
 /*
  #pragma mark - Navigation
  

@@ -6,8 +6,9 @@
 //  Copyright © 2016年 上海数聚. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "RootViewController.h"
 
-@interface SDSetViewController : UIViewController
+
+@interface SDSetViewController : RootViewController
 
 @end

@@ -25,6 +25,7 @@
     userModel * model;
     NSMutableArray    * _dashDictArray;
     NSInteger infoCount;
+    NSMutableArray * infoArray;
 }
 @property (nonatomic , strong)NSString * info;
 
@@ -43,23 +44,21 @@
 //        [hash appendFormat:@"%02x", result[i]];
 //    }
 //    NSString *mdfiveString = [hash lowercaseString];
-//    
+//
 //    NSLog(@"Encryption Result = %@",mdfiveString);
 //    return mdfiveString;
 //}
-
 - (void)viewWillAppear:(BOOL)animated{
     
     [super viewWillAppear:animated];
-
+    
 }
-
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"userlogin.png"]];
+    
     userLoginImageView  = [[UIImageView alloc] initWithFrame:self.view.frame];
+    
     userLoginImageView.image = [UIImage imageNamed:@"userlogin.png"];
     
     userLoginImageView.userInteractionEnabled = YES;
@@ -74,29 +73,40 @@
     
     
     self.biaoshiTextField  = [[UITextField alloc] initWithFrame:CGRectMake(100*KWidth6scale, 232*KHeight6scale, 200*KWidth6scale, 35*KHeight6scale)];
+    
     self.biaoshiTextField.backgroundColor = [UIColor whiteColor];
+    
     [userLoginImageView addSubview:self.biaoshiTextField];
     
-    
     self.userTextField  = [[UITextField alloc] initWithFrame:CGRectMake(100*KWidth6scale, CGRectGetMaxY(self.biaoshiTextField.frame) + 27*KHeight6scale, 200*KWidth6scale, CGRectGetHeight(self.biaoshiTextField.frame))];
+    
     self.userTextField.backgroundColor = [UIColor whiteColor];
+    
     [userLoginImageView addSubview:self.userTextField];
     
     self.passWordTextField = [[UITextField alloc] initWithFrame:CGRectMake(CGRectGetMinX(self.userTextField.frame), CGRectGetMaxY(self.userTextField.frame)+27*KHeight6scale, CGRectGetWidth(self.userTextField.frame), CGRectGetHeight(self.userTextField.frame))];
+    
     self.passWordTextField.backgroundColor = [UIColor whiteColor];
+    
     self.passWordTextField.secureTextEntry = YES;
+    
     [userLoginImageView addSubview:self.passWordTextField];
     
-    
     self.LoginButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    
     self.LoginButton.frame = CGRectMake(Main_Screen_Width/2 - 75*KWidth6scale,CGRectGetMaxY(self.passWordTextField.frame) + 30*KHeight6scale, 150*KWidth6scale, CGRectGetHeight(self.passWordTextField.frame));
-//    [self.LoginButton setTitle:@"Login" forState:UIControlStateNormal];
-//    self.LoginButton.backgroundColor = [UIColor grayColor];
+    //    [self.LoginButton setTitle:@"Login" forState:UIControlStateNormal];
+    //    self.LoginButton.backgroundColor = [UIColor grayColor];
     [self.LoginButton addTarget:self action:@selector(LoginButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+    
     [userLoginImageView addSubview:self.LoginButton];
+    
     UIButton * backbutton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    
     backbutton.frame = CGRectMake(10, 20, 80, 50);
+    
     [userLoginImageView addSubview:backbutton];
+    
     [backbutton addTarget:self action:@selector(backbuttonClick:) forControlEvents:UIControlEventTouchUpInside];
     
 }
@@ -106,93 +116,93 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 - (void)LoginButtonClick:(UIButton *)button{
-    self.userTextField.text = @"mobile";
-    self.passWordTextField.text = @"111111";
-    //1.获取一个全局串行队列
-    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-    //2.把任务添加到队列中执行
-    dispatch_async(queue, ^{
-
-        // 1.设置请求路径
-        NSString * urlStr = [NSString stringWithFormat:LoginHttp];
+    if (button.selected == YES) {
         
-        AFHTTPSessionManager * manager = [AFHTTPSessionManager manager];
+    }else{
+        button.selected = YES;
         
-        NSDictionary *parameters = @{@"loginname":self.userTextField.text,@"password":self.passWordTextField.text};
         
-        [manager POST:urlStr parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
+        self.userTextField.text = @"mobile";
+        self.passWordTextField.text = @"111111";
+        //1.获取一个全局串行队列
+        dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+        //2.把任务添加到队列中执行
+        dispatch_async(queue, ^{
             
+            // 1.设置请求路径
+            NSString * urlStr = [NSString stringWithFormat:LoginHttp];
             
-        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            AFHTTPSessionManager * manager = [AFHTTPSessionManager manager];
             
-            NSLog(@"---用户登录的responseObject--%@",responseObject);
-            NSMutableDictionary * dict = [NSMutableDictionary dictionary];
-            dict = responseObject;
+            NSDictionary *parameters = @{@"loginname":self.userTextField.text,@"password":self.passWordTextField.text};
             
-            if (responseObject != nil) {
+            [manager POST:urlStr parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
                 
-                model = [[userModel alloc] init];
+            } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                 
-                [model setValuesForKeysWithDictionary:responseObject];
+                NSLog(@"---用户登录的responseObject--%@",responseObject);
+                //            NSMutableDictionary * dict = [NSMutableDictionary dictionary];
+                NSMutableDictionary * dict = nil;
+                dict = responseObject;
                 
-                NSInteger status = model.status;
-                
-                if (status == 1) {
-
-                                       // 数据持久化
-                    NSUserDefaults * userDefault = [NSUserDefaults standardUserDefaults];
-                   
-                    [userDefault setObject:dict forKey:@"userResponseObject"];
-                    [userDefault synchronize];
-
-                    NSString *path = [NSHomeDirectory() stringByAppendingString:@"/Documents"];
-//                    NSLog(@"APP_Path = %@", path);
+                if (responseObject != nil) {
                     
-
+                    model = [[userModel alloc] init];
                     
-
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                       
-                        [self makeInfoData];
-                        [self makeDashBoardData];
-
-                        [MBProgressHUD showSuccess:model.message];
+                    [model setValuesForKeysWithDictionary:responseObject];
+                    
+                    NSInteger status = model.status;
+                    
+                    if (status == 1) {
                         
-                        //  AppDelegate * app = [[AppDelegate alloc] init];
-                        //  [app mainTab];
-
+                        // 数据持久化
+                        NSUserDefaults * userDefault = [NSUserDefaults standardUserDefaults];
+                        [userDefault setObject:dict forKey:@"userResponseObject"];
+                        [userDefault synchronize];
+                        
+                        NSString *path = [NSHomeDirectory() stringByAppendingString:@"/Documents"];
+                        NSLog(@"APP_Path = %@", path);
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            
+                            [self makeInfoData];
+                            [self makeDashBoardData];
+                            
+                            [MBProgressHUD showSuccess:model.message];
+                            
+                            //  AppDelegate * app = [[AppDelegate alloc] init];
+                            //  [app mainTab];
+                            
                         });
-
+                        
+                    } else {
+                        
+                        [MBProgressHUD showSuccess:model.message];
+                    }
+                    dict = nil;
                     
-                } else {
                     
-                    [MBProgressHUD showSuccess:model.message];
+                }else{
+                    
+                    [MBProgressHUD showSuccess:@"请求数据为空，登录失败"];
                 }
                 
-            }else{
                 
-                [MBProgressHUD showSuccess:@"请求数据为空，登录失败"];
-            }
+            } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                
+                [MBProgressHUD showSuccess:@"可能服务器停止或断网，解析登录失败"];
+                
+            }];
             
-        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-            
-            [MBProgressHUD showSuccess:@"可能服务器停止或断网，解析登录失败"];
-            
-        }];
-    
-     });
+        });
+    }
 }
 - (void)GoToDashView
 {
-    
     TabBarControllerConfig *tabBarConfig = [[TabBarControllerConfig alloc]init];
-   
-       
+    
     tabBarConfig.tabBarBadgeValueString = [NSString stringWithFormat:@"%ld",infoCount];
-
     
     [self presentViewController:tabBarConfig.tabBarController animated:YES completion:nil];
-    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -201,71 +211,71 @@
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    
     [self.userTextField resignFirstResponder];
+    
     [self.passWordTextField resignFirstResponder];
 }
 #pragma == 指标
 - (void)makeDashBoardData
 {
     
-        //1.获取一个全局串行队列
-        dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-        //2.把任务添加到队列中执行
-        dispatch_async(queue, ^{
-            
-           
-            NSMutableDictionary * userDict = [[NSUserDefaults standardUserDefaults] valueForKey:@"userResponseObject"];
-            NSString * token = [userDict valueForKey:@"user_token"];
-            
-            NSMutableDictionary * dict = [userDict valueForKey:@"resdata"];
-            
-            NSString * time = [NSString stringWithFormat:@"%@",dict[@"defaulttime"]];
-            
-            // 指标界面的接口
-            NSString * urlStr = [NSString stringWithFormat:DashBoardHttp,token,time];
-            AFHTTPSessionManager * manager = [AFHTTPSessionManager manager];
-            
-            [manager GET:urlStr parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
-                //这里可以用来显示下载进度
-            } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-                
-                _dashDictArray = [NSMutableArray array];
-                //成功
-                if (responseObject != nil) {
-                                        
-                    NSMutableArray * array = [NSMutableArray array];
-                    
-                    array = [responseObject valueForKey:@"resdata"];
-                    
-                        for (NSDictionary * dict in array) {
-                            
-                            [_dashDictArray addObject:dict];
-                            
-                        }
-                     [[NSUserDefaults standardUserDefaults] setObject:_dashDictArray forKey:@"array"];
-                     [[NSUserDefaults standardUserDefaults] synchronize];
-
-                        //    // 延迟0.5秒跳转页面
-                     [self performSelector:@selector(GoToDashView) withObject:self afterDelay:0.2f];
-
-                   
-                }
-                
-            } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                //失败
-                NSLog(@"failure  error ： %@",error);
-                [MBProgressHUD showSuccess:@"请检查网略"];
-
-            }];
-            
-        });
+    //1.获取一个全局串行队列
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    //2.把任务添加到队列中执行
+    dispatch_async(queue, ^{
         
+        NSMutableDictionary * userDict = [[NSUserDefaults standardUserDefaults] valueForKey:@"userResponseObject"];
+        NSString * token = [userDict valueForKey:@"user_token"];
+        
+        NSMutableDictionary * dict = [userDict valueForKey:@"resdata"];
+        
+        NSString * time = [NSString stringWithFormat:@"%@",dict[@"defaulttime"]];
+        
+        // 指标界面的接口
+        NSString * urlStr = [NSString stringWithFormat:DashBoardHttp,token,time];
+        
+        AFHTTPSessionManager * manager = [AFHTTPSessionManager manager];
+        
+        [manager GET:urlStr parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
+            //这里可以用来显示下载进度
+        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            
+            _dashDictArray = [NSMutableArray array];
+            //成功
+            if (responseObject != nil) {
+                
+                //                NSMutableArray * array = [NSMutableArray array];
+                NSMutableArray * array = nil;
+                array = [responseObject valueForKey:@"resdata"];
+                
+                for (NSDictionary * dict in array) {
+                    
+                    [_dashDictArray addObject:dict];
+                    
+                }
+                [[NSUserDefaults standardUserDefaults] setObject:_dashDictArray forKey:@"array"];
+                
+                [[NSUserDefaults standardUserDefaults] synchronize];
+                
+                // 延迟0.1秒跳转页面
+                [self performSelector:@selector(GoToDashView) withObject:self afterDelay:0.1f];
+                array = nil;
+            }
+            
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            //失败
+            NSLog(@"failure  error ： %@",error);
+            [MBProgressHUD showSuccess:@"请检查网略"];
+            
+        }];
+        
+    });
     
-
 }
-
-
-// 消息中心数据
+/**
+ *   消息中心数据
+ */
 - (void)makeInfoData
 {
     
@@ -281,16 +291,14 @@
         } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
             
             if (responseObject != nil) {
-
                 
-                NSMutableArray * infoArray = [NSMutableArray array];
+                infoArray = [NSMutableArray array];
+                
                 infoArray = responseObject[@"resdata"];
+                
                 NSMutableArray * noReadInfoArray = [NSMutableArray array];
                 
                 for (NSMutableDictionary * dict in infoArray) {
-                   
-//                    NSLog(@"%@",dict);
-//                    NSLog(@"%@",dict[@"readflag"]);
                     
                     if ([dict[@"readflag"] integerValue] == 0) {
                         
@@ -301,8 +309,8 @@
                     }
                     
                 }
+                
                 infoCount = noReadInfoArray.count;
-
             }
             
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -312,6 +320,22 @@
         }];
         
     });
+    
+}
+
+- (void)dealloc
+{
+    NSLog(@"userLoginDealloc");
+    _dashDictArray = nil;
+    infoArray = nil;
+    userLoginImageView = nil;
+    _alert = nil;
+    _alertLoginFail = nil;
+    _alertDidRegiest = nil;
+    _temDic = nil;
+    model = nil;
+    _info = nil;
+    [self.view removeFromSuperview];
     
 }
 /*

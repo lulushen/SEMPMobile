@@ -105,7 +105,7 @@
             NSString * string = [_defaultDateString stringByReplacingCharactersInRange:rangeYear withString:@"+"];
             
             NSRange rangeMouth = [string rangeOfString:@"-"];//匹配得到的下标
-            NSUInteger lenghtMouth = rangeMouth.location - rangeYear.location;// 月截取的长度
+//            NSUInteger lenghtMouth = rangeMouth.location - rangeYear.location;// 月截取的长度
             
             yearNumeber = [[_defaultDateString substringWithRange:NSMakeRange(0, 4)] intValue];
             

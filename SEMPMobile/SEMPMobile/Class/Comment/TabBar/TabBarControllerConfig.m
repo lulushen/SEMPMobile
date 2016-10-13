@@ -47,7 +47,9 @@ CGFloat const ZTCellMargin = 44.0;
 //        [[self class] customizeTabBarAppearance:tabBarController];
         
         // 进入界面是个人中心的item上显示未读消息的数量即item的badgeValue的值
-        UITabBarItem *tabBar = [UITabBarItem appearance];
+        //内存问题
+//        UITabBarItem *tabBar = [UITabBarItem appearance];
+        UITabBarItem *tabBar = nil;
         tabBar = tabBarController.itemsArray[3];
         if ([_tabBarBadgeValueString integerValue] > 0) {
           
@@ -57,6 +59,7 @@ CGFloat const ZTCellMargin = 44.0;
         
         singleton.itemArray = tabBarController.itemsArray;
         _tabBarController = tabBarController;
+        tabBar = nil;
     }
     
     return _tabBarController;

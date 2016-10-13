@@ -12,9 +12,9 @@
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
-    
-    if (self == [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
-        
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+
+    if (self) {
         self.selectionStyle = UITableViewCellAccessoryNone;
         self.backgroundColor = [UIColor whiteColor];
         [self makeCell];

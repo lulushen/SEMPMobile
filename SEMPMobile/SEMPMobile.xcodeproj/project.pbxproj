@@ -1017,8 +1017,8 @@
 		3D267F691D4EEC10001E732B /* Class */ = {
 			isa = PBXGroup;
 			children = (
-				3D267FAB1D4F3281001E732B /* Login */,
 				3D267F7F1D4EECF1001E732B /* Comment */,
+				3D267FAB1D4F3281001E732B /* Login */,
 				3D267F751D4EEC10001E732B /* Dashboard */,
 				3D267F7A1D4EEC10001E732B /* ReportCenter */,
 				3D267F6E1D4EEC10001E732B /* Action */,
@@ -2712,7 +2712,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = Datacvg.SEMPMobile;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "79e30f2d-7e65-4491-95ca-463466081e65";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos9.3;
 			};
 			name = Debug;
@@ -2785,7 +2785,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = Datacvg.SEMPMobile;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "ab640cb5-362e-4c0f-a0a7-a7e01f132f91";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos9.3;
 			};
 			name = Release;

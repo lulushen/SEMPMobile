@@ -280,9 +280,11 @@
         
         if (responseObject != nil) {
             NSMutableArray * array = responseObject[@"resdata"];
+           // 内存问题
+//            NSMutableDictionary * dict = [NSMutableDictionary dictionary];
+            NSMutableDictionary * dict = nil;
+
             for (int i = 0 ;i < array.count ; i++) {
-                
-                NSMutableDictionary * dict = [NSMutableDictionary dictionary];
                 
                 dict = array[i];
                 
@@ -304,17 +306,20 @@
                 NSMutableArray * userArray = dict[@"user"];
                 NSNumber * number = [NSNumber numberWithInteger:userArray.count];
                 [self.MeiGeZhuZhiDeUserCountArray addObject:number];
-                
+                 // 内存问题
+                NSMutableDictionary * userDict = nil;
                 for (int j = 0; j< userArray.count;j++) {
                     
-                    NSMutableDictionary * userDict = [NSMutableDictionary dictionary];
+//                    NSMutableDictionary * userDict = [NSMutableDictionary dictionary];
+                   
                     userDict = userArray[j];
-                    
                     [self.defaultUserArray addObject:userDict];
+                    userDict = nil;
                 }
-                
-                
+             
+                dict = nil;
             }
+            
             
         }
         
@@ -468,7 +473,8 @@
         if (cell == nil) {
             cell = [[AddActionSelectTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         }
-        DefaultIndexInfoModel * defaultIndexInfoModel = [[DefaultIndexInfoModel alloc] init];
+//        DefaultIndexInfoModel * defaultIndexInfoModel = [[DefaultIndexInfoModel alloc] init];
+        DefaultIndexInfoModel * defaultIndexInfoModel = nil;
         defaultIndexInfoModel = _defaultIndexInfoModelArray[indexPath.row];
         cell.titleLabel.text = defaultIndexInfoModel.title;
         cell.selectButton.tag = indexPath.row;
@@ -498,7 +504,7 @@
             }
         return cell;
         
-    }else if(tableView.tag == 2){
+    }else{
         // 选中的当前组织
         NSInteger  dangqizhizi = 0;
         for (int i = 0;i< _defaultD_resModelArray.count;i++ ) {
@@ -595,11 +601,7 @@
         
         return cell;
         
-    }else{
-        
-        return nil;
     }
-    
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -794,6 +796,7 @@
     }else if(_diButton.selected == YES){
         _priorityIntType = 3;
     }
+    
 }
 // 任务类型选择
 - (void)taskTypeClick:(UIButton *)button
@@ -1004,7 +1007,8 @@
     
     // 每次点击组织button的时候都是默认不展开的
     for (int i = 0; i < _defaultD_resModelArray.count; i++) {
-        DefaultD_resModel * d_resModel = [[DefaultD_resModel alloc] init];
+//        DefaultD_resModel * d_resModel = [[DefaultD_resModel alloc] init];
+        DefaultD_resModel * d_resModel = nil;
         d_resModel =_defaultD_resModelArray[i];
         
         if ([d_resModel.d_res_parentid isEqualToString:@"0"]) {
@@ -1131,7 +1135,8 @@
 
             [_indexView.actionAddView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
 
-            DefaultIndexInfoModel * model = [[DefaultIndexInfoModel alloc] init];
+//            DefaultIndexInfoModel * model = [[DefaultIndexInfoModel alloc] init];
+            DefaultIndexInfoModel * model = nil;
             if (_selectedDefaultIndexModelArray.count == 0) {
 
                 _indexView.frame =  CGRectMake(0, CGRectGetMaxY(_xieZhuPeopleView.frame), Main_Screen_Width,80*KHeight6scale);
@@ -1227,8 +1232,8 @@
 
             [_xieZhuPeopleView.actionAddView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
 
-            NSMutableDictionary * dict = [NSMutableDictionary dictionary];
-            
+//            NSMutableDictionary * dict = [NSMutableDictionary dictionary];
+            NSMutableDictionary * dict = nil;
             if (_selectedDefaultUserArray.count == 0) {
 
                _xieZhuPeopleView.frame =  CGRectMake(0, CGRectGetMaxY(_fuzePeopleView.frame), Main_Screen_Width,80*KHeight6scale);
@@ -1337,7 +1342,8 @@
 
             [_fuzePeopleView.actionAddView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
 
-            NSMutableDictionary * dict = [NSMutableDictionary dictionary];
+//            NSMutableDictionary * dict = [NSMutableDictionary dictionary];
+            NSMutableDictionary * dict = nil;
             if (_selectedUserArray.count == 0) {
 
 

@@ -15,12 +15,18 @@
 @interface ReportIncomeViewController ()<WKNavigationDelegate,WKUIDelegate,YXCustomActionSheetDelegate>
 {
     UILabel * titleLabel;
+    // 解析出参数类型所展示的当前时间字符串
     NSString * dateString;
     NSString * dateStringFormat;
     //    DataSearchView * dataSearchView;
     DatePickerView * pickerView;
     // 参数总数组
     NSMutableArray * paramsCountArray;
+    // 选择时间参数，要传给js的时间字符串
+    NSString * parameterDateString;
+    
+    // 参数数组（元素字典）
+    NSMutableArray * parameterDataArray;
     
 }
 @property(nonatomic , strong)  WKWebView * reportWebView;
@@ -40,17 +46,84 @@
 }
 - (void)makeWebView
 {
+    /**
+        在创建WKWebView之前，需要先创建配置对象，用于做一些配置：
+     */
+    WKWebViewConfiguration * config = [[WKWebViewConfiguration alloc] init];
+    /**
+     配置偏好设置
+     偏好设置也没有必须去修改它，都使用默认的就可以了，除非你真的需要修改它：
+     // 设置偏好设置
+     config.preferences = [[WKPreferences alloc] init];
+     // 默认为0
+     config.preferences.minimumFontSize = 10;
+     // 默认认为YES
+     config.preferences.javaScriptEnabled = YES;
+     // 在iOS上默认为NO，表示不能自动通过窗口打开
+     config.preferences.javaScriptCanOpenWindowsAutomatically = NO;
+     
+     */
+    /**
+     配置web内容处理池
+     其实我们没有必要去创建它，因为它根本没有属性和方法：
+      web内容处理池，由于没有属性可以设置，也没有方法可以调用，不用手动创建
+     */
+    config.processPool = [[WKProcessPool alloc] init];
     
-    _reportWebView = [[WKWebView alloc]initWithFrame:CGRectMake(0, 0, Main_Screen_Width, KViewHeight)];
+    /**
+     配置Js与Web内容交互
+     WKUserContentController是用于给JS注入对象的，注入对象后，JS端就可以使用：
+     window.webkit.messageHandlers.<name>.postMessage(<messageBody>);
+     来调用发送数据给iOS端，比如：
+     window.webkit.messageHandlers.AppModel.postMessage({body: '传数据'});
+     
+     
+     AppModel就是我们要注入的名称，注入以后，就可以在JS端调用了，传数据统一通过body传，可以是多种类型，只支持NSNumber, NSString, NSDate, NSArray,NSDictionary, and NSNull类型。
+     
+     下面我们配置给JS的main frame注入AppModel名称，对于JS端可就是对象了：
+     // 通过JS与webview内容交互
+     config.userContentController = [[WKUserContentController alloc] init];
+     
+     // 注入JS对象名称AppModel，当JS通过AppModel来调用时，
+     // 我们可以在WKScriptMessageHandler代理中接收到
+     [config.userContentController addScriptMessageHandler:self name:@"AppModel"];
+     
+     当JS通过AppModel发送数据到iOS端时，会在代理中收到:
+     #pragma mark - WKScriptMessageHandler
+     - (void)userContentController:(WKUserContentController *)userContentController
+     didReceiveScriptMessage:(WKScriptMessage *)message {
+     if ([message.name isEqualToString:@"AppModel"]) {
+     // 打印所传过来的参数，只支持NSNumber, NSString, NSDate, NSArray,
+     // NSDictionary, and NSNull类型
+     NSLog(@"%@", message.body);
+     }
+     }
+     所有JS调用iOS的部分，都只可以在此处使用哦。当然我们也可以注入多个名称（JS对象），用于区分功能。
+     */
+
+    //创建WKWebView
+    self.reportWebView = [[WKWebView alloc]initWithFrame:CGRectMake(0, 0, Main_Screen_Width, KViewHeight) configuration:config];
     _reportWebView.backgroundColor = [UIColor whiteColor];
+    // 加载网页
     NSURL *url = [NSURL URLWithString:_webViewHttpString];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
-    
     [_reportWebView loadRequest:request];
+    /**
+     * 配置代理
+       如果需要处理web导航条上的代理处理，比如链接是否可以跳转或者如何跳转，需要设置代理；而如果需要与在JS调用alert、confirm、prompt函数时，通过JS原生来处理，而不是调用JS的alert、confirm、prompt函数，那么需要设置UIDelegate，在得到响应后可以将结果反馈到JS端：
+     self.webView.navigationDelegate = self;
+     self.webView.UIDelegate = self;
+     */
+    // 导航代理
     _reportWebView.navigationDelegate = self;
+    // 与webview UI交互代理
     _reportWebView.UIDelegate = self;
+    
+    
     [self.view addSubview:_reportWebView];
     [self  makeParametersView];
+
+   
     
 }
 // 页面开始加载时调用
@@ -133,6 +206,13 @@
 //        [view removeFromSuperview];
 //    }
 
+    // 可以创建一次，设置为透明
+    UIView * contentView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(titleLabel.frame), CGRectGetWidth(_parameterView.frame), CGRectGetHeight(_parameterView.frame)-CGRectGetMaxY(titleLabel.frame)-50*KWidth6scale)];
+    [contentView removeFromSuperview];
+//    contentView.backgroundColor = [UIColor redColor];
+    [_parameterView addSubview:contentView];
+    parameterDataArray = [NSMutableArray array];
+    
     for (int i = 0; i<paramsCountArray.count; i++) {
         
         dateString = [NSString string];
@@ -141,11 +221,11 @@
         paramsTimeNameLabel.text = @"时间选择：";
         CGRect paramsTimeNameLabelRect = [paramsTimeNameLabel.text boundingRectWithSize:CGSizeMake(CGRectGetWidth(_parameterView.frame)-60, 40*KHeight6scale) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:paramsTimeNameLabel.font} context:nil];
         
-        paramsTimeNameLabel.frame = CGRectMake(CGRectGetMinX(titleLabel.frame), CGRectGetMaxY(titleLabel.frame) + i* 30*KHeight6scale, paramsTimeNameLabelRect.size.width, 25*KHeight6scale);
+        paramsTimeNameLabel.frame = CGRectMake(CGRectGetMinX(titleLabel.frame),  i* 30*KHeight6scale, paramsTimeNameLabelRect.size.width, 25*KHeight6scale);
         if (paramsTimeNameLabelRect.size.width < 50*KWidth6scale) {
               paramsTimeNameLabel.frame = CGRectMake(CGRectGetMinX(titleLabel.frame), CGRectGetMaxY(titleLabel.frame) + i* 30*KHeight6scale, 50*KHeight6scale, 25*KHeight6scale);
         }
-        [_parameterView addSubview:paramsTimeNameLabel];
+        [contentView addSubview:paramsTimeNameLabel];
 
         UIButton * dateParameterButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         NSDate *  senddate=[NSDate date];
@@ -198,17 +278,75 @@
         dateParameterButton.layer.borderWidth= 1;
         dateParameterButton.layer.borderColor = [UIColor grayColor].CGColor;
         dateParameterButton.layer.cornerRadius = 5;
-        [_parameterView addSubview:dateParameterButton];
+        [contentView addSubview:dateParameterButton];
         dateParameterButton.tag = i;
         [dateParameterButton addTarget:self action:@selector(dateParameterButtonClick:) forControlEvents:UIControlEventTouchUpInside];
 #warning ==========delete
         [dateParameterButton setTitle:dateString forState:UIControlStateNormal];
         
+       
+        // 参数字典数组
+        NSString * string = [self parameterDateString:dateString  dateStringFormat:dateStringFormat];
+        NSMutableDictionary * dict = [NSMutableDictionary dictionary];
+        [dict setObject:string forKey:[paramsCountArray[i] valueForKey:@"paramKey"]];
+        [parameterDataArray addObject:dict];
+        
+    }
+    
+    
+//    NSMutableDictionary * dict = [NSMutableDictionary dictionary];
+//    NSMutableDictionary * dict2 = [NSMutableDictionary dictionary];
+//
+//    [dict setObject:@"20160101" forKey:@""];
+//    [dict2 setObject:@"20140501" forKey:@"time"];
+//
+//    [parameterDataArray addObject:dict];
+//    [parameterDataArray addObject:dict2];
+
+    
+    
+}
+
+
+- (NSString * )parameterDateString:(NSString *)string dateStringFormat:(NSString *)dateStrFormat
+{
+    NSRange rangeYear = [string rangeOfString:@"-"];//匹配得到的下标
+    NSRange rangeWeek = [string rangeOfString:@"W"];//匹配得到的下标
+    
+       if ([dateStrFormat isEqualToString:@"yyyyMMdd"]) {
+        // 年月日
+           if (rangeYear.length != 0) {
+               string= [string stringByReplacingCharactersInRange:rangeYear withString:@""];
+               NSRange rangeYear = [string rangeOfString:@"-"];//匹配得到的下标
+               if (rangeYear.length != 0) {
+                   string= [string stringByReplacingCharactersInRange:rangeYear withString:@""];
+               }
+               
+           }
+    }else if ([dateStrFormat isEqualToString:@"yyyyMM"]){
+        // 年月
+      
+        string= [string stringByReplacingCharactersInRange:rangeYear withString:@""];
+        string = [NSString stringWithFormat:@"%@01",string];
+
+
+    }else if ([dateStrFormat isEqualToString:@"yyyy"]){
+        // 年
+        string = [NSString stringWithFormat:@"%@0101",string];
+
+        
+    }else if ([dateStrFormat isEqualToString:@"yyyyQM"]){
+    
+    }else if ([dateStrFormat isEqualToString:@""]){
+        // 周
+        string= [string stringByReplacingCharactersInRange:rangeWeek withString:@""];
 
     }
+    return string;
+
 }
 // 取消按钮
-- (void)cancelParaButtonClick: (UIButton*)button
+- (void)cancelParaButtonClick: (UIButton*)sender
 {
     _tabView.userInteractionEnabled = YES;
     
@@ -222,7 +360,7 @@
     
 }
 // 确认按钮
-- (void)OKParaButtonClick: (UIButton*)button
+- (void)OKParaButtonClick: (UIButton*)sender
 {
     _tabView.userInteractionEnabled = YES;
     
@@ -231,8 +369,21 @@
         _reportWebView.alpha = 1;
         _reportWebView.userInteractionEnabled = YES;
         _parameterView.alpha = 0;
+        
     } completion:nil];
-    
+  
+    NSData *data =[NSJSONSerialization dataWithJSONObject:parameterDataArray options:NSJSONWritingPrettyPrinted error:nil];
+    NSString *indexDataStr=[[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+    NSLog(@"===========%@",indexDataStr);
+    if (!self.reportWebView.loading) {
+        [self.reportWebView evaluateJavaScript:[NSString stringWithFormat:@"window.refreshReport(%@)", indexDataStr] completionHandler:^(id _Nullable response, NSError * _Nullable error) {
+                //TODO
+                NSLog(@"%@ %@",response,error);
+            }];
+    } else {
+        NSLog(@"the view is currently loading content");
+    }
+
     
 }
 // 选择时间按钮
@@ -242,9 +393,22 @@
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"请选择\n\n\n\n\n\n\n\n\n\n\n\n" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
         
-        NSString * string = [NSString stringWithFormat:@"%@",[pickerView saveDateString]];
-        [button setTitle:string forState:UIControlStateNormal];
+        dateString = @"";
+        parameterDateString = [NSString stringWithFormat:@"%@",[pickerView saveDateString]];
+        [button setTitle:parameterDateString forState:UIControlStateNormal];
+
         
+        parameterDateString = [self parameterDateString:parameterDateString dateStringFormat:dateStringFormat];
+        NSLog(@"%@",parameterDateString);
+        
+        // 参数
+        NSMutableDictionary * dict = [NSMutableDictionary dictionary];
+        [dict setObject:parameterDateString  forKey:[paramsCountArray[button.tag] valueForKey:@"paramKey"]];
+        [parameterDataArray replaceObjectAtIndex:button.tag withObject:dict];
+        
+        
+        
+        NSLog(@"p[][][][%@",dict);
     }];
     
     pickerView = [[DatePickerView alloc] initWithFrame:CGRectMake(0, 40, Main_Screen_Width-20, 200)];
@@ -252,6 +416,7 @@
     dateStringFormat = [paramsCountArray[button.tag] valueForKey:@"paramFormat"];
 
     pickerView.defaultDateString = button.titleLabel.text;
+   
     [alertController.view addSubview:pickerView];
     
     if ([dateStringFormat isEqualToString:@"yyyyMMdd"]) {
@@ -358,17 +523,21 @@
             NSLog(@"%@",dic);
             
             
-            NSMutableArray * paramsMutableArray = [NSMutableArray array];
+//         NSMutableArray * paramsMutableArray = [NSMutableArray array];
+            NSMutableArray * paramsMutableArray = nil;
             paramsMutableArray = dic[@"params"] ;
-            
+            NSLog(@"==%@",paramsMutableArray);
             paramsCountArray = [NSMutableArray array];
             
             if (responseObject != nil) {
                 // key值为time的情况下比较infos中type，如果type为time 添加到keyTypeTimeArray数组中
+                NSMutableArray * infosMutableArray = nil;
+
                 for (NSMutableDictionary * dict in paramsMutableArray) {
-                    
-                    NSMutableArray * infosMutableArray = [NSMutableArray array];
+                    //内存问题
+//                    NSMutableArray * infosMutableArray = [NSMutableArray array];
                     infosMutableArray = dict[@"infos"];
+//                    NSLog(@"---%@",infosMutableArray);
                     // infos数组中type＝time的字典
                     NSMutableArray * typeTimeArray =[NSMutableArray array];
                     // infos数组中type＝other的字典
@@ -424,10 +593,11 @@
                     //
                     //                }
                     
+                    infosMutableArray = nil;
                     
                 }
                 
-                NSLog(@"%@",paramsCountArray);
+                NSLog(@"----%@",paramsCountArray);
                 
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -436,6 +606,8 @@
                     
                 });
             }
+            paramsMutableArray = nil;
+            
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
             //失败
             NSLog(@"failure  error ： %@",error);

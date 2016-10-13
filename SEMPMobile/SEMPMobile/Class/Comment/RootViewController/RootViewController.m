@@ -26,7 +26,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor whiteColor];
     
     //选择自己喜欢的颜色
     UIColor * color = [UIColor whiteColor];
@@ -48,7 +47,7 @@
     
     
     //添加网络监测通知
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkChanged:) name:kRealReachabilityChangedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkChanged:) name:kRealReachabilityChangedNotification object:nil];
     // ReachabilityStatus status = [GLobalRealReachability currentReachabilityStatus];
     
 }
@@ -60,7 +59,11 @@
 }
 - (void)dealloc
 {
+    NSLog(@"RootDealloc");
+
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+    [self.view removeFromSuperview];
 }
 #pragma mark - 网络改变 处理事件
 - (void)networkChanged:(NSNotification *)notification
@@ -68,7 +71,7 @@
     RealReachability *reachability =(RealReachability *) notification.object;
     ReachabilityStatus status = [reachability currentReachabilityStatus];
     ReachabilityStatus previousStatus = [reachability previousReachabilityStatus];
-//    NSLog(@"networkChanged: currentStatus:%@, previouStatus:%@",@(status),@(previousStatus));
+    NSLog(@"networkChanged: currentStatus:%@, previouStatus:%@",@(status),@(previousStatus));
     if (status == RealStatusNotReachable) {
         [self showHudInView:self.view showHint:@"断网了,请检查网络"];
     }

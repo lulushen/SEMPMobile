@@ -392,8 +392,10 @@
 - (ActionTableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     ActionTableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"actionCell" forIndexPath:indexPath];
+
     
-    ActionModel * actionModel = [[ActionModel alloc] init];
+//    ActionModel * actionModel = [[ActionModel alloc] init];
+    ActionModel * actionModel = nil;
     if (tableView.tag == 0) {
         
         actionModel = _allActionArray[indexPath.row];
@@ -532,7 +534,7 @@
         }
         
         return cell;
-    }else if (tableView.tag == 3){
+    }else{
         
         actionModel = _daiJieShouActionArray[indexPath.row];
         
@@ -544,9 +546,6 @@
             
         }
         return cell;
-    }else{
-        
-        return nil;
     }
     
 }

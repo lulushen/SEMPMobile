@@ -93,12 +93,13 @@
     }else{
         if (_dashLabelArray.count > 0) {
             
+            // 内存问题
+            // AddDashModel * m = [[AddDashModel alloc] init];
+
+            AddDashModel * m = nil;
+
             for (int i = 0; i <= _dashLabelArray.count - 1;i++) {
-                
-                AddDashModel * m = [[AddDashModel alloc] init];
-                
                 m = _dashLabelArray[i];
-                
                 if (i > 0) {
                     NSString * string = [NSString stringWithFormat:@",%@",m.AddId];
                     indexCheckedString = [indexCheckedString  stringByAppendingString:string];
@@ -108,6 +109,7 @@
                     indexCheckedString = [NSString stringWithFormat:@"%@",m.AddId];
                     
                 }
+                m = nil;
             }
             
         }else{
@@ -252,8 +254,9 @@
 - (AddCollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     AddCollectionViewCell * addcell = [collectionView dequeueReusableCellWithReuseIdentifier:@"addcell" forIndexPath:indexPath];
-    DashBoardModel * dashModel = [[DashBoardModel alloc] init];
-    
+    // 内存问题
+//    DashBoardModel * dashModel = [[DashBoardModel alloc] init];
+    DashBoardModel * dashModel = nil;
     if (collectionView.tag == 1) {
         
         UIImageView * deleteImage = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(addcell.contentView.frame)-10, 0, 15, 15)];
@@ -264,7 +267,6 @@
         for (int i = 0; i< _dashLabelArray.count;i++) {
             
             dashModel = _dashLabelArray[indexPath.row];
-            
             addcell.titleLab.text = dashModel.title;
             
         }
@@ -347,8 +349,8 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView moveItemAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath*)destinationIndexPath {
-    DashBoardModel * dashModel = [[DashBoardModel alloc] init];
-
+//    DashBoardModel * dashModel = [[DashBoardModel alloc] init];
+    DashBoardModel * dashModel  = nil;
     dashModel = _dashLabelArray[sourceIndexPath.row];
     //  从资源数组中移除该数据
     [_dashLabelArray removeObject:dashModel];
@@ -357,15 +359,15 @@
 
 
 }
--(void)dealloc
-{
-    
-}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+-(void)dealloc
+{
+    self.view = nil;
+}
 /*
  #pragma mark - Navigation
  

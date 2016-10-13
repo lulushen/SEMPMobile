@@ -18,6 +18,7 @@
 //#import "UMessage.h"
 //#import "UserNotifications.h"
 #import "CLLockVC.h"
+#import <LocalAuthentication/LocalAuthentication.h>
 
 @interface AppDelegate ()
 {
@@ -32,7 +33,7 @@
 {
     //开启网络监测
     [GLobalRealReachability startNotifier];
-
+    
     //监控键盘
     IQKeyboardManager * manager = [IQKeyboardManager sharedManager];
     manager.enable = YES;
@@ -52,16 +53,16 @@
     
     [self.window makeKeyWindow];
     
-//    TabBarControllerConfig *tabBarConfig = [[TabBarControllerConfig alloc]init];
-//    
-//    self.window.rootViewController = tabBarConfig.tabBarController;
-// 设置根视图
+    //    TabBarControllerConfig *tabBarConfig = [[TabBarControllerConfig alloc]init];
+    //
+    //    self.window.rootViewController = tabBarConfig.tabBarController;
+    // 设置根视图
     LoginViewController * LoginView = [[LoginViewController alloc] init];
     self.window.rootViewController = LoginView;
 #pragma --share--------------
     // UM分享 57a94f6167e58ef44b0005f9
-//    [UMSocialData setAppKey:@"507fcab25270157b37000010"];
-//    [UMSocialData setAppKey:@"57a94f6167e58ef44b0005f9"];
+    //    [UMSocialData setAppKey:@"507fcab25270157b37000010"];
+    //    [UMSocialData setAppKey:@"57a94f6167e58ef44b0005f9"];
     //设置友盟社会化组件appkey
     [UMSocialData setAppKey:@"57a94f6167e58ef44b0005f9"];
     
@@ -72,11 +73,11 @@
     [UMSocialConfig setSupportedInterfaceOrientations:UIInterfaceOrientationMaskAll];
     //设置微信AppId，设置分享url，默认使用友盟的网址
     [UMSocialWechatHandler setWXAppId:@"wxdc1e388c3822c80b" appSecret:@"a393c1527aaccb95f3a4c88d6d1455f6" url:@"http://www.umeng.com/social"];
-  
+    
     //设置分享到QQ空间的应用Id，和分享url 链接
     [UMSocialQQHandler setQQWithAppId:@"100424468" appKey:@"c7394704798a158208a74ab60104f0ba" url:@"http://www.umeng.com/social"];
     //    //设置支持没有客户端情况下使用SSO授权
-//    [UMSocialQQHandler setSupportWebView:YES];
+    //    [UMSocialQQHandler setSupportWebView:YES];
     [UMSocialData defaultData].extConfig.qqData.qqMessageType = UMSocialQQMessageTypeImage;
     //设置QQ分享纯图片，默认分享图文消息
     [UMSocialData defaultData].extConfig.wechatSessionData.wxMessageType = UMSocialWXMessageTypeImage;
@@ -90,8 +91,8 @@
     
     
     // Let the device know we want to receive push notifications  让设备知道我们要接收推送通知
-//    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:
-//     (UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
+    //    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:
+    //     (UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
     // iOS8之后和之前应区别对待
     if ([[UIDevice currentDevice].systemVersion floatValue] >= 8.0) {
         UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeBadge | UIUserNotificationTypeAlert | UIUserNotificationTypeSound categories:nil];
@@ -114,8 +115,8 @@
     return result;
 }
 /**
-这里处理新浪微博SSO授权进入新浪微博客户端后进入后台，再返回原来应用
-*/
+ 这里处理新浪微博SSO授权进入新浪微博客户端后进入后台，再返回原来应用
+ */
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     [UMSocialSnsService  applicationDidBecomeActive];
@@ -130,17 +131,17 @@
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-  
-
+    
+    
 }
 /**
  *  当程序从后台将要重新回到前台时候调用，这个刚好跟上面的那个方法相反。
  *
- *   Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background. 
+ *   Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
  */
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
-  
+    
     NSString * lockTypeString = [[NSUserDefaults standardUserDefaults] valueForKey:@"SettingLockType"];
     if ([lockTypeString isEqualToString:@"PIN"]) {
         
@@ -154,7 +155,7 @@
             
             NSLog(@"你还没有设置密码，请先设置密码");
         }else {
-
+            
             //获取当前屏幕中present出来的viewcontroller [self appRootViewController]
             [CLLockVC showVerifyLockVCInVC:[self appRootViewController] forgetPwdBlock:^{
                 NSLog(@"忘记密码");
@@ -168,6 +169,7 @@
         
     }else if ([lockTypeString isEqualToString:@"ZhiWen"]){
         
+        [self TouchIDPassWord];
         
     }else{
         
@@ -187,12 +189,12 @@
 /**
  *  如果用户同意，苹果会根据应用的 bundleID 和 手机UDID 生成 deviceToken,然后调用 application 的 didregister 方法返回 devicetoken,程序应该把 devicetoken 发给应用的服务器,服务器有义务将其存储(如果允许多点登录,可能存多个 devicetoken)。deviceToken也是会变的： ”If the user restores backup data to a new device or computer, or reinstalls the operating system, the device token changes“，因此应每次都发给服务器(provider)
  
-  */
+ */
 // 用户同意后，会调用此程序，获取系统的deviceToken，应把deviceToken传给服务器保存，此函数会在程序每次启动时调用(前提是用户允许通知)
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     NSLog(@"deviceToken = %@",deviceToken);
     NSLog(@"My token is: %@", deviceToken);
-
+    
 }
 // 注册失败调用
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
@@ -218,7 +220,7 @@
     return topVC;
 }
 /**
-    获取当前屏幕显示的viewcontroller
+ 获取当前屏幕显示的viewcontroller
  */
 - (UIViewController *)getCurrentVC
 {
@@ -248,5 +250,94 @@
     
     return result;
 }
-
+- (void)TouchIDPassWord{
+    
+    
+    
+    // Do any additional setup after loading the view, typically from a nib.
+    //创建LAContext
+    LAContext *context = [LAContext new];
+    
+    //这个属性是设置指纹输入失败之后的弹出框的选项
+    context.localizedFallbackTitle = @"忘记密码";
+    
+    NSError *error = nil;
+    if ([context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error]) {
+        NSLog(@"支持指纹识别");
+        [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics localizedReason:@"请按home键指纹解锁" reply:^(BOOL success, NSError * _Nullable error) {
+            if (success) {
+                NSLog(@"验证成功 刷新主界面");
+            }else{
+                NSLog(@"%@",error.localizedDescription);
+                switch (error.code) {
+                    case LAErrorSystemCancel:
+                    {
+                        NSLog(@"系统取消授权，如其他APP切入");
+                        break;
+                    }
+                    case LAErrorUserCancel:
+                    {
+                        NSLog(@"用户取消验证Touch ID");
+                        break;
+                    }
+                    case LAErrorAuthenticationFailed:
+                    {
+                        NSLog(@"授权失败");
+                        break;
+                    }
+                    case LAErrorPasscodeNotSet:
+                    {
+                        NSLog(@"系统未设置密码");
+                        break;
+                    }
+                    case LAErrorTouchIDNotAvailable:
+                    {
+                        NSLog(@"设备Touch ID不可用，例如未打开");
+                        break;
+                    }
+                    case LAErrorTouchIDNotEnrolled:
+                    {
+                        NSLog(@"设备Touch ID不可用，用户未录入");
+                        break;
+                    }
+                    case LAErrorUserFallback:
+                    {
+                        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                            NSLog(@"用户选择输入密码，切换主线程处理");
+                        }];
+                        break;
+                    }
+                    default:
+                    {
+                        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                            NSLog(@"其他情况，切换主线程处理");
+                        }];
+                        break;
+                    }
+                }
+            }
+        }];
+    }else{
+        NSLog(@"不支持指纹识别");
+        switch (error.code) {
+            case LAErrorTouchIDNotEnrolled:
+            {
+                NSLog(@"TouchID is not enrolled");
+                break;
+            }
+            case LAErrorPasscodeNotSet:
+            {
+                NSLog(@"A passcode has not been set");
+                break;
+            }
+            default:
+            {
+                NSLog(@"TouchID not available");
+                break;
+            }
+        }
+        
+        NSLog(@"%@",error.localizedDescription);
+    }
+}
 @end

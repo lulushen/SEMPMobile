@@ -336,7 +336,8 @@
         if (cell == nil) {
             cell = [[AddActionSelectTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         }
-        DefaultIndexInfoModel * defaultIndexInfoModel = [[DefaultIndexInfoModel alloc] init];
+//        DefaultIndexInfoModel * defaultIndexInfoModel = [[DefaultIndexInfoModel alloc] init];
+        DefaultIndexInfoModel * defaultIndexInfoModel  = nil;
         defaultIndexInfoModel = _defaultIndexInfoModelArray[indexPath.row];
         cell.titleLabel.text = defaultIndexInfoModel.title;
         cell.selectButton.tag = indexPath.row;
@@ -366,7 +367,7 @@
         }
         return cell;
         
-    }else if(tableView.tag == 2){
+    }else{
         // 选中的当前组织
         NSInteger  dangqizhizi = 0;
         for (int i = 0;i< _defaultD_resModelArray.count;i++ ) {
@@ -464,9 +465,6 @@
         
         return cell;
         
-    }else{
-        
-        return nil;
     }
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -1936,8 +1934,8 @@
             NSMutableArray * array = responseObject[@"resdata"];
             for (int i = 0 ;i < array.count ; i++) {
                 
-                NSMutableDictionary * dict = [NSMutableDictionary dictionary];
-                
+//                NSMutableDictionary * dict = [NSMutableDictionary dictionary];
+                NSMutableDictionary * dict = nil;
                 dict = array[i];
                 
                 DefaultD_resModel * defaultD_resModel = [[DefaultD_resModel alloc] init];
@@ -1957,13 +1955,14 @@
                 
                 NSNumber * number = [NSNumber numberWithInteger:userArray.count];
                 [self.MeiGeZhuZhiDeUserCountArray addObject:number];
-                
+                NSMutableDictionary * userDict = nil;
                 for (int j = 0; j< userArray.count;j++) {
                     
-                    NSMutableDictionary * userDict = [NSMutableDictionary dictionary];
+//                 NSMutableDictionary * userDict = [NSMutableDictionary dictionary];
                     userDict = userArray[j];
                     [self.defaultUserArray addObject:userDict];
                     
+                    userDict = nil;
                 }
                 // 编辑的时候默认已经选择的user
                 for (NSMutableDictionary * dict in _userArray) {
@@ -2143,7 +2142,8 @@
     
     // 每次点击组织button的时候都是默认不展开的
     for (int i = 0; i < _defaultD_resModelArray.count; i++) {
-        DefaultD_resModel * d_resModel = [[DefaultD_resModel alloc] init];
+//        DefaultD_resModel * d_resModel = [[DefaultD_resModel alloc] init];
+        DefaultD_resModel * d_resModel  = nil;
         d_resModel =_defaultD_resModelArray[i];
         
         if ([d_resModel.d_res_parentid isEqualToString:@"0"]) {

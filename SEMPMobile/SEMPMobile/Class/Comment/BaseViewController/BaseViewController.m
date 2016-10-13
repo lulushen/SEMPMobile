@@ -34,6 +34,11 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)dealloc
+{
+    NSLog(@"BaseDealloc");
+    [self.view removeFromSuperview];
+}
 /*
  #pragma mark - Navigation
  

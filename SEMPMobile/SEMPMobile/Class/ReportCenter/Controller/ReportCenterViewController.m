@@ -38,7 +38,7 @@
 @implementation ReportCenterViewController
 -(void)viewWillAppear:(BOOL)animated
 {
-    
+    [super viewWillAppear:YES];
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -428,9 +428,9 @@
     
     ReportIncomeViewController * reportIncomeVC = [[ReportIncomeViewController alloc] init];
     
-    NSMutableDictionary * userDict = [[NSUserDefaults standardUserDefaults] valueForKey:@"userResponseObject"];
+//    NSMutableDictionary * userDict = [[NSUserDefaults standardUserDefaults] valueForKey:@"userResponseObject"];
 
-    NSString * token =  [userDict valueForKey:@"user_token"];
+//    NSString * token =  [userDict valueForKey:@"user_token"];
     
     reportIncomeVC.webViewHttpString = [NSString stringWithFormat:ReportIncomeWebHttp];
     

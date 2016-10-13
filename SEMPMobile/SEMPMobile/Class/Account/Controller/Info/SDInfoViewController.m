@@ -298,7 +298,7 @@
             cellrect.size.height = _noReadCell.infoLabel.frame.size.height + 10*KHeight6scale;
             _noReadCell.frame = cellrect;
             return _noReadCell;
-        }else if(model.readflag == 1){
+        }else{
 
                 _readedCell = [tableView dequeueReusableCellWithIdentifier:@"ReadCell" forIndexPath:indexPath];
             
@@ -333,11 +333,7 @@
             _readedCell.frame = cellrect;
             return _readedCell;
             
-        }else{
-            return nil;
-
         }
-       
 
     }else if (tableView.tag == 1){
         
@@ -362,7 +358,7 @@
             _noReadCell.frame = cellrect;
             return _noReadCell;
             
-        }else if(model.readflag == 1){
+        }else{
             
             _readedCell = [tableView dequeueReusableCellWithIdentifier:@"ReadCell" forIndexPath:indexPath];
             
@@ -397,15 +393,12 @@
             _readedCell.frame = cellrect;
             return _readedCell;
             
-        }else{
-            return nil;
-            
         }
         
 
         
 
-    }else if (tableView.tag == 2){
+    }else{
         
         
         _readedCell = [tableView dequeueReusableCellWithIdentifier:@"ReadCell" forIndexPath:indexPath];
@@ -442,12 +435,7 @@
         _readedCell.frame = cellrect;
         return _readedCell;
 
-    }else{
-        
-        
-        return nil;
     }
-    
     
 }
 
@@ -477,8 +465,8 @@
                 
                 if (responseObject != nil) {
                     
-                    NSMutableDictionary * dict = [NSMutableDictionary dictionary];
-                    
+//                    NSMutableDictionary * dict = [NSMutableDictionary dictionary];
+                    NSMutableDictionary * dict = nil;
                     dict = responseObject[@"resdata"];
 
                     _makeReadModel = [[InfoModel alloc] init];
@@ -488,6 +476,7 @@
                     [self tableView:tableView commitEditingStyle:UITableViewCellEditingStyleDelete forRowAtIndexPath:indexPath];
                     
                     [self tableView:tableView commitEditingStyle:UITableViewCellEditingStyleInsert forRowAtIndexPath:indexPath];
+                    dict = nil;
                     
                 }
                 
