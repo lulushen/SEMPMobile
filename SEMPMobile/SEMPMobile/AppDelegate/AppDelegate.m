@@ -85,11 +85,6 @@
     [UMSocialData defaultData].extConfig.wechatTimelineData.wxMessageType = UMSocialWXMessageTypeImage;
     //设置微信朋友圈分享纯图片
     
-    
-    
-    
-    
-    
     // Let the device know we want to receive push notifications  让设备知道我们要接收推送通知
     //    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:
     //     (UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];

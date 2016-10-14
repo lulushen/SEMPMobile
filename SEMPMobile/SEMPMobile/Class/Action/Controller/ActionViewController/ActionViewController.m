@@ -39,7 +39,6 @@
 // 待接收任务数组
 @property (nonatomic , strong) NSMutableArray * daiJieShouActionArray;
 
-
 @end
 
 @implementation ActionViewController
@@ -52,7 +51,6 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     // nav
     [self makeNavigationView];
     // 头部视图
@@ -84,19 +82,17 @@
         [self.view addSubview:_allActionTableView];
         
     }
-
+    
     [self addRefreshView];
 }
 
 -(void)makeDataTableView
 {
-    
-   
-       //1.获取一个全局串行队列
+    //1.获取一个全局串行队列
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     //2.把任务添加到队列中执行
     dispatch_async(queue, ^{
-    
+        
         NSString * urlStr = [NSString stringWithFormat:ActionHttp];
         
         AFHTTPSessionManager * manager = [AFHTTPSessionManager manager];
@@ -105,7 +101,7 @@
             
             //这里可以用来显示下载进度
         } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-          
+            
             NSLog(@"%@",responseObject);
             _allActionArray = [NSMutableArray array];
             _yiJieShouActionArray = [NSMutableArray array];
@@ -138,23 +134,18 @@
                     //  状态9 ：未完成     ID相同：可删除，不可编辑；ID不同：不可删除，不可编辑；
                     //  状态10 ：删除
                     //  已下达包含：ID相同1/2/3/4/5/6/9； 待接受包含：ID不同的1；已接受包含：ID不同的2／3／4／5／6／9 全部任务包含所有
-                    
-                    
                     if ((actionModel.loginUser != actionModel.create_user) && [actionModel.task_state isEqualToString:@"1"]) {
                         
                         [_daiJieShouActionArray addObject:actionModel];
                         
                     }else if ((actionModel.loginUser == actionModel.create_user)&&([actionModel.task_state isEqualToString:@"1"] | [actionModel.task_state isEqualToString:@"4"] | [actionModel.task_state isEqualToString:@"2"]|[actionModel.task_state isEqualToString:@"3"] | [actionModel.task_state isEqualToString:@"5"] | [actionModel.task_state isEqualToString:@"6"] | [actionModel.task_state isEqualToString:@"7"] |[actionModel.task_state isEqualToString:@"8"] | [actionModel.task_state isEqualToString:@"9"])) {
                         
-                        
                         [_yiXiaActionArray addObject:actionModel];
-                        
                         
                     }else if ((actionModel.loginUser != actionModel.create_user)&&([actionModel.task_state isEqualToString:@"4"] | [actionModel.task_state isEqualToString:@"2"]|[actionModel.task_state isEqualToString:@"3"] | [actionModel.task_state isEqualToString:@"5"] | [actionModel.task_state isEqualToString:@"6"] | [actionModel.task_state isEqualToString:@"7"] |[actionModel.task_state isEqualToString:@"8"] | [actionModel.task_state isEqualToString:@"9"])) {
                         
                         [_yiJieShouActionArray addObject:actionModel];
                     }
-                    
                     
                 }
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -165,7 +156,6 @@
                     [_yiJieShouTableView reloadData];
                     // 发送通知改变待接收数据个数
                     [[NSNotificationCenter defaultCenter] postNotificationName:@"DaiJieShouShuLiangChange" object:nil];
-                    
                 });
                 
             }
@@ -298,7 +288,7 @@
     
     [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [button setBackgroundColor:ActionButtonColor];
-
+    
     
 }
 
@@ -348,7 +338,7 @@
     tableView.separatorStyle = UITableViewCellSelectionStyleNone;
     
     [tableView registerClass:[ActionTableViewCell class] forCellReuseIdentifier:@"actionCell"];
-
+    
     
 }
 //添加按钮点击事件
@@ -392,9 +382,9 @@
 - (ActionTableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     ActionTableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"actionCell" forIndexPath:indexPath];
-
     
-//    ActionModel * actionModel = [[ActionModel alloc] init];
+    
+    //    ActionModel * actionModel = [[ActionModel alloc] init];
     ActionModel * actionModel = nil;
     if (tableView.tag == 0) {
         
@@ -644,13 +634,10 @@
             [weakSelf refreshAction];
         }];
     }
-    
-    
     //上拉加载更多
     //    footerView = [_allActionTableView addFooterWithRefreshHandler:^(FCXRefreshBaseView *refreshView) {
     //        [weakSelf loadMoreAction];
     //    }];
-    
     
 }
 
@@ -671,12 +658,12 @@
     __weak FCXRefreshHeaderView *weakHeaderView = _headerView;
     
     
-
+    
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self makeDataTableView];
-
+        
         [weakHeaderView endRefresh];
-
+        
         
     });
 }

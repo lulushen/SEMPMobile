@@ -17,7 +17,6 @@
         self.backgroundColor = DEFAULT_BGCOLOR;
         
         [self makeView];
-        
     }
     return self;
 }

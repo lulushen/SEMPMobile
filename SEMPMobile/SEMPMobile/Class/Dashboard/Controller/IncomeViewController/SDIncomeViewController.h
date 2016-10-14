@@ -29,7 +29,6 @@
 
 @property (nonatomic , strong) NSMutableArray * pieColorArray;
 
-
 @property (nonatomic , strong)NSString * Time;
 
 @end

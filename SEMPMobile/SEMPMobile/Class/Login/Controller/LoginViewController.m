@@ -10,14 +10,10 @@
 #import "TabBarControllerConfig.h"
 #import "SDUserLoginViewController.h"
 
-
-
-
 @interface LoginViewController ()
 {
     UIImageView * imageView;
 }
-
 @end
 
 @implementation LoginViewController
@@ -29,7 +25,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"login"]];
     imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, Main_Screen_Height)];
     imageView.image = [UIImage imageNamed:@"login"];
     [self.view addSubview:imageView];
@@ -63,7 +58,9 @@
     [self presentViewController:UserLoginView animated:YES completion:nil];
     
 }
-// 游客用户登录实现方法
+/**
+ *   游客用户登录实现方法
+ */
 - (void)demoButtonClick:(UIButton *)button
 {
     

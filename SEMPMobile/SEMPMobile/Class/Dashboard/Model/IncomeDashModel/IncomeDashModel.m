@@ -13,15 +13,10 @@
 {
     if ([key isEqualToString:@"id"]) {
         
-       
     }
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder{
-    
-    
-  
-    
     
 //    [aCoder encodeObject:_charttype forKey:@"charttype"];
 //    [aCoder encodeObject:_color forKey:@"color"];
@@ -34,9 +29,6 @@
 //    [aCoder encodeObject:_defaultVal forKey:@"defaultVal"];
 //    
 //    [aCoder encodeObject:_contrastVal forKey:@"contrastVal"];
-    
-    
-    
 }
 - (instancetype)initWithCoder:(NSCoder *)aDecoder
 {
@@ -53,8 +45,6 @@
 //        _defaultVal = [aDecoder decodeObjectForKey:@"defaultVal"];
         
     }
-    
-    
     return self;
 }
 @end

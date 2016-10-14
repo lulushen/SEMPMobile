@@ -60,7 +60,7 @@
 - (void)dealloc
 {
     NSLog(@"RootDealloc");
-
+    
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
     [self.view removeFromSuperview];
@@ -184,7 +184,7 @@ static int ScreenshotIndex = 0;
     NSString *savedImagePath = [documentsDirectory stringByAppendingPathComponent:pictureName];
     NSLog(@"截屏路径打印: %@", savedImagePath);
     //这里我将路径设置为一个全局String，这里做的不好，我自己是为了用而已，希望大家别这么写
-//    [self SetPickPath:savedImagePath];
+    //    [self SetPickPath:savedImagePath];
     
     [imageViewData writeToFile:savedImagePath atomically:YES];//保存照片到沙盒目录
     CGImageRelease(imageRefRect);
@@ -203,13 +203,11 @@ static int ScreenshotIndex = 0;
                               @{@"name":@"短信",@"icon":@"message.png"},
                               @{@"name":@"邮箱",@"icon":@"email.png"},
                               //                              @{@"name":@"朋友圈",@"icon":@"sns_icon_8"},
-                              //                              @{@"name":@"QQ ",@"icon":@"sns_icon_4"},
-                              //                              @{@"name":@"微信",@"icon":@"sns_icon_7"},
                               ];
     
     [cusSheet showInView:[UIApplication sharedApplication].keyWindow contentArray:contentArray];
     
-
+    
     
 }
 #pragma mark - YXCustomActionSheetDelegate

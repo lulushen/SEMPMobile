@@ -94,7 +94,7 @@
     [self makeTableView];
     
     [self makeNavigation];
-
+    
     [self maketab];
     
     [self makeIncomeDate:_Time];
@@ -135,7 +135,7 @@
     
     _Time = [_Time stringByReplacingOccurrencesOfString:@"日" withString:@""];
     
-
+    
     [UIView animateWithDuration:0.3 animations:^{
         self.view.backgroundColor = [UIColor whiteColor];
         _IncomeTableView.alpha = 1;
@@ -143,7 +143,7 @@
         _dataSearchView.alpha = 0.0f;
         
     } completion:nil];
-
+    
     
     [self makeIncomeDate:_Time];
     
@@ -188,7 +188,7 @@ static  BOOL Btnstatu = YES;
 {
     
     if (button.selected == Btnstatu) {
-
+        
         Btnstatu = YES;
         
     }else{
@@ -217,7 +217,7 @@ static  BOOL Btnstatu = YES;
         _dataSearchView.alpha = 0.0f;
         
     } completion:nil];
-
+    
     
     Btnstatu = YES;
     
@@ -229,11 +229,8 @@ static  BOOL Btnstatu = YES;
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     //2.把任务添加到队列中执行
     dispatch_async(queue, ^{
-        
-        
         // 指标界面的接口
         NSString * urlStr = [NSString stringWithFormat:IncomeHttp,_IndexID,_Time];
-        
         
         AFHTTPSessionManager * manager = [AFHTTPSessionManager manager];
         
@@ -245,27 +242,24 @@ static  BOOL Btnstatu = YES;
             NSLog(@"%@",responseObject);
             if (responseObject != nil) {
                 // 内存问题
-//                NSMutableDictionary * dict = [NSMutableDictionary dictionary];
+                //                NSMutableDictionary * dict = [NSMutableDictionary dictionary];
                 NSMutableDictionary * dict = nil;
                 dict = responseObject[@"resdata"];
                 NSLog(@"--==%@",dict);
                 
                 if (dict != nil) {
                     
-                    
                     IncomeDashModel * model = [[IncomeDashModel alloc] init];
                     
                     [model setValuesForKeysWithDictionary:dict];
                     
-                    
-                    
                     self.incomeDashModel = model;
-
+                    
                     dispatch_async(dispatch_get_main_queue(), ^{
                         
-                       [_IncomeTableView reloadData];
+                        [_IncomeTableView reloadData];
                     });
-
+                    
                 }
                 
             }else{
@@ -295,8 +289,6 @@ static  BOOL Btnstatu = YES;
     [self.huabiV addGestureRecognizer:_longPressGr];
     
     [self.view addSubview:self.huabiV];
-    
-    
 }
 -(void)longPressToDo:(UILongPressGestureRecognizer *)gesture
 {
@@ -304,7 +296,6 @@ static  BOOL Btnstatu = YES;
     {
         _removebutton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         _removebutton.frame = CGRectMake(0, 0, 50, 50);
-        
         [_removebutton setImage:[UIImage imageNamed:@"delete.png"] forState:UIControlStateNormal];
         [_removebutton addTarget:self action:@selector(removebuttonClick:) forControlEvents:UIControlEventTouchUpInside];
         [self.huabiV addSubview:_removebutton];
@@ -325,8 +316,6 @@ static  BOOL Btnstatu = YES;
     
     [self.huabiV removeFromSuperview];
     [self.wenBenView removeFromSuperview];
-    
-    
     if (button.selected == self.status) {
         
         _luyinImageView = [[UIImageView alloc] initWithFrame:CGRectMake(Main_Screen_Width/4.0  , KViewHeight  - 50, Main_Screen_Width/4.0, 50)];
@@ -355,8 +344,6 @@ static  BOOL Btnstatu = YES;
         [self.view addSubview:_luyinImageView];
         
         [_luyinButtontwo initRecord:self maxtime:120 title:@"按住录音"];
-        
-        
     }else{
         
         [_luyinImageView removeFromSuperview];
@@ -364,9 +351,6 @@ static  BOOL Btnstatu = YES;
         _status = NO;
         
     }
-    
-    
-    
     
 }
 
@@ -378,11 +362,9 @@ static  BOOL Btnstatu = YES;
 }
 
 -(void)endRecord:(NSData *)voiceData{
+    
     NSError *error;
-    
     play = [[AVAudioPlayer alloc] initWithData:voiceData error:&error];
-    
-    
 }
 
 - (void)wenbenbuttonClick:(UIButton *)button
@@ -404,7 +386,7 @@ static  BOOL Btnstatu = YES;
     _textView.delegate = self;
     [_textView resignFirstResponder];
     _textView.font = [UIFont boldSystemFontOfSize:20];
-//    [_textView addGestureRecognizer:_longPressGr];
+    //    [_textView addGestureRecognizer:_longPressGr];
     
     [_wenBenView addSubview:_textView];
     
@@ -446,7 +428,6 @@ static  BOOL Btnstatu = YES;
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
     [super touchesEnded:touches withEvent:event];
-    
     [self.view endEditing:YES];
 }
 
@@ -503,12 +484,9 @@ static  BOOL Btnstatu = YES;
     [_IncomeTableView registerClass:[IncomeTableViewCell class] forCellReuseIdentifier:@"cell"];
     [_IncomeTableView registerClass:[IncomeTableViewTopCell class] forCellReuseIdentifier:@"TopCell"];
     [_IncomeTableView registerClass:[IncomeTableViewChartCell class] forCellReuseIdentifier:@"ChartCell"];
-
-    
     [_IncomeTableView addGestureRecognizer:self.rightSwipeGestureRecognizer];
-
+    
 }
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
@@ -523,24 +501,24 @@ static  BOOL Btnstatu = YES;
     if (indexPath.section==0 && indexPath.row == 0) {
         
         IncomeTableViewTopCell * cell = [tableView dequeueReusableCellWithIdentifier:@"TopCell" forIndexPath:indexPath];
-            cell.defaultvalLabel.text = _incomeDashModel.defaultval;
-            cell.defaultunitLabel.text = _incomeDashModel.defaultunit;
-            cell.contrastnameLabel.text = _incomeDashModel.contrastname;
-            cell.contrastvalLabel.text = _incomeDashModel.contrastval;
-            cell.contrastunitLable.text = _incomeDashModel.contrastunit;
-            cell.othernameLabel.text = _incomeDashModel.othername;
-            cell.otherval.text = _incomeDashModel.otherval;
-            cell.otherunitLabel.text = _incomeDashModel.otherunit;
-            cell.titleImage.image = [UIImage imageNamed:@"sanjiao.png"];
-         return cell;
+        cell.defaultvalLabel.text = _incomeDashModel.defaultval;
+        cell.defaultunitLabel.text = _incomeDashModel.defaultunit;
+        cell.contrastnameLabel.text = _incomeDashModel.contrastname;
+        cell.contrastvalLabel.text = _incomeDashModel.contrastval;
+        cell.contrastunitLable.text = _incomeDashModel.contrastunit;
+        cell.othernameLabel.text = _incomeDashModel.othername;
+        cell.otherval.text = _incomeDashModel.otherval;
+        cell.otherunitLabel.text = _incomeDashModel.otherunit;
+        cell.titleImage.image = [UIImage imageNamed:@"sanjiao.png"];
+        return cell;
     }else  if(indexPath.row == 1){
         IncomeTableViewChartCell * cell = [tableView dequeueReusableCellWithIdentifier:@"ChartCell" forIndexPath:indexPath];
         cell.scrollView.delegate = self;
-     
+        
         for (UIView * view in cell.scrollView.subviews) {
-                [view removeFromSuperview];
+            [view removeFromSuperview];
         }
-
+        
         [self incomeTableViewChartCell:cell indexPath:indexPath];
         
         return cell;
@@ -559,8 +537,6 @@ static  BOOL Btnstatu = YES;
     }
     
 }
-
-
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
@@ -583,9 +559,6 @@ static  BOOL Btnstatu = YES;
 {
     return 1;
 }
-
-
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -593,7 +566,7 @@ static  BOOL Btnstatu = YES;
 
 // 图表代理方法PNChartDelegate
 - (void)userClickedOnLineKeyPoint:(CGPoint)point lineIndex:(NSInteger)lineIndex pointIndex:(NSInteger)pointIndex{
-  
+    
     _pointIndexPath = (int)pointIndex;
     NSIndexPath * indexPath = [NSIndexPath indexPathForRow:1 inSection:0];
     IncomeTableViewChartCell * cell = [_IncomeTableView cellForRowAtIndexPath:indexPath];
@@ -612,31 +585,21 @@ static  BOOL Btnstatu = YES;
             [_IncomeTableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath1,indexPath2,indexPath3,nil] withRowAnimation:UITableViewRowAnimationNone];
             
         }
-
+        
     }else if((cell.scrollView.contentOffset.y >= cell.scrollView.contentSize.height/2.0)){
         
         [_contrastLineChart addSubview:_pointButton];
         [_pointButton setTitle:[NSString stringWithFormat:@"%@,%@",_incomeDashModel.contrastVal[@"x"][_pointIndexPath],_incomeDashModel.contrastVal[@"y"][_pointIndexPath]] forState:UIControlStateNormal];
-
+        
     }
-    
-   
     CGRect buttonStringRect = [_pointButton.titleLabel.text boundingRectWithSize:CGSizeMake(CGRectGetWidth(self.view.frame)-60, 40*KHeight6scale) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:_pointButton.titleLabel.font} context:nil];
-
+    
     _pointButton.frame = CGRectMake(point.x-(buttonStringRect.size.width)/2.0, point.y-(buttonStringRect.size.height)-10*KHeight6scale, buttonStringRect.size.width, buttonStringRect.size.height );
-
+    
     _pointButton.backgroundColor = [UIColor blackColor];
     [_pointButton.titleLabel setFont:[UIFont systemFontOfSize:13.0f]];
     _pointButton.alpha = 0.8;
     [_pointButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    
-    
-    
-    
-    
-
-    
-    
 }
 
 - (void)userClickedOnLinePoint:(CGPoint)point lineIndex:(NSInteger)lineIndex{
@@ -678,7 +641,7 @@ static  BOOL Btnstatu = YES;
         [_IncomeTableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath1,indexPath2,indexPath3,nil] withRowAnimation:UITableViewRowAnimationNone];
     }else if((cell.scrollView.contentOffset.y >= cell.scrollView.contentSize.height/2.0)){
     }
-
+    
 }
 
 - (void)incomeTableViewChartCell:(IncomeTableViewChartCell *)cell indexPath:(NSIndexPath *)indexPath{
@@ -692,26 +655,26 @@ static  BOOL Btnstatu = YES;
     // 判断实际值或对比值颜色
     if ((_XdefaultValValueArray.count == 0) && (_YdefaultValValueArray.count == 0)&& !((_XcontrastValValueArray.count == 0) && (_YcontrastValValueArray.count == 0))) {
         //对比按钮
-//        [cell.contrastvalButton addTarget:self action:@selector(contrastvalButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+        //        [cell.contrastvalButton addTarget:self action:@selector(contrastvalButtonClick:) forControlEvents:UIControlEventTouchUpInside];
         cell.contrastvalColorLabel.backgroundColor = MoreButtonColor;
     }else if(!((_XdefaultValValueArray.count == 0) && (_YdefaultValValueArray.count == 0))&& ((_XcontrastValValueArray.count == 0) && (_YcontrastValValueArray.count == 0))){
         //实际按钮
-//        [cell.defaultvalButton addTarget:self action:@selector(defaultvalButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-//        cell.defaultvalButton.selected = YES;
+        //        [cell.defaultvalButton addTarget:self action:@selector(defaultvalButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+        //        cell.defaultvalButton.selected = YES;
         cell.defaultvalColorLabel.backgroundColor = [UIColor orangeColor];
     }else if (!((_XdefaultValValueArray.count == 0) && (_YdefaultValValueArray.count == 0))&&!((_XcontrastValValueArray.count == 0) && (_YcontrastValValueArray.count == 0)) ){
         //实际按钮
-//        [cell.defaultvalButton addTarget:self action:@selector(defaultvalButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-//        cell.defaultvalButton.selected = YES;
+        //        [cell.defaultvalButton addTarget:self action:@selector(defaultvalButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+        //        cell.defaultvalButton.selected = YES;
         //对比按钮
-//        [cell.contrastvalButton addTarget:self action:@selector(contrastvalButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+        //        [cell.contrastvalButton addTarget:self action:@selector(contrastvalButtonClick:) forControlEvents:UIControlEventTouchUpInside];
         cell.defaultvalColorLabel.backgroundColor = [UIColor orangeColor];
         cell.contrastvalColorLabel.backgroundColor = MoreButtonColor;
     }else{
-       
+        
         
     }
- //判断数据是否为空
+    //判断数据是否为空
     if ((_XdefaultValValueArray.count == 0) && (_YdefaultValValueArray.count == 0)) {
         [_XdefaultValValueArray addObject:@""];
         [_YdefaultValValueArray addObject:@""];
@@ -729,323 +692,323 @@ static  BOOL Btnstatu = YES;
         [_YcontrastValValueArray addObject:@""];
     }
     
- 
-
-//    if (_incomeDashModel.defaultunit == _incomeDashModel.contrastunit) {
     
-        //        if ((XdefaultValValueArray.count == 0) && (YdefaultValValueArray.count == 0) && (XcontrastValValueArray.count ==0) && (YcontrastValValueArray.count == 0)) {
-        //
-        //        }else{
-        //
-        //            _lineChart = [[PNLineChart alloc] initWithFrame:CGRectMake(0, 0,Main_Screen_Width-40*KWidth6scale,220*KHeight6scale)];
-        //            _barChart = [[PNBarChart alloc] initWithFrame:CGRectMake(CGRectGetMinX(_lineChart.frame), CGRectGetMinY(_lineChart.frame), CGRectGetWidth(_lineChart.frame), CGRectGetHeight(_lineChart.frame))];
-        //
-        //            if ([_incomeDashModel.charttype isEqualToString:@"line_chart"]) {
-        //                _lineChart.backgroundColor = [UIColor redColor];
-        //                [self makeLine];
-        //                _lineChart.yUnit = _incomeDashModel.defaultunit;
-        //
-        //                [_lineChart setXLabels:XdefaultValValueArray];
-        //
-        //                PNLineChartData * data01 = [PNLineChartData new];
-        //                data01.color = [UIColor orangeColor];
-        //                data01.itemCount = self.lineChart.xLabels.count;
-        //                data01.alpha = 0.8f;
-        //                data01.lineWidth = 2.f;
-        //                data01.inflexionPointWidth = 4;
-        //                data01.inflexionPointStyle = PNLineChartPointStyleCircle;
-        //                data01.getData = ^(NSUInteger index){
-        //
-        //                    CGFloat yValue = [YdefaultValValueArray[index] floatValue];
-        //
-        //                    return [PNLineChartDataItem dataItemWithY:yValue andRawY:yValue];
-        //
-        //                };
-        //                if (_incomeDashModel.contrastVal.count == 0) {
-        //
-        //                    self.lineChart.chartData = @[data01];
-        //
-        //                }else{
-        //                    // Line Chart #2
-        //                    [_lineChart setXLabels:XcontrastValValueArray];
-        //
-        //                    PNLineChartData *data02 = [PNLineChartData new];
-        //
-        //                    data02.color = MoreButtonColor;
-        //
-        //                    data02.alpha = 0.8f;
-        //
-        //                    data02.itemCount = self.lineChart.xLabels.count;
-        //
-        //                    data02.inflexionPointWidth = 4;
-        //
-        //                    data02.inflexionPointStyle = PNLineChartPointStyleCircle;
-        //
-        //                    data02.getData = ^(NSUInteger index) {
-        //
-        //                        CGFloat yValue = [YcontrastValValueArray[index] floatValue];
-        //                        return [PNLineChartDataItem dataItemWithY:yValue];
-        //                    };
-        //
-        //                    self.lineChart.chartData = @[data01, data02];
-        //
-        //                }
-        //                _lineChart.delegate = self;
-        //
-        //                [_lineChart strokeChart];
-        //                [cell.chartView addSubview:_lineChart];
-        //
-        //            }else if ([_incomeDashModel.charttype isEqualToString:@"pie_chart"]){
-        //
-        //#warning ====存不存在实际值为空，对比值不为空的情况＝＝＝＝
-        //                if (_incomeDashModel.contrastVal.count == 0) {
-        //                    NSMutableArray *items  = [NSMutableArray array];
-        //                    int i = 0;
-        //
-        //                    for (NSString * value in YdefaultValValueArray) {
-        //
-        //                        PNPieChartDataItem * item = [PNPieChartDataItem dataItemWithValue:[value floatValue] color:PNArc4randomColor description:XdefaultValValueArray[i]];
-        //                        [items addObject:item];
-        //                        i++;
-        //                    }
-        //
-        //                    _pieChart = [[PNPieChart alloc] initWithFrame:CGRectMake(50*KWidth6scale,10*KHeight6scale, CGRectGetHeight(_lineChart.frame)-20*KHeight6scale, CGRectGetHeight(_lineChart.frame)-20*KHeight6scale) items:items];
-        //                    _pieChart.descriptionTextColor = [UIColor whiteColor];
-        //                    _pieChart.descriptionTextFont  = [UIFont fontWithName:@"Avenir-Medium" size:11.0];
-        //                    _pieChart.descriptionTextShadowColor = [UIColor clearColor];
-        //                    _pieChart.showAbsoluteValues = NO;
-        //                    _pieChart.showOnlyValues = YES;
-        //                    [_pieChart strokeChart];
-        //                    _pieChart.legendStyle = PNLegendItemStyleSerial;
-        //                    _pieChart.legendFont = [UIFont systemFontOfSize:12.0f];
-        //                    _pieChart.legendFontColor = [UIColor grayColor];
-        //                    _pieChart.delegate = self;
-        //
-        //                    UIView *legend = [self.pieChart getLegendWithMaxWidth:10];
-        //
-        //                    [legend setFrame:CGRectMake(CGRectGetMaxX(_pieChart.frame)+10*KWidth6scale, CGRectGetMinY(_pieChart.frame), legend.frame.size.width, legend.frame.size.height)];
-        //
-        //                    [cell.chartView addSubview:legend];
-        //
-        //                    [cell.chartView addSubview:self.pieChart];
-        //
-        //
-        //                }else{
-        //                    if (_incomeDashModel.contrastVal.count == 0) {
-        //
-        //                    }else{
-        //                        [cell.chartView addSubview:cell.scrollView];
-        //                        //            cell.scrollView.directionalLockEnabled=YES;//定向锁定
-        //                        NSMutableArray *items  = [NSMutableArray array];
-        //                        int i = 0;
-        //
-        //                        for (NSString * value in YdefaultValValueArray) {
-        //
-        //                            PNPieChartDataItem * item = [PNPieChartDataItem dataItemWithValue:[value floatValue] color:PNArc4randomColor description:XdefaultValValueArray[i]];
-        //                            [items addObject:item];
-        //                            i++;
-        //                        }
-        //                        _midvalPieChart = [[PNPieChart alloc] initWithFrame:CGRectMake(50*KWidth6scale, 10*KHeight6scale, CGRectGetHeight(_lineChart.frame)-20*KHeight6scale, CGRectGetHeight(_lineChart.frame)-20*KHeight6scale) items:items];
-        //                        _midvalPieChart.descriptionTextColor = [UIColor whiteColor];
-        //                        _midvalPieChart.descriptionTextFont  = [UIFont fontWithName:@"Avenir-Medium" size:11.0];
-        //                        _midvalPieChart.descriptionTextShadowColor = [UIColor clearColor];
-        //                        _midvalPieChart.showAbsoluteValues = NO;
-        //                        _midvalPieChart.showOnlyValues = YES;
-        //                        _midvalPieChart.delegate = self;
-        //
-        //                        [_midvalPieChart strokeChart];
-        //                        _midvalPieChart.legendStyle = PNLegendItemStyleStacked;
-        //                        _midvalPieChart.legendFont = [UIFont systemFontOfSize:12.0f];
-        //                        _midvalPieChart.legendFontColor = [UIColor grayColor];
-        //
-        //
-        //                        UIView *legend = [self.midvalPieChart getLegendWithMaxWidth:60*KWidth6scale];
-        //
-        //                        [legend setFrame:CGRectMake(CGRectGetMaxX(_midvalPieChart.frame)+10*KWidth6scale, CGRectGetMinY(_midvalPieChart.frame), legend.frame.size.width, legend.frame.size.height)];
-        //
-        //                        [cell.scrollView addSubview:legend];
-        //
-        //                        [cell.scrollView addSubview:self.midvalPieChart];
-        //
-        //
-        //                        NSMutableArray *items2  = [NSMutableArray array];
-        //                        int j = 0;
-        //
-        //                        for (NSString * value in YcontrastValValueArray) {
-        //
-        //                            PNPieChartDataItem * item = [PNPieChartDataItem dataItemWithValue:[value floatValue] color:PNArc4randomColor description:XcontrastValValueArray[j]];
-        //                            [items2 addObject:item];
-        //                            i++;
-        //                        }
-        //
-        //                        _pieChart = [[PNPieChart alloc] initWithFrame:CGRectMake(Main_Screen_Width + 10*KWidth6scale, 10*KHeight6scale, CGRectGetHeight(_lineChart.frame)-20*KHeight6scale, CGRectGetHeight(_lineChart.frame)-20*KHeight6scale) items:items2];
-        //                        _pieChart.descriptionTextColor = [UIColor whiteColor];
-        //                        _pieChart.descriptionTextFont  = [UIFont fontWithName:@"Avenir-Medium" size:11.0];
-        //                        _pieChart.showAbsoluteValues = NO;
-        //                        _pieChart.showOnlyValues = YES;
-        //                        _pieChart.delegate = self;
-        //                        _pieChart.descriptionTextShadowColor = [UIColor clearColor];
-        //
-        //                        [_pieChart strokeChart];
-        //                        _pieChart.legendStyle = PNLegendItemStyleStacked;
-        //                        _pieChart.legendFont = [UIFont systemFontOfSize:12.0f];
-        //                        _pieChart.legendFontColor = [UIColor grayColor];
-        //
-        //
-        //                        UIView *legend2 = [self.pieChart getLegendWithMaxWidth:60*KWidth6scale];
-        //
-        //                        [legend2 setFrame:CGRectMake(CGRectGetMaxX(_pieChart.frame)+10*KWidth6scale, CGRectGetMinY(_pieChart.frame), legend.frame.size.width, legend.frame.size.height)];
-        //
-        //                        [cell.scrollView addSubview:legend2];
-        //
-        //                        [cell.scrollView addSubview:self.pieChart];
-        //
-        //
-        //                    }
-        //                }
-        //            }else if([_incomeDashModel.charttype isEqualToString:@"text"] | [_incomeDashModel.charttype isEqualToString:@"long_text"] | [_incomeDashModel.charttype isEqualToString:@"bar_chart"]){
-        //
-        //                CFLineChartView * LCView = [CFLineChartView lineChartViewWithFrame:CGRectMake(0,0, CGRectGetWidth(_lineChart.frame), CGRectGetHeight(_lineChart.frame))];
-        //                [cell.chartView addSubview:LCView];
-        //
-        //
-        //                // 画图
-        //                if ((_incomeDashModel.defaultVal.count !=0 )&& (_incomeDashModel.contrastVal.count !=0)) {
-        //                    // 如果实际值和对比值的数据都不为空
-        //                    if ((XdefaultValValueArray.count != 0) && (YdefaultValValueArray.count != 0) && (XcontrastValValueArray.count != 0)&&(YcontrastValValueArray.count != 0) ) {
-        //
-        //                        // 数组中最大值
-        //                        NSNumber* defaultValMaxValue = [YdefaultValValueArray valueForKeyPath:@"@max.floatValue"];
-        //                        NSNumber* contrastValMaxValue = [YcontrastValValueArray valueForKeyPath:@"@max.floatValue"];
-        //                        if ([defaultValMaxValue floatValue]> [contrastValMaxValue floatValue]) {
-        //
-        //                            LCView.yValues = YdefaultValValueArray;
-        //                            LCView.xValues = XdefaultValValueArray;
-        //
-        //                        }else{
-        //
-        //                            LCView.yValues = YcontrastValValueArray;
-        //                            LCView.xValues = XcontrastValValueArray;
-        //                        }
-        //
-        //                        // 绘制图的基本
-        //                        [LCView drawChartWithLineChartType:0 pointType:1];
-        //                        // 画柱状图
-        //                        [LCView drawPillarYvalues:YdefaultValValueArray];
-        //                        // 画折线图
-        //                        [LCView drawFoldLineWithLineChartType:0 Yvalues:YcontrastValValueArray];
-        //
-        //                    }else if ((( XdefaultValValueArray.count == 0 ) && ( YdefaultValValueArray.count == 0 )) && (( XcontrastValValueArray.count != 0 )&& (YcontrastValValueArray.count != 0))){
-        //                        // 如果实际值为空，对比值不为空
-        //
-        //                        LCView.xValues = XcontrastValValueArray;
-        //                        LCView.yValues = YcontrastValValueArray;
-        //                        // 绘制图的基本
-        //                        [LCView drawChartWithLineChartType:0 pointType:1];
-        //
-        //                        // 画折线图
-        //                        [LCView drawFoldLineWithLineChartType:0 Yvalues:YcontrastValValueArray];
-        //
-        //
-        //
-        //                    }else if ((( XdefaultValValueArray.count != 0 ) && ( YdefaultValValueArray.count != 0 )) && (( XcontrastValValueArray.count == 0 )&& (YcontrastValValueArray.count == 0))){
-        //                        // 如果实际值不为空，对比值为空
-        //                        LCView.xValues = XdefaultValValueArray;
-        //                        LCView.yValues = YdefaultValValueArray;
-        //
-        //                        // 绘制图的基本
-        //                        [LCView drawChartWithLineChartType:0 pointType:1];
-        //                        // 画柱状图
-        //                        [LCView drawPillarYvalues:YdefaultValValueArray];
-        //
-        //
-        //                    }else{
-        //
-        //
-        //
-        //                    }
-        //
-        //
-        //                }else if((_incomeDashModel.defaultVal.count ==0 )&& (_incomeDashModel.contrastVal.count !=0)){
-        //                    // 如果实际值为空，对比值不为空
-        //
-        //                    LCView.xValues = XcontrastValValueArray;
-        //                    LCView.yValues = YcontrastValValueArray;
-        //                    // 绘制图的基本
-        //                    [LCView drawChartWithLineChartType:0 pointType:1];
-        //
-        //                    // 画折线图
-        //                    [LCView drawFoldLineWithLineChartType:0 Yvalues:YcontrastValValueArray];
-        //
-        //                }else if((_incomeDashModel.defaultVal.count !=0 )&& (_incomeDashModel.contrastVal.count ==0)){
-        //                    // 如果实际值不为空，对比值为空
-        //                    LCView.xValues = XdefaultValValueArray;
-        //                    LCView.yValues = YdefaultValValueArray;
-        //
-        //                    // 绘制图的基本
-        //                    [LCView drawChartWithLineChartType:0 pointType:1];
-        //                    // 画柱状图
-        //                    [LCView drawPillarYvalues:YdefaultValValueArray];
-        //
-        //                }else{
-        //                    // 如果实际值和对比值都为空
-        //                }
-        //
-        //            }
-        //
-        //        }
+    
+    //    if (_incomeDashModel.defaultunit == _incomeDashModel.contrastunit) {
+    
+    //        if ((XdefaultValValueArray.count == 0) && (YdefaultValValueArray.count == 0) && (XcontrastValValueArray.count ==0) && (YcontrastValValueArray.count == 0)) {
+    //
+    //        }else{
+    //
+    //            _lineChart = [[PNLineChart alloc] initWithFrame:CGRectMake(0, 0,Main_Screen_Width-40*KWidth6scale,220*KHeight6scale)];
+    //            _barChart = [[PNBarChart alloc] initWithFrame:CGRectMake(CGRectGetMinX(_lineChart.frame), CGRectGetMinY(_lineChart.frame), CGRectGetWidth(_lineChart.frame), CGRectGetHeight(_lineChart.frame))];
+    //
+    //            if ([_incomeDashModel.charttype isEqualToString:@"line_chart"]) {
+    //                _lineChart.backgroundColor = [UIColor redColor];
+    //                [self makeLine];
+    //                _lineChart.yUnit = _incomeDashModel.defaultunit;
+    //
+    //                [_lineChart setXLabels:XdefaultValValueArray];
+    //
+    //                PNLineChartData * data01 = [PNLineChartData new];
+    //                data01.color = [UIColor orangeColor];
+    //                data01.itemCount = self.lineChart.xLabels.count;
+    //                data01.alpha = 0.8f;
+    //                data01.lineWidth = 2.f;
+    //                data01.inflexionPointWidth = 4;
+    //                data01.inflexionPointStyle = PNLineChartPointStyleCircle;
+    //                data01.getData = ^(NSUInteger index){
+    //
+    //                    CGFloat yValue = [YdefaultValValueArray[index] floatValue];
+    //
+    //                    return [PNLineChartDataItem dataItemWithY:yValue andRawY:yValue];
+    //
+    //                };
+    //                if (_incomeDashModel.contrastVal.count == 0) {
+    //
+    //                    self.lineChart.chartData = @[data01];
+    //
+    //                }else{
+    //                    // Line Chart #2
+    //                    [_lineChart setXLabels:XcontrastValValueArray];
+    //
+    //                    PNLineChartData *data02 = [PNLineChartData new];
+    //
+    //                    data02.color = MoreButtonColor;
+    //
+    //                    data02.alpha = 0.8f;
+    //
+    //                    data02.itemCount = self.lineChart.xLabels.count;
+    //
+    //                    data02.inflexionPointWidth = 4;
+    //
+    //                    data02.inflexionPointStyle = PNLineChartPointStyleCircle;
+    //
+    //                    data02.getData = ^(NSUInteger index) {
+    //
+    //                        CGFloat yValue = [YcontrastValValueArray[index] floatValue];
+    //                        return [PNLineChartDataItem dataItemWithY:yValue];
+    //                    };
+    //
+    //                    self.lineChart.chartData = @[data01, data02];
+    //
+    //                }
+    //                _lineChart.delegate = self;
+    //
+    //                [_lineChart strokeChart];
+    //                [cell.chartView addSubview:_lineChart];
+    //
+    //            }else if ([_incomeDashModel.charttype isEqualToString:@"pie_chart"]){
+    //
+    //#warning ====存不存在实际值为空，对比值不为空的情况＝＝＝＝
+    //                if (_incomeDashModel.contrastVal.count == 0) {
+    //                    NSMutableArray *items  = [NSMutableArray array];
+    //                    int i = 0;
+    //
+    //                    for (NSString * value in YdefaultValValueArray) {
+    //
+    //                        PNPieChartDataItem * item = [PNPieChartDataItem dataItemWithValue:[value floatValue] color:PNArc4randomColor description:XdefaultValValueArray[i]];
+    //                        [items addObject:item];
+    //                        i++;
+    //                    }
+    //
+    //                    _pieChart = [[PNPieChart alloc] initWithFrame:CGRectMake(50*KWidth6scale,10*KHeight6scale, CGRectGetHeight(_lineChart.frame)-20*KHeight6scale, CGRectGetHeight(_lineChart.frame)-20*KHeight6scale) items:items];
+    //                    _pieChart.descriptionTextColor = [UIColor whiteColor];
+    //                    _pieChart.descriptionTextFont  = [UIFont fontWithName:@"Avenir-Medium" size:11.0];
+    //                    _pieChart.descriptionTextShadowColor = [UIColor clearColor];
+    //                    _pieChart.showAbsoluteValues = NO;
+    //                    _pieChart.showOnlyValues = YES;
+    //                    [_pieChart strokeChart];
+    //                    _pieChart.legendStyle = PNLegendItemStyleSerial;
+    //                    _pieChart.legendFont = [UIFont systemFontOfSize:12.0f];
+    //                    _pieChart.legendFontColor = [UIColor grayColor];
+    //                    _pieChart.delegate = self;
+    //
+    //                    UIView *legend = [self.pieChart getLegendWithMaxWidth:10];
+    //
+    //                    [legend setFrame:CGRectMake(CGRectGetMaxX(_pieChart.frame)+10*KWidth6scale, CGRectGetMinY(_pieChart.frame), legend.frame.size.width, legend.frame.size.height)];
+    //
+    //                    [cell.chartView addSubview:legend];
+    //
+    //                    [cell.chartView addSubview:self.pieChart];
+    //
+    //
+    //                }else{
+    //                    if (_incomeDashModel.contrastVal.count == 0) {
+    //
+    //                    }else{
+    //                        [cell.chartView addSubview:cell.scrollView];
+    //                        //            cell.scrollView.directionalLockEnabled=YES;//定向锁定
+    //                        NSMutableArray *items  = [NSMutableArray array];
+    //                        int i = 0;
+    //
+    //                        for (NSString * value in YdefaultValValueArray) {
+    //
+    //                            PNPieChartDataItem * item = [PNPieChartDataItem dataItemWithValue:[value floatValue] color:PNArc4randomColor description:XdefaultValValueArray[i]];
+    //                            [items addObject:item];
+    //                            i++;
+    //                        }
+    //                        _midvalPieChart = [[PNPieChart alloc] initWithFrame:CGRectMake(50*KWidth6scale, 10*KHeight6scale, CGRectGetHeight(_lineChart.frame)-20*KHeight6scale, CGRectGetHeight(_lineChart.frame)-20*KHeight6scale) items:items];
+    //                        _midvalPieChart.descriptionTextColor = [UIColor whiteColor];
+    //                        _midvalPieChart.descriptionTextFont  = [UIFont fontWithName:@"Avenir-Medium" size:11.0];
+    //                        _midvalPieChart.descriptionTextShadowColor = [UIColor clearColor];
+    //                        _midvalPieChart.showAbsoluteValues = NO;
+    //                        _midvalPieChart.showOnlyValues = YES;
+    //                        _midvalPieChart.delegate = self;
+    //
+    //                        [_midvalPieChart strokeChart];
+    //                        _midvalPieChart.legendStyle = PNLegendItemStyleStacked;
+    //                        _midvalPieChart.legendFont = [UIFont systemFontOfSize:12.0f];
+    //                        _midvalPieChart.legendFontColor = [UIColor grayColor];
+    //
+    //
+    //                        UIView *legend = [self.midvalPieChart getLegendWithMaxWidth:60*KWidth6scale];
+    //
+    //                        [legend setFrame:CGRectMake(CGRectGetMaxX(_midvalPieChart.frame)+10*KWidth6scale, CGRectGetMinY(_midvalPieChart.frame), legend.frame.size.width, legend.frame.size.height)];
+    //
+    //                        [cell.scrollView addSubview:legend];
+    //
+    //                        [cell.scrollView addSubview:self.midvalPieChart];
+    //
+    //
+    //                        NSMutableArray *items2  = [NSMutableArray array];
+    //                        int j = 0;
+    //
+    //                        for (NSString * value in YcontrastValValueArray) {
+    //
+    //                            PNPieChartDataItem * item = [PNPieChartDataItem dataItemWithValue:[value floatValue] color:PNArc4randomColor description:XcontrastValValueArray[j]];
+    //                            [items2 addObject:item];
+    //                            i++;
+    //                        }
+    //
+    //                        _pieChart = [[PNPieChart alloc] initWithFrame:CGRectMake(Main_Screen_Width + 10*KWidth6scale, 10*KHeight6scale, CGRectGetHeight(_lineChart.frame)-20*KHeight6scale, CGRectGetHeight(_lineChart.frame)-20*KHeight6scale) items:items2];
+    //                        _pieChart.descriptionTextColor = [UIColor whiteColor];
+    //                        _pieChart.descriptionTextFont  = [UIFont fontWithName:@"Avenir-Medium" size:11.0];
+    //                        _pieChart.showAbsoluteValues = NO;
+    //                        _pieChart.showOnlyValues = YES;
+    //                        _pieChart.delegate = self;
+    //                        _pieChart.descriptionTextShadowColor = [UIColor clearColor];
+    //
+    //                        [_pieChart strokeChart];
+    //                        _pieChart.legendStyle = PNLegendItemStyleStacked;
+    //                        _pieChart.legendFont = [UIFont systemFontOfSize:12.0f];
+    //                        _pieChart.legendFontColor = [UIColor grayColor];
+    //
+    //
+    //                        UIView *legend2 = [self.pieChart getLegendWithMaxWidth:60*KWidth6scale];
+    //
+    //                        [legend2 setFrame:CGRectMake(CGRectGetMaxX(_pieChart.frame)+10*KWidth6scale, CGRectGetMinY(_pieChart.frame), legend.frame.size.width, legend.frame.size.height)];
+    //
+    //                        [cell.scrollView addSubview:legend2];
+    //
+    //                        [cell.scrollView addSubview:self.pieChart];
+    //
+    //
+    //                    }
+    //                }
+    //            }else if([_incomeDashModel.charttype isEqualToString:@"text"] | [_incomeDashModel.charttype isEqualToString:@"long_text"] | [_incomeDashModel.charttype isEqualToString:@"bar_chart"]){
+    //
+    //                CFLineChartView * LCView = [CFLineChartView lineChartViewWithFrame:CGRectMake(0,0, CGRectGetWidth(_lineChart.frame), CGRectGetHeight(_lineChart.frame))];
+    //                [cell.chartView addSubview:LCView];
+    //
+    //
+    //                // 画图
+    //                if ((_incomeDashModel.defaultVal.count !=0 )&& (_incomeDashModel.contrastVal.count !=0)) {
+    //                    // 如果实际值和对比值的数据都不为空
+    //                    if ((XdefaultValValueArray.count != 0) && (YdefaultValValueArray.count != 0) && (XcontrastValValueArray.count != 0)&&(YcontrastValValueArray.count != 0) ) {
+    //
+    //                        // 数组中最大值
+    //                        NSNumber* defaultValMaxValue = [YdefaultValValueArray valueForKeyPath:@"@max.floatValue"];
+    //                        NSNumber* contrastValMaxValue = [YcontrastValValueArray valueForKeyPath:@"@max.floatValue"];
+    //                        if ([defaultValMaxValue floatValue]> [contrastValMaxValue floatValue]) {
+    //
+    //                            LCView.yValues = YdefaultValValueArray;
+    //                            LCView.xValues = XdefaultValValueArray;
+    //
+    //                        }else{
+    //
+    //                            LCView.yValues = YcontrastValValueArray;
+    //                            LCView.xValues = XcontrastValValueArray;
+    //                        }
+    //
+    //                        // 绘制图的基本
+    //                        [LCView drawChartWithLineChartType:0 pointType:1];
+    //                        // 画柱状图
+    //                        [LCView drawPillarYvalues:YdefaultValValueArray];
+    //                        // 画折线图
+    //                        [LCView drawFoldLineWithLineChartType:0 Yvalues:YcontrastValValueArray];
+    //
+    //                    }else if ((( XdefaultValValueArray.count == 0 ) && ( YdefaultValValueArray.count == 0 )) && (( XcontrastValValueArray.count != 0 )&& (YcontrastValValueArray.count != 0))){
+    //                        // 如果实际值为空，对比值不为空
+    //
+    //                        LCView.xValues = XcontrastValValueArray;
+    //                        LCView.yValues = YcontrastValValueArray;
+    //                        // 绘制图的基本
+    //                        [LCView drawChartWithLineChartType:0 pointType:1];
+    //
+    //                        // 画折线图
+    //                        [LCView drawFoldLineWithLineChartType:0 Yvalues:YcontrastValValueArray];
+    //
+    //
+    //
+    //                    }else if ((( XdefaultValValueArray.count != 0 ) && ( YdefaultValValueArray.count != 0 )) && (( XcontrastValValueArray.count == 0 )&& (YcontrastValValueArray.count == 0))){
+    //                        // 如果实际值不为空，对比值为空
+    //                        LCView.xValues = XdefaultValValueArray;
+    //                        LCView.yValues = YdefaultValValueArray;
+    //
+    //                        // 绘制图的基本
+    //                        [LCView drawChartWithLineChartType:0 pointType:1];
+    //                        // 画柱状图
+    //                        [LCView drawPillarYvalues:YdefaultValValueArray];
+    //
+    //
+    //                    }else{
+    //
+    //
+    //
+    //                    }
+    //
+    //
+    //                }else if((_incomeDashModel.defaultVal.count ==0 )&& (_incomeDashModel.contrastVal.count !=0)){
+    //                    // 如果实际值为空，对比值不为空
+    //
+    //                    LCView.xValues = XcontrastValValueArray;
+    //                    LCView.yValues = YcontrastValValueArray;
+    //                    // 绘制图的基本
+    //                    [LCView drawChartWithLineChartType:0 pointType:1];
+    //
+    //                    // 画折线图
+    //                    [LCView drawFoldLineWithLineChartType:0 Yvalues:YcontrastValValueArray];
+    //
+    //                }else if((_incomeDashModel.defaultVal.count !=0 )&& (_incomeDashModel.contrastVal.count ==0)){
+    //                    // 如果实际值不为空，对比值为空
+    //                    LCView.xValues = XdefaultValValueArray;
+    //                    LCView.yValues = YdefaultValValueArray;
+    //
+    //                    // 绘制图的基本
+    //                    [LCView drawChartWithLineChartType:0 pointType:1];
+    //                    // 画柱状图
+    //                    [LCView drawPillarYvalues:YdefaultValValueArray];
+    //
+    //                }else{
+    //                    // 如果实际值和对比值都为空
+    //                }
+    //
+    //            }
+    //
+    //        }
+    
+    //    }else{
+    if ((_XdefaultValValueArray.count == 0) && (_YdefaultValValueArray.count == 0) && (_XcontrastValValueArray.count ==0) && (_YcontrastValValueArray.count == 0)) {
         
-//    }else{
-        if ((_XdefaultValValueArray.count == 0) && (_YdefaultValValueArray.count == 0) && (_XcontrastValValueArray.count ==0) && (_YcontrastValValueArray.count == 0)) {
+    }else{
+        
+        _defaultLineChart = [[PNLineChart alloc] initWithFrame:CGRectMake(0, 0,Main_Screen_Width-40*KWidth6scale,220*KHeight6scale)];
+        _contrastLineChart = [[PNLineChart alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_defaultLineChart.frame)+40*KWidth6scale,CGRectGetWidth(_defaultLineChart.frame),CGRectGetHeight(_defaultLineChart.frame))];
+        _defaultBarChart = [[PNBarChart alloc] initWithFrame:CGRectMake(CGRectGetMinX(_defaultLineChart.frame), CGRectGetMinY(_defaultLineChart.frame),CGRectGetWidth(_defaultLineChart.frame),CGRectGetHeight(_defaultLineChart.frame))];
+        _contrastBarChart = [[PNBarChart alloc] initWithFrame:CGRectMake(CGRectGetMinX(_contrastLineChart.frame), CGRectGetMinY(_contrastLineChart.frame),CGRectGetWidth(_defaultBarChart.frame),CGRectGetHeight(_defaultBarChart.frame))];
+        
+        
+        [cell.scrollView  removeFromSuperview];
+        [cell.chartView addSubview:cell.scrollView];
+        
+        if ([_incomeDashModel.charttype isEqualToString:@"line_chart"] | [_incomeDashModel.charttype isEqualToString:@"text"] | [_incomeDashModel.charttype isEqualToString:@"long_text"]) {
+            [self makeLine];
+            [cell.scrollView addSubview:_defaultLineChart];
+            [cell.scrollView addSubview:_contrastLineChart];
             
-        }else{
+        }else if ([_incomeDashModel.charttype isEqualToString:@"pie_chart"]){
+            cell.defaultvalButton.hidden = YES;
+            cell.contrastvalButton.hidden = YES;
+            cell.defaultvalColorLabel.hidden = YES;
+            cell.contrastvalColorLabel.hidden = YES;
+            [self makePieChart];
+            UIView *legend = [self.defaultPieChart getLegendWithMaxWidth:10];
             
-            _defaultLineChart = [[PNLineChart alloc] initWithFrame:CGRectMake(0, 0,Main_Screen_Width-40*KWidth6scale,220*KHeight6scale)];
-            _contrastLineChart = [[PNLineChart alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_defaultLineChart.frame)+40*KWidth6scale,CGRectGetWidth(_defaultLineChart.frame),CGRectGetHeight(_defaultLineChart.frame))];
-            _defaultBarChart = [[PNBarChart alloc] initWithFrame:CGRectMake(CGRectGetMinX(_defaultLineChart.frame), CGRectGetMinY(_defaultLineChart.frame),CGRectGetWidth(_defaultLineChart.frame),CGRectGetHeight(_defaultLineChart.frame))];
-            _contrastBarChart = [[PNBarChart alloc] initWithFrame:CGRectMake(CGRectGetMinX(_contrastLineChart.frame), CGRectGetMinY(_contrastLineChart.frame),CGRectGetWidth(_defaultBarChart.frame),CGRectGetHeight(_defaultBarChart.frame))];
+            [legend setFrame:CGRectMake(CGRectGetMaxX(_defaultPieChart.frame)+10*KWidth6scale, CGRectGetMinY(_defaultPieChart.frame), legend.frame.size.width, legend.frame.size.height)];
+            
+            [cell.scrollView addSubview:legend];
+            
+            [cell.scrollView addSubview:self.defaultPieChart];
+            
+            UIView *legend2 = [self.contrastPieChart getLegendWithMaxWidth:60*KWidth6scale];
+            
+            [legend2 setFrame:CGRectMake(CGRectGetMaxX(_contrastPieChart.frame)+10*KWidth6scale, CGRectGetMinY(_contrastPieChart.frame), legend.frame.size.width, legend.frame.size.height)];
+            
+            [cell.scrollView addSubview:legend2];
+            
+            [cell.scrollView addSubview:self.contrastPieChart];
+            
+        }else if ([_incomeDashModel.charttype isEqualToString:@"bar_chart"]){
             
             
-               [cell.scrollView  removeFromSuperview];
-               [cell.chartView addSubview:cell.scrollView];
-
-            if ([_incomeDashModel.charttype isEqualToString:@"line_chart"] | [_incomeDashModel.charttype isEqualToString:@"text"] | [_incomeDashModel.charttype isEqualToString:@"long_text"]) {
-                [self makeLine];
-                [cell.scrollView addSubview:_defaultLineChart];
-                [cell.scrollView addSubview:_contrastLineChart];
-               
-            }else if ([_incomeDashModel.charttype isEqualToString:@"pie_chart"]){
-                cell.defaultvalButton.hidden = YES;
-                cell.contrastvalButton.hidden = YES;
-                cell.defaultvalColorLabel.hidden = YES;
-                cell.contrastvalColorLabel.hidden = YES;
-                [self makePieChart];
-                UIView *legend = [self.defaultPieChart getLegendWithMaxWidth:10];
-                
-                [legend setFrame:CGRectMake(CGRectGetMaxX(_defaultPieChart.frame)+10*KWidth6scale, CGRectGetMinY(_defaultPieChart.frame), legend.frame.size.width, legend.frame.size.height)];
-                
-                [cell.scrollView addSubview:legend];
-                
-                [cell.scrollView addSubview:self.defaultPieChart];
-
-                UIView *legend2 = [self.contrastPieChart getLegendWithMaxWidth:60*KWidth6scale];
-                
-                [legend2 setFrame:CGRectMake(CGRectGetMaxX(_contrastPieChart.frame)+10*KWidth6scale, CGRectGetMinY(_contrastPieChart.frame), legend.frame.size.width, legend.frame.size.height)];
-                
-                [cell.scrollView addSubview:legend2];
-                
-                [cell.scrollView addSubview:self.contrastPieChart];
-                
-            }else if ([_incomeDashModel.charttype isEqualToString:@"bar_chart"]){
-               
-               
-                    [self makeBar];
-                    [cell.scrollView addSubview:_defaultBarChart];
-                    [cell.scrollView addSubview:_contrastBarChart];
-
-            }
-       }
-
+            [self makeBar];
+            [cell.scrollView addSubview:_defaultBarChart];
+            [cell.scrollView addSubview:_contrastBarChart];
+            
+        }
+    }
+    
 }
 - (void)defaultvalButtonClick:(UIButton *)button
 {
@@ -1109,10 +1072,8 @@ static  BOOL Btnstatu = YES;
             
         }else{
             cell.ValueLabel.text = _incomeDashModel.defaultVal[@"y"][_pointIndexPath];        }
-        
-        
     }
-
+    
 }
 
 // 折线图
@@ -1121,7 +1082,7 @@ static  BOOL Btnstatu = YES;
     if ((_XdefaultValValueArray.count == 0) | (_YdefaultValValueArray.count == 0)) {
         
     }else{
-      
+        
         _defaultLineChart.userInteractionEnabled = YES;
         _defaultLineChart.backgroundColor = [UIColor clearColor];
         _defaultLineChart.legendStyle =  PNLegendItemStyleSerial;
@@ -1148,11 +1109,11 @@ static  BOOL Btnstatu = YES;
         self.defaultLineChart.chartData = @[defaultData];
         
         [_defaultLineChart strokeChart];
-
-    }
-      if ((_XcontrastValValueArray.count == 0) | (_YcontrastValValueArray.count == 0)) {
         
-          
+    }
+    if ((_XcontrastValValueArray.count == 0) | (_YcontrastValValueArray.count == 0)) {
+        
+        
     }else{
         _contrastLineChart.userInteractionEnabled = YES;
         _contrastLineChart.backgroundColor = [UIColor clearColor];
@@ -1161,10 +1122,10 @@ static  BOOL Btnstatu = YES;
         _contrastLineChart.showGenYLabels = YES;
         _contrastLineChart.showLabel = YES;
         _contrastLineChart.showYGridLines = YES;
-      
+        
         _contrastLineChart.yUnit = _incomeDashModel.contrastunit;
         _contrastLineChart.yUnitColor = [UIColor blackColor];
-
+        
         [_contrastLineChart setXLabels:_XcontrastValValueArray];
         PNLineChartData * contrastData = [PNLineChartData new];
         contrastData.color = MoreButtonColor;
@@ -1173,7 +1134,7 @@ static  BOOL Btnstatu = YES;
         contrastData.inflexionPointWidth = 4;
         contrastData.inflexionPointStyle = PNLineChartPointStyleCircle;
         contrastData.getData = ^(NSUInteger index){
-        
+            
             CGFloat yValue = [_YcontrastValValueArray[index] floatValue];
             
             return [PNLineChartDataItem dataItemWithY:yValue andRawY:yValue];
@@ -1182,11 +1143,11 @@ static  BOOL Btnstatu = YES;
         
         _contrastLineChart.delegate = self;
         [_contrastLineChart strokeChart];
-
+        
     }
     
-//        self.defaultLineChart.yLabelColor =[UIColor blackColor];
-//        self.defaultLineChart.xLabelColor = [UIColor blackColor];
+    //        self.defaultLineChart.yLabelColor =[UIColor blackColor];
+    //        self.defaultLineChart.xLabelColor = [UIColor blackColor];
     
     // 小数点
     //    _lineChart.thousandsSeparator = YES;
@@ -1239,8 +1200,6 @@ static  BOOL Btnstatu = YES;
     _contrastPieChart.legendFont = [UIFont systemFontOfSize:12.0f];
     _contrastPieChart.legendFontColor = [UIColor grayColor];
     
-    
-    
 }
 
 // 柱状图
@@ -1261,7 +1220,7 @@ static  BOOL Btnstatu = YES;
         
     };
     if ((_XdefaultValValueArray.count == 0) | (_YdefaultValValueArray.count == 0)) {
-       
+        
         
     }else{
         _defaultBarChart.yChartLabelWidth = 20.0;
@@ -1281,8 +1240,6 @@ static  BOOL Btnstatu = YES;
         _defaultBarChart.isGradientShow = NO;
         _defaultBarChart.isShowNumbers = NO;
         [_defaultBarChart strokeChart];
-        
-
     }
     if ((_XcontrastValValueArray.count == 0) |(_YcontrastValValueArray.count == 0)) {
         
@@ -1306,7 +1263,7 @@ static  BOOL Btnstatu = YES;
         _contrastBarChart.isGradientShow = NO;
         _contrastBarChart.isShowNumbers = NO;
         [_contrastBarChart strokeChart];
-
+        
     }
     
 }
@@ -1317,11 +1274,8 @@ static  BOOL Btnstatu = YES;
         return NO;
     }
 }
-
-
-
 //- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
-//    
+//
 //    NSIndexPath * indexPath = [NSIndexPath  indexPathForRow:1 inSection:0];
 //    IncomeTableViewChartCell * cell = [_IncomeTableView cellForRowAtIndexPath:indexPath];
 //    if ((cell.scrollView.contentOffset.x > 0)) {
@@ -1330,9 +1284,9 @@ static  BOOL Btnstatu = YES;
 //                             cell.scrollView.contentOffset = CGPointMake(Main_Screen_Width-40*KWidth6scale, 0);
 //
 //                         }];
-//        
+//
 //    }else{
-//        
+//
 //        [UIView animateWithDuration:0.5 // 动画时长
 //                         animations:^{
 //                             cell.scrollView.contentOffset = CGPointMake(0, 0);
@@ -1340,32 +1294,31 @@ static  BOOL Btnstatu = YES;
 //                         }];
 //    }
 //
-//    
-//    
+//
+//
 //}
-
 - (void)sharebuttonClick:(UIButton *)sender
 {
     
-     [super ScreenShot];
+    [super ScreenShot];
 }
 
 - (void)handleSwipes:(UISwipeGestureRecognizer *)sender
 {
     if (sender.direction == UISwipeGestureRecognizerDirectionLeft) {
-//        CGPoint labelPosition = CGPointMake(self.swipeLabel.frame.origin.x - 100.0, self.swipeLabel.frame.origin.y);
-//        self.swipeLabel.frame = CGRectMake( labelPosition.x , labelPosition.y , self.swipeLabel.frame.size.width, self.swipeLabel.frame.size.height);
-//        self.swipeLabel.text = @"尼玛的, 你在往左边跑啊....";
+        //        CGPoint labelPosition = CGPointMake(self.swipeLabel.frame.origin.x - 100.0, self.swipeLabel.frame.origin.y);
+        //        self.swipeLabel.frame = CGRectMake( labelPosition.x , labelPosition.y , self.swipeLabel.frame.size.width, self.swipeLabel.frame.size.height);
+        //        self.swipeLabel.text = @"尼玛的, 你在往左边跑啊....";
         
     }
     
     if (sender.direction == UISwipeGestureRecognizerDirectionRight) {
-//        [UIView animateWithDuration:1.0 // 动画时长
-//                         animations:^{
-                              [self backButtonClick:backButton];
-//                         }];
-       
-
+        //        [UIView animateWithDuration:1.0 // 动画时长
+        //                         animations:^{
+        [self backButtonClick:backButton];
+        //                         }];
+        
+        
         
     }
 }

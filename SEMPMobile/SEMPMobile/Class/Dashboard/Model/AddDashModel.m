@@ -21,8 +21,6 @@
     [aCoder encodeObject:_AddId forKey:@"AddId"];
     [aCoder encodeObject:_title forKey:@"title"];
     [aCoder encodeObject:_type forKey:@"type"];
-    
-    
 }
 - (instancetype)initWithCoder:(NSCoder *)aDecoder
 {
@@ -33,8 +31,6 @@
         _type = [aDecoder decodeObjectForKey:@"type"];
         
     }
-    
-    
     return self;
 }
 

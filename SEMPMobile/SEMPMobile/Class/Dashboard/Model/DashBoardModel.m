@@ -38,10 +38,7 @@
     [aCoder encodeObject:_defaulttype forKey:@"defaulttype"];
     [aCoder encodeObject:_defaultval forKey:@"defaultval"];
     [aCoder encodeObject:_contrasttype forKey:@"contrasttype"];
-    [aCoder encodeObject:_contrastname forKey:@"contrastname"];
-
-
-    
+    [aCoder encodeObject:_contrastname forKey:@"contrastname"];    
 }
 - (instancetype)initWithCoder:(NSCoder *)aDecoder
 {

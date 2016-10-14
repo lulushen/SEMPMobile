@@ -56,15 +56,8 @@
     [super viewDidLoad];
     
     [self hideTabbar];
-
-    
     self.navigationItem.title = @"ADD";
-   
-    
     [self makeCollectionView];
-    
-  
-    
     // 自定义返回按钮LeftButtonItme
     [self makeLeftButtonItme];
     // Do any additional setup after loading the view.
@@ -83,21 +76,19 @@
     
 }
 - (void)backButtonClick:(UIButton *)button {
-
+    
     NSString * indexCheckedString = [NSString string];
     if ((_dashAllArray.count == 0) && (_dashLabelArray.count == 0)) {
-      
+        
         [self.navigationController popViewControllerAnimated:YES];
-
         
     }else{
         if (_dashLabelArray.count > 0) {
             
             // 内存问题
             // AddDashModel * m = [[AddDashModel alloc] init];
-
             AddDashModel * m = nil;
-
+            
             for (int i = 0; i <= _dashLabelArray.count - 1;i++) {
                 m = _dashLabelArray[i];
                 if (i > 0) {
@@ -107,7 +98,6 @@
                 }else{
                     
                     indexCheckedString = [NSString stringWithFormat:@"%@",m.AddId];
-                    
                 }
                 m = nil;
             }
@@ -128,7 +118,6 @@
         //2.把任务添加到队列中执行
         dispatch_async(queue, ^{
             
-            
             NSString * urlStr = [NSString stringWithFormat:indexCheckedHttp,_token,indexCheckedString];
             
             AFHTTPSessionManager * manager = [AFHTTPSessionManager manager];
@@ -143,9 +132,7 @@
                     //发送消息
                     [[NSNotificationCenter defaultCenter] postNotificationName:@"ADDDashLabelArrayChange" object:nil];
                     
-                    
                     if ((_dashLabelArray.count == 0)&&(_dashAllArray.count == 0)) {
-                        
                         
                     }else{
                         
@@ -161,11 +148,10 @@
             }];
             
         });
-
+        
     }
-   
+    
 }
-
 
 - (void)makeCollectionView
 {
@@ -197,8 +183,8 @@
     
     [self.view addSubview:_DashCollectionView];
     //此处给其增加长按手势，用此手势触发cell移动效果
-        UILongPressGestureRecognizer *longGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handlelongGesture:)];
-        [_DashCollectionView addGestureRecognizer:longGesture];
+    UILongPressGestureRecognizer *longGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handlelongGesture:)];
+    [_DashCollectionView addGestureRecognizer:longGesture];
     
     UILabel * label2 = [[UILabel alloc] initWithFrame:CGRectMake(10*KWidth6scale, CGRectGetMaxY(_DashCollectionView.frame), Main_Screen_Width-20*KWidth6scale, 40*KHeight6scale)];
     
@@ -230,8 +216,6 @@
     [_DashCollectionView  registerClass:[AddCollectionViewCell class] forCellWithReuseIdentifier:@"addcell"];
     
     [_AllDashCollectctionView registerClass:[AddCollectionViewCell class] forCellWithReuseIdentifier:@"addcell"];
-    
-    
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
@@ -241,7 +225,6 @@
         return _dashLabelArray.count;
     } else {
         return _dashAllArray.count;
-        
     }
     
 }
@@ -255,12 +238,12 @@
 {
     AddCollectionViewCell * addcell = [collectionView dequeueReusableCellWithReuseIdentifier:@"addcell" forIndexPath:indexPath];
     // 内存问题
-//    DashBoardModel * dashModel = [[DashBoardModel alloc] init];
+    //    DashBoardModel * dashModel = [[DashBoardModel alloc] init];
     DashBoardModel * dashModel = nil;
     if (collectionView.tag == 1) {
         
         UIImageView * deleteImage = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(addcell.contentView.frame)-10, 0, 15, 15)];
-//        deleteImage.image = [UIImage imageNamed:@"delete.png"];
+        //        deleteImage.image = [UIImage imageNamed:@"delete.png"];
         
         [addcell addSubview:deleteImage];
         
@@ -313,7 +296,6 @@
     
     [_AllDashCollectctionView reloadData];
     
-    
 }
 - (void)handlelongGesture:(UILongPressGestureRecognizer *)longGesture {
     //判断手势状态
@@ -329,7 +311,7 @@
         }
             break;
         case UIGestureRecognizerStateChanged:{
-
+            
             //移动过程当中随时更新cell位置
             [_DashCollectionView updateInteractiveMovementTargetPosition:[longGesture locationInView:_DashCollectionView]];
         }
@@ -349,15 +331,13 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView moveItemAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath*)destinationIndexPath {
-//    DashBoardModel * dashModel = [[DashBoardModel alloc] init];
+    //    DashBoardModel * dashModel = [[DashBoardModel alloc] init];
     DashBoardModel * dashModel  = nil;
     dashModel = _dashLabelArray[sourceIndexPath.row];
     //  从资源数组中移除该数据
     [_dashLabelArray removeObject:dashModel];
     //  将数据插入到资源数组中的目标位置上
     [_dashLabelArray insertObject:dashModel atIndex:destinationIndexPath.item];
-
-
 }
 
 - (void)didReceiveMemoryWarning {

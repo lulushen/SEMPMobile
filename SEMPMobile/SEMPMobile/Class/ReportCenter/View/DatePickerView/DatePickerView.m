@@ -27,7 +27,7 @@
     NSInteger selectedDayRow;
     NSInteger selectedQuarterRow;
     NSInteger selectedWeekRow;
-
+    
     BOOL firstTimeLoad;
     
     NSInteger m ;
@@ -56,7 +56,6 @@
         _defaultDateString = [NSString string];
         [self makePickerView];
         
-        
     }
     return self;
 }
@@ -66,8 +65,6 @@
     self.delegate = self;
     self.dataSource = self;
 }
-
-
 // 进入日期选择器时的默认日期，年，月，日（从DataView界面传值过来的）
 - (void)makeDefaultDate
 {
@@ -105,20 +102,16 @@
             NSString * string = [_defaultDateString stringByReplacingCharactersInRange:rangeYear withString:@"+"];
             
             NSRange rangeMouth = [string rangeOfString:@"-"];//匹配得到的下标
-//            NSUInteger lenghtMouth = rangeMouth.location - rangeYear.location;// 月截取的长度
+            //            NSUInteger lenghtMouth = rangeMouth.location - rangeYear.location;// 月截取的长度
             
             yearNumeber = [[_defaultDateString substringWithRange:NSMakeRange(0, 4)] intValue];
             
             mouthNumber = [[_defaultDateString substringWithRange:NSMakeRange(rangeYear.location+1, 2)] intValue];
             DayNumber = [[_defaultDateString substringWithRange:NSMakeRange(rangeMouth.location+1, _defaultDateString.length-(rangeMouth.location+1))] intValue];
             
-            
         }
         
     }
-
-    
-    
 }
 - (void)makedata
 {
@@ -139,7 +132,6 @@
     
     year =[currentyearString intValue];
     
-    
     // Get Current  Month
     
     [formatter setDateFormat:@"MM"];
@@ -150,37 +142,32 @@
     // Get Current  Date
     
     [formatter setDateFormat:@"dd"];
-   
+    
     NSString *currentDateString = [NSString stringWithFormat:@"%@",[formatter stringFromDate:date]];
     
     day =[currentDateString intValue];
-
+    
     // Get Current  Quarter
     
-//    [formatter setDateFormat:@"QM"];
-//    
-//    currentQuarterString = [NSString stringWithFormat:@"%ld",(long)[[formatter stringFromDate:date]integerValue]];
-//    quarter =[currentQuarterString intValue];
+    //    [formatter setDateFormat:@"QM"];
+    //
+    //    currentQuarterString = [NSString stringWithFormat:@"%ld",(long)[[formatter stringFromDate:date]integerValue]];
+    //    quarter =[currentQuarterString intValue];
     
-    
-   // Get Current Week
+    // Get Current Week
     [formatter setDateFormat:@"w"];
     
     NSString *currentWeekString = [NSString stringWithFormat:@"%@",
                                    [formatter stringFromDate:date]];
     
     week =[currentWeekString intValue];
-
     
     for (int i = 1900; i <= year ; i++)
     {
         [yearArray addObject:[NSString stringWithFormat:@"%d",i]];
         
     }
-    
-    
     // PickerView -  Months data
-    
     monthArray = @[@"01",@"02",@"03",@"04",@"05",@"06",@"07",@"08",@"09",@"10",@"11",@"12"];
     
     for (int i = 1; i<month+1; i++) {
@@ -203,7 +190,7 @@
     {
         
         [quarterMutableArray addObject:[NSString stringWithFormat:@"%d",i]];
-
+        
     }
     if(((year %4==0)&&(year %100!=0))||(year %400==0)){
         yearDaysCount = 366;
@@ -216,8 +203,6 @@
         
         [weekMutableArray addObject:[NSString stringWithFormat:@"%02d",i]];
     }
-    
-    
     
     // PickerView - Default Selection as per current Date
     // 设置初始默认值
@@ -240,7 +225,6 @@
     number = 2;
     // 此方法是创建日期选择器
     [self makedata];
-    
     // 进入日期选择器时的默认日期，年，月，日（从DataView界面传值过来的）
     [self makeDefaultDate];
     NSLog(@"%@",_defaultDateString);
@@ -251,11 +235,9 @@
 }
 - (void)makeYearMouthDayPicker
 {
-    
     number = 3;
     [self makedata];
     [self makeDefaultDate];
-    
     // 进入日期选择器是的默认日期
     [self selectRow:yearNumeber-1900 inComponent:0 animated:NO];
     
@@ -277,7 +259,6 @@
     [self selectRow:quarterNumber-1 inComponent:1 animated:NO];
     
 }
-
 // year week
 - (void)makeYearWeekPicker
 {
@@ -289,13 +270,8 @@
     
     [self selectRow:weekNumber-1 inComponent:1 animated:NO];
     
-
-    
 }
-
 #pragma mark - UIPickerViewDelegate
-
-
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
     m = row;
@@ -326,10 +302,7 @@
     }
     
 }
-
-
 #pragma mark - UIPickerViewDatasource
-
 - (UIView *)pickerView:(UIPickerView *)pickerView
             viewForRow:(NSInteger)row
           forComponent:(NSInteger)component
@@ -346,9 +319,6 @@
         [pickerLabel setBackgroundColor:[UIColor clearColor]];
         [pickerLabel setFont:[UIFont systemFontOfSize:22.0f]];
     }
-    
-    
-    
     if (component == 0)
     {
         //        pickerLabel.text =  [yearArray objectAtIndex:row]; // Year
@@ -359,11 +329,11 @@
         //        pickerLabel.text =  [monthArray objectAtIndex:row];  // Month
         if ((number == 2) | (number == 3)) {
             pickerLabel.text = [NSString stringWithFormat:@"%@月",[monthArray objectAtIndex:row]];
-  
+            
         }else if(number == 4){
             
             pickerLabel.text = [NSString stringWithFormat:@"第%@季度",[quarterMutableArray objectAtIndex:row]];
-
+            
         }else if (number == 5){
             pickerLabel.text = [NSString stringWithFormat:@"第%@周",[weekMutableArray objectAtIndex:row]];
             
@@ -376,28 +346,21 @@
         pickerLabel.text = [NSString stringWithFormat:@"%@日",[DaysArray objectAtIndex:row]];
         
     }
-    
-    
     return pickerLabel;
     
 }
-
-
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
 {
-   if ((number == 2) | (number == 4) | (number == 5)){
+    if ((number == 2) | (number == 4) | (number == 5)){
         return 2;
-   }else {
-       return number;
-   }
-    
-    
+    }else {
+        return number;
+    }
 }
 
 // returns the # of rows in each component..
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
-    
     if (component == 0)
     {
         return [yearArray count];
@@ -429,8 +392,6 @@
         }else{
             return 0;
         }
-        
-       
     }
     else
     {
@@ -492,9 +453,6 @@
 
 - (NSString *)saveDateString
 {
-    
-    
-    
     if (number == 1) {
         _dateString = [NSString stringWithFormat:@"%@",[yearArray objectAtIndex:[self selectedRowInComponent:0]]];
         
@@ -505,10 +463,10 @@
         _dateString = [NSString stringWithFormat:@"%@-%@-%@",[yearArray objectAtIndex:[self selectedRowInComponent:0]],[monthArray objectAtIndex:[self selectedRowInComponent:1]],[DaysArray objectAtIndex:[self selectedRowInComponent:2]]];
         
     }else if(number == 4){
-         _dateString = [NSString stringWithFormat:@"%@Q%@",[yearArray objectAtIndex:[self selectedRowInComponent:0]],[quarterMutableArray objectAtIndex:[self selectedRowInComponent:1]]];
+        _dateString = [NSString stringWithFormat:@"%@Q%@",[yearArray objectAtIndex:[self selectedRowInComponent:0]],[quarterMutableArray objectAtIndex:[self selectedRowInComponent:1]]];
     }else if (number == 5){
         _dateString = [NSString stringWithFormat:@"%@W%@",[yearArray objectAtIndex:[self selectedRowInComponent:0]],[weekMutableArray objectAtIndex:[self selectedRowInComponent:1]]];
-
+        
     }
     
     return _dateString;

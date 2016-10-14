@@ -19,7 +19,6 @@
         [self makeCell];
     }
     return self;
-    
 }
 - (void)makeCell
 {
@@ -30,10 +29,8 @@
     _lineLabel = [[UILabel alloc] init];
     _titleLabel.font = [UIFont systemFontOfSize:14];
     _dateLabel.font = [UIFont systemFontOfSize:10];
-
     [_concernButton setImage:[UIImage imageNamed:@"concern.png"] forState:UIControlStateNormal];
     [_detailButton setImage:[UIImage imageNamed:@"detail.png"] forState:UIControlStateNormal];
-
     [self.contentView addSubview:_titleLabel];
     [self.contentView addSubview:_dateLabel];
     [self.contentView addSubview:_concernButton];
@@ -48,10 +45,8 @@
     
     _titleLabel.frame = CGRectMake(20*KWidth6scale, 10*KHeight6scale, 100*KWidth6scale, 20*KHeight6scale);
     _dateLabel.frame = CGRectMake(CGRectGetMinX(_titleLabel.frame), CGRectGetMaxY(_titleLabel.frame), CGRectGetWidth(_titleLabel.frame), 10*KHeight6scale);
-
     _concernButton.frame = CGRectMake(CGRectGetMaxX(self.contentView.frame) - 80*KWidth6scale, CGRectGetMidY(self.contentView.frame)-10*KHeight6scale, 20*KWidth6scale, 20*KHeight6scale);
     _detailButton.frame = CGRectMake(CGRectGetMaxX(_concernButton.frame) + 20*KWidth6scale, CGRectGetMinY(_concernButton.frame), CGRectGetWidth(_concernButton.frame), CGRectGetHeight(_concernButton.frame));
-    
     _lineLabel.frame = CGRectMake(CGRectGetMinX(self.contentView.frame)+10*KWidth6scale, CGRectGetMaxY(self.contentView.frame)-1*KHeight6scale, CGRectGetWidth(self.contentView.frame)-20*KWidth6scale, 1*KHeight6scale);
 }
 - (void)awakeFromNib {

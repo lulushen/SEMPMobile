@@ -39,7 +39,7 @@
 {
     
     [super prepareLayout];
-   
+    
     
     _tempAtt = [NSMutableArray array];
     _viewDashArray = [NSMutableArray array];
@@ -73,10 +73,10 @@
             CGRect  tempj = tempviewj.frame;
             
             // 当前指标model
-//            DashBoardModel * model = [[DashBoardModel alloc] init];
+            //            DashBoardModel * model = [[DashBoardModel alloc] init];
             DashBoardModel * model = nil;
             // 前一个指标model
-//            DashBoardModel * modeltwo = [[DashBoardModel alloc] init];
+            //            DashBoardModel * modeltwo = [[DashBoardModel alloc] init];
             DashBoardModel * modeltwo = nil;
             // i = 0第一个指标视图
             if (i == 0) {
@@ -158,7 +158,7 @@
         }
     }
     
-//    self.itemSize =CGSizeMake(Main_Screen_Width , 1000);
+    //    self.itemSize =CGSizeMake(Main_Screen_Width , 1000);
     self.attributes = _tempAtt;
     
 }

@@ -76,8 +76,6 @@
     [_allReportButton addTarget:self action:@selector(allReportButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     _allReportButton.selected = YES;
     [titleView addSubview:_allReportButton];
-    
-    
     // navigation上的搜索按钮
     CGRect searchframe = CGRectMake(0, 0, 25*KWidth6scale, 25*KHeight6scale);
     
@@ -104,7 +102,7 @@
     self.navigationItem.leftBarButtonItem = leftBarButtonItem;
     
     _headerView = [[HeaderView alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, 40*KHeight6scale)];
-
+    
 }
 // 搜索按钮点击方法
 - (void)searchButtonClick:(UIButton *)button
@@ -114,7 +112,7 @@
     self.hidesBottomBarWhenPushed=YES;
     [self.navigationController pushViewController:searchVC animated:YES];
     self.hidesBottomBarWhenPushed=NO;
-
+    
 }
 // 样式按钮点击方法
 - (void)styleButtonClick:(UIButton *)button
@@ -131,8 +129,6 @@
             [self makeAllReportCollectionView];
             
         }
-        
-        
     }else{
         [_styleButton setImage:[UIImage imageNamed:@"style_highligh.png"] forState:UIControlStateNormal];
         button.selected = YES;
@@ -143,33 +139,26 @@
             // 全部报表tableView样式
             [self makeAllReportTableView];
         }
-        
-        
-        
-        
     }
     
 }
 // 我的关注按钮的点击事件
 - (void)myReportButtonClick:(UIButton *)button
 {
-    
     if (button.selected == YES) {
         
         
     }else{
-       
+        
         [self  makeSelectedButton:button];
-
+        
         if (_styleButton.selected == NO) {
-           
+            
             // 我的关注collectionView
             [self  makeMyReportCollectView];
         }else{
             // 我的关注tableView
             [self makeMyReportTableView];
-           
- 
         }
     }
     
@@ -177,7 +166,7 @@
 // 全部报表按钮的点击事件
 - (void)allReportButtonClick:(UIButton *)button
 {
-   
+    
     if (button.selected == YES) {
         
     }else{
@@ -187,36 +176,31 @@
             
             // 全部报表collectionView样式
             [self makeAllReportCollectionView];
-
-           
+            
+            
         }else{
             // 全部报表tableView样式
             
             [self makeAllReportTableView];
             
-           
-            
         }
-           }
+    }
     
 }
 // 两个报表button的公共属性
 - (void)makeSelectedButton:(UIButton *)button
 {
-   _allReportButton.selected = NO;
-   _myReportButton.selected = NO;
+    _allReportButton.selected = NO;
+    _myReportButton.selected = NO;
     button.selected = YES;
     [_allReportButton setTitleColor:NotSelectedColor forState:UIControlStateNormal];
     [_myReportButton setTitleColor:NotSelectedColor forState:UIControlStateNormal];
-
     [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-  
+    
 }
-
 // 全部报表collectionView
 - (void)makeAllReportCollectionView
 {
-    
     UICollectionViewFlowLayout * layout = [[UICollectionViewFlowLayout alloc] init]; // 自定义的布局对象
     _allReportCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, KViewHeight) collectionViewLayout:layout];
     
@@ -257,12 +241,10 @@
     collectionView.backgroundColor = [UIColor whiteColor];
     collectionView.dataSource = self;
     collectionView.delegate = self;
-    
     [_allReportCollectionView removeFromSuperview];
     [_myReportTableView removeFromSuperview];
     [_allReportTableView removeFromSuperview];
     [_myReportCollectionView removeFromSuperview];
-    
     // 注册cell、sectionHeader、sectionFooter
     [collectionView registerClass:[AllReportCollectionViewCell class] forCellWithReuseIdentifier:@"AllCollectionCell"];
     [collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"header"];
@@ -285,12 +267,9 @@
     [self makeTableView:_myReportTableView];
     
     _myReportTableView.tag = 2;
-    
     [self.view addSubview:_myReportTableView];
     _myReportTableView.tableHeaderView = _headerView;
     _headerView.titleLabel.text = @"管理";
-    
-    
 }
 // 两个tableView的公共属性
 - (void)makeTableView:(UITableView *)tableView
@@ -301,7 +280,6 @@
     [_allReportTableView removeFromSuperview];
     [_myReportCollectionView removeFromSuperview];
     [_myReportTableView removeFromSuperview];
-    
     // 去掉分割线
     tableView.separatorStyle = UITableViewCellSelectionStyleNone;
     
@@ -323,12 +301,9 @@
     }else{
         
         return 1;
-        
     }
     
 }
-
-
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     
@@ -350,27 +325,21 @@
     AllReportCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"AllCollectionCell" forIndexPath:indexPath];
     
     if (collectionView.tag == 1) {
-        
-        
         cell.titleLabel.text = @"123";
         cell.imageView.image = [UIImage imageNamed:@"report.png"];
         [cell.concernButton addTarget:self action:@selector(concernButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     }else{
         
-        
         cell.titleLabel.text = @"A101";
         cell.imageView.image = [UIImage imageNamed:@"report.png"];
         [cell.concernButton addTarget:self action:@selector(concernButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     }
-    
-    
     return cell;
 }
 #warning  两个collectionView 头部数据又不同所以先分开写
 // 和UITableView类似，UICollectionView也可设置段头段尾
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
 {
-    
     if (collectionView.tag == 1) {
         
         if([kind isEqualToString:UICollectionElementKindSectionHeader])
@@ -407,9 +376,6 @@
             return headerView;
         }
     }
-    
-    
-    
     return nil;
 }
 // 如果不写这个方法 加载view时也不会走设置头部的方法
@@ -428,20 +394,20 @@
     
     ReportIncomeViewController * reportIncomeVC = [[ReportIncomeViewController alloc] init];
     
-//    NSMutableDictionary * userDict = [[NSUserDefaults standardUserDefaults] valueForKey:@"userResponseObject"];
-
-//    NSString * token =  [userDict valueForKey:@"user_token"];
+    //    NSMutableDictionary * userDict = [[NSUserDefaults standardUserDefaults] valueForKey:@"userResponseObject"];
+    
+    //    NSString * token =  [userDict valueForKey:@"user_token"];
     
     reportIncomeVC.webViewHttpString = [NSString stringWithFormat:ReportIncomeWebHttp];
     
     NSLog(@"%@",reportIncomeVC.webViewHttpString);
     
     self.hidesBottomBarWhenPushed=YES;
-
+    
     [self.navigationController pushViewController:reportIncomeVC animated:YES];
     
     self.hidesBottomBarWhenPushed=NO;
-
+    
     
 }
 #pragma mark ---- UICollectionViewDelegateFlowLayout
@@ -470,7 +436,6 @@
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    
     if (tableView.tag == 1) {
         return 6;
     }else{
